@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="utf-8"?>
+<manifest xmlns:android="http://schemas.android.com/apk/res/android"
+    package="com.huari.diskactivity"
+    android:versionCode="1"
+    android:versionName="1.0" >
+
+    <!--<uses-sdk-->
+        <!--android:minSdkVersion="8"/>-->
+
+    <uses-permission android:name="android.permission.INTERNET" />
+
+    <application
+        android:allowBackup="true"
+        android:label="@string/app_name"
+        android:theme="@style/AppTheme" >
+        <activity
+            android:name="com.huari.diskactivity.DiskActivity"
+            android:label="@string/app_name" >
+        </activity>
+        <activity
+            android:name="com.huari.diskactivity.TwoActivity"
+            android:label="@string/app_name" >
+        </activity>
+        <activity
+            android:name="com.huari.diskactivity.LastActivity"
+            android:label="@string/app_name" >
+        </activity>
+        <activity
+            android:name="com.huari.diskactivity.ListViewsActivity"
+            android:label="@string/title_activity_list_views" >
+        </activity>
+        <activity
+            android:name="com.huari.diskactivity.TestActivity"
+            android:label="@string/title_activity_test" >
+           
+        </activity>
+        <activity
+            android:name="com.huari.diskactivity.PartWaveActivity"
+            android:label="@string/title_activity_part_wave" >
+        </activity>
+        <activity
+            android:name="com.huari.diskactivity.SingActivity"
+            android:label="@string/title_activity_sing" >
+            
+        </activity>
+    </application>
+
+</manifest>

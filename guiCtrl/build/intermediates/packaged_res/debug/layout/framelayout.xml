@@ -1,0 +1,74 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/customframe"
+    android:background="@android:color/black"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent" >
+    <LinearLayout 
+        android:id="@+id/listlinear"
+        android:background="@color/cyann"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:visibility="invisible"
+        android:orientation="vertical">
+        <LinearLayout 
+            android:background="@android:color/white"
+            android:id="@+id/innerlinear"
+            android:layout_width="match_parent"
+            android:layout_height="20dp"
+            android:orientation="horizontal">
+            <TextView 
+                android:id="@+id/innertv1"
+                android:background="#D1EEEE"
+                android:layout_width="0dp"
+                android:layout_weight="1"
+                android:text="序号"
+                android:textColor="@color/mblack"
+                android:layout_height="match_parent"/>
+            <TextView 
+                android:id="@+id/innertv2"
+                android:background="#9FB6CD"
+                android:layout_width="0dp"
+                android:layout_weight="2"
+                android:gravity="right"
+                android:textColor="@color/mblack"
+                android:layout_height="match_parent"/>
+            <TextView 
+                android:id="@+id/innertv3"
+                android:layout_width="0dp"
+                android:background="#9F79EE"
+                android:layout_weight="2"
+                android:gravity="right"
+                android:textColor="@color/mblack"
+                android:layout_height="match_parent"/>
+        </LinearLayout>
+        <ListView
+        android:id="@+id/listview"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1"
+        android:background="@android:color/black"
+        />
+        
+    </LinearLayout>
+       
+         <!--  
+         <com.huari.ui.PliSurfaceView
+        android:id="@+id/plis"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"/>
+         <com.huari.ui.ProSurfaceView 
+             android:id="@+id/pros"
+             android:layout_width="match_parent"
+             android:layout_height="match_parent"/>"
+          <com.huari.ui.QuaSurfaceView 
+             android:id="@+id/quas"
+             android:layout_width="match_parent"
+             android:layout_height="match_parent"/>
+        -->
+        <com.huari.ui.SingDrawWave 
+            android:id="@+id/mynewview"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"/>
+          
+</FrameLayout>

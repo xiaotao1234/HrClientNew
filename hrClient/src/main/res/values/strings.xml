@@ -1,0 +1,218 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <string name="app_name">华日安卓客户端</string>
+    <string name="title_activity_welcome">华日安卓客户端</string>
+    <string name="pinduansaomiao">开始测量</string>
+    <string name="pinpufenxi1">暂停1</string>
+    <string name="pinpufenxi2">暂停2</string>
+    <string name="tiao">调整限值</string>
+    <!-- 备选值：正北,相对 -->
+    <string name="jiaodumode">正北</string>
+    <!-- 备选值：图像，表格 -->
+    <string name="showmode">图像</string>
+    <!-- 备选值：概率，幅度，质量 -->
+    <string name="tongjimode">幅度</string>
+    <string name="hello_world">Hello world!</string>
+    <string name="title_activity_main">我的导航</string>
+    <string name="title_activity_guide">华日APP</string>
+    <string name="funcion1">频谱分析</string>
+    <string name="funcion2">单频测向</string>
+    <string name="funcion3">频段扫描</string>
+    <string name="funcion4">地图显示</string>
+    <string name="funcion5">无人站</string>
+    <string name="funcion6">计划任务</string>
+    <string name="title_activity_spectrums_analysis">频谱分析</string>
+    <string name="title_activity_frequency_scanning">单频测向</string>
+    <string name="title_activity_searchinterference">干扰查找</string>
+    <string name="title_activity_map_showing">地图显示</string>
+    <string name="title_activity_unmaned_stations">无人站</string>
+    <string name="title_activity_scheduled_task">计划任务</string>
+    <string name="lvbodaikuan">滤波带宽</string>
+    <string name="saomianfangshi">扫描方式</string>
+    <string name="jietiaozhishi">解调制式</string>
+    <string name="kaishipinlv">开始频率</string>
+    <string name="jieshupinlv">解调制式</string>
+    <string name="zhongxinpinlv">中心频率</string>
+    <string name="pinlvbujin">频率步进</string>
+    <string name="tianxianxuanze">天线选择</string>
+    <string name="shengyinkaiguan">声音开关</string>
+    <string name="pinpushuju">频谱数据</string>
+    <string name="dianpingshuju">电平数据</string>
+    <string name="ipinstruction">IP地址设置。该IP为服务器的IP地址，输入格式如“192.168.1.1”。
+              端口号1主要用于拉取服务器上监测站、无人站等信息，端口号2主要用于向服务器请求任务。</string>
+
+    <color name="plan">#1C86EE</color>
+    <color name="task">#00FF99</color>
+    <color name="textcolor">#2b4490</color>
+    <color name="myblack">#000000</color>
+    <color name="noman1">#CD8500</color>
+    <color name="noman2">#B452CD</color>
+    <color name="noman3">#0000CD</color>
+    <color name="noman4">#27408B</color>
+    <color name="nomanimagecolor">#EEA9B8</color>
+    <color name="pinpufenxishezhigroupbgcolor">@android:color/white</color>
+    <color name="pinpufenxishezhicgchildbg">@android:color/white</color>
+    <color name="pinpufenxishezhicgtext">@android:color/black</color>
+    <color name="pinpufenxishezhispinnerdrop">#FF8C69</color>
+
+    <string-array name="hour">
+        <item name="h0">0</item>
+        <item name="h1">1</item>
+        <item name="h2">2</item>
+        <item name="h3">3</item>
+        <item name="h4">4</item>
+        <item name="h5">5</item>
+        <item name="h6">6</item>
+        <item name="h7">7</item>
+        <item name="h8">8</item>
+        <item name="h9">9</item>
+        <item name="h10">10</item>
+        <item name="h11">11</item>
+        <item name="h12">12</item>
+        <item name="h13">13</item>
+        <item name="h14">14</item>
+        <item name="h15">15</item>
+        <item name="h16">16</item>
+        <item name="h17">17</item>
+        <item name="h18">18</item>
+        <item name="h19">19</item>
+        <item name="h20">20</item>
+        <item name="h21">21</item>
+        <item name="h22">22</item>
+        <item name="h23">23</item>
+    </string-array>
+    <string-array name="minutes">
+        <item name="m0">0</item>
+        <item name="m1">1</item>
+        <item name="m2">0</item>
+        <item name="m3">0</item>
+        <item name="m4">0</item>
+        <item name="m5">0</item>
+        <item name="m6">0</item>
+        <item name="m7">0</item>
+        <item name="m8">0</item>
+        <item name="m9">0</item>
+        <item name="m10">0</item>
+        <item name="m11">0</item>
+        <item name="m12">0</item>
+        <item name="m13">0</item>
+        <item name="m14">0</item>
+        <item name="m15">0</item>
+        <item name="m16">0</item>
+        <item name="m17">0</item>
+        <item name="m18">0</item>
+        <item name="m19">0</item>
+        <item name="m20">0</item>
+        <item name="m21">0</item>
+        <item name="m22">0</item>
+        <item name="m23">0</item>
+        <item name="m24">0</item>
+        <item name="m25">0</item>
+        <item name="m26">0</item>
+        <item name="m27">0</item>
+        <item name="m28">0</item>
+        <item name="m29">0</item>
+        <item name="m30">0</item>
+        <item name="m31">0</item>
+        <item name="m32">0</item>
+        <item name="m33">0</item>
+        <item name="m34">0</item>
+        <item name="m35">0</item>
+        <item name="m36">0</item>
+        <item name="m37">0</item>
+        <item name="m38">0</item>
+        <item name="m39">0</item>
+        <item name="m40">0</item>
+        <item name="m41">0</item>
+        <item name="m0">0</item>
+        <item name="m0">0</item>
+        <item name="m0">0</item>
+        <item name="m0">0</item>
+        <item name="m0">0</item>
+        <item name="m0">0</item>
+        <item name="m0">0</item>
+        <item name="m0">0</item>
+        <item name="m0">0</item>
+    </string-array>
+    <string-array name="planzhouqi">
+        <item name="plan1">一次性执行</item>
+        <item name="plan2">每周执行</item>
+        <item name="plan3">每月执行</item>
+        <item name="plan4">登录后自动执行</item>
+        <item name="plan5">系统空闲执行</item>
+    </string-array>
+    <string-array name="monthitems">
+        <item name="n1">1</item>
+        <item name="n2">2</item>
+        <item name="n3">3</item>
+        <item name="n4">4</item>
+        <item name="n5">5</item>
+        <item name="n6">6</item>
+        <item name="n7">7</item>
+        <item name="n8">8</item>
+        <item name="n9">9</item>
+        <item name="n10">10</item>
+        <item name="n11">11</item>
+        <item name="n12">12</item>
+        <item name="n13">13</item>
+        <item name="n14">14</item>
+        <item name="n15">15</item>
+        <item name="n16">16</item>
+        <item name="n17">17</item>
+        <item name="n18">18</item>
+        <item name="n19">19</item>
+        <item name="n20">20</item>
+        <item name="n21">21</item>
+        <item name="n22">22</item>
+        <item name="n23">23</item>
+        <item name="n24">24</item>
+        <item name="n25">25</item>
+        <item name="n26">26</item>
+        <item name="n27">27</item>
+        <item name="n28">28</item>
+        <item name="n29">29</item>
+        <item name="n30">30</item>
+        <item name="n31">31</item>
+    </string-array>
+    <string-array name="manydaysofweek">
+        <item name="sunday">星期日</item>
+        <item name="monday">星期一</item>
+        <item name="tuesday">星期二</item>
+        <item name="wednesday">星期三</item>
+        <item name="thursday">星期四</item>
+        <item name="friday">星期五</item>
+        <item name="saturday">星期六</item>
+    </string-array>
+
+    <string name="title_activity_station_list">监测站列表</string>
+
+    <style name="CustomWindowTitleBackground">
+        <item name="android:background">#FF6A6A</item>
+    </style>
+
+    <style name="test" parent="android:style/Theme">
+        <item name="android:windowTitleSize">@dimen/titlebarheight</item>
+        <item name="android:windowTitleBackgroundStyle">@style/CustomWindowTitleBackground</item>
+    </style>
+
+    <style name="pinpumenutitlebarstyle" parent="android:Theme">
+        <item name="android:windowTitleSize">38dp</item>
+        <item name="android:windowTitleBackgroundStyle">@style/CustomWindowTitleBackground</item>
+    </style>
+
+    <style name="spinnertextcolor">
+        <item name="android:textColor">@color/myblack</item>
+    </style>
+
+    <string name="title_activity_ppfxset">频谱分析参数设置</string>
+    <string name="title_activity_four_test">FourTestActivity</string>
+    <string name="title_activity_pin_duan_scanning">频段扫描</string>
+    <string name="title_activity_pin_duan_set">频段扫描参数设置</string>
+    <string name="action_settings">Settings</string>
+    <string name="title_activity_ok">OKActivity</string>
+    <string name="title_activity_map">地图</string>
+    <string name="title_activity_single_set">单频测向参数设置</string>
+    <string name="title_activity_from_map">地图实时画线参数设置</string>
+
+</resources>

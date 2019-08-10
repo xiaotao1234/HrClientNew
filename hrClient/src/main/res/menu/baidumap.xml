@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android" >
+    
+    <item android:id="@+id/genzong" android:title="点击跟踪" android:showAsAction="ifRoom"></item>
+    <item android:id="@+id/qinglinggenzong" android:title="清除跟踪" android:showAsAction="ifRoom"></item>
+    <item android:id="@+id/selectstation" android:title="选择" android:showAsAction="ifRoom"></item>
+    
+</menu>

@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:paddingTop="5dp"
+    android:orientation="vertical" >
+    <LinearLayout android:layout_width="match_parent"
+        android:layout_height="25dp"
+        android:id="@+id/pinduanhead"
+        android:orientation="horizontal">
+    <TextView 
+        android:id="@+id/xh"
+        android:layout_width="0dp"
+        android:layout_weight="1"
+        android:background="@android:color/darker_gray"
+        android:textColor="@color/mblack"
+        android:gravity="left|center_vertical"
+        android:text="序号"
+        android:layout_height="match_parent" />
+    <TextView 
+        android:id="@+id/fd"
+        android:layout_width="0dp"
+        android:layout_weight="2"
+        android:textColor="@color/mblack"
+        android:paddingRight="2dp"
+        android:background="#f4f222"
+        android:gravity="left|center_vertical"
+        android:text="频率（MHz）"
+        android:layout_height="match_parent" />
+    <TextView 
+        android:id="@+id/pl"
+        android:layout_width="0dp"
+        android:layout_weight="2"
+        android:background="@color/pinduanfudutable"
+        android:text="幅度（dBuV）"
+        android:gravity="left|center_vertical"
+        android:textColor="@color/mblack"
+        android:layout_height="match_parent" />"
+    </LinearLayout>
+    <ListView android:id="@+id/pinduanlistview"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_marginTop="1dp">
+    </ListView>
+</LinearLayout>

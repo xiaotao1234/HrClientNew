@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@android:color/black"
+    android:orientation="vertical">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1">
+
+        <com.huari.ui.Disk
+            android:id="@+id/builddisk"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1.6"
+            android:scrollbarAlwaysDrawVerticalTrack="true" />
+
+        <com.huari.ui.VColumns
+            android:id="@+id/buildvcs"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1.2" />
+    </LinearLayout>
+    <!--
+     <com.huari.ui.HColumns
+         android:id="@+id/buildhcs"
+         android:layout_width="match_parent"
+         android:layout_height="110dp" />
+         -->
+
+    <com.huari.ui.FourModeView
+        android:id="@+id/buildcusli"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1" />
+
+    <com.huari.ui.ShowWaveViewOfDDF
+        android:id="@+id/ddfshowwaveview"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1"
+        android:background="@android:color/black" />
+
+
+</LinearLayout>

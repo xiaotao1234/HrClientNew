@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android" 
+    xmlns:ipbar="http://schemas.android.com/apk/res-auto">
+    <item android:title="登录设置"  ipbar:showAsAction="always" android:id="@+id/pullipset"/>"
+    <item android:title="连接" ipbar:showAsAction="always" android:id="@+id/getlink"/>
+</menu>

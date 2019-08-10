@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical" >
+
+    <FrameLayout
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:background="@drawable/widget_head_bg"
+        android:gravity="center_vertical"
+        android:orientation="horizontal"
+        android:paddingLeft="5dip"
+        android:paddingRight="5dip" >
+
+        <EditText
+            android:id="@+id/search_editer"
+            android:layout_width="275dp"
+            android:layout_height="30dip"
+            android:layout_gravity="left|center"
+            android:layout_marginRight="36dip"
+            android:background="@drawable/edit_search_bg"
+            android:focusable="true"
+            android:focusableInTouchMode="true"
+            android:hint="输入网址内容"
+            android:imeOptions="actionSearch"
+            android:maxLines="1" >
+
+            <requestFocus android:layout_width="wrap_content" />
+
+        </EditText>
+
+        <Button
+            android:id="@+id/search_btn1"
+            android:layout_width="32dp"
+            android:layout_height="30dip"
+            android:layout_gravity="right|center"
+            android:background="@drawable/btn_search_bg_nor" />
+    </FrameLayout>
+
+    <WebView
+        android:id="@+id/webView1"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent" />
+
+</LinearLayout>

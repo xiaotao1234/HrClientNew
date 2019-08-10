@@ -1,0 +1,4 @@
+#Sat Aug 10 17:05:28 CST 2019
+base.0=C\:\\dididi\\HrClientNew0723\\mmm\\HrClientNew\\hrClient\\build\\intermediates\\transforms\\dexMerger\\debug\\0
+path.0=classes.dex
+renamed.0=classes.dex

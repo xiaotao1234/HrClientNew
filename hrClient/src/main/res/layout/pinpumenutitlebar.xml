@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:gravity="center_vertical"
+    android:layout_height="@dimen/titlebarheight"
+    android:id="@+id/ptitlebar"
+    android:orientation="horizontal" >
+    <Button android:id="@+id/imagebutton"
+        android:layout_width="70dp" 
+        android:layout_gravity="center_vertical"
+        android:layout_height="wrap_content"
+        android:text="返回"
+        />
+    <TextView android:layout_width="0dp"
+        android:layout_height="match_parent"
+        android:layout_weight="1"
+        android:layout_gravity="center_vertical"
+        android:gravity="center"
+        android:textSize="18sp"
+        android:textColor="@color/myblack"
+        android:text="频谱分析设置"/>
+    <TextView android:layout_width="70dp"
+        android:layout_height="match_parent"/>
+</LinearLayout>

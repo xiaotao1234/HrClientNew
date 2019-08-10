@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+      xmlns:custompinpu="http://schemas.android.com/apk/res-auto" >
+      <item android:title="开始测量" custompinpu:showAsAction="ifRoom" android:id="@+id/zanting1">
+      </item>
+      <item android:title="场强" custompinpu:showAsAction="ifRoom" android:id="@+id/changqiang"/>
+      <item android:title="设置" custompinpu:showAsAction="ifRoom" android:id="@+id/custompinpuset" >
+      </item>
+      <item android:title="不显示最大值" custompinpu:showAsAction="ifRoom" android:id="@+id/ppfxshowmax" >
+      </item>
+      <item android:title="不显示最小值" custompinpu:showAsAction="ifRoom" android:id="@+id/ppfxshowmin" >
+      </item>
+      <item android:title="不显示平均值" custompinpu:showAsAction="ifRoom" android:id="@+id/ppfxshowavg" >
+      </item>
+      <item android:title="截图" custompinpu:showAsAction="ifRoom" android:id="@+id/capture" >
+      </item>
+      <item android:title="录音" custompinpu:showAsAction="ifRoom" android:id="@+id/recorder" >
+      </item>
+      
+</menu>

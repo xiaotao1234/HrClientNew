@@ -1,0 +1,602 @@
+-- Merging decision tree log ---
+manifest
+ADDED from C:\dididi\HrClientNew0723\mmm\HrClientNew\hrClient\src\main\AndroidManifest.xml:2:1-234:12
+INJECTED from C:\dididi\HrClientNew0723\mmm\HrClientNew\hrClient\src\main\AndroidManifest.xml:2:1-234:12
+INJECTED from C:\dididi\HrClientNew0723\mmm\HrClientNew\hrClient\src\main\AndroidManifest.xml:2:1-234:12
+INJECTED from C:\dididi\HrClientNew0723\mmm\HrClientNew\hrClient\src\main\AndroidManifest.xml:2:1-234:12
+MERGED from [:library_zhy_CircleMenu] C:\dididi\HrClientNew0723\mmm\HrClientNew\library_zhy_CircleMenu\build\intermediates\merged_manifests\debug\processDebugManifest\merged\AndroidManifest.xml:2:1-20:12
+MERGED from [:guiCtrl] C:\dididi\HrClientNew0723\mmm\HrClientNew\guiCtrl\build\intermediates\merged_manifests\debug\processDebugManifest\merged\AndroidManifest.xml:2:1-50:12
+MERGED from [com.android.support:support-v4:28.0.0] C:\Users\Public\Downloads\xx\caches\transforms-1\files-1.1\support-v4-28.0.0.aar\5f7a6eab87b0755f342f22750d9b9ec8\AndroidManifest.xml:17:1-22:12
+MERGED from [com.android.support:design:28.0.0] C:\Users\Public\Downloads\xx\caches\transforms-1\files-1.1\design-28.0.0.aar\a80cd54020a10eb668d400c0761a643d\AndroidManifest.xml:17:1-24:12
+MERGED from [com.android.support:appcompat-v7:28.0.0] C:\Users\Public\Downloads\xx\caches\transforms-1\files-1.1\appcompat-v7-28.0.0.aar\742e4a40ae74093edaaaa6cacd008f86\AndroidManifest.xml:17:1-22:12
+MERGED from [androidx.constraintlayout:constraintlayout:1.1.2] C:\Users\Public\Downloads\xx\caches\transforms-1\files-1.1\constraintlayout-1.1.2.aar\1a32c7604e45937f845bbfdf2f7ae792\AndroidManifest.xml:2:1-11:12
+MERGED from [com.wang.avi:library:2.1.3] C:\Users\Public\Downloads\xx\caches\transforms-1\files-1.1\library-2.1.3.aar\c89e87cd99043441849d636da34f0c81\AndroidManifest.xml:2:1-11:12
+MERGED from [com.android.support:support-media-compat:28.0.0] C:\Users\Public\Downloads\xx\caches\transforms-1\files-1.1\support-media-compat-28.0.0.aar\eb15f4ca7df2da01e231d2a6d6358c9b\AndroidManifest.xml:17:1-22:12
+MERGED from [com.android.support:support-fragment:28.0.0] C:\Users\Public\Downloads\xx\caches\transforms-1\files-1.1\support-fragment-28.0.0.aar\024e4980bd1805d1234e0cb488ad2855\AndroidManifest.xml:17:1-22:12
+MERGED from [com.android.support:animated-vector-drawable:28.0.0] C:\Users\Public\Downloads\xx\caches\transforms-1\files-1.1\animated-vector-drawable-28.0.0.aar\182a4111d9ab11ba45f0727a94f2d307\AndroidManifest.xml:17:1-22:12
+MERGED from [com.android.support:recyclerview-v7:28.0.0] C:\Users\Public\Downloads\xx\caches\transforms-1\files-1.1\recyclerview-v7-28.0.0.aar\044ad8682dc32f0f991197c8b45da642\AndroidManifest.xml:17:1-22:12
+MERGED from [com.android.support:support-core-ui:28.0.0] C:\Users\Public\Downloads\xx\caches\transforms-1\files-1.1\support-core-ui-28.0.0.aar\405b1ec024032cfd0a5567bf76b4f9bb\AndroidManifest.xml:17:1-22:12
+MERGED from [com.android.support:support-core-utils:28.0.0] C:\Users\Public\Downloads\xx\caches\transforms-1\files-1.1\support-core-utils-28.0.0.aar\5755d3f31a86711e5126b7c9f97da1ea\AndroidManifest.xml:17:1-22:12
+MERGED from [com.android.support:support-vector-drawable:28.0.0] C:\Users\Public\Downloads\xx\caches\transforms-1\files-1.1\support-vector-drawable-28.0.0.aar\7ba77d585544fd8284e7df3556cea552\AndroidManifest.xml:17:1-22:12
+MERGED from [com.android.support:transition:28.0.0] C:\Users\Public\Downloads\xx\caches\transforms-1\files-1.1\transition-28.0.0.aar\735df96d87de4b4bb05bfb4a865cc605\AndroidManifest.xml:17:1-22:12
+MERGED from [com.android.support:loader:28.0.0] C:\Users\Public\Downloads\xx\caches\transforms-1\files-1.1\loader-28.0.0.aar\367fbfa33eac696ae172040e221de4bb\AndroidManifest.xml:17:1-22:12
+MERGED from [com.android.support:viewpager:28.0.0] C:\Users\Public\Downloads\xx\caches\transforms-1\files-1.1\viewpager-28.0.0.aar\5d6f4463f2971054408ad23b18337ade\AndroidManifest.xml:17:1-22:12
+MERGED from [com.android.support:coordinatorlayout:28.0.0] C:\Users\Public\Downloads\xx\caches\transforms-1\files-1.1\coordinatorlayout-28.0.0.aar\4deaad14d68dcaa1847efe8a5c72789a\AndroidManifest.xml:17:1-22:12
+MERGED from [com.android.support:drawerlayout:28.0.0] C:\Users\Public\Downloads\xx\caches\transforms-1\files-1.1\drawerlayout-28.0.0.aar\4ebdcf7132bb1c86d3507c7066f3ca07\AndroidManifest.xml:17:1-22:12
+MERGED from [com.android.support:slidingpanelayout:28.0.0] C:\Users\Public\Downloads\xx\caches\transforms-1\files-1.1\slidingpanelayout-28.0.0.aar\7d509c25c2d085c1e686284d9e1bac43\AndroidManifest.xml:17:1-22:12
+MERGED from [com.android.support:customview:28.0.0] C:\Users\Public\Downloads\xx\caches\transforms-1\files-1.1\customview-28.0.0.aar\e851db5da080f3531900aef85c17e49c\AndroidManifest.xml:17:1-22:12
+MERGED from [com.android.support:swiperefreshlayout:28.0.0] C:\Users\Public\Downloads\xx\caches\transforms-1\files-1.1\swiperefreshlayout-28.0.0.aar\9079e45a2bbd30aeec22ecccf361e63f\AndroidManifest.xml:17:1-22:12
+MERGED from [com.android.support:asynclayoutinflater:28.0.0] C:\Users\Public\Downloads\xx\caches\transforms-1\files-1.1\asynclayoutinflater-28.0.0.aar\1bcf7fea390cbd8ddf2153ecbbe0e827\AndroidManifest.xml:17:1-22:12
+MERGED from [com.android.support:support-compat:28.0.0] C:\Users\Public\Downloads\xx\caches\transforms-1\files-1.1\support-compat-28.0.0.aar\feaeef21193586b0ebac469a72806930\AndroidManifest.xml:17:1-24:12
+MERGED from [com.android.support:versionedparcelable:28.0.0] C:\Users\Public\Downloads\xx\caches\transforms-1\files-1.1\versionedparcelable-28.0.0.aar\ad5d03f5a91572191a7acf7ebada4ecc\AndroidManifest.xml:17:1-25:12
+MERGED from [com.android.support:cursoradapter:28.0.0] C:\Users\Public\Downloads\xx\caches\transforms-1\files-1.1\cursoradapter-28.0.0.aar\5bc5b976d4445ecb3d237671b1a685aa\AndroidManifest.xml:17:1-22:12
+MERGED from [com.android.support:cardview-v7:28.0.0] C:\Users\Public\Downloads\xx\caches\transforms-1\files-1.1\cardview-v7-28.0.0.aar\3e89973941b89f348b85dfc72a45d558\AndroidManifest.xml:17:1-22:12
+MERGED from [android.arch.lifecycle:runtime:1.1.1] C:\Users\Public\Downloads\xx\caches\transforms-1\files-1.1\runtime-1.1.1.aar\e921392420720cfd2b1405e16ce5d9ee\AndroidManifest.xml:17:1-22:12
+MERGED from [com.android.support:documentfile:28.0.0] C:\Users\Public\Downloads\xx\caches\transforms-1\files-1.1\documentfile-28.0.0.aar\0079093a90e4c88df97a060c1850f508\AndroidManifest.xml:17:1-22:12
+MERGED from [com.android.support:localbroadcastmanager:28.0.0] C:\Users\Public\Downloads\xx\caches\transforms-1\files-1.1\localbroadcastmanager-28.0.0.aar\46a9b23bcc8ce815c7d9cc76ca543d6c\AndroidManifest.xml:17:1-22:12
+MERGED from [com.android.support:print:28.0.0] C:\Users\Public\Downloads\xx\caches\transforms-1\files-1.1\print-28.0.0.aar\5ee2165e3b2145d8e078f6feb770c720\AndroidManifest.xml:17:1-22:12
+MERGED from [com.android.support:interpolator:28.0.0] C:\Users\Public\Downloads\xx\caches\transforms-1\files-1.1\interpolator-28.0.0.aar\fbfaaa7e193ab01ede4f8e73d54a8833\AndroidManifest.xml:17:1-22:12
+MERGED from [android.arch.lifecycle:viewmodel:1.1.1] C:\Users\Public\Downloads\xx\caches\transforms-1\files-1.1\viewmodel-1.1.1.aar\cc130f5ce2b7785a31a1fce64e5894c7\AndroidManifest.xml:17:1-22:12
+MERGED from [android.arch.lifecycle:livedata:1.1.1] C:\Users\Public\Downloads\xx\caches\transforms-1\files-1.1\livedata-1.1.1.aar\de27f92210155f9d0969ca3b9442123e\AndroidManifest.xml:17:1-22:12
+MERGED from [android.arch.lifecycle:livedata-core:1.1.1] C:\Users\Public\Downloads\xx\caches\transforms-1\files-1.1\livedata-core-1.1.1.aar\adefc2c3c3c372a72a4595e0f5d3dd34\AndroidManifest.xml:17:1-22:12
+MERGED from [android.arch.core:runtime:1.1.1] C:\Users\Public\Downloads\xx\caches\transforms-1\files-1.1\runtime-1.1.1.aar\e4d3e5dab88b01bd5757e0d65df5bc56\AndroidManifest.xml:17:1-22:12
+INJECTED from C:\dididi\HrClientNew0723\mmm\HrClientNew\hrClient\src\main\AndroidManifest.xml:2:1-234:12
+INJECTED from C:\dididi\HrClientNew0723\mmm\HrClientNew\hrClient\src\main\AndroidManifest.xml:2:1-234:12
+INJECTED from C:\dididi\HrClientNew0723\mmm\HrClientNew\hrClient\src\main\AndroidManifest.xml:2:1-234:12
+	package
+		ADDED from C:\dididi\HrClientNew0723\mmm\HrClientNew\hrClient\src\main\AndroidManifest.xml:4:5-31
+		INJECTED from C:\dididi\HrClientNew0723\mmm\HrClientNew\hrClient\src\main\AndroidManifest.xml
+		INJECTED from C:\dididi\HrClientNew0723\mmm\HrClientNew\hrClient\src\main\AndroidManifest.xml
+	android:versionName
+		ADDED from C:\dididi\HrClientNew0723\mmm\HrClientNew\hrClient\src\main\AndroidManifest.xml:6:5-30
+		INJECTED from C:\dididi\HrClientNew0723\mmm\HrClientNew\hrClient\src\main\AndroidManifest.xml
+		INJECTED from C:\dididi\HrClientNew0723\mmm\HrClientNew\hrClient\src\main\AndroidManifest.xml
+	xmlns:tools
+		ADDED from C:\dididi\HrClientNew0723\mmm\HrClientNew\hrClient\src\main\AndroidManifest.xml:3:5-51
+	xmlns:android
+		ADDED from C:\dididi\HrClientNew0723\mmm\HrClientNew\hrClient\src\main\AndroidManifest.xml:2:11-69
+	android:versionCode
+		ADDED from C:\dididi\HrClientNew0723\mmm\HrClientNew\hrClient\src\main\AndroidManifest.xml:5:5-28
+		INJECTED from C:\dididi\HrClientNew0723\mmm\HrClientNew\hrClient\src\main\AndroidManifest.xml
+		INJECTED from C:\dididi\HrClientNew0723\mmm\HrClientNew\hrClient\src\main\AndroidManifest.xml
+uses-permission#android.permission.INTERNET
+ADDED from C:\dididi\HrClientNew0723\mmm\HrClientNew\hrClient\src\main\AndroidManifest.xml:11:5-67
+MERGED from [:guiCtrl] C:\dididi\HrClientNew0723\mmm\HrClientNew\guiCtrl\build\intermediates\merged_manifests\debug\processDebugManifest\merged\AndroidManifest.xml:14:5-67
+MERGED from [:guiCtrl] C:\dididi\HrClientNew0723\mmm\HrClientNew\guiCtrl\build\intermediates\merged_manifests\debug\processDebugManifest\merged\AndroidManifest.xml:14:5-67
+	android:name
+		ADDED from C:\dididi\HrClientNew0723\mmm\HrClientNew\hrClient\src\main\AndroidManifest.xml:11:22-64
+uses-permission#android.permission.RESTART_PACKAGES
+ADDED from C:\dididi\HrClientNew0723\mmm\HrClientNew\hrClient\src\main\AndroidManifest.xml:12:5-75
+	android:name
+		ADDED from C:\dididi\HrClientNew0723\mmm\HrClientNew\hrClient\src\main\AndroidManifest.xml:12:22-72
+uses-permission#android.permission.WAKE_LOCK
+ADDED from C:\dididi\HrClientNew0723\mmm\HrClientNew\hrClient\src\main\AndroidManifest.xml:13:5-68
+	android:name
+		ADDED from C:\dididi\HrClientNew0723\mmm\HrClientNew\hrClient\src\main\AndroidManifest.xml:13:22-65
+uses-permission#android.permission.RECORD_AUDIO
+ADDED from C:\dididi\HrClientNew0723\mmm\HrClientNew\hrClient\src\main\AndroidManifest.xml:16:5-71
+	android:name
+		ADDED from C:\dididi\HrClientNew0723\mmm\HrClientNew\hrClient\src\main\AndroidManifest.xml:16:22-68
+supports-screens
+ADDED from C:\dididi\HrClientNew0723\mmm\HrClientNew\hrClient\src\main\AndroidManifest.xml:18:5-23:39
+	android:largeScreens
+		ADDED from C:\dididi\HrClientNew0723\mmm\HrClientNew\hrClient\src\main\AndroidManifest.xml:20:9-36
+	android:smallScreens
+		ADDED from C:\dididi\HrClientNew0723\mmm\HrClientNew\hrClient\src\main\AndroidManifest.xml:23:9-36
+	android:normalScreens
+		ADDED from C:\dididi\HrClientNew0723\mmm\HrClientNew\hrClient\src\main\AndroidManifest.xml:21:9-37
+	android:resizeable
+		ADDED from C:\dididi\HrClientNew0723\mmm\HrClientNew\hrClient\src\main\AndroidManifest.xml:22:9-34
+	android:anyDensity
+		ADDED from C:\dididi\HrClientNew0723\mmm\HrClientNew\hrClient\src\main\AndroidManifest.xml:19:9-34
+uses-permission#android.permission.ACCESS_NETWORK_STATE
+ADDED from C:\dididi\HrClientNew0723\mmm\HrClientNew\hrClient\src\main\AndroidManifest.xml:25:5-79
+	android:name
+		ADDED from C:\dididi\HrClientNew0723\mmm\HrClientNew\hrClient\src\main\AndroidManifest.xml:25:22-76
+uses-permission#android.permission.ACCESS_WIFI_STATE
+ADDED from C:\dididi\HrClientNew0723\mmm\HrClientNew\hrClient\src\main\AndroidManifest.xml:27:5-76
+	android:name
+		ADDED from C:\dididi\HrClientNew0723\mmm\HrClientNew\hrClient\src\main\AndroidManifest.xml:27:22-73
+uses-permission#android.permission.CHANGE_WIFI_STATE
+ADDED from C:\dididi\HrClientNew0723\mmm\HrClientNew\hrClient\src\main\AndroidManifest.xml:28:5-76
+	android:name
+		ADDED from C:\dididi\HrClientNew0723\mmm\HrClientNew\hrClient\src\main\AndroidManifest.xml:28:22-73
+uses-permission#android.permission.WRITE_EXTERNAL_STORAGE
+ADDED from C:\dididi\HrClientNew0723\mmm\HrClientNew\hrClient\src\main\AndroidManifest.xml:30:5-81
+	android:name
+		ADDED from C:\dididi\HrClientNew0723\mmm\HrClientNew\hrClient\src\main\AndroidManifest.xml:30:22-78
+uses-permission#android.permission.READ_PHONE_STATE
+ADDED from C:\dididi\HrClientNew0723\mmm\HrClientNew\hrClient\src\main\AndroidManifest.xml:34:5-75
+	android:name
+		ADDED from C:\dididi\HrClientNew0723\mmm\HrClientNew\hrClient\src\main\AndroidManifest.xml:34:22-72
+uses-permission#android.permission.CALL_PHONE
+ADDED from C:\dididi\HrClientNew0723\mmm\HrClientNew\hrClient\src\main\AndroidManifest.xml:35:5-69
+	android:name
+		ADDED from C:\dididi\HrClientNew0723\mmm\HrClientNew\hrClient\src\main\AndroidManifest.xml:35:22-66
+uses-permission#android.permission.ACCESS_FINE_LOCATION
+ADDED from C:\dididi\HrClientNew0723\mmm\HrClientNew\hrClient\src\main\AndroidManifest.xml:37:5-79
+	android:name
+		ADDED from C:\dididi\HrClientNew0723\mmm\HrClientNew\hrClient\src\main\AndroidManifest.xml:37:22-76
+permission#android.permission.BAIDU_LOCATION_SERVICE
+ADDED from C:\dididi\HrClientNew0723\mmm\HrClientNew\hrClient\src\main\AndroidManifest.xml:39:5-76
+	android:name
+		ADDED from C:\dididi\HrClientNew0723\mmm\HrClientNew\hrClient\src\main\AndroidManifest.xml:39:17-73
+uses-permission#android.permission.BAIDU_LOCATION_SERVICE
+ADDED from C:\dididi\HrClientNew0723\mmm\HrClientNew\hrClient\src\main\AndroidManifest.xml:41:5-81
+	android:name
+		ADDED from C:\dididi\HrClientNew0723\mmm\HrClientNew\hrClient\src\main\AndroidManifest.xml:41:22-78
+uses-permission#android.permission.ACCESS_COARSE_LOCATION
+ADDED from C:\dididi\HrClientNew0723\mmm\HrClientNew\hrClient\src\main\AndroidManifest.xml:42:5-81
+	android:name
+		ADDED from C:\dididi\HrClientNew0723\mmm\HrClientNew\hrClient\src\main\AndroidManifest.xml:42:22-78
+uses-permission#android.permission.ACCESS_GPS
+ADDED from C:\dididi\HrClientNew0723\mmm\HrClientNew\hrClient\src\main\AndroidManifest.xml:45:5-69
+	android:name
+		ADDED from C:\dididi\HrClientNew0723\mmm\HrClientNew\hrClient\src\main\AndroidManifest.xml:45:22-66
+uses-permission#android.permission.PROCESS_OUTGOING_CALLS
+ADDED from C:\dididi\HrClientNew0723\mmm\HrClientNew\hrClient\src\main\AndroidManifest.xml:46:5-81
+	android:name
+		ADDED from C:\dididi\HrClientNew0723\mmm\HrClientNew\hrClient\src\main\AndroidManifest.xml:46:22-78
+uses-permission#android.permission.MODIFY_AUDIO_SETTINGS
+ADDED from C:\dididi\HrClientNew0723\mmm\HrClientNew\hrClient\src\main\AndroidManifest.xml:48:5-80
+	android:name
+		ADDED from C:\dididi\HrClientNew0723\mmm\HrClientNew\hrClient\src\main\AndroidManifest.xml:48:22-77
+application
+ADDED from C:\dididi\HrClientNew0723\mmm\HrClientNew\hrClient\src\main\AndroidManifest.xml:50:5-232:19
+MERGED from [:library_zhy_CircleMenu] C:\dididi\HrClientNew0723\mmm\HrClientNew\library_zhy_CircleMenu\build\intermediates\merged_manifests\debug\processDebugManifest\merged\AndroidManifest.xml:13:5-18:19
+MERGED from [:library_zhy_CircleMenu] C:\dididi\HrClientNew0723\mmm\HrClientNew\library_zhy_CircleMenu\build\intermediates\merged_manifests\debug\processDebugManifest\merged\AndroidManifest.xml:13:5-18:19
+MERGED from [:guiCtrl] C:\dididi\HrClientNew0723\mmm\HrClientNew\guiCtrl\build\intermediates\merged_manifests\debug\processDebugManifest\merged\AndroidManifest.xml:16:5-48:19
+MERGED from [:guiCtrl] C:\dididi\HrClientNew0723\mmm\HrClientNew\guiCtrl\build\intermediates\merged_manifests\debug\processDebugManifest\merged\AndroidManifest.xml:16:5-48:19
+MERGED from [com.android.support:design:28.0.0] C:\Users\Public\Downloads\xx\caches\transforms-1\files-1.1\design-28.0.0.aar\a80cd54020a10eb668d400c0761a643d\AndroidManifest.xml:22:5-20
+MERGED from [com.android.support:design:28.0.0] C:\Users\Public\Downloads\xx\caches\transforms-1\files-1.1\design-28.0.0.aar\a80cd54020a10eb668d400c0761a643d\AndroidManifest.xml:22:5-20
+MERGED from [androidx.constraintlayout:constraintlayout:1.1.2] C:\Users\Public\Downloads\xx\caches\transforms-1\files-1.1\constraintlayout-1.1.2.aar\1a32c7604e45937f845bbfdf2f7ae792\AndroidManifest.xml:9:5-20
+MERGED from [androidx.constraintlayout:constraintlayout:1.1.2] C:\Users\Public\Downloads\xx\caches\transforms-1\files-1.1\constraintlayout-1.1.2.aar\1a32c7604e45937f845bbfdf2f7ae792\AndroidManifest.xml:9:5-20
+MERGED from [com.android.support:support-compat:28.0.0] C:\Users\Public\Downloads\xx\caches\transforms-1\files-1.1\support-compat-28.0.0.aar\feaeef21193586b0ebac469a72806930\AndroidManifest.xml:22:5-94
+MERGED from [com.android.support:support-compat:28.0.0] C:\Users\Public\Downloads\xx\caches\transforms-1\files-1.1\support-compat-28.0.0.aar\feaeef21193586b0ebac469a72806930\AndroidManifest.xml:22:5-94
+MERGED from [com.android.support:versionedparcelable:28.0.0] C:\Users\Public\Downloads\xx\caches\transforms-1\files-1.1\versionedparcelable-28.0.0.aar\ad5d03f5a91572191a7acf7ebada4ecc\AndroidManifest.xml:22:5-23:19
+MERGED from [com.android.support:versionedparcelable:28.0.0] C:\Users\Public\Downloads\xx\caches\transforms-1\files-1.1\versionedparcelable-28.0.0.aar\ad5d03f5a91572191a7acf7ebada4ecc\AndroidManifest.xml:22:5-23:19
+	android:appComponentFactory
+		ADDED from [com.android.support:support-compat:28.0.0] C:\Users\Public\Downloads\xx\caches\transforms-1\files-1.1\support-compat-28.0.0.aar\feaeef21193586b0ebac469a72806930\AndroidManifest.xml:22:18-91
+	android:label
+		ADDED from C:\dididi\HrClientNew0723\mmm\HrClientNew\hrClient\src\main\AndroidManifest.xml:53:9-41
+	android:largeHeap
+		ADDED from C:\dididi\HrClientNew0723\mmm\HrClientNew\hrClient\src\main\AndroidManifest.xml:54:9-33
+	android:icon
+		ADDED from C:\dididi\HrClientNew0723\mmm\HrClientNew\hrClient\src\main\AndroidManifest.xml:52:9-40
+		REJECTED from [:library_zhy_CircleMenu] C:\dididi\HrClientNew0723\mmm\HrClientNew\library_zhy_CircleMenu\build\intermediates\merged_manifests\debug\processDebugManifest\merged\AndroidManifest.xml:15:9-45
+	android:allowBackup
+		ADDED from C:\dididi\HrClientNew0723\mmm\HrClientNew\hrClient\src\main\AndroidManifest.xml:51:9-35
+	android:theme
+		ADDED from C:\dididi\HrClientNew0723\mmm\HrClientNew\hrClient\src\main\AndroidManifest.xml:55:9-40
+	tools:replace
+		ADDED from C:\dididi\HrClientNew0723\mmm\HrClientNew\hrClient\src\main\AndroidManifest.xml:56:9-37
+meta-data#com.baidu.lbsapi.API_KEY
+ADDED from C:\dididi\HrClientNew0723\mmm\HrClientNew\hrClient\src\main\AndroidManifest.xml:57:9-59:64
+	android:value
+		ADDED from C:\dididi\HrClientNew0723\mmm\HrClientNew\hrClient\src\main\AndroidManifest.xml:59:13-61
+	android:name
+		ADDED from C:\dididi\HrClientNew0723\mmm\HrClientNew\hrClient\src\main\AndroidManifest.xml:58:13-52
+service#com.baidu.location.f
+ADDED from C:\dididi\HrClientNew0723\mmm\HrClientNew\hrClient\src\main\AndroidManifest.xml:61:9-64:41
+	android:process
+		ADDED from C:\dididi\HrClientNew0723\mmm\HrClientNew\hrClient\src\main\AndroidManifest.xml:64:13-38
+	android:enabled
+		ADDED from C:\dididi\HrClientNew0723\mmm\HrClientNew\hrClient\src\main\AndroidManifest.xml:63:13-35
+	android:name
+		ADDED from C:\dididi\HrClientNew0723\mmm\HrClientNew\hrClient\src\main\AndroidManifest.xml:62:13-48
+service#com.huari.service.MainService
+ADDED from C:\dididi\HrClientNew0723\mmm\HrClientNew\hrClient\src\main\AndroidManifest.xml:65:9-69:19
+	android:name
+		ADDED from C:\dididi\HrClientNew0723\mmm\HrClientNew\hrClient\src\main\AndroidManifest.xml:65:18-62
+intent-filter#action:name:com.huari.service.mainservice
+ADDED from C:\dididi\HrClientNew0723\mmm\HrClientNew\hrClient\src\main\AndroidManifest.xml:66:13-68:29
+action#com.huari.service.mainservice
+ADDED from C:\dididi\HrClientNew0723\mmm\HrClientNew\hrClient\src\main\AndroidManifest.xml:67:17-72
+	android:name
+		ADDED from C:\dididi\HrClientNew0723\mmm\HrClientNew\hrClient\src\main\AndroidManifest.xml:67:25-69
+service#com.huari.service.TaskService
+ADDED from C:\dididi\HrClientNew0723\mmm\HrClientNew\hrClient\src\main\AndroidManifest.xml:70:9-74:19
+	android:name
+		ADDED from C:\dididi\HrClientNew0723\mmm\HrClientNew\hrClient\src\main\AndroidManifest.xml:70:18-62
+intent-filter#action:name:com.huari.service.taskservice
+ADDED from C:\dididi\HrClientNew0723\mmm\HrClientNew\hrClient\src\main\AndroidManifest.xml:71:13-73:29
+action#com.huari.service.taskservice
+ADDED from C:\dididi\HrClientNew0723\mmm\HrClientNew\hrClient\src\main\AndroidManifest.xml:72:17-72
+	android:name
+		ADDED from C:\dididi\HrClientNew0723\mmm\HrClientNew\hrClient\src\main\AndroidManifest.xml:72:25-69
+activity#com.huari.client.WelcomeActivity
+ADDED from C:\dididi\HrClientNew0723\mmm\HrClientNew\hrClient\src\main\AndroidManifest.xml:76:9-85:20
+	android:label
+		ADDED from C:\dididi\HrClientNew0723\mmm\HrClientNew\hrClient\src\main\AndroidManifest.xml:78:13-59
+	android:theme
+		ADDED from C:\dididi\HrClientNew0723\mmm\HrClientNew\hrClient\src\main\AndroidManifest.xml:79:13-71
+	android:name
+		ADDED from C:\dididi\HrClientNew0723\mmm\HrClientNew\hrClient\src\main\AndroidManifest.xml:77:13-44
+intent-filter#action:name:android.intent.action.MAIN+category:name:android.intent.category.LAUNCHER
+ADDED from C:\dididi\HrClientNew0723\mmm\HrClientNew\hrClient\src\main\AndroidManifest.xml:80:13-84:29
+action#android.intent.action.MAIN
+ADDED from C:\dididi\HrClientNew0723\mmm\HrClientNew\hrClient\src\main\AndroidManifest.xml:81:17-69
+	android:name
+		ADDED from C:\dididi\HrClientNew0723\mmm\HrClientNew\hrClient\src\main\AndroidManifest.xml:81:25-66
+category#android.intent.category.LAUNCHER
+ADDED from C:\dididi\HrClientNew0723\mmm\HrClientNew\hrClient\src\main\AndroidManifest.xml:83:17-77
+	android:name
+		ADDED from C:\dididi\HrClientNew0723\mmm\HrClientNew\hrClient\src\main\AndroidManifest.xml:83:27-74
+activity#com.huari.client.CircleActivity
+ADDED from C:\dididi\HrClientNew0723\mmm\HrClientNew\hrClient\src\main\AndroidManifest.xml:86:9-89:54
+	android:label
+		ADDED from C:\dididi\HrClientNew0723\mmm\HrClientNew\hrClient\src\main\AndroidManifest.xml:88:13-57
+	android:theme
+		ADDED from C:\dididi\HrClientNew0723\mmm\HrClientNew\hrClient\src\main\AndroidManifest.xml:89:13-51
+	android:name
+		ADDED from C:\dididi\HrClientNew0723\mmm\HrClientNew\hrClient\src\main\AndroidManifest.xml:87:13-43
+activity#com.huari.client.MainActivity
+ADDED from C:\dididi\HrClientNew0723\mmm\HrClientNew\hrClient\src\main\AndroidManifest.xml:90:9-94:54
+	android:label
+		ADDED from C:\dididi\HrClientNew0723\mmm\HrClientNew\hrClient\src\main\AndroidManifest.xml:93:13-56
+	android:icon
+		ADDED from C:\dididi\HrClientNew0723\mmm\HrClientNew\hrClient\src\main\AndroidManifest.xml:92:13-44
+	android:theme
+		ADDED from C:\dididi\HrClientNew0723\mmm\HrClientNew\hrClient\src\main\AndroidManifest.xml:94:13-51
+	android:name
+		ADDED from C:\dididi\HrClientNew0723\mmm\HrClientNew\hrClient\src\main\AndroidManifest.xml:91:13-41
+activity#com.huari.client.GuideActivity
+ADDED from C:\dididi\HrClientNew0723\mmm\HrClientNew\hrClient\src\main\AndroidManifest.xml:95:9-98:74
+	android:label
+		ADDED from C:\dididi\HrClientNew0723\mmm\HrClientNew\hrClient\src\main\AndroidManifest.xml:97:13-57
+	android:theme
+		ADDED from C:\dididi\HrClientNew0723\mmm\HrClientNew\hrClient\src\main\AndroidManifest.xml:98:13-71
+	android:name
+		ADDED from C:\dididi\HrClientNew0723\mmm\HrClientNew\hrClient\src\main\AndroidManifest.xml:96:13-42
+activity#com.huari.client.SpectrumsAnalysisActivity
+ADDED from C:\dididi\HrClientNew0723\mmm\HrClientNew\hrClient\src\main\AndroidManifest.xml:99:9-108:20
+	android:label
+		ADDED from C:\dididi\HrClientNew0723\mmm\HrClientNew\hrClient\src\main\AndroidManifest.xml:101:13-70
+	android:theme
+		ADDED from C:\dididi\HrClientNew0723\mmm\HrClientNew\hrClient\src\main\AndroidManifest.xml:102:13-51
+	android:name
+		ADDED from C:\dididi\HrClientNew0723\mmm\HrClientNew\hrClient\src\main\AndroidManifest.xml:100:13-54
+intent-filter#action:name:function0+category:name:android.intent.category.DEFAULT
+ADDED from C:\dididi\HrClientNew0723\mmm\HrClientNew\hrClient\src\main\AndroidManifest.xml:103:13-107:29
+action#function0
+ADDED from C:\dididi\HrClientNew0723\mmm\HrClientNew\hrClient\src\main\AndroidManifest.xml:104:17-52
+	android:name
+		ADDED from C:\dididi\HrClientNew0723\mmm\HrClientNew\hrClient\src\main\AndroidManifest.xml:104:25-49
+category#android.intent.category.DEFAULT
+ADDED from C:\dididi\HrClientNew0723\mmm\HrClientNew\hrClient\src\main\AndroidManifest.xml:106:17-76
+	android:name
+		ADDED from C:\dididi\HrClientNew0723\mmm\HrClientNew\hrClient\src\main\AndroidManifest.xml:106:27-73
+activity#com.huari.client.SinglefrequencyDFActivity
+ADDED from C:\dididi\HrClientNew0723\mmm\HrClientNew\hrClient\src\main\AndroidManifest.xml:109:9-118:20
+	android:label
+		ADDED from C:\dididi\HrClientNew0723\mmm\HrClientNew\hrClient\src\main\AndroidManifest.xml:111:13-70
+	android:theme
+		ADDED from C:\dididi\HrClientNew0723\mmm\HrClientNew\hrClient\src\main\AndroidManifest.xml:112:13-51
+	android:name
+		ADDED from C:\dididi\HrClientNew0723\mmm\HrClientNew\hrClient\src\main\AndroidManifest.xml:110:13-54
+intent-filter#action:name:function12+category:name:android.intent.category.DEFAULT
+ADDED from C:\dididi\HrClientNew0723\mmm\HrClientNew\hrClient\src\main\AndroidManifest.xml:113:13-117:29
+action#function12
+ADDED from C:\dididi\HrClientNew0723\mmm\HrClientNew\hrClient\src\main\AndroidManifest.xml:114:17-53
+	android:name
+		ADDED from C:\dididi\HrClientNew0723\mmm\HrClientNew\hrClient\src\main\AndroidManifest.xml:114:25-50
+activity#com.huari.client.SearchinterferenceActivity
+ADDED from C:\dididi\HrClientNew0723\mmm\HrClientNew\hrClient\src\main\AndroidManifest.xml:119:9-127:20
+	android:label
+		ADDED from C:\dididi\HrClientNew0723\mmm\HrClientNew\hrClient\src\main\AndroidManifest.xml:121:13-51
+	android:name
+		ADDED from C:\dididi\HrClientNew0723\mmm\HrClientNew\hrClient\src\main\AndroidManifest.xml:120:13-55
+intent-filter#action:name:function8+category:name:android.intent.category.DEFAULT
+ADDED from C:\dididi\HrClientNew0723\mmm\HrClientNew\hrClient\src\main\AndroidManifest.xml:122:13-126:29
+action#function8
+ADDED from C:\dididi\HrClientNew0723\mmm\HrClientNew\hrClient\src\main\AndroidManifest.xml:123:17-52
+	android:name
+		ADDED from C:\dididi\HrClientNew0723\mmm\HrClientNew\hrClient\src\main\AndroidManifest.xml:123:25-49
+activity#com.huari.client.MapShowingActivity
+ADDED from C:\dididi\HrClientNew0723\mmm\HrClientNew\hrClient\src\main\AndroidManifest.xml:128:9-139:20
+	android:label
+		ADDED from C:\dididi\HrClientNew0723\mmm\HrClientNew\hrClient\src\main\AndroidManifest.xml:131:13-63
+	android:icon
+		ADDED from C:\dididi\HrClientNew0723\mmm\HrClientNew\hrClient\src\main\AndroidManifest.xml:130:13-42
+	android:theme
+		ADDED from C:\dididi\HrClientNew0723\mmm\HrClientNew\hrClient\src\main\AndroidManifest.xml:133:13-51
+	android:logo
+		ADDED from C:\dididi\HrClientNew0723\mmm\HrClientNew\hrClient\src\main\AndroidManifest.xml:132:13-42
+	android:name
+		ADDED from C:\dididi\HrClientNew0723\mmm\HrClientNew\hrClient\src\main\AndroidManifest.xml:129:13-47
+intent-filter#action:name:function44+category:name:android.intent.category.DEFAULT
+ADDED from C:\dididi\HrClientNew0723\mmm\HrClientNew\hrClient\src\main\AndroidManifest.xml:134:13-138:29
+action#function44
+ADDED from C:\dididi\HrClientNew0723\mmm\HrClientNew\hrClient\src\main\AndroidManifest.xml:135:17-53
+	android:name
+		ADDED from C:\dididi\HrClientNew0723\mmm\HrClientNew\hrClient\src\main\AndroidManifest.xml:135:25-50
+activity#com.huari.client.UnmanedStationsActivity
+ADDED from C:\dididi\HrClientNew0723\mmm\HrClientNew\hrClient\src\main\AndroidManifest.xml:140:9-150:20
+	android:label
+		ADDED from C:\dididi\HrClientNew0723\mmm\HrClientNew\hrClient\src\main\AndroidManifest.xml:143:13-68
+	android:icon
+		ADDED from C:\dididi\HrClientNew0723\mmm\HrClientNew\hrClient\src\main\AndroidManifest.xml:142:13-42
+	android:theme
+		ADDED from C:\dididi\HrClientNew0723\mmm\HrClientNew\hrClient\src\main\AndroidManifest.xml:144:13-51
+	android:name
+		ADDED from C:\dididi\HrClientNew0723\mmm\HrClientNew\hrClient\src\main\AndroidManifest.xml:141:13-52
+intent-filter#action:name:function5+category:name:android.intent.category.DEFAULT
+ADDED from C:\dididi\HrClientNew0723\mmm\HrClientNew\hrClient\src\main\AndroidManifest.xml:145:13-149:29
+action#function5
+ADDED from C:\dididi\HrClientNew0723\mmm\HrClientNew\hrClient\src\main\AndroidManifest.xml:146:17-52
+	android:name
+		ADDED from C:\dididi\HrClientNew0723\mmm\HrClientNew\hrClient\src\main\AndroidManifest.xml:146:25-49
+activity#com.huari.client.ScheduledTaskActivity
+ADDED from C:\dididi\HrClientNew0723\mmm\HrClientNew\hrClient\src\main\AndroidManifest.xml:151:9-159:20
+	android:label
+		ADDED from C:\dididi\HrClientNew0723\mmm\HrClientNew\hrClient\src\main\AndroidManifest.xml:153:13-66
+	android:name
+		ADDED from C:\dididi\HrClientNew0723\mmm\HrClientNew\hrClient\src\main\AndroidManifest.xml:152:13-50
+intent-filter#action:name:function16+category:name:android.intent.category.DEFAULT
+ADDED from C:\dididi\HrClientNew0723\mmm\HrClientNew\hrClient\src\main\AndroidManifest.xml:154:13-158:29
+action#function16
+ADDED from C:\dididi\HrClientNew0723\mmm\HrClientNew\hrClient\src\main\AndroidManifest.xml:155:17-53
+	android:name
+		ADDED from C:\dididi\HrClientNew0723\mmm\HrClientNew\hrClient\src\main\AndroidManifest.xml:155:25-50
+activity#com.huari.client.StationListActivity
+ADDED from C:\dididi\HrClientNew0723\mmm\HrClientNew\hrClient\src\main\AndroidManifest.xml:160:9-173:20
+	android:label
+		ADDED from C:\dididi\HrClientNew0723\mmm\HrClientNew\hrClient\src\main\AndroidManifest.xml:163:13-64
+	android:icon
+		ADDED from C:\dididi\HrClientNew0723\mmm\HrClientNew\hrClient\src\main\AndroidManifest.xml:162:13-42
+	android:theme
+		ADDED from C:\dididi\HrClientNew0723\mmm\HrClientNew\hrClient\src\main\AndroidManifest.xml:164:13-51
+	android:name
+		ADDED from C:\dididi\HrClientNew0723\mmm\HrClientNew\hrClient\src\main\AndroidManifest.xml:161:13-48
+intent-filter#action:name:function1+action:name:function2+action:name:function3+action:name:function6+category:name:android.intent.category.DEFAULT
+ADDED from C:\dididi\HrClientNew0723\mmm\HrClientNew\hrClient\src\main\AndroidManifest.xml:165:13-172:29
+action#function1
+ADDED from C:\dididi\HrClientNew0723\mmm\HrClientNew\hrClient\src\main\AndroidManifest.xml:166:17-52
+	android:name
+		ADDED from C:\dididi\HrClientNew0723\mmm\HrClientNew\hrClient\src\main\AndroidManifest.xml:166:25-49
+action#function6
+ADDED from C:\dididi\HrClientNew0723\mmm\HrClientNew\hrClient\src\main\AndroidManifest.xml:167:17-52
+	android:name
+		ADDED from C:\dididi\HrClientNew0723\mmm\HrClientNew\hrClient\src\main\AndroidManifest.xml:167:25-49
+action#function2
+ADDED from C:\dididi\HrClientNew0723\mmm\HrClientNew\hrClient\src\main\AndroidManifest.xml:168:17-52
+	android:name
+		ADDED from C:\dididi\HrClientNew0723\mmm\HrClientNew\hrClient\src\main\AndroidManifest.xml:168:25-49
+action#function3
+ADDED from C:\dididi\HrClientNew0723\mmm\HrClientNew\hrClient\src\main\AndroidManifest.xml:169:17-52
+	android:name
+		ADDED from C:\dididi\HrClientNew0723\mmm\HrClientNew\hrClient\src\main\AndroidManifest.xml:169:25-49
+activity#com.huari.client.PPFXsetActivity
+ADDED from C:\dididi\HrClientNew0723\mmm\HrClientNew\hrClient\src\main\AndroidManifest.xml:174:9-179:55
+	android:label
+		ADDED from C:\dididi\HrClientNew0723\mmm\HrClientNew\hrClient\src\main\AndroidManifest.xml:176:13-59
+	android:windowSoftInputMode
+		ADDED from C:\dididi\HrClientNew0723\mmm\HrClientNew\hrClient\src\main\AndroidManifest.xml:179:13-52
+	android:theme
+		ADDED from C:\dididi\HrClientNew0723\mmm\HrClientNew\hrClient\src\main\AndroidManifest.xml:178:13-51
+	android:logo
+		ADDED from C:\dididi\HrClientNew0723\mmm\HrClientNew\hrClient\src\main\AndroidManifest.xml:177:13-45
+	android:name
+		ADDED from C:\dididi\HrClientNew0723\mmm\HrClientNew\hrClient\src\main\AndroidManifest.xml:175:13-44
+activity#com.huari.client.PinDuanScanningActivity
+ADDED from C:\dididi\HrClientNew0723\mmm\HrClientNew\hrClient\src\main\AndroidManifest.xml:180:9-189:20
+	android:label
+		ADDED from C:\dididi\HrClientNew0723\mmm\HrClientNew\hrClient\src\main\AndroidManifest.xml:182:13-69
+	android:theme
+		ADDED from C:\dididi\HrClientNew0723\mmm\HrClientNew\hrClient\src\main\AndroidManifest.xml:183:13-51
+	android:name
+		ADDED from C:\dididi\HrClientNew0723\mmm\HrClientNew\hrClient\src\main\AndroidManifest.xml:181:13-52
+intent-filter#action:name:function18+category:name:android.intent.category.DEFAULT
+ADDED from C:\dididi\HrClientNew0723\mmm\HrClientNew\hrClient\src\main\AndroidManifest.xml:184:13-188:29
+action#function18
+ADDED from C:\dididi\HrClientNew0723\mmm\HrClientNew\hrClient\src\main\AndroidManifest.xml:185:17-53
+	android:name
+		ADDED from C:\dididi\HrClientNew0723\mmm\HrClientNew\hrClient\src\main\AndroidManifest.xml:185:25-50
+activity#com.huari.client.PinDuanSetActivity
+ADDED from C:\dididi\HrClientNew0723\mmm\HrClientNew\hrClient\src\main\AndroidManifest.xml:190:9-194:54
+	android:label
+		ADDED from C:\dididi\HrClientNew0723\mmm\HrClientNew\hrClient\src\main\AndroidManifest.xml:192:13-64
+	android:theme
+		ADDED from C:\dididi\HrClientNew0723\mmm\HrClientNew\hrClient\src\main\AndroidManifest.xml:194:13-51
+	android:logo
+		ADDED from C:\dididi\HrClientNew0723\mmm\HrClientNew\hrClient\src\main\AndroidManifest.xml:193:13-45
+	android:name
+		ADDED from C:\dididi\HrClientNew0723\mmm\HrClientNew\hrClient\src\main\AndroidManifest.xml:191:13-47
+activity#com.huari.client.MapActivity
+ADDED from C:\dididi\HrClientNew0723\mmm\HrClientNew\hrClient\src\main\AndroidManifest.xml:195:9-204:20
+	android:label
+		ADDED from C:\dididi\HrClientNew0723\mmm\HrClientNew\hrClient\src\main\AndroidManifest.xml:197:13-55
+	android:theme
+		ADDED from C:\dididi\HrClientNew0723\mmm\HrClientNew\hrClient\src\main\AndroidManifest.xml:198:13-51
+	android:name
+		ADDED from C:\dididi\HrClientNew0723\mmm\HrClientNew\hrClient\src\main\AndroidManifest.xml:196:13-40
+intent-filter#action:name:function4+category:name:android.intent.category.DEFAULT
+ADDED from C:\dididi\HrClientNew0723\mmm\HrClientNew\hrClient\src\main\AndroidManifest.xml:199:13-203:29
+action#function4
+ADDED from C:\dididi\HrClientNew0723\mmm\HrClientNew\hrClient\src\main\AndroidManifest.xml:200:17-52
+	android:name
+		ADDED from C:\dididi\HrClientNew0723\mmm\HrClientNew\hrClient\src\main\AndroidManifest.xml:200:25-49
+activity#com.huari.client.SingleSetActivity
+ADDED from C:\dididi\HrClientNew0723\mmm\HrClientNew\hrClient\src\main\AndroidManifest.xml:205:9-209:54
+	android:label
+		ADDED from C:\dididi\HrClientNew0723\mmm\HrClientNew\hrClient\src\main\AndroidManifest.xml:207:13-62
+	android:theme
+		ADDED from C:\dididi\HrClientNew0723\mmm\HrClientNew\hrClient\src\main\AndroidManifest.xml:209:13-51
+	android:logo
+		ADDED from C:\dididi\HrClientNew0723\mmm\HrClientNew\hrClient\src\main\AndroidManifest.xml:208:13-45
+	android:name
+		ADDED from C:\dididi\HrClientNew0723\mmm\HrClientNew\hrClient\src\main\AndroidManifest.xml:206:13-46
+activity#com.huari.client.FromMapActivity
+ADDED from C:\dididi\HrClientNew0723\mmm\HrClientNew\hrClient\src\main\AndroidManifest.xml:210:9-214:54
+	android:label
+		ADDED from C:\dididi\HrClientNew0723\mmm\HrClientNew\hrClient\src\main\AndroidManifest.xml:212:13-60
+	android:theme
+		ADDED from C:\dididi\HrClientNew0723\mmm\HrClientNew\hrClient\src\main\AndroidManifest.xml:214:13-51
+	android:logo
+		ADDED from C:\dididi\HrClientNew0723\mmm\HrClientNew\hrClient\src\main\AndroidManifest.xml:213:13-45
+	android:name
+		ADDED from C:\dididi\HrClientNew0723\mmm\HrClientNew\hrClient\src\main\AndroidManifest.xml:211:13-44
+activity#com.huari.client.LoginActivity
+ADDED from C:\dididi\HrClientNew0723\mmm\HrClientNew\hrClient\src\main\AndroidManifest.xml:215:9-217:72
+	android:theme
+		ADDED from C:\dididi\HrClientNew0723\mmm\HrClientNew\hrClient\src\main\AndroidManifest.xml:217:13-69
+	android:name
+		ADDED from C:\dididi\HrClientNew0723\mmm\HrClientNew\hrClient\src\main\AndroidManifest.xml:216:13-42
+activity#com.huari.client.Main2Activity
+ADDED from C:\dididi\HrClientNew0723\mmm\HrClientNew\hrClient\src\main\AndroidManifest.xml:218:9-220:72
+	android:theme
+		ADDED from C:\dididi\HrClientNew0723\mmm\HrClientNew\hrClient\src\main\AndroidManifest.xml:220:13-69
+	android:name
+		ADDED from C:\dididi\HrClientNew0723\mmm\HrClientNew\hrClient\src\main\AndroidManifest.xml:219:13-42
+activity#com.huari.client.Login2Activity
+ADDED from C:\dididi\HrClientNew0723\mmm\HrClientNew\hrClient\src\main\AndroidManifest.xml:221:9-223:72
+	android:theme
+		ADDED from C:\dididi\HrClientNew0723\mmm\HrClientNew\hrClient\src\main\AndroidManifest.xml:223:13-69
+	android:name
+		ADDED from C:\dididi\HrClientNew0723\mmm\HrClientNew\hrClient\src\main\AndroidManifest.xml:222:13-43
+activity#com.huari.client.RecordListActivity
+ADDED from C:\dididi\HrClientNew0723\mmm\HrClientNew\hrClient\src\main\AndroidManifest.xml:224:9-226:72
+	android:theme
+		ADDED from C:\dididi\HrClientNew0723\mmm\HrClientNew\hrClient\src\main\AndroidManifest.xml:226:13-69
+	android:name
+		ADDED from C:\dididi\HrClientNew0723\mmm\HrClientNew\hrClient\src\main\AndroidManifest.xml:225:13-47
+activity#com.huari.client.RecordShowOnewActivity
+ADDED from C:\dididi\HrClientNew0723\mmm\HrClientNew\hrClient\src\main\AndroidManifest.xml:227:9-229:72
+	android:theme
+		ADDED from C:\dididi\HrClientNew0723\mmm\HrClientNew\hrClient\src\main\AndroidManifest.xml:229:13-69
+	android:name
+		ADDED from C:\dididi\HrClientNew0723\mmm\HrClientNew\hrClient\src\main\AndroidManifest.xml:228:13-51
+activity#com.huari.client.AllRecordQueryActivity
+ADDED from C:\dididi\HrClientNew0723\mmm\HrClientNew\hrClient\src\main\AndroidManifest.xml:230:9-231:71
+	android:theme
+		ADDED from C:\dididi\HrClientNew0723\mmm\HrClientNew\hrClient\src\main\AndroidManifest.xml:231:13-69
+	android:name
+		ADDED from C:\dididi\HrClientNew0723\mmm\HrClientNew\hrClient\src\main\AndroidManifest.xml:230:19-57
+uses-sdk
+INJECTED from C:\dididi\HrClientNew0723\mmm\HrClientNew\hrClient\src\main\AndroidManifest.xml reason: use-sdk injection requested
+INJECTED from C:\dididi\HrClientNew0723\mmm\HrClientNew\hrClient\src\main\AndroidManifest.xml
+INJECTED from C:\dididi\HrClientNew0723\mmm\HrClientNew\hrClient\src\main\AndroidManifest.xml
+MERGED from [:library_zhy_CircleMenu] C:\dididi\HrClientNew0723\mmm\HrClientNew\library_zhy_CircleMenu\build\intermediates\merged_manifests\debug\processDebugManifest\merged\AndroidManifest.xml:7:5-9:41
+MERGED from [:library_zhy_CircleMenu] C:\dididi\HrClientNew0723\mmm\HrClientNew\library_zhy_CircleMenu\build\intermediates\merged_manifests\debug\processDebugManifest\merged\AndroidManifest.xml:7:5-9:41
+MERGED from [:guiCtrl] C:\dididi\HrClientNew0723\mmm\HrClientNew\guiCtrl\build\intermediates\merged_manifests\debug\processDebugManifest\merged\AndroidManifest.xml:7:5-9:41
+MERGED from [:guiCtrl] C:\dididi\HrClientNew0723\mmm\HrClientNew\guiCtrl\build\intermediates\merged_manifests\debug\processDebugManifest\merged\AndroidManifest.xml:7:5-9:41
+MERGED from [com.android.support:support-v4:28.0.0] C:\Users\Public\Downloads\xx\caches\transforms-1\files-1.1\support-v4-28.0.0.aar\5f7a6eab87b0755f342f22750d9b9ec8\AndroidManifest.xml:20:5-44
+MERGED from [com.android.support:support-v4:28.0.0] C:\Users\Public\Downloads\xx\caches\transforms-1\files-1.1\support-v4-28.0.0.aar\5f7a6eab87b0755f342f22750d9b9ec8\AndroidManifest.xml:20:5-44
+MERGED from [com.android.support:design:28.0.0] C:\Users\Public\Downloads\xx\caches\transforms-1\files-1.1\design-28.0.0.aar\a80cd54020a10eb668d400c0761a643d\AndroidManifest.xml:20:5-44
+MERGED from [com.android.support:design:28.0.0] C:\Users\Public\Downloads\xx\caches\transforms-1\files-1.1\design-28.0.0.aar\a80cd54020a10eb668d400c0761a643d\AndroidManifest.xml:20:5-44
+MERGED from [com.android.support:appcompat-v7:28.0.0] C:\Users\Public\Downloads\xx\caches\transforms-1\files-1.1\appcompat-v7-28.0.0.aar\742e4a40ae74093edaaaa6cacd008f86\AndroidManifest.xml:20:5-44
+MERGED from [com.android.support:appcompat-v7:28.0.0] C:\Users\Public\Downloads\xx\caches\transforms-1\files-1.1\appcompat-v7-28.0.0.aar\742e4a40ae74093edaaaa6cacd008f86\AndroidManifest.xml:20:5-44
+MERGED from [androidx.constraintlayout:constraintlayout:1.1.2] C:\Users\Public\Downloads\xx\caches\transforms-1\files-1.1\constraintlayout-1.1.2.aar\1a32c7604e45937f845bbfdf2f7ae792\AndroidManifest.xml:5:5-7:41
+MERGED from [androidx.constraintlayout:constraintlayout:1.1.2] C:\Users\Public\Downloads\xx\caches\transforms-1\files-1.1\constraintlayout-1.1.2.aar\1a32c7604e45937f845bbfdf2f7ae792\AndroidManifest.xml:5:5-7:41
+MERGED from [com.wang.avi:library:2.1.3] C:\Users\Public\Downloads\xx\caches\transforms-1\files-1.1\library-2.1.3.aar\c89e87cd99043441849d636da34f0c81\AndroidManifest.xml:7:5-9:41
+MERGED from [com.wang.avi:library:2.1.3] C:\Users\Public\Downloads\xx\caches\transforms-1\files-1.1\library-2.1.3.aar\c89e87cd99043441849d636da34f0c81\AndroidManifest.xml:7:5-9:41
+MERGED from [com.android.support:support-media-compat:28.0.0] C:\Users\Public\Downloads\xx\caches\transforms-1\files-1.1\support-media-compat-28.0.0.aar\eb15f4ca7df2da01e231d2a6d6358c9b\AndroidManifest.xml:20:5-44
+MERGED from [com.android.support:support-media-compat:28.0.0] C:\Users\Public\Downloads\xx\caches\transforms-1\files-1.1\support-media-compat-28.0.0.aar\eb15f4ca7df2da01e231d2a6d6358c9b\AndroidManifest.xml:20:5-44
+MERGED from [com.android.support:support-fragment:28.0.0] C:\Users\Public\Downloads\xx\caches\transforms-1\files-1.1\support-fragment-28.0.0.aar\024e4980bd1805d1234e0cb488ad2855\AndroidManifest.xml:20:5-44
+MERGED from [com.android.support:support-fragment:28.0.0] C:\Users\Public\Downloads\xx\caches\transforms-1\files-1.1\support-fragment-28.0.0.aar\024e4980bd1805d1234e0cb488ad2855\AndroidManifest.xml:20:5-44
+MERGED from [com.android.support:animated-vector-drawable:28.0.0] C:\Users\Public\Downloads\xx\caches\transforms-1\files-1.1\animated-vector-drawable-28.0.0.aar\182a4111d9ab11ba45f0727a94f2d307\AndroidManifest.xml:20:5-44
+MERGED from [com.android.support:animated-vector-drawable:28.0.0] C:\Users\Public\Downloads\xx\caches\transforms-1\files-1.1\animated-vector-drawable-28.0.0.aar\182a4111d9ab11ba45f0727a94f2d307\AndroidManifest.xml:20:5-44
+MERGED from [com.android.support:recyclerview-v7:28.0.0] C:\Users\Public\Downloads\xx\caches\transforms-1\files-1.1\recyclerview-v7-28.0.0.aar\044ad8682dc32f0f991197c8b45da642\AndroidManifest.xml:20:5-44
+MERGED from [com.android.support:recyclerview-v7:28.0.0] C:\Users\Public\Downloads\xx\caches\transforms-1\files-1.1\recyclerview-v7-28.0.0.aar\044ad8682dc32f0f991197c8b45da642\AndroidManifest.xml:20:5-44
+MERGED from [com.android.support:support-core-ui:28.0.0] C:\Users\Public\Downloads\xx\caches\transforms-1\files-1.1\support-core-ui-28.0.0.aar\405b1ec024032cfd0a5567bf76b4f9bb\AndroidManifest.xml:20:5-44
+MERGED from [com.android.support:support-core-ui:28.0.0] C:\Users\Public\Downloads\xx\caches\transforms-1\files-1.1\support-core-ui-28.0.0.aar\405b1ec024032cfd0a5567bf76b4f9bb\AndroidManifest.xml:20:5-44
+MERGED from [com.android.support:support-core-utils:28.0.0] C:\Users\Public\Downloads\xx\caches\transforms-1\files-1.1\support-core-utils-28.0.0.aar\5755d3f31a86711e5126b7c9f97da1ea\AndroidManifest.xml:20:5-44
+MERGED from [com.android.support:support-core-utils:28.0.0] C:\Users\Public\Downloads\xx\caches\transforms-1\files-1.1\support-core-utils-28.0.0.aar\5755d3f31a86711e5126b7c9f97da1ea\AndroidManifest.xml:20:5-44
+MERGED from [com.android.support:support-vector-drawable:28.0.0] C:\Users\Public\Downloads\xx\caches\transforms-1\files-1.1\support-vector-drawable-28.0.0.aar\7ba77d585544fd8284e7df3556cea552\AndroidManifest.xml:20:5-44
+MERGED from [com.android.support:support-vector-drawable:28.0.0] C:\Users\Public\Downloads\xx\caches\transforms-1\files-1.1\support-vector-drawable-28.0.0.aar\7ba77d585544fd8284e7df3556cea552\AndroidManifest.xml:20:5-44
+MERGED from [com.android.support:transition:28.0.0] C:\Users\Public\Downloads\xx\caches\transforms-1\files-1.1\transition-28.0.0.aar\735df96d87de4b4bb05bfb4a865cc605\AndroidManifest.xml:20:5-44
+MERGED from [com.android.support:transition:28.0.0] C:\Users\Public\Downloads\xx\caches\transforms-1\files-1.1\transition-28.0.0.aar\735df96d87de4b4bb05bfb4a865cc605\AndroidManifest.xml:20:5-44
+MERGED from [com.android.support:loader:28.0.0] C:\Users\Public\Downloads\xx\caches\transforms-1\files-1.1\loader-28.0.0.aar\367fbfa33eac696ae172040e221de4bb\AndroidManifest.xml:20:5-44
+MERGED from [com.android.support:loader:28.0.0] C:\Users\Public\Downloads\xx\caches\transforms-1\files-1.1\loader-28.0.0.aar\367fbfa33eac696ae172040e221de4bb\AndroidManifest.xml:20:5-44
+MERGED from [com.android.support:viewpager:28.0.0] C:\Users\Public\Downloads\xx\caches\transforms-1\files-1.1\viewpager-28.0.0.aar\5d6f4463f2971054408ad23b18337ade\AndroidManifest.xml:20:5-44
+MERGED from [com.android.support:viewpager:28.0.0] C:\Users\Public\Downloads\xx\caches\transforms-1\files-1.1\viewpager-28.0.0.aar\5d6f4463f2971054408ad23b18337ade\AndroidManifest.xml:20:5-44
+MERGED from [com.android.support:coordinatorlayout:28.0.0] C:\Users\Public\Downloads\xx\caches\transforms-1\files-1.1\coordinatorlayout-28.0.0.aar\4deaad14d68dcaa1847efe8a5c72789a\AndroidManifest.xml:20:5-44
+MERGED from [com.android.support:coordinatorlayout:28.0.0] C:\Users\Public\Downloads\xx\caches\transforms-1\files-1.1\coordinatorlayout-28.0.0.aar\4deaad14d68dcaa1847efe8a5c72789a\AndroidManifest.xml:20:5-44
+MERGED from [com.android.support:drawerlayout:28.0.0] C:\Users\Public\Downloads\xx\caches\transforms-1\files-1.1\drawerlayout-28.0.0.aar\4ebdcf7132bb1c86d3507c7066f3ca07\AndroidManifest.xml:20:5-44
+MERGED from [com.android.support:drawerlayout:28.0.0] C:\Users\Public\Downloads\xx\caches\transforms-1\files-1.1\drawerlayout-28.0.0.aar\4ebdcf7132bb1c86d3507c7066f3ca07\AndroidManifest.xml:20:5-44
+MERGED from [com.android.support:slidingpanelayout:28.0.0] C:\Users\Public\Downloads\xx\caches\transforms-1\files-1.1\slidingpanelayout-28.0.0.aar\7d509c25c2d085c1e686284d9e1bac43\AndroidManifest.xml:20:5-44
+MERGED from [com.android.support:slidingpanelayout:28.0.0] C:\Users\Public\Downloads\xx\caches\transforms-1\files-1.1\slidingpanelayout-28.0.0.aar\7d509c25c2d085c1e686284d9e1bac43\AndroidManifest.xml:20:5-44
+MERGED from [com.android.support:customview:28.0.0] C:\Users\Public\Downloads\xx\caches\transforms-1\files-1.1\customview-28.0.0.aar\e851db5da080f3531900aef85c17e49c\AndroidManifest.xml:20:5-44
+MERGED from [com.android.support:customview:28.0.0] C:\Users\Public\Downloads\xx\caches\transforms-1\files-1.1\customview-28.0.0.aar\e851db5da080f3531900aef85c17e49c\AndroidManifest.xml:20:5-44
+MERGED from [com.android.support:swiperefreshlayout:28.0.0] C:\Users\Public\Downloads\xx\caches\transforms-1\files-1.1\swiperefreshlayout-28.0.0.aar\9079e45a2bbd30aeec22ecccf361e63f\AndroidManifest.xml:20:5-44
+MERGED from [com.android.support:swiperefreshlayout:28.0.0] C:\Users\Public\Downloads\xx\caches\transforms-1\files-1.1\swiperefreshlayout-28.0.0.aar\9079e45a2bbd30aeec22ecccf361e63f\AndroidManifest.xml:20:5-44
+MERGED from [com.android.support:asynclayoutinflater:28.0.0] C:\Users\Public\Downloads\xx\caches\transforms-1\files-1.1\asynclayoutinflater-28.0.0.aar\1bcf7fea390cbd8ddf2153ecbbe0e827\AndroidManifest.xml:20:5-44
+MERGED from [com.android.support:asynclayoutinflater:28.0.0] C:\Users\Public\Downloads\xx\caches\transforms-1\files-1.1\asynclayoutinflater-28.0.0.aar\1bcf7fea390cbd8ddf2153ecbbe0e827\AndroidManifest.xml:20:5-44
+MERGED from [com.android.support:support-compat:28.0.0] C:\Users\Public\Downloads\xx\caches\transforms-1\files-1.1\support-compat-28.0.0.aar\feaeef21193586b0ebac469a72806930\AndroidManifest.xml:20:5-44
+MERGED from [com.android.support:support-compat:28.0.0] C:\Users\Public\Downloads\xx\caches\transforms-1\files-1.1\support-compat-28.0.0.aar\feaeef21193586b0ebac469a72806930\AndroidManifest.xml:20:5-44
+MERGED from [com.android.support:versionedparcelable:28.0.0] C:\Users\Public\Downloads\xx\caches\transforms-1\files-1.1\versionedparcelable-28.0.0.aar\ad5d03f5a91572191a7acf7ebada4ecc\AndroidManifest.xml:20:5-44
+MERGED from [com.android.support:versionedparcelable:28.0.0] C:\Users\Public\Downloads\xx\caches\transforms-1\files-1.1\versionedparcelable-28.0.0.aar\ad5d03f5a91572191a7acf7ebada4ecc\AndroidManifest.xml:20:5-44
+MERGED from [com.android.support:cursoradapter:28.0.0] C:\Users\Public\Downloads\xx\caches\transforms-1\files-1.1\cursoradapter-28.0.0.aar\5bc5b976d4445ecb3d237671b1a685aa\AndroidManifest.xml:20:5-44
+MERGED from [com.android.support:cursoradapter:28.0.0] C:\Users\Public\Downloads\xx\caches\transforms-1\files-1.1\cursoradapter-28.0.0.aar\5bc5b976d4445ecb3d237671b1a685aa\AndroidManifest.xml:20:5-44
+MERGED from [com.android.support:cardview-v7:28.0.0] C:\Users\Public\Downloads\xx\caches\transforms-1\files-1.1\cardview-v7-28.0.0.aar\3e89973941b89f348b85dfc72a45d558\AndroidManifest.xml:20:5-44
+MERGED from [com.android.support:cardview-v7:28.0.0] C:\Users\Public\Downloads\xx\caches\transforms-1\files-1.1\cardview-v7-28.0.0.aar\3e89973941b89f348b85dfc72a45d558\AndroidManifest.xml:20:5-44
+MERGED from [android.arch.lifecycle:runtime:1.1.1] C:\Users\Public\Downloads\xx\caches\transforms-1\files-1.1\runtime-1.1.1.aar\e921392420720cfd2b1405e16ce5d9ee\AndroidManifest.xml:20:5-44
+MERGED from [android.arch.lifecycle:runtime:1.1.1] C:\Users\Public\Downloads\xx\caches\transforms-1\files-1.1\runtime-1.1.1.aar\e921392420720cfd2b1405e16ce5d9ee\AndroidManifest.xml:20:5-44
+MERGED from [com.android.support:documentfile:28.0.0] C:\Users\Public\Downloads\xx\caches\transforms-1\files-1.1\documentfile-28.0.0.aar\0079093a90e4c88df97a060c1850f508\AndroidManifest.xml:20:5-44
+MERGED from [com.android.support:documentfile:28.0.0] C:\Users\Public\Downloads\xx\caches\transforms-1\files-1.1\documentfile-28.0.0.aar\0079093a90e4c88df97a060c1850f508\AndroidManifest.xml:20:5-44
+MERGED from [com.android.support:localbroadcastmanager:28.0.0] C:\Users\Public\Downloads\xx\caches\transforms-1\files-1.1\localbroadcastmanager-28.0.0.aar\46a9b23bcc8ce815c7d9cc76ca543d6c\AndroidManifest.xml:20:5-44
+MERGED from [com.android.support:localbroadcastmanager:28.0.0] C:\Users\Public\Downloads\xx\caches\transforms-1\files-1.1\localbroadcastmanager-28.0.0.aar\46a9b23bcc8ce815c7d9cc76ca543d6c\AndroidManifest.xml:20:5-44
+MERGED from [com.android.support:print:28.0.0] C:\Users\Public\Downloads\xx\caches\transforms-1\files-1.1\print-28.0.0.aar\5ee2165e3b2145d8e078f6feb770c720\AndroidManifest.xml:20:5-44
+MERGED from [com.android.support:print:28.0.0] C:\Users\Public\Downloads\xx\caches\transforms-1\files-1.1\print-28.0.0.aar\5ee2165e3b2145d8e078f6feb770c720\AndroidManifest.xml:20:5-44
+MERGED from [com.android.support:interpolator:28.0.0] C:\Users\Public\Downloads\xx\caches\transforms-1\files-1.1\interpolator-28.0.0.aar\fbfaaa7e193ab01ede4f8e73d54a8833\AndroidManifest.xml:20:5-44
+MERGED from [com.android.support:interpolator:28.0.0] C:\Users\Public\Downloads\xx\caches\transforms-1\files-1.1\interpolator-28.0.0.aar\fbfaaa7e193ab01ede4f8e73d54a8833\AndroidManifest.xml:20:5-44
+MERGED from [android.arch.lifecycle:viewmodel:1.1.1] C:\Users\Public\Downloads\xx\caches\transforms-1\files-1.1\viewmodel-1.1.1.aar\cc130f5ce2b7785a31a1fce64e5894c7\AndroidManifest.xml:20:5-44
+MERGED from [android.arch.lifecycle:viewmodel:1.1.1] C:\Users\Public\Downloads\xx\caches\transforms-1\files-1.1\viewmodel-1.1.1.aar\cc130f5ce2b7785a31a1fce64e5894c7\AndroidManifest.xml:20:5-44
+MERGED from [android.arch.lifecycle:livedata:1.1.1] C:\Users\Public\Downloads\xx\caches\transforms-1\files-1.1\livedata-1.1.1.aar\de27f92210155f9d0969ca3b9442123e\AndroidManifest.xml:20:5-44
+MERGED from [android.arch.lifecycle:livedata:1.1.1] C:\Users\Public\Downloads\xx\caches\transforms-1\files-1.1\livedata-1.1.1.aar\de27f92210155f9d0969ca3b9442123e\AndroidManifest.xml:20:5-44
+MERGED from [android.arch.lifecycle:livedata-core:1.1.1] C:\Users\Public\Downloads\xx\caches\transforms-1\files-1.1\livedata-core-1.1.1.aar\adefc2c3c3c372a72a4595e0f5d3dd34\AndroidManifest.xml:20:5-44
+MERGED from [android.arch.lifecycle:livedata-core:1.1.1] C:\Users\Public\Downloads\xx\caches\transforms-1\files-1.1\livedata-core-1.1.1.aar\adefc2c3c3c372a72a4595e0f5d3dd34\AndroidManifest.xml:20:5-44
+MERGED from [android.arch.core:runtime:1.1.1] C:\Users\Public\Downloads\xx\caches\transforms-1\files-1.1\runtime-1.1.1.aar\e4d3e5dab88b01bd5757e0d65df5bc56\AndroidManifest.xml:20:5-44
+MERGED from [android.arch.core:runtime:1.1.1] C:\Users\Public\Downloads\xx\caches\transforms-1\files-1.1\runtime-1.1.1.aar\e4d3e5dab88b01bd5757e0d65df5bc56\AndroidManifest.xml:20:5-44
+INJECTED from C:\dididi\HrClientNew0723\mmm\HrClientNew\hrClient\src\main\AndroidManifest.xml
+INJECTED from C:\dididi\HrClientNew0723\mmm\HrClientNew\hrClient\src\main\AndroidManifest.xml
+	android:targetSdkVersion
+		INJECTED from C:\dididi\HrClientNew0723\mmm\HrClientNew\hrClient\src\main\AndroidManifest.xml
+		ADDED from C:\dididi\HrClientNew0723\mmm\HrClientNew\hrClient\src\main\AndroidManifest.xml
+		INJECTED from C:\dididi\HrClientNew0723\mmm\HrClientNew\hrClient\src\main\AndroidManifest.xml
+	android:minSdkVersion
+		INJECTED from C:\dididi\HrClientNew0723\mmm\HrClientNew\hrClient\src\main\AndroidManifest.xml
+		ADDED from C:\dididi\HrClientNew0723\mmm\HrClientNew\hrClient\src\main\AndroidManifest.xml
+		INJECTED from C:\dididi\HrClientNew0723\mmm\HrClientNew\hrClient\src\main\AndroidManifest.xml
+activity#com.huari.diskactivity.DiskActivity
+ADDED from [:guiCtrl] C:\dididi\HrClientNew0723\mmm\HrClientNew\guiCtrl\build\intermediates\merged_manifests\debug\processDebugManifest\merged\AndroidManifest.xml:20:9-23:20
+	android:label
+		ADDED from [:guiCtrl] C:\dididi\HrClientNew0723\mmm\HrClientNew\guiCtrl\build\intermediates\merged_manifests\debug\processDebugManifest\merged\AndroidManifest.xml:22:13-45
+	android:name
+		ADDED from [:guiCtrl] C:\dididi\HrClientNew0723\mmm\HrClientNew\guiCtrl\build\intermediates\merged_manifests\debug\processDebugManifest\merged\AndroidManifest.xml:21:13-63
+activity#com.huari.diskactivity.TwoActivity
+ADDED from [:guiCtrl] C:\dididi\HrClientNew0723\mmm\HrClientNew\guiCtrl\build\intermediates\merged_manifests\debug\processDebugManifest\merged\AndroidManifest.xml:24:9-27:20
+	android:label
+		ADDED from [:guiCtrl] C:\dididi\HrClientNew0723\mmm\HrClientNew\guiCtrl\build\intermediates\merged_manifests\debug\processDebugManifest\merged\AndroidManifest.xml:26:13-45
+	android:name
+		ADDED from [:guiCtrl] C:\dididi\HrClientNew0723\mmm\HrClientNew\guiCtrl\build\intermediates\merged_manifests\debug\processDebugManifest\merged\AndroidManifest.xml:25:13-62
+activity#com.huari.diskactivity.LastActivity
+ADDED from [:guiCtrl] C:\dididi\HrClientNew0723\mmm\HrClientNew\guiCtrl\build\intermediates\merged_manifests\debug\processDebugManifest\merged\AndroidManifest.xml:28:9-31:20
+	android:label
+		ADDED from [:guiCtrl] C:\dididi\HrClientNew0723\mmm\HrClientNew\guiCtrl\build\intermediates\merged_manifests\debug\processDebugManifest\merged\AndroidManifest.xml:30:13-45
+	android:name
+		ADDED from [:guiCtrl] C:\dididi\HrClientNew0723\mmm\HrClientNew\guiCtrl\build\intermediates\merged_manifests\debug\processDebugManifest\merged\AndroidManifest.xml:29:13-63
+activity#com.huari.diskactivity.ListViewsActivity
+ADDED from [:guiCtrl] C:\dididi\HrClientNew0723\mmm\HrClientNew\guiCtrl\build\intermediates\merged_manifests\debug\processDebugManifest\merged\AndroidManifest.xml:32:9-35:20
+	android:label
+		ADDED from [:guiCtrl] C:\dididi\HrClientNew0723\mmm\HrClientNew\guiCtrl\build\intermediates\merged_manifests\debug\processDebugManifest\merged\AndroidManifest.xml:34:13-62
+	android:name
+		ADDED from [:guiCtrl] C:\dididi\HrClientNew0723\mmm\HrClientNew\guiCtrl\build\intermediates\merged_manifests\debug\processDebugManifest\merged\AndroidManifest.xml:33:13-68
+activity#com.huari.diskactivity.TestActivity
+ADDED from [:guiCtrl] C:\dididi\HrClientNew0723\mmm\HrClientNew\guiCtrl\build\intermediates\merged_manifests\debug\processDebugManifest\merged\AndroidManifest.xml:36:9-39:20
+	android:label
+		ADDED from [:guiCtrl] C:\dididi\HrClientNew0723\mmm\HrClientNew\guiCtrl\build\intermediates\merged_manifests\debug\processDebugManifest\merged\AndroidManifest.xml:38:13-56
+	android:name
+		ADDED from [:guiCtrl] C:\dididi\HrClientNew0723\mmm\HrClientNew\guiCtrl\build\intermediates\merged_manifests\debug\processDebugManifest\merged\AndroidManifest.xml:37:13-63
+activity#com.huari.diskactivity.PartWaveActivity
+ADDED from [:guiCtrl] C:\dididi\HrClientNew0723\mmm\HrClientNew\guiCtrl\build\intermediates\merged_manifests\debug\processDebugManifest\merged\AndroidManifest.xml:40:9-43:20
+	android:label
+		ADDED from [:guiCtrl] C:\dididi\HrClientNew0723\mmm\HrClientNew\guiCtrl\build\intermediates\merged_manifests\debug\processDebugManifest\merged\AndroidManifest.xml:42:13-61
+	android:name
+		ADDED from [:guiCtrl] C:\dididi\HrClientNew0723\mmm\HrClientNew\guiCtrl\build\intermediates\merged_manifests\debug\processDebugManifest\merged\AndroidManifest.xml:41:13-67
+activity#com.huari.diskactivity.SingActivity
+ADDED from [:guiCtrl] C:\dididi\HrClientNew0723\mmm\HrClientNew\guiCtrl\build\intermediates\merged_manifests\debug\processDebugManifest\merged\AndroidManifest.xml:44:9-47:20
+	android:label
+		ADDED from [:guiCtrl] C:\dididi\HrClientNew0723\mmm\HrClientNew\guiCtrl\build\intermediates\merged_manifests\debug\processDebugManifest\merged\AndroidManifest.xml:46:13-56
+	android:name
+		ADDED from [:guiCtrl] C:\dididi\HrClientNew0723\mmm\HrClientNew\guiCtrl\build\intermediates\merged_manifests\debug\processDebugManifest\merged\AndroidManifest.xml:45:13-63

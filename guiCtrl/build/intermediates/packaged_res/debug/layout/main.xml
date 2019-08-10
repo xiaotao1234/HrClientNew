@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical" >
+  <!-- 
+    
+    <com.huari.ui.Disk android:id="@+id/disk"
+                android:layout_width="match_parent"
+                android:layout_height="150dp"/>
+            <com.huari.ui.HColumns 
+                android:id="@+id/hcolumn"
+                android:layout_width="match_parent"
+                android:layout_height="120dp"/> 
+               -->
+         
+           <com.huari.ui.NewCoordinateSystem
+                android:id="@+id/coor"
+                android:layout_width="match_parent"
+                android:layout_height="300dp"/>  
+                
+</LinearLayout>

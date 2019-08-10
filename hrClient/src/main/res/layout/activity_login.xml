@@ -1,0 +1,113 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical">
+        <ImageView
+            android:layout_width="100sp"
+            android:layout_height="100sp"
+            android:layout_gravity="center"
+            android:layout_marginTop="150sp"
+            android:src="@drawable/icon" />
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="华日通讯"
+            android:layout_marginBottom="110sp"
+            android:layout_gravity="center_horizontal"
+            android:textStyle="bold"
+            android:layout_marginTop="5sp"
+            android:textColor="#000000"
+            android:textSize="20sp"/>
+        <FrameLayout
+            android:layout_width="match_parent"
+            android:layout_height="60sp"
+            android:layout_gravity="center"
+            android:layout_marginStart="50sp"
+            android:layout_marginEnd="50sp"
+            android:background="@drawable/edittextback">
+
+            <EditText
+                android:id="@+id/ip_edit"
+                android:layout_width="match_parent"
+                android:layout_height="60sp"
+                android:background="@null"
+                android:hint="IP:"
+                android:textCursorDrawable="@null"
+                android:paddingLeft="20sp"
+                android:textColor="#DD000000"
+                android:textColorHint="#60000000"
+                android:digits="1234567890."/>
+
+            <Spinner
+                android:layout_width="60sp"
+                android:layout_height="match_parent"
+                android:layout_gravity="end" />
+        </FrameLayout>
+
+        <LinearLayout
+            android:id="@+id/port_edit_contain"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:layout_marginTop="30sp"
+            android:layout_marginStart="50sp"
+            android:layout_marginEnd="50sp">
+            <EditText
+                android:id="@+id/port1_edit"
+                android:layout_width="0dp"
+                android:layout_weight="1"
+                android:layout_height="60sp"
+                android:background="@drawable/edittextback"
+                android:hint="Port1:"
+                android:paddingLeft="20sp"
+                android:textColor="#DD000000"
+                android:textCursorDrawable="@null"
+                android:textColorHint="#60000000"
+                android:digits="1234567890"/>
+            <View
+                android:layout_width="0dp"
+                android:layout_height="1dp"
+                android:layout_weight="0.2"/>
+            <EditText
+                android:id="@+id/port2_edit"
+                android:layout_width="0dp"
+                android:layout_height="60sp"
+                android:layout_weight="1"
+                android:background="@drawable/edittextback"
+                android:hint="Port2:"
+                android:textCursorDrawable="@null"
+                android:paddingLeft="20sp"
+                android:textColor="#DD000000"
+                android:textColorHint="#60000000"
+                android:digits="1234567890"/>
+        </LinearLayout>
+
+        <FrameLayout
+            android:layout_width="80sp"
+            android:layout_height="80sp"
+            android:layout_gravity="center"
+            android:layout_marginTop="80sp">
+
+            <ImageView
+                android:id="@+id/login_button"
+                android:layout_width="80sp"
+                android:layout_height="80sp"
+                android:src="@drawable/next" />
+
+            <com.wang.avi.AVLoadingIndicatorView
+                android:id="@+id/login_animtion"
+                style="@style/AVLoadingIndicatorView.Large"
+                android:layout_width="80sp"
+                android:layout_height="80sp"
+                android:visibility="invisible"
+                app:indicatorColor="#559955"
+                app:indicatorName="BallClipRotateMultipleIndicator" />
+        </FrameLayout>
+
+        <View
+            android:layout_width="1dp"
+            android:layout_height="0dp"
+            android:layout_weight="1" />
+</LinearLayout>

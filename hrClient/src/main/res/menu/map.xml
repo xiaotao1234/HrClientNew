@@ -1,0 +1,28 @@
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    tools:context="com.huari.client.MapActivity" >
+    
+    <item
+        android:id="@+id/shishishixiang"
+        android:orderInCategory="100"
+        android:title="实时示向"
+        app:showAsAction="always"/>
+    <item
+        android:id="@+id/willfollow"
+        android:orderInCategory="100"
+        android:title="开始跟踪"
+        app:showAsAction="always"/>
+    <item
+        android:id="@+id/selectstationofwillbeshow"
+        android:orderInCategory="100"
+        android:title="示向"
+        app:showAsAction="always"/>
+    <item android:id="@+id/localcitylist"
+        android:orderInCategory="100"
+        android:title="离线城市"
+        app:showAsAction="always">
+        <menu ></menu>
+        </item>
+
+</menu>

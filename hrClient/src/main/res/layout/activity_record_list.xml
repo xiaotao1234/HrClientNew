@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="utf-8"?>
+<com.huari.ui.MyNestedScrollView
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/nsv"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".RecordListActivity">
+    <LinearLayout
+        android:descendantFocusability="blocksDescendants"
+        android:orientation="vertical"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+        <com.huari.ui.TagCloudView
+            android:id="@+id/tag_cloud"
+            android:layout_width="match_parent"
+            android:layout_height="500sp"
+            app:autoScrollMode="uniform"
+            app:darkColor="#ffffffff"
+            app:lightColor="#ffff0000"
+            app:radiusPercent="0.8"
+            app:scrollSpeed="3" />
+
+        <android.support.v7.widget.RecyclerView
+            android:id="@+id/rv"
+            android:layout_width="match_parent"
+            android:layout_height="500dp"/>
+    </LinearLayout>
+
+
+
+</com.huari.ui.MyNestedScrollView >

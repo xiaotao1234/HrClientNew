@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <string name="app_name">圆盘</string>
+    <string name="action_settings">Settings</string>
+    <string name="hello_world">Hello world!</string>
+
+    <string-array name="mode">
+        <item>按出现概率统计</item>
+        <item>按最大幅度统计</item>
+        <item>按最高质量统计</item>
+    </string-array>
+
+    <color name="y">#FFFF00</color>
+    <color name="h">#CDCDC1</color>
+    <color name="l">#A4D3EE</color>
+    <color name="net">#E0FFFF</color>
+    <color name="cyann">#7FFFD4</color>
+    <color name="mblack">#000000</color>
+    <color name="pupugroup1">#EEC591</color>
+    <color name="pupugroup2">#87CEFF</color>
+    <color name="pupugroup3">#EEC591</color>
+    <color name="pinduanfudutable">#FFAF60</color>
+    <string name="title_activity_sanshi">SanshiActivity</string>
+    <string name="title_activity_list_views">ListViewsActivity</string>
+    <string name="title_activity_test">TestActivity</string>
+    <string name="title_activity_part_wave">PartWaveActivity</string>
+    <string name="title_activity_sing">SingActivity</string>
+
+</resources>

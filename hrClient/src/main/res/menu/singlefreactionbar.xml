@@ -1,0 +1,91 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:customactionbar1="http://schemas.android.com/apk/res-auto" >
+    <item android:id="@+id/singlepause"
+        customactionbar1:showAsAction="ifRoom"
+        android:menuCategory="container"
+        android:title="开始测量" />
+    <item
+        android:id="@+id/singleitem1" 
+        android:title="角度选择"
+        android:menuCategory="container"
+        customactionbar1:showAsAction="ifRoom"
+        >
+        <menu>
+            <group android:checkableBehavior="single" android:id="@+id/twomode">
+                <item
+                    android:id="@+id/single11"
+                    android:title="相对示向度（绿）">
+                </item>
+                <item
+                    android:id="@+id/single12"
+                    android:title="正北角度（黄）">
+                </item>
+            </group>
+        </menu>
+    </item>
+     <item
+        android:id="@+id/menusavedata"
+        android:title="保存当前值"
+        android:menuCategory="container"
+        customactionbar1:showAsAction="never">
+    </item>
+     <item
+        android:id="@+id/forwardtomap"
+        android:title="地图交汇"
+        android:menuCategory="container"
+        customactionbar1:showAsAction="never">
+    </item>
+    <item
+        android:id="@+id/singleitem3"
+        android:title="清零复位"
+        android:menuCategory="container"
+        customactionbar1:showAsAction="never">
+    </item>
+   
+    <item
+        android:id="@+id/singleitem2"
+        android:title="模式选择"
+        android:menuCategory="container"
+        customactionbar1:showAsAction="never">
+        <menu>
+            <group android:checkableBehavior="single" android:id="@+id/modethree">
+                <item
+                    android:id="@+id/single21"
+                    android:title="按最大幅度统计">
+                </item>
+                <item
+                    android:id="@+id/single22"
+                    android:title="按出现概率统计">
+                </item>
+                <item
+                    android:id="@+id/single23"
+                    android:title="按最高质量统计">
+                </item>
+            </group>
+         </menu>
+      </item>
+           
+    <item android:id="@+id/singleitem4"
+        android:title="展示方式"
+        android:menuCategory="container"
+        customactionbar1:showAsAction="never">"
+                <menu >
+                 <group android:checkableBehavior="single">
+                 <item
+                    android:id="@+id/single24"
+                    android:title="图像显示">
+                </item>
+                <item
+                    android:id="@+id/single25"
+                    android:title="表格显示">
+                </item>
+            </group>
+            </menu>
+     </item>
+     <item android:id="@+id/singleset"
+         android:title="设置"
+         android:menuCategory="container"
+         customactionbar1:showAsAction="never"/>"
+
+</menu>

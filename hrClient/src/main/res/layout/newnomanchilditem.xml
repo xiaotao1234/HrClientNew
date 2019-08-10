@@ -1,0 +1,61 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical" >
+    <LinearLayout android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal">
+        <TextView android:layout_width="0dp" 
+            android:layout_height="wrap_content"
+            android:layout_weight="1.8" 
+            android:textColor="@android:color/white"
+            android:textSize="15sp"
+            android:id="@+id/unmanlan"/>
+        <TextView android:layout_width="0dp" 
+            android:layout_height="wrap_content"
+            android:layout_weight="1.8" 
+            android:textColor="@android:color/white"
+            android:textSize="15sp"
+            android:id="@+id/unmanlon"/>
+        
+        <TextView android:layout_width="0dp" 
+            android:layout_height="wrap_content"
+            android:layout_weight="1" 
+            android:textColor="@android:color/white"
+            android:textSize="15sp"
+            android:gravity="right"
+            android:id="@+id/unmansupport"/>
+        
+    </LinearLayout>
+    <TextView android:id="@+id/nomaninfo"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        />
+    <LinearLayout android:id="@+id/nomanSwitch"
+        android:orientation="vertical"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="center_vertical">
+        <LinearLayout android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal">
+            <Button android:id="@+id/unmanon"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:text="唤醒无人站"/>
+            <Button android:id="@+id/unmanoff"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:text="关闭无人站"/>
+            <Button android:id="@+id/unmanforceon"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:text="强制关闭"/>
+        </LinearLayout>
+    </LinearLayout>
+    
+</LinearLayout>

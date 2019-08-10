@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android" 
+      xmlns:savepdsm="http://schemas.android.com/apk/res-auto">
+   
+    <item android:id="@+id/canclepdsmpachange" android:title="取消" savepdsm:showAsAction="always"/>
+    <item android:id="@+id/savepdsmparameterschange" android:title="确定"  savepdsm:showAsAction="always"/>
+</menu>

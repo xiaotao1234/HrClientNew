@@ -1,0 +1,47 @@
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@android:color/black"
+    android:orientation="vertical"
+    tools:context=".UnmanedStationsActivity" >
+
+    <LinearLayout android:id="@+id/headname"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal">
+        <TextView android:id="@+id/num"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="0.5"
+            android:textColor="@android:color/white"
+            android:background="@color/noman1"
+            android:text="序号"/>
+        <TextView android:id="@+id/nomanstationname"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:textColor="@android:color/white"
+            android:background="@color/noman2"
+            android:text="无人站"/>
+        <TextView android:id="@+id/servername"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:textColor="@android:color/white"
+            android:background="@color/noman4"
+            android:text="服务器"/>
+        <TextView android:id="@+id/stationstate"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="0.5"
+            android:textColor="@android:color/white"
+            android:background="@color/noman3"
+            android:text="更多"/>
+    </LinearLayout>
+    <ExpandableListView android:id="@+id/nomanexpandedview"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        ></ExpandableListView>
+
+</LinearLayout>

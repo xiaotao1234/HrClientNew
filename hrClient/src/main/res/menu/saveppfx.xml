@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android" >
+    
+    <item android:id="@+id/saveparameterschange" android:title="确定"/>
+    <item android:id="@+id/canclepachange" android:title="取消"/>
+  
+</menu>

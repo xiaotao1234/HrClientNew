@@ -1,0 +1,113 @@
+ECLIPSE ANDROID PROJECT IMPORT SUMMARY
+======================================
+
+Manifest Merging:
+-----------------
+Your project uses libraries that provide manifests, and your Eclipse
+project did not explicitly turn on manifest merging. In Android Gradle
+projects, manifests are always merged (meaning that contents from your
+libraries' manifests will be merged into the app manifest. If you had
+manually copied contents from library manifests into your app manifest
+you may need to remove these for the app to build correctly.
+
+Ignored Files:
+--------------
+The following files were *not* copied into the new Gradle project; you
+should evaluate whether these are still needed in your project and if
+so manually move them:
+
+From GuiCtrl:
+* .project.bak
+* proguard-project.txt
+* vssver2.scc
+From HrClient:
+* .classpath.bak
+* .project.bak
+* hs_err_pid3472.log
+* hs_err_pid4024.log
+* hs_err_pid5636.log
+* proguard-project.txt
+* test.java
+* vssver2.scc
+From library_zhy_CircleMenu:
+* ic_launcher-web.png
+* proguard-project.txt
+
+Replaced Jars with Dependencies:
+--------------------------------
+The importer recognized the following .jar files as third party
+libraries and replaced them with Gradle dependencies instead. This has
+the advantage that more explicit version information is known, and the
+libraries can be updated automatically. However, it is possible that
+the .jar file in your project was of an older version than the
+dependency we picked, which could render the project not compileable.
+You can disable the jar replacement in the import wizard and try again:
+
+android-support-v4.jar => com.android.support:support-v4:19.1.0
+android-support-v7-appcompat.jar => com.android.support:appcompat-v7:19.1.0
+
+Replaced Libraries with Dependencies:
+-------------------------------------
+The importer recognized the following library projects as third party
+libraries and replaced them with Gradle dependencies instead. This has
+the advantage that more explicit version information is known, and the
+libraries can be updated automatically. However, it is possible that
+the source files in your project were of an older version than the
+dependency we picked, which could render the project not compileable.
+You can disable the library replacement in the import wizard and try
+again:
+
+android-support-v7-appcompat => [com.android.support:appcompat-v7:19.1.0]
+
+Moved Files:
+------------
+Android Gradle projects use a different directory structure than ADT
+Eclipse projects. Here's how the projects were restructured:
+
+In GuiCtrl:
+* AndroidManifest.xml => guiCtrl\src\main\AndroidManifest.xml
+* assets\ => guiCtrl\src\main\assets
+* lint.xml => guiCtrl\lint.xml
+* res\ => guiCtrl\src\main\res\
+* src\ => guiCtrl\src\main\java\
+* src\com\huari\ui\vssver2.scc => guiCtrl\src\main\resources\com\huari\ui\vssver2.scc
+In library_zhy_CircleMenu:
+* AndroidManifest.xml => library_zhy_CircleMenu\src\main\AndroidManifest.xml
+* assets\ => library_zhy_CircleMenu\src\main\assets
+* lint.xml => library_zhy_CircleMenu\lint.xml
+* res\ => library_zhy_CircleMenu\src\main\res\
+* src\ => library_zhy_CircleMenu\src\main\java\
+In HrClient:
+* AndroidManifest.xml => hrClient\src\main\AndroidManifest.xml
+* assets\ => hrClient\src\main\assets
+* libs\armeabi\libBaiduMapSDK_v3_0_0.so => hrClient\src\main\jniLibs\armeabi\libBaiduMapSDK_v3_0_0.so
+* libs\armeabi\liblocSDK3.so => hrClient\src\main\jniLibs\armeabi\liblocSDK3.so
+* libs\baidumapapi_v3_0_0.jar => hrClient\libs\baidumapapi_v3_0_0.jar
+* libs\javastruct-0.1.jar => hrClient\libs\javastruct-0.1.jar
+* libs\locSDK_3.1.jar => hrClient\libs\locSDK_3.1.jar
+* lint.xml => hrClient\lint.xml
+* res\ => hrClient\src\main\res\
+* src\ => hrClient\src\main\java\
+* src\com\huari\adapter\vssver2.scc => hrClient\src\main\resources\com\huari\adapter\vssver2.scc
+* src\com\huari\client\FromMapActivity.java.bak => hrClient\src\main\resources\com\huari\client\FromMapActivity.java.bak
+* src\com\huari\client\vssver2.scc => hrClient\src\main\resources\com\huari\client\vssver2.scc
+* src\com\huari\commandstruct\vssver2.scc => hrClient\src\main\resources\com\huari\commandstruct\vssver2.scc
+* src\com\huari\dataentry\vssver2.scc => hrClient\src\main\resources\com\huari\dataentry\vssver2.scc
+* src\com\huari\service\vssver2.scc => hrClient\src\main\resources\com\huari\service\vssver2.scc
+* src\com\huari\thread\vssver2.scc => hrClient\src\main\resources\com\huari\thread\vssver2.scc
+* src\com\huari\tools\vssver2.scc => hrClient\src\main\resources\com\huari\tools\vssver2.scc
+
+Next Steps:
+-----------
+You can now build the project. The Gradle project needs network
+connectivity to download dependencies.
+
+Bugs:
+-----
+If for some reason your project does not build, and you determine that
+it is due to a bug or limitation of the Eclipse to Gradle importer,
+please file a bug at http://b.android.com with category
+Component-Tools.
+
+(This import summary is for your information only, and can be deleted
+after import once you are satisfied with the results.)

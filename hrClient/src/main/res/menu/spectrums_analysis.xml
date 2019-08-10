@@ -1,0 +1,16 @@
+<menu xmlns:android="http://schemas.android.com/apk/res/android" >
+
+    <item
+        android:id="@+id/part1"
+        android:orderInCategory="100"
+        android:showAsAction="never"
+        android:icon="@drawable/e"
+        android:title="@string/pinpufenxi1"/>
+    <item
+        android:id="@+id/full1"
+        android:orderInCategory="100"
+        android:showAsAction="never"
+        android:icon="@drawable/e"
+        android:title="@string/pinpufenxi2"/>
+
+</menu>

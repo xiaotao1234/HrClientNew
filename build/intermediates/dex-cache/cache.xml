@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="utf-8"?>
+<items version="2" >
+
+    <item
+        is-multidex="false"
+        jar="E:\AndroidStudioProjects\HrClientNew\guiCtrl\build\intermediates\bundles\default\classes.jar"
+        jumboMode="false"
+        optimize="true"
+        revision="25.0.2"
+        sha1="a357094521c37fcc05ca554eb2d483ae2b5c52d5">
+        <dex dex="E:\AndroidStudioProjects\HrClientNew\hrClient\build\intermediates\pre-dexed\debug\classes_4467b8af8ea32c3d964ab6a3ee914d4bcd154850.jar" />
+    </item>
+    <item
+        is-multidex="false"
+        jar="C:\Users\HR\.android\build-cache\6ca11363020ee3f74f69b5ac37e9f489836d1d49\output\jars\classes.jar"
+        jumboMode="false"
+        optimize="true"
+        revision="25.0.2"
+        sha1="3499ceba05ca1f6037c6a2fad73df8f636224a28">
+        <dex dex="E:\AndroidStudioProjects\HrClientNew\hrClient\build\intermediates\pre-dexed\debug\classes_7594757f4187cfd7db21bfe9b512775e6af17392.jar" />
+    </item>
+    <item
+        is-multidex="false"
+        jar="E:\Android\sdk\extras\android\m2repository\com\android\support\support-v4\19.1.0\support-v4-19.1.0.jar"
+        jumboMode="false"
+        optimize="true"
+        revision="25.0.2"
+        sha1="85f201b380937e61a9dce6ca90ccf6872abbfb67">
+        <dex dex="E:\AndroidStudioProjects\HrClientNew\hrClient\build\intermediates\pre-dexed\debug\support-v4-19.1.0_be220b38eb335326b6406b05fa5b60644c539549.jar" />
+    </item>
+    <item
+        is-multidex="false"
+        jar="E:\AndroidStudioProjects\HrClientNew\hrClient\libs\javastruct-0.1.jar"
+        jumboMode="false"
+        optimize="true"
+        revision="25.0.2"
+        sha1="33b7c9246417a742d44949941243927d5222e89f">
+        <dex dex="E:\AndroidStudioProjects\HrClientNew\hrClient\build\intermediates\pre-dexed\debug\javastruct-0.1_a9dbcbb9c1dda1b85c07e79bb58248ce31462983.jar" />
+    </item>
+    <item
+        is-multidex="false"
+        jar="E:\AndroidStudioProjects\HrClientNew\library_zhy_CircleMenu\build\intermediates\bundles\default\classes.jar"
+        jumboMode="false"
+        optimize="true"
+        revision="25.0.2"
+        sha1="d2a39001f55219902d139cae7c7602721bad9017">
+        <dex dex="E:\AndroidStudioProjects\HrClientNew\hrClient\build\intermediates\pre-dexed\debug\classes_df6bafce2306e9ba372bb3e998d9bc3e3bee940a.jar" />
+    </item>
+    <item
+        is-multidex="false"
+        jar="E:\AndroidStudioProjects\HrClientNew\hrClient\libs\BaiduLBS_Android.jar"
+        jumboMode="false"
+        optimize="true"
+        revision="25.0.2"
+        sha1="b54a47d41b22c66181f118c782fdc792cc9d309c">
+        <dex dex="E:\AndroidStudioProjects\HrClientNew\hrClient\build\intermediates\pre-dexed\debug\BaiduLBS_Android_382c3d6c41cb18a345b68584b7fe556d2600602c.jar" />
+    </item>
+
+</items>

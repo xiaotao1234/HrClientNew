@@ -1,0 +1,112 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@drawable/bg"
+    android:id="@+id/spectrumsanalysis"
+    android:orientation="vertical" >
+    <LinearLayout android:layout_width="match_parent" android:layout_height="0dp" 
+        android:layout_weight="1"     android:orientation="horizontal"
+        android:gravity="center">
+        <Button 
+        android:id="@+id/first2"
+        android:drawableTop="@drawable/bigfenxi"
+        android:paddingTop="30dp"
+        android:background="@drawable/fselector1"
+        android:layout_gravity="center"
+        android:layout_width="200dp"
+        android:layout_height="200dp"
+        android:layout_marginRight="20dp"
+        android:textSize="35sp"
+        android:textColor="@color/myblack"
+        android:text="@string/funcion1"/>
+      <Button 
+        android:id="@+id/second2"
+        android:drawableTop="@drawable/bigcexiang"
+       android:background="@drawable/fselector1"
+       android:paddingTop="30dp"
+        android:layout_gravity="center"
+        android:textSize="35sp"
+        android:textColor="@color/myblack"
+        android:layout_width="200dp"
+        android:layout_height="200dp"
+        android:layout_marginRight="20dp"
+        android:text="@string/funcion2"/>
+      <Button 
+        android:id="@+id/third2"
+        android:textSize="35sp"
+        android:paddingTop="30dp"
+        android:textColor="@color/myblack"
+        android:drawableTop="@drawable/saomiao"
+        android:background="@drawable/fselector1"
+        android:layout_width="200dp"
+        android:layout_height="200dp"
+        android:layout_marginRight="20dp"
+        android:text="@string/funcion3"/>
+      
+    </LinearLayout>
+    <LinearLayout android:layout_width="match_parent" android:layout_height="0dp" 
+        android:layout_weight="1"     android:orientation="horizontal"
+        android:gravity="center">
+      
+        <Button 
+        android:id="@+id/fourth2"
+        android:drawableTop="@drawable/bigditu"
+        android:layout_width="200dp"
+        android:textSize="35sp"
+        android:textColor="@color/myblack"
+        android:paddingTop="30dp"
+        android:layout_marginRight="20dp"
+        android:background="@drawable/fselector1"
+        android:layout_height="200dp"
+        android:text="@string/funcion4"/>
+        
+        <Button 
+        android:id="@+id/fivth2"
+        android:drawableTop="@drawable/bigwurenzhan"
+        android:background="@drawable/fselector1"
+        android:paddingTop="30dp"
+        android:layout_width="200dp"
+        android:textColor="@color/myblack"
+        android:layout_height="200dp"
+        android:textSize="35sp"
+        android:layout_marginRight="20dp"
+        android:text="@string/funcion5"/>
+        <!--  
+      <Button 
+        android:id="@+id/sixth2"
+        android:drawableTop="@drawable/lltask"
+        android:background="@drawable/fselector1"
+        android:paddingTop="30dp"
+        android:layout_width="200dp"
+        android:textColor="@color/myblack"
+        android:textSize="35sp"
+        android:layout_height="200dp"
+        android:layout_marginRight="20dp"
+        android:text="@string/funcion6"/>
+        -->
+      <Button 
+        android:id="@+id/seven2"
+        android:drawableTop="@drawable/bigliebiao"
+        android:background="@drawable/fselector1"
+        android:paddingTop="30dp"
+        android:layout_width="200dp"
+        android:layout_height="200dp"
+        android:layout_marginRight="20dp"
+        android:textColor="@color/myblack"
+        android:textSize="35sp"
+        android:text="监测站列表"/>
+      <!-- 
+      <Button 
+        android:id="@+id/eighth2"
+        android:layout_width="200dp"
+        android:background="@drawable/fselector1"
+        android:paddingTop="30dp"
+        android:layout_height="200dp"
+        android:textSize="35sp"
+        android:textColor="@color/myblack"
+        android:text="干扰查找"/>
+         -->
+    </LinearLayout>
+
+</LinearLayout>

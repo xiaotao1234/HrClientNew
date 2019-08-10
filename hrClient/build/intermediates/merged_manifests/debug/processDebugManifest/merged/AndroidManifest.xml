@@ -1,0 +1,268 @@
+<?xml version="1.0" encoding="utf-8"?>
+<manifest xmlns:android="http://schemas.android.com/apk/res/android"
+    package="com.huari.client"
+    android:versionCode="1"
+    android:versionName="1.0" >
+
+    <uses-sdk
+        android:minSdkVersion="18"
+        android:targetSdkVersion="26" />
+
+    <!-- <uses-sdk -->
+    <!-- android:minSdkVersion="8"/> -->
+
+    <uses-permission android:name="android.permission.INTERNET" />
+    <uses-permission android:name="android.permission.RESTART_PACKAGES" />
+    <uses-permission android:name="android.permission.WAKE_LOCK" />
+    <!-- <uses-permission android:name="android.permission.INTERACT_ACROSS_USERS_FULL" /> -->
+    <!-- <uses-permission android:name="android.permission.MOUNT_UNMOUNT_FILESYSTEMS" /> -->
+    <uses-permission android:name="android.permission.RECORD_AUDIO" />
+
+    <supports-screens
+        android:anyDensity="true"
+        android:largeScreens="true"
+        android:normalScreens="true"
+        android:resizeable="true"
+        android:smallScreens="true" />
+    <!-- 使用网络功能所需权限 -->
+    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
+    <uses-permission android:name="android.permission.INTERNET" />
+    <uses-permission android:name="android.permission.ACCESS_WIFI_STATE" />
+    <uses-permission android:name="android.permission.CHANGE_WIFI_STATE" />
+    <!-- SDK离线地图和cache功能需要读写外部存储器 -->
+    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
+    <!-- <uses-permission android:name="android.permission.WRITE_SETTINGS" > -->
+    <!-- </uses-permission> -->
+    <!-- 获取设置信息和详情页直接拨打电话需要以下权限 -->
+    <uses-permission android:name="android.permission.READ_PHONE_STATE" />
+    <uses-permission android:name="android.permission.CALL_PHONE" />
+    <!-- 使用定位功能所需权限,demo已集成百度定位SDK,不使用定位功能可去掉以下6项 -->
+    <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
+
+    <permission android:name="android.permission.BAIDU_LOCATION_SERVICE" />
+
+    <uses-permission android:name="android.permission.BAIDU_LOCATION_SERVICE" />
+    <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
+    <!-- <uses-permission android:name="android.permission.ACCESS_MOCK_LOCATION" > -->
+    <!-- </uses-permission> -->
+    <uses-permission android:name="android.permission.ACCESS_GPS" />
+    <uses-permission android:name="android.permission.PROCESS_OUTGOING_CALLS" />
+    <!-- <uses-permission android:name="android.permission.READ_PHONE_STATE" /> -->
+    <uses-permission android:name="android.permission.MODIFY_AUDIO_SETTINGS" />
+
+    <application
+        android:allowBackup="true"
+        android:appComponentFactory="android.support.v4.app.CoreComponentFactory"
+        android:debuggable="true"
+        android:icon="@drawable/appico"
+        android:label="@string/app_name"
+        android:largeHeap="true"
+        android:testOnly="true"
+        android:theme="@style/AppTheme" >
+        <meta-data
+            android:name="com.baidu.lbsapi.API_KEY"
+            android:value="CpqPodGyg87rY8qZFoMMunYLSXOprd2h" />
+
+        <service
+            android:name="com.baidu.location.f"
+            android:enabled="true"
+            android:process=":remote" />
+        <service android:name="com.huari.service.MainService" >
+            <intent-filter>
+                <action android:name="com.huari.service.mainservice" />
+            </intent-filter>
+        </service>
+        <service android:name="com.huari.service.TaskService" >
+            <intent-filter>
+                <action android:name="com.huari.service.taskservice" />
+            </intent-filter>
+        </service>
+
+        <activity
+            android:name="com.huari.client.WelcomeActivity"
+            android:label="@string/title_activity_welcome"
+            android:theme="@android:style/Theme.NoTitleBar.Fullscreen" >
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+        </activity>
+        <activity
+            android:name="com.huari.client.CircleActivity"
+            android:label="@string/title_activity_guide"
+            android:theme="@style/Theme.AppCompat" />
+        <activity
+            android:name="com.huari.client.MainActivity"
+            android:icon="@drawable/appico"
+            android:label="@string/title_activity_main"
+            android:theme="@style/Theme.AppCompat" />
+        <activity
+            android:name="com.huari.client.GuideActivity"
+            android:label="@string/title_activity_guide"
+            android:theme="@android:style/Theme.NoTitleBar.Fullscreen" />
+        <activity
+            android:name="com.huari.client.SpectrumsAnalysisActivity"
+            android:label="@string/title_activity_spectrums_analysis"
+            android:theme="@style/Theme.AppCompat" >
+            <intent-filter>
+                <action android:name="function0" />
+
+                <category android:name="android.intent.category.DEFAULT" />
+            </intent-filter>
+        </activity>
+        <activity
+            android:name="com.huari.client.SinglefrequencyDFActivity"
+            android:label="@string/title_activity_frequency_scanning"
+            android:theme="@style/Theme.AppCompat" >
+            <intent-filter>
+                <action android:name="function12" />
+
+                <category android:name="android.intent.category.DEFAULT" />
+            </intent-filter>
+        </activity>
+        <activity
+            android:name="com.huari.client.SearchinterferenceActivity"
+            android:label="@style/Theme.AppCompat" >
+            <intent-filter>
+                <action android:name="function8" />
+
+                <category android:name="android.intent.category.DEFAULT" />
+            </intent-filter>
+        </activity>
+        <activity
+            android:name="com.huari.client.MapShowingActivity"
+            android:icon="@drawable/ditu"
+            android:label="@string/title_activity_map_showing"
+            android:logo="@drawable/ditu"
+            android:theme="@style/Theme.AppCompat" >
+            <intent-filter>
+                <action android:name="function44" />
+
+                <category android:name="android.intent.category.DEFAULT" />
+            </intent-filter>
+        </activity>
+        <activity
+            android:name="com.huari.client.UnmanedStationsActivity"
+            android:icon="@drawable/list"
+            android:label="@string/title_activity_unmaned_stations"
+            android:theme="@style/Theme.AppCompat" >
+            <intent-filter>
+                <action android:name="function5" />
+
+                <category android:name="android.intent.category.DEFAULT" />
+            </intent-filter>
+        </activity>
+        <activity
+            android:name="com.huari.client.ScheduledTaskActivity"
+            android:label="@string/title_activity_scheduled_task" >
+            <intent-filter>
+                <action android:name="function16" />
+
+                <category android:name="android.intent.category.DEFAULT" />
+            </intent-filter>
+        </activity>
+        <activity
+            android:name="com.huari.client.StationListActivity"
+            android:icon="@drawable/list"
+            android:label="@string/title_activity_station_list"
+            android:theme="@style/Theme.AppCompat" >
+            <intent-filter>
+                <action android:name="function1" />
+                <action android:name="function6" />
+                <action android:name="function2" />
+                <action android:name="function3" />
+
+                <category android:name="android.intent.category.DEFAULT" />
+            </intent-filter>
+        </activity>
+        <activity
+            android:name="com.huari.client.PPFXsetActivity"
+            android:label="@string/title_activity_ppfxset"
+            android:logo="@drawable/setback"
+            android:theme="@style/Theme.AppCompat"
+            android:windowSoftInputMode="adjustPan" />
+        <activity
+            android:name="com.huari.client.PinDuanScanningActivity"
+            android:label="@string/title_activity_pin_duan_scanning"
+            android:theme="@style/Theme.AppCompat" >
+            <intent-filter>
+                <action android:name="function18" />
+
+                <category android:name="android.intent.category.DEFAULT" />
+            </intent-filter>
+        </activity>
+        <activity
+            android:name="com.huari.client.PinDuanSetActivity"
+            android:label="@string/title_activity_pin_duan_set"
+            android:logo="@drawable/setback"
+            android:theme="@style/Theme.AppCompat" />
+        <activity
+            android:name="com.huari.client.MapActivity"
+            android:label="@string/title_activity_map"
+            android:theme="@style/Theme.AppCompat" >
+            <intent-filter>
+                <action android:name="function4" />
+
+                <category android:name="android.intent.category.DEFAULT" />
+            </intent-filter>
+        </activity>
+        <activity
+            android:name="com.huari.client.SingleSetActivity"
+            android:label="@string/title_activity_single_set"
+            android:logo="@drawable/setback"
+            android:theme="@style/Theme.AppCompat" />
+        <activity
+            android:name="com.huari.client.FromMapActivity"
+            android:label="@string/title_activity_from_map"
+            android:logo="@drawable/setback"
+            android:theme="@style/Theme.AppCompat" />
+        <activity
+            android:name="com.huari.client.LoginActivity"
+            android:theme="@style/Theme.AppCompat.Light.NoActionBar" />
+        <activity
+            android:name="com.huari.client.Main2Activity"
+            android:theme="@style/Theme.AppCompat.Light.NoActionBar" />
+        <activity
+            android:name="com.huari.client.Login2Activity"
+            android:theme="@style/Theme.AppCompat.Light.NoActionBar" />
+        <activity
+            android:name="com.huari.client.RecordListActivity"
+            android:theme="@style/Theme.AppCompat.Light.NoActionBar" />
+        <activity
+            android:name="com.huari.client.RecordShowOnewActivity"
+            android:theme="@style/Theme.AppCompat.Light.NoActionBar" />
+        <activity
+            android:name="com.huari.client.AllRecordQueryActivity"
+            android:theme="@style/Theme.AppCompat.Light.NoActionBar" />
+        <activity
+            android:name="com.huari.diskactivity.DiskActivity"
+            android:label="@string/app_name" >
+        </activity>
+        <activity
+            android:name="com.huari.diskactivity.TwoActivity"
+            android:label="@string/app_name" >
+        </activity>
+        <activity
+            android:name="com.huari.diskactivity.LastActivity"
+            android:label="@string/app_name" >
+        </activity>
+        <activity
+            android:name="com.huari.diskactivity.ListViewsActivity"
+            android:label="@string/title_activity_list_views" >
+        </activity>
+        <activity
+            android:name="com.huari.diskactivity.TestActivity"
+            android:label="@string/title_activity_test" >
+        </activity>
+        <activity
+            android:name="com.huari.diskactivity.PartWaveActivity"
+            android:label="@string/title_activity_part_wave" >
+        </activity>
+        <activity
+            android:name="com.huari.diskactivity.SingActivity"
+            android:label="@string/title_activity_sing" >
+        </activity>
+    </application>
+
+</manifest>

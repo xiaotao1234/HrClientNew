@@ -1,0 +1,47 @@
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    tools:context="com.huari.client.PinDuanScanningActivity" >
+
+    <item
+        android:id="@+id/pinduanstart"
+        android:orderInCategory="100"
+        android:title="@string/pinduansaomiao"
+        app:showAsAction="ifRoom"/>
+    <item
+        android:id="@+id/tiaozheng"
+        android:orderInCategory="100"
+        android:title="@string/tiao"
+        app:showAsAction="ifRoom"/>
+     <!--  
+    <item android:id="@+id/pscq"
+        android:orderInCategory="100"
+        android:title="场强"
+        app:showAsAction="ifRoom"/>
+        -->
+    <item android:id="@+id/pinduanset" android:orderInCategory="100" android:title="设置" app:showAsAction="never" /><item android:id="@+id/maxshow"
+        android:orderInCategory="100"
+        android:title="不显示最大值"
+        app:showAsAction="never"/>"
+    <item android:id="@+id/minshow"
+        android:orderInCategory="100"
+        android:title="不显示最小值"
+        app:showAsAction="never"/>"
+    <item android:id="@+id/avgshow"
+        android:orderInCategory="100"
+        android:title="不显示平均值"
+        app:showAsAction="never"/>"
+    <item
+        android:id="@+id/showtable"
+        android:orderInCategory="100"
+        android:title="隐藏表格"
+        app:showAsAction="never"/>
+    
+    <item 
+        android:id="@+id/caputure"
+        android:orderInCategory="100" 
+        android:title="截图"
+        app:showAsAction="never"/>
+    
+
+</menu>

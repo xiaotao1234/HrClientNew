@@ -1,0 +1,179 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@drawable/bz1"
+    android:orientation="vertical">
+
+    <ImageView
+        android:layout_width="100sp"
+        android:layout_height="100sp"
+        android:layout_gravity="center"
+        android:layout_marginTop="150sp"
+        android:src="@drawable/icon" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center_horizontal"
+        android:layout_marginTop="5sp"
+        android:layout_marginBottom="5sp"
+        android:text="华日通讯"
+        android:textColor="#FFFFFF"
+        android:textSize="20sp" />
+
+    <FrameLayout
+        android:layout_width="match_parent"
+        android:layout_height="60sp"
+        android:layout_gravity="center"
+        android:layout_marginStart="50sp"
+        android:layout_marginEnd="50sp"
+        android:background="@drawable/edittextback"
+        android:visibility="gone">
+
+        <EditText
+            android:id="@+id/ip_edit1"
+            android:layout_width="match_parent"
+            android:layout_height="60sp"
+            android:background="@null"
+            android:digits="1234567890."
+            android:hint="IP:"
+            android:paddingLeft="20sp"
+            android:textColor="#DD000000"
+            android:textColorHint="#60000000"
+            android:textCursorDrawable="@null" />
+
+        <Spinner
+            android:layout_width="60sp"
+            android:layout_height="match_parent"
+            android:layout_gravity="end" />
+    </FrameLayout>
+
+    <FrameLayout
+        android:id="@+id/contact_edit_frame"
+        android:layout_width="match_parent"
+        android:layout_height="121dp"
+        android:layout_gravity="center"
+        android:layout_margin="30sp"
+        android:layout_marginTop="80sp">
+
+        <LinearLayout
+            android:id="@+id/contact_edit_linearlayout"
+            android:layout_width="match_parent"
+            android:layout_height="121sp"
+            android:background="@drawable/edit_back"
+            android:orientation="vertical">
+            <android.support.design.widget.TextInputLayout
+                android:id="@+id/ip_edit_layout"
+                android:layout_width="match_parent"
+                android:textColorHint="#60000000"
+                app:hintTextAppearance="@style/TextInputAppTheme"
+                android:layout_height="60sp">
+                <EditText
+                    android:id="@+id/ip_edit"
+                    android:layout_width="match_parent"
+                    android:layout_height="50sp"
+                    android:background="@null"
+                    android:digits="1234567890."
+                    android:layout_marginTop="10sp"
+                    android:hint="IP:"
+                    android:paddingLeft="20sp"
+                    android:textColor="#DD000000"
+                    android:textColorHint="#60000000"
+                    android:textCursorDrawable="@null"
+                    android:textSize="15sp" />
+            </android.support.design.widget.TextInputLayout>
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:background="#44000000" />
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="60sp"
+                android:orientation="horizontal">
+                <android.support.design.widget.TextInputLayout
+                    android:id="@+id/port1_edit_layout"
+                    android:layout_width="0dp"
+                    android:layout_height="60sp"
+                    android:textColorHint="#60000000"
+                    app:hintTextAppearance="@style/TextInputAppTheme"
+                    android:layout_weight="1">
+                    <EditText
+                        android:id="@+id/port1_edit"
+                        android:layout_width="match_parent"
+                        android:layout_height="50sp"
+                        android:layout_marginTop="10sp"
+                        android:layout_gravity="bottom"
+                        android:background="@null"
+                        android:digits="1234567890."
+                        android:hint="Port1:"
+                        android:paddingLeft="20sp"
+                        android:textColor="#DD000000"
+                        android:textColorHint="#60000000"
+                        android:textCursorDrawable="@null"
+                        android:textSize="15sp" />
+                </android.support.design.widget.TextInputLayout>
+                <View
+                    android:layout_width="1sp"
+                    android:layout_height="60sp"
+                    android:background="#44000000"/>
+                <android.support.design.widget.TextInputLayout
+                    android:id="@+id/port2_edit_layout"
+                    android:layout_width="0dp"
+                    android:layout_height="60sp"
+                    android:textColorHint="#60000000"
+                    android:outlineSpotShadowColor="#60000000"
+                    app:hintTextAppearance="@style/TextInputAppTheme"
+                    android:layout_weight="1">
+                    <EditText
+                        android:id="@+id/port2_edit"
+                        android:layout_width="match_parent"
+                        android:layout_height="50sp"
+                        android:layout_marginTop="10sp"
+                        android:layout_gravity="bottom"
+                        android:background="@null"
+                        android:digits="1234567890."
+                        android:hint="Port2:"
+                        android:paddingLeft="20sp"
+                        android:textColor="#DD000000"
+                        android:textColorHint="#60000000"
+                        android:textCursorDrawable="@null"
+                        android:textSize="15sp" />
+                </android.support.design.widget.TextInputLayout>
+
+            </LinearLayout>
+
+        </LinearLayout>
+
+        <com.wang.avi.AVLoadingIndicatorView
+            android:id="@+id/login_animtion"
+            style="@style/AVLoadingIndicatorView.Large"
+            android:layout_width="121sp"
+            android:layout_height="121sp"
+            android:layout_gravity="center"
+            android:visibility="invisible"
+            android:layout_marginBottom="10sp"
+            app:indicatorColor="#FFFFFF"
+            app:indicatorName="BallClipRotateMultipleIndicator"/>
+    </FrameLayout>
+    <Button
+        android:id="@+id/main_btn_login"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/input_layout"
+        android:layout_centerInParent="true"
+        android:layout_marginTop="15sp"
+        android:background="@drawable/text_bg"
+        android:gravity="center"
+        android:paddingBottom="10sp"
+        android:paddingLeft="40sp"
+        android:paddingRight="40sp"
+        android:paddingTop="10sp"
+        android:layout_gravity="center"
+        android:text="Connect"
+        android:textColor="#ffffff"
+        android:textSize="15sp" />
+</LinearLayout>
