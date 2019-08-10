@@ -152,8 +152,8 @@
       <file leaf-file-name="main22.xml" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/hrClient/src/main/res/layout/main22.xml">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="79">
-              <caret line="551" column="63" selection-start-line="551" selection-start-column="63" selection-end-line="551" selection-end-column="63" />
+            <state relative-caret-position="509">
+              <caret line="397" column="25" lean-forward="true" selection-start-line="397" selection-start-column="25" selection-end-line="397" selection-end-column="25" />
               <folding>
                 <element signature="e#3292#3332#0" expanded="true" />
               </folding>
@@ -272,6 +272,9 @@
       <replace>0</replace>
       <replace>sp</replace>
     </replaceStrings>
+  </component>
+  <component name="Git.Settings">
+    <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
   </component>
   <component name="GradleLocalSettings">
     <option name="myGradleHomes">
@@ -4571,6 +4574,7 @@
     <option name="width" value="984" />
     <option name="height" value="264" />
   </component>
+  <component name="ProjectLevelVcsManager" settingsEditedManually="true" />
   <component name="ProjectView">
     <navigator currentView="ProjectPane" proportions="" version="1">
       <foldersAlwaysOnTop value="true" />
@@ -4870,15 +4874,15 @@
       <window_info id="Build Variants" order="3" side_tool="true" />
       <window_info anchor="right" id="Capture Analysis" order="3" />
       <window_info anchor="bottom" id="Event Log" order="8" side_tool="true" weight="0.32897604" />
-      <window_info active="true" anchor="right" id="Preview" order="4" visible="true" weight="0.28518122" />
-      <window_info anchor="bottom" id="Version Control" order="9" show_stripe_button="false" />
+      <window_info anchor="right" id="Preview" order="4" visible="true" weight="0.28518122" />
+      <window_info anchor="bottom" id="Version Control" order="9" />
       <window_info anchor="bottom" id="Run" order="2" weight="0.32897604" />
       <window_info anchor="bottom" id="Terminal" order="11" weight="0.32869565" />
       <window_info anchor="bottom" id="Logcat" order="10" weight="0.59586054" />
       <window_info id="Captures" order="4" weight="0.25" />
       <window_info id="Capture Tool" order="6" />
       <window_info id="Designer" order="2" />
-      <window_info content_ui="combo" id="Project" order="0" sideWeight="0.49912435" visible="true" weight="0.24040511" />
+      <window_info active="true" content_ui="combo" id="Project" order="0" sideWeight="0.49912435" visible="true" weight="0.24040511" />
       <window_info anchor="right" content_ui="combo" id="Hierarchy" order="2" weight="0.24946696" />
       <window_info anchor="bottom" id="Build" order="7" weight="0.5304348" />
       <window_info anchor="right" id="Gradle" order="6" weight="0.32995737" />
@@ -5294,8 +5298,8 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/hrClient/src/main/res/layout/main22.xml">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="79">
-          <caret line="551" column="63" selection-start-line="551" selection-start-column="63" selection-end-line="551" selection-end-column="63" />
+        <state relative-caret-position="509">
+          <caret line="397" column="25" lean-forward="true" selection-start-line="397" selection-start-column="25" selection-end-line="397" selection-end-column="25" />
           <folding>
             <element signature="e#3292#3332#0" expanded="true" />
           </folding>
