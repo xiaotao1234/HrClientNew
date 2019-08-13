@@ -1,0 +1,126 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="#22000000"
+    android:orientation="vertical">
+    <RelativeLayout
+        android:visibility="gone"
+        android:layout_width="match_parent"
+        android:layout_height="60sp">
+        <ImageView
+            android:id="@+id/main_back"
+            android:layout_width="30sp"
+            android:layout_height="30sp"
+            android:src="@drawable/back"
+            android:layout_centerVertical="true"
+            android:layout_marginStart="20dp"/>
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:background="#22000000"
+            android:layout_alignParentBottom="true"/>
+    </RelativeLayout>
+    <FrameLayout
+        android:layout_width="fill_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1">
+        <TextView
+            android:id="@+id/video_name"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:layout_marginBottom="80sp"
+            android:gravity="center"
+            android:text="Music1"
+            android:textColor="#000000"
+            android:textSize="15sp" />
+        <com.huari.ui.VisualizerView
+            android:id="@+id/visualizerView"
+            android:layout_width="fill_parent"
+            android:layout_height="fill_parent" />
+    </FrameLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:padding="10dp">
+
+        <TextView
+            android:id="@+id/play_plan"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="10dp"
+            android:layout_weight="1"
+            android:gravity="center_vertical|end"
+            android:hint="进度：" />
+
+        <com.huari.ui.CustomProgress
+            android:id="@+id/video_progress"
+            android:layout_width="0dp"
+            android:layout_height="20dp"
+            android:layout_weight="6"
+            app:backgroud_color="#999900"
+            app:current_color="#EE5500"
+            app:progress_color="#666333" />
+
+
+        <TextView
+            android:id="@+id/music_length"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="10dp"
+            android:layout_weight="1"
+            android:gravity="center_vertical"
+            android:hint="大小：" />
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="10dp"
+        android:orientation="vertical">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal">
+            <View
+                android:layout_width="0dp"
+                android:layout_height="1dp"
+                android:layout_weight="1"/>
+            <ImageView
+                android:id="@+id/previous_button"
+                android:layout_width="30dp"
+                android:layout_height="20dp"
+                android:src="@drawable/previous"
+                android:layout_gravity="center"/>
+            <View
+                android:layout_width="0dp"
+                android:layout_height="1dp"
+                android:layout_weight="1"/>
+            <ImageView
+                android:id="@+id/play_control"
+                android:layout_width="30dp"
+                android:layout_height="30dp"
+                android:src="@drawable/play_icon" />
+            <View
+                android:layout_width="0dp"
+                android:layout_height="1dp"
+                android:layout_weight="1"/>
+            <ImageView
+                android:id="@+id/next_button"
+                android:layout_width="30dp"
+                android:layout_height="20dp"
+                android:src="@drawable/next_icon"
+                android:layout_gravity="center"/>
+            <View
+                android:layout_width="0dp"
+                android:layout_height="1dp"
+                android:layout_weight="1"/>
+        </LinearLayout>
+    </LinearLayout>
+</LinearLayout>

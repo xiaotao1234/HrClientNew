@@ -4,19 +4,26 @@ import android.content.Intent;
 import android.graphics.Color;
 import android.os.Build;
 import android.os.Bundle;
+import android.os.Environment;
 import android.support.v4.widget.NestedScrollView;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.CardView;
 import android.view.View;
 import android.view.ViewGroup;
 
+import java.io.File;
+
 public class Main2Activity extends AppCompatActivity {
     CardView cardView;
     CardView cardView1;
     CardView recentCardView;
+    CardView queryInfo;
+    CardView playerCard;
     NestedScrollView scrollView;
     ViewGroup v;
     private int buttoncount;
+    private String fileUrl=Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DCIM).getAbsolutePath()+File.separator+"test.doc";//远程文档地址
+    private String fileUrl1=Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DCIM).getAbsolutePath()+File.separator+"test.xlsx";//远程文档地址
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -31,12 +38,22 @@ public class Main2Activity extends AppCompatActivity {
         }
         cardView = findViewById(R.id.ppu);
         cardView.setSystemUiVisibility(View.INVISIBLE);
-        cardView.setOnClickListener(v -> startActivity(new Intent(Main2Activity.this,RecordListActivity.class)));
+        cardView.setOnClickListener(v -> startActivity(new Intent(Main2Activity.this,
+                RecordListActivity.class)));
         cardView1 = findViewById(R.id.p);
-        cardView1.setOnClickListener(v -> startActivity(new Intent(Main2Activity.this,AllRecordQueryActivity.class)));
+        cardView1.setOnClickListener(v -> startActivity(new Intent(Main2Activity.this,
+                AllRecordQueryActivity.class)));
         recentCardView = findViewById(R.id.recent_card);
-        recentCardView.setOnClickListener(v -> startActivity(new Intent(Main2Activity.this,RecordListActivity.class)));
-
+        recentCardView.setOnClickListener(v -> startActivity(new Intent(Main2Activity.this,
+                RecordListActivity.class)));
+        queryInfo = findViewById(R.id.query_info);
+        queryInfo.setOnClickListener(v ->
+                startActivity(new Intent(Main2Activity.this,IquareActivity.class))
+//                FileDisplayActivity.actionStart(Main2Activity.this, fileUrl1,null)
+        );
+        playerCard = findViewById(R.id.player_card);
+        playerCard.setOnClickListener(v -> startActivity(new Intent(Main2Activity.this,
+                FileListActivity.class)));
 //        v = findViewById(R.id.main_group);
 //        for (int i = 0; i < v.getChildCount(); i++) {
 //            ViewGroup sonviewGroup = (ViewGroup) v.getChildAt(i);

@@ -25,4 +25,17 @@
         <attr name="content_title" format="string"/>
         <attr name="content_title_color" format="color"/>
     </declare-styleable>
+    <declare-styleable name="CustomProgress">
+        <attr name="backgroud_color" format="color"/>
+        <attr name="current_color" format="color"/>
+        <attr name="progress_color" format="color"/>
+    </declare-styleable>
+    <declare-styleable name="CirclePieView">
+        <attr name="line_color" format="color"/>
+        <attr name="text_color" format="color"/>
+        <attr name="center_circle_color" format="color"/>
+        <attr name="line_stroke_width" format="integer"/>
+        <attr name="small_circle_color" format="color"/>
+        <attr name="text_size" format="float"/>
+    </declare-styleable>
 </resources>

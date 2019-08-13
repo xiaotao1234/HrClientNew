@@ -81,6 +81,7 @@ attr autoSizeMinTextSize
 attr autoSizePresetSizes
 attr autoSizeStepGranularity
 attr autoSizeTextType
+attr backgroud_color
 attr background
 attr backgroundSplit
 attr backgroundStacked
@@ -129,6 +130,7 @@ attr cardMaxElevation
 attr cardPreventCornerOverlap
 attr cardUseCompatPadding
 attr cardViewStyle
+attr center_circle_color
 attr chainUseRtl
 attr checkboxStyle
 attr checkedChip
@@ -204,6 +206,7 @@ attr counterEnabled
 attr counterMaxLength
 attr counterOverflowTextAppearance
 attr counterTextAppearance
+attr current_color
 attr customNavigationLayout
 attr darkColor
 attr defaultQueryHint
@@ -375,6 +378,8 @@ attr liftOnScroll
 attr lightColor
 attr lineHeight
 attr lineSpacing
+attr line_color
+attr line_stroke_width
 attr listChoiceBackgroundIndicator
 attr listDividerAlertDialog
 attr listItemLayout
@@ -425,6 +430,7 @@ attr preserveIconSpacing
 attr pressedTranslationZ
 attr progressBarPadding
 attr progressBarStyle
+attr progress_color
 attr queryBackground
 attr queryHint
 attr radioButtonStyle
@@ -453,6 +459,7 @@ attr showTitle
 attr singleChoiceItemLayout
 attr singleLine
 attr singleSelection
+attr small_circle_color
 attr snackbarButtonStyle
 attr snackbarStyle
 attr spanCount
@@ -535,6 +542,8 @@ attr textColorSearchUrl
 attr textEndPadding
 attr textInputStyle
 attr textStartPadding
+attr text_color
+attr text_size
 attr theme
 attr thickness
 attr thumbTextPadding
@@ -615,6 +624,10 @@ color background_floating_material_dark
 color background_floating_material_light
 color background_material_dark
 color background_material_light
+color bg_f0f0f0
+color bg_orange
+color black
+color blue
 color bright_foreground_disabled_material_dark
 color bright_foreground_disabled_material_light
 color bright_foreground_inverse_material_dark
@@ -627,7 +640,11 @@ color cardview_dark_background
 color cardview_light_background
 color cardview_shadow_end_color
 color cardview_shadow_start_color
+color colorAccent
+color colorPrimary
+color colorPrimaryDark
 color cyann
+color dark_gray_bg
 color design_bottom_navigation_shadow_color
 color design_default_color_primary
 color design_default_color_primary_dark
@@ -1046,6 +1063,7 @@ drawable abc_textfield_search_activated_mtrl_alpha
 drawable abc_textfield_search_default_mtrl_alpha
 drawable abc_textfield_search_material
 drawable abc_vector_test
+drawable add
 drawable analyze1_cion
 drawable analyze_icon
 drawable appico
@@ -1110,6 +1128,8 @@ drawable edittextback
 drawable expandableselector
 drawable f
 drawable fenxi
+drawable file_icon
+drawable floder_icon
 drawable fselector1
 drawable fu1
 drawable g1
@@ -1168,9 +1188,11 @@ drawable newmodeset
 drawable next
 drawable next1
 drawable next3
+drawable next_icon
 drawable nobody_station
 drawable nobody_station1
 drawable nomanmore
+drawable not_check_icon
 drawable notification_action_background
 drawable notification_bg
 drawable notification_bg_low
@@ -1188,6 +1210,10 @@ drawable orientation_cion1
 drawable orientation_icon
 drawable parametersset
 drawable pingpu_icon
+drawable play_icon
+drawable press_background
+drawable previous
+drawable progressbar_color
 drawable qc1
 drawable qc2
 drawable qc3
@@ -1196,8 +1222,11 @@ drawable quxiao
 drawable recent_data
 drawable saomiao
 drawable scan_icon
+drawable search
+drawable search_data
 drawable set_icon
 drawable setback
+drawable setting
 drawable sg1
 drawable sg2
 drawable sg3
@@ -1205,6 +1234,7 @@ drawable sg4
 drawable splash
 drawable splashscreen
 drawable stationmarker
+drawable stop_icon
 drawable target
 drawable text_bg
 drawable threebcg
@@ -1217,6 +1247,7 @@ drawable tooltip_frame_light
 drawable turnplate_inner_icon
 drawable turnplate_mask_unlogin_normal
 drawable up
+drawable wav_icon
 drawable welcome
 drawable welcomebg
 drawable widget_head_bg
@@ -1260,6 +1291,7 @@ id action_text
 id actions
 id activity_chooser_view_content
 id add
+id add_floder
 id advanced
 id advancedsetmenu
 id alertTitle
@@ -1269,6 +1301,8 @@ id appbarlayout
 id async
 id auto
 id avgshow
+id back
+id back_icon
 id barrier
 id beginning
 id biaoge
@@ -1293,9 +1327,11 @@ id center_horizontal
 id center_vertical
 id chains
 id changqiang
+id check
 id checkbox
 id childstationstate
 id chronometer
+id circle_pie
 id clear
 id clip_horizontal
 id clip_vertical
@@ -1348,6 +1384,7 @@ id end
 id end_padder
 id enterAlways
 id enterAlwaysCollapsed
+id excel_view
 id exchilditemet
 id exchilditemttv
 id exchilditemtv
@@ -1357,6 +1394,9 @@ id expand_activities_button
 id expanded_menu
 id extrainfo
 id fd
+id file_box
+id file_diecetory
+id file_name
 id fill
 id fill_horizontal
 id fill_vertical
@@ -1373,11 +1413,13 @@ id fourth2
 id fudu
 id full1
 id gailv
+id gc
 id generalandadvancedset
 id genzong
 id getlink
 id ghost_view
 id gone
+id graph_view
 id group_divider
 id groupname
 id groupname1
@@ -1436,6 +1478,7 @@ id leftlinear
 id line1
 id line3
 id listMode
+id list_files
 id list_item
 id listexpandablelistview
 id listfudu
@@ -1446,6 +1489,7 @@ id listxuhao
 id localcitylist
 id login_animtion
 id login_button
+id main_back
 id main_btn_login
 id main_group
 id main_scroll
@@ -1476,6 +1520,7 @@ id moreinfo
 id mtrl_child_content_container
 id mtrl_internal_children_alpha_tag
 id multiply
+id music_length
 id my
 id myimageview
 id mylinear
@@ -1488,6 +1533,7 @@ id name1
 id name2
 id navigation_header_container
 id never
+id next_button
 id nomanSwitch
 id nomanexpandedview
 id nomaninfo
@@ -1504,7 +1550,6 @@ id outline
 id p
 id p1
 id p11
-id p12
 id p2
 id p21
 id p3
@@ -1533,6 +1578,9 @@ id planradiogroup
 id plansecondrb
 id planspinner
 id plantitle
+id play_control
+id play_plan
+id player_card
 id police
 id port1
 id port1_edit
@@ -1548,21 +1596,28 @@ id ppfxshowmax
 id ppfxshowmin
 id ppfxttb
 id ppu
+id previous_button
+id progressBar_download
 id progress_circular
 id progress_horizontal
 id ptitlebar
 id pullipset
 id qinglinggenzong
+id query_info
 id radio
+id read_file
 id recent_card
 id recorder
 id recorder_item
+id reset_file_directory
 id right
 id right_icon
 id right_side
+id rl_tbsView
 id runetime
 id rv
 id rvShow
+id save_file
 id save_image_matrix
 id save_non_transition_alpha
 id save_scale_type
@@ -1579,13 +1634,17 @@ id search_bar
 id search_btn1
 id search_button
 id search_close_btn
+id search_edit
 id search_edit_frame
 id search_editer
+id search_file_directory
 id search_go_btn
+id search_listview
 id search_mag_icon
 id search_plate
 id search_src_text
 id search_voice_btn
+id searh_file
 id second2
 id secondguidebn
 id secondguidepicture
@@ -1596,11 +1655,13 @@ id selectstationofwillbeshow
 id serverip
 id servername
 id set
+id setting
 id seven2
 id shebeidianping
 id shebeishixiangdu
 id shishishixiang
 id shortcut
+id show
 id showCustom
 id showHome
 id showTitle
@@ -1641,6 +1702,7 @@ id stationname
 id stationservername
 id stationstate
 id status_bar_latest_event_content
+id stop
 id stretch
 id submenuarrow
 id submit_area
@@ -1696,6 +1758,7 @@ id tv1
 id tv2
 id tvInfo
 id tvInfo_day
+id tv_download
 id twomode
 id uniform
 id unititlebar
@@ -1716,14 +1779,18 @@ id up
 id useLogo
 id v
 id vc
+id video_name
+id video_progress
 id view_offset_helper
 id visible
+id visualizerView
 id vp
 id water
 id webView1
 id weidu
 id willfollow
 id withText
+id word_view
 id wrap
 id wrap_content
 id xh
@@ -1784,9 +1851,15 @@ layout abc_tooltip
 layout actionbarview
 layout activity_all_record_query
 layout activity_baidumap
+layout activity_file_about
+layout activity_file_about2
+layout activity_file_display
+layout activity_file_list
 layout activity_four_test
 layout activity_frequencyscanning
+layout activity_graph
 layout activity_guide
+layout activity_iquare
 layout activity_last
 layout activity_login
 layout activity_login2
@@ -1796,10 +1869,13 @@ layout activity_map_showing
 layout activity_ok
 layout activity_pinduansanmiao
 layout activity_pinpfxset
+layout activity_player
 layout activity_record_list
 layout activity_record_show_onew
 layout activity_scheduled_task
 layout activity_searchinterference
+layout activity_searh_file
+layout activity_setting
 layout activity_spectrums_analysis
 layout activity_station_list
 layout activity_unmaned_stations
@@ -1827,6 +1903,8 @@ layout design_navigation_menu_item
 layout design_text_input_password_icon
 layout detailstationinfo
 layout deviceitem
+layout file_show_item
+layout file_show_search_item
 layout fragment_map
 layout fragment_ok
 layout fragment_pin_duan_scanning
@@ -1899,6 +1977,7 @@ layout support_simple_spinner_dropdown_item
 layout table
 layout task
 layout test
+layout title
 layout titlebar
 layout two
 layout unmanchildlineaylayout
@@ -2574,6 +2653,7 @@ styleable ButtonBarLayout allowStacking
 styleable CardView android_minWidth android_minHeight cardBackgroundColor cardCornerRadius cardElevation cardMaxElevation cardPreventCornerOverlap cardUseCompatPadding contentPadding contentPaddingBottom contentPaddingLeft contentPaddingRight contentPaddingTop
 styleable Chip android_textAppearance android_ellipsize android_maxWidth android_text android_checkable checkedIcon checkedIconEnabled checkedIconVisible chipBackgroundColor chipCornerRadius chipEndPadding chipIcon chipIconEnabled chipIconSize chipIconTint chipIconVisible chipMinHeight chipStartPadding chipStrokeColor chipStrokeWidth closeIcon closeIconEnabled closeIconEndPadding closeIconSize closeIconStartPadding closeIconTint closeIconVisible hideMotionSpec iconEndPadding iconStartPadding rippleColor showMotionSpec textEndPadding textStartPadding
 styleable ChipGroup checkedChip chipSpacing chipSpacingHorizontal chipSpacingVertical singleLine singleSelection
+styleable CirclePieView center_circle_color line_color line_stroke_width small_circle_color text_color text_size
 styleable Classification content_title content_title_color icon title title_color
 styleable CollapsingToolbarLayout collapsedTitleGravity collapsedTitleTextAppearance contentScrim expandedTitleGravity expandedTitleMargin expandedTitleMarginBottom expandedTitleMarginEnd expandedTitleMarginStart expandedTitleMarginTop expandedTitleTextAppearance scrimAnimationDuration scrimVisibleHeightTrigger statusBarScrim title titleEnabled toolbarId
 styleable CollapsingToolbarLayout_Layout layout_collapseMode layout_collapseParallaxMultiplier
@@ -2584,6 +2664,7 @@ styleable ConstraintLayout_placeholder content emptyVisibility
 styleable ConstraintSet android_orientation android_id android_visibility android_layout_width android_layout_height android_layout_marginLeft android_layout_marginTop android_layout_marginRight android_layout_marginBottom android_alpha android_transformPivotX android_transformPivotY android_translationX android_translationY android_scaleX android_scaleY android_rotation android_rotationX android_rotationY android_layout_marginStart android_layout_marginEnd android_translationZ android_elevation layout_constrainedHeight layout_constrainedWidth layout_constraintBaseline_creator layout_constraintBaseline_toBaselineOf layout_constraintBottom_creator layout_constraintBottom_toBottomOf layout_constraintBottom_toTopOf layout_constraintCircle layout_constraintCircleAngle layout_constraintCircleRadius layout_constraintDimensionRatio layout_constraintEnd_toEndOf layout_constraintEnd_toStartOf layout_constraintGuide_begin layout_constraintGuide_end layout_constraintGuide_percent layout_constraintHeight_default layout_constraintHeight_max layout_constraintHeight_min layout_constraintHeight_percent layout_constraintHorizontal_bias layout_constraintHorizontal_chainStyle layout_constraintHorizontal_weight layout_constraintLeft_creator layout_constraintLeft_toLeftOf layout_constraintLeft_toRightOf layout_constraintRight_creator layout_constraintRight_toLeftOf layout_constraintRight_toRightOf layout_constraintStart_toEndOf layout_constraintStart_toStartOf layout_constraintTop_creator layout_constraintTop_toBottomOf layout_constraintTop_toTopOf layout_constraintVertical_bias layout_constraintVertical_chainStyle layout_constraintVertical_weight layout_constraintWidth_default layout_constraintWidth_max layout_constraintWidth_min layout_constraintWidth_percent layout_editor_absoluteX layout_editor_absoluteY layout_goneMarginBottom layout_goneMarginEnd layout_goneMarginLeft layout_goneMarginRight layout_goneMarginStart layout_goneMarginTop
 styleable CoordinatorLayout keylines statusBarBackground
 styleable CoordinatorLayout_Layout android_layout_gravity layout_anchor layout_anchorGravity layout_behavior layout_dodgeInsetEdges layout_insetEdge layout_keyline
+styleable CustomProgress backgroud_color current_color progress_color
 styleable DesignTheme bottomSheetDialogTheme bottomSheetStyle
 styleable DrawerArrowToggle arrowHeadLength arrowShaftLength barLength color drawableSize gapBetweenBars spinBars thickness
 styleable FloatingActionButton backgroundTint backgroundTintMode borderWidth elevation fabCustomSize fabSize hideMotionSpec hoveredFocusedTranslationZ maxImageSize pressedTranslationZ rippleColor showMotionSpec useCompatPadding

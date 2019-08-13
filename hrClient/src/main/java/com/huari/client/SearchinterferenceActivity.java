@@ -1,6 +1,7 @@
 package com.huari.client;
 
 import com.huari.dataentry.GlobalData;
+import com.huari.tools.SysApplication;
 
 import android.os.Bundle;
 import android.app.Activity;

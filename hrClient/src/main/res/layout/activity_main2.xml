@@ -308,7 +308,7 @@
                     android:layout_height="1dp"
                     android:layout_weight="1"/>
                 <android.support.v7.widget.CardView
-                    android:id="@+id/p12"
+                    android:id="@+id/query_info"
                     android:layout_width="160sp"
                     android:layout_height="150sp"
                     card_view:cardCornerRadius="4sp"
@@ -328,7 +328,7 @@
                         android:layout_height="wrap_content"
                         android:layout_gravity="center_horizontal|bottom"
                         android:padding="5sp"
-                        android:text="地图显示"
+                        android:text="查询统计"
                         android:textColor="#000000"
                         android:textSize="15sp"/>
                 </android.support.v7.widget.CardView>

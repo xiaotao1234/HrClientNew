@@ -44,6 +44,7 @@ import com.huari.dataentry.Parameter;
 import com.huari.dataentry.Station;
 import com.huari.tools.MyTools;
 import com.huari.tools.Parse;
+import com.huari.tools.SysApplication;
 
 import android.support.v7.app.ActionBar;
 import android.app.AlertDialog;

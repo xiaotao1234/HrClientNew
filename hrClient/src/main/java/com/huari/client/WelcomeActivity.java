@@ -1,6 +1,6 @@
 package com.huari.client;
 
-import com.huari.client.R;
+import com.huari.tools.SysApplication;
 
 import android.Manifest;
 import android.content.pm.PackageManager;

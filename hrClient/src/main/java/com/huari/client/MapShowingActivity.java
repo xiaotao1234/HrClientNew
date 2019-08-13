@@ -4,6 +4,7 @@ import java.util.ArrayList;
 
 import com.baidu.location.BDLocation;
 import com.baidu.location.BDLocationListener;
+import com.huari.tools.SysApplication;
 
 import android.os.Bundle;
 import android.app.Activity;

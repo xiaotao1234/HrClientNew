@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    tools:context=".GraphActivity">
+    <com.huari.ui.CirclePieView
+        android:id="@+id/circle_pie"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        app:center_circle_color="#FFFFFF"
+        app:line_color="#000000"
+        app:text_color="#FFFFFF"
+        app:small_circle_color="#000000"/>
+</LinearLayout>

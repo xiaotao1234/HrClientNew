@@ -13,6 +13,8 @@ import android.view.View.OnClickListener;
 import android.view.ViewGroup;
 import android.widget.Button;
 
+import com.huari.tools.SysApplication;
+
 public class GuideActivity extends Activity {
 	ViewPager vp;
 	List<View> viewlist;

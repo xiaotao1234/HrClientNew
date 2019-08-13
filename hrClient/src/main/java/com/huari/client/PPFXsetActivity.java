@@ -9,6 +9,7 @@ import com.huari.dataentry.LogicParameter;
 import com.huari.dataentry.MyDevice;
 import com.huari.dataentry.Parameter;
 import com.huari.dataentry.Station;
+import com.huari.tools.SysApplication;
 
 import android.os.Bundle;
 import android.annotation.SuppressLint;

@@ -14,6 +14,10 @@ import android.support.annotation.Nullable;
 import android.util.AttributeSet;
 import android.widget.ImageView;
 
+/**
+ * create by xiao
+ * 19/8/12
+ */
 @SuppressLint("AppCompatCustomView")
 public class CircleView extends ImageView {
     Drawable drawable;

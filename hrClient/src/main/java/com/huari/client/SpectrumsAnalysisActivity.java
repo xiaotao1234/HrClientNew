@@ -54,6 +54,7 @@ import com.huari.dataentry.Parameter;
 import com.huari.dataentry.Station;
 import com.huari.tools.MyTools;
 import com.huari.tools.Parse;
+import com.huari.tools.SysApplication;
 import com.huari.ui.ShowWaveView;
 
 public class SpectrumsAnalysisActivity extends AppCompatActivity {

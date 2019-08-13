@@ -8,8 +8,6 @@ import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.os.Handler;
 import android.view.KeyEvent;
-import android.view.Menu;
-import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -18,6 +16,7 @@ import android.widget.Toast;
 
 import com.huari.dataentry.GlobalData;
 import com.huari.service.MainService;
+import com.huari.tools.SysApplication;
 import com.zhy.view.CircleMenuLayout;
 import com.zhy.view.CircleMenuLayout.OnMenuItemClickListener;
 
@@ -238,14 +237,11 @@ public class CircleActivity extends Activity // ActionBarActivity
 			builder.setMessage("确定要退出程序吗？");
 
 			builder.setPositiveButton("确定",
-					new DialogInterface.OnClickListener() {
-						@Override
-						public void onClick(DialogInterface dialog, int which) {
-							// android.os.Process.killProcess(android.os.Process.myPid());
-							MainService.stopFunction();
-							stopService(serviceIntent);
-							SysApplication.getInstance().exit();
-						}
+					(dialog, which) -> {
+						// android.os.Process.killProcess(android.os.Process.myPid());
+						MainService.stopFunction();
+						stopService(serviceIntent);
+						SysApplication.getInstance().exit();
 					});
 			builder.setNegativeButton("取消", null);
 			builder.create();

@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.List;
 import com.huari.dataentry.GlobalData;
+import com.huari.tools.SysApplication;
 
 import android.os.Bundle;
 import android.app.Activity;

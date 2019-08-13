@@ -4,6 +4,7 @@ import com.huari.dataentry.GlobalData;
 import com.huari.dataentry.LogicParameter;
 import com.huari.dataentry.MyDevice;
 import com.huari.dataentry.Station;
+import com.huari.tools.SysApplication;
 
 import android.os.Bundle;
 import android.os.Handler;

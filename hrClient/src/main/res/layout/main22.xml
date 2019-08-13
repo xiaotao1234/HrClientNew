@@ -370,7 +370,7 @@
                         android:layout_weight="1" />
 
                     <android.support.v7.widget.CardView
-                        android:id="@+id/p12"
+                        android:id="@+id/query_info"
                         android:layout_width="160sp"
                         android:layout_height="150sp"
                         android:layout_marginTop="0sp"
@@ -390,7 +390,7 @@
                             android:layout_height="wrap_content"
                             android:layout_gravity="center_horizontal|bottom"
                             android:padding="5sp"
-                            android:text="地图显示"
+                            android:text="数据查询"
                             android:textColor="#000000"
                             android:textSize="15sp" />
                     </android.support.v7.widget.CardView>
@@ -418,7 +418,7 @@
                         android:layout_weight="1" />
 
                     <android.support.v7.widget.CardView
-                        android:id="@+id/pp1"
+                        android:id="@+id/player_card"
                         android:layout_width="160sp"
                         android:layout_height="150sp"
                         android:layout_marginLeft="0sp"
@@ -432,14 +432,14 @@
                             android:layout_width="70sp"
                             android:layout_height="70sp"
                             android:layout_gravity="center"
-                            android:src="@drawable/scan_icon" />
+                            android:src="@drawable/wav_icon" />
 
                         <TextView
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_gravity="center_horizontal|bottom"
                             android:padding="5sp"
-                            android:text="频段扫描"
+                            android:text="音频播放"
                             android:textColor="#000000"
                             android:textSize="15sp" />
                     </android.support.v7.widget.CardView>

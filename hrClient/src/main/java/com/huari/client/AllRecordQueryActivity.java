@@ -5,15 +5,18 @@ import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+
 import com.huari.adapter.RecordAllAdapter;
 import com.huari.adapter.RecordAllBaseAdapter;
 import com.huari.dataentry.ClassBean;
+
 import java.util.ArrayList;
 import java.util.List;
 
 public class AllRecordQueryActivity extends AppCompatActivity {
     private RecyclerView rvShow;
     private List<ClassBean> mListClass = new ArrayList<>();
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);

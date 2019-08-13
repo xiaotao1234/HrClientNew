@@ -20,6 +20,7 @@ import com.huari.dataentry.Station;
 import com.huari.tools.MyTools;
 
 import com.huari.tools.Parse;
+import com.huari.tools.SysApplication;
 
 import android.app.Activity;
 import android.support.v7.app.ActionBar;

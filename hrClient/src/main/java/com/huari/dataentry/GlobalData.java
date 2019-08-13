@@ -4,7 +4,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.LinkedList;
 
-import com.huari.client.SysApplication;
+import com.huari.tools.SysApplication;
 
 public class GlobalData {
 
