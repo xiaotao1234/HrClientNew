@@ -22,6 +22,7 @@ import java.util.LinkedHashMap;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
+import java.util.Random;
 
 /**
  * create by xiao
@@ -35,11 +36,8 @@ public class CirclePieView extends View {
     RectF rectF;
     List<Integer> mColorList;
     Map<String, Integer> mDataMap;
-    private Paint paint;
-    private Paint paint1;
-    private Paint paint2;
+    private static Paint paint;
     List<Paint> paints;
-    Paint paintrect;
     private float value;
     private int mwidthSize;
     private int mheightSize;
@@ -48,6 +46,7 @@ public class CirclePieView extends View {
     List<Integer> arclist;
     private Paint centerpaint;
     private Paint mTextPaint;
+    private Paint mTextOutPaint;
     private int minAngle;
     private Paint linePaint;
     private Paint circlePaint;
@@ -89,6 +88,7 @@ public class CirclePieView extends View {
         int smallCircleColor = typedArray.getColor(R.styleable.CirclePieView_small_circle_color, Color.parseColor("#BBFFFFFF"));
         int lineStrokeWidth = typedArray.getInt(R.styleable.CirclePieView_line_stroke_width, 4);
         float textSize = typedArray.getFloat(R.styleable.CirclePieView_text_size, 15);
+        int textOutColor = typedArray.getColor(R.styleable.CirclePieView_text_out_color, Color.parseColor("#000000"));
         paints = new ArrayList<>();
         arclist = new ArrayList<>();
         arclist.add(20);
@@ -96,24 +96,9 @@ public class CirclePieView extends View {
         arclist.add(80);
         arclist.add(90);
         arclist.add(70);
-        paint = new Paint();
-        paint.setColor(Color.RED);
-        paint.setAntiAlias(true);
-        paint1 = new Paint();
-        paint1.setColor(Color.BLUE);
-        paint1.setAntiAlias(true);
-        paint2 = new Paint();
-        paint2.setColor(Color.BLACK);
-        paint2.setAntiAlias(true);
-        paintrect = new Paint();
-        paintrect.setColor(Color.BLUE);
-        paintrect.setAntiAlias(true);
-        redius = 1000;
-        paints.add(paint);
-        paints.add(paint1);
-        paints.add(paint2);
-        paints.add(paint1);
-        paints.add(paint2);
+        for (int i = 0;i<5;i++){
+            paints.add(getPaint());
+        }
         centerpaint = new Paint();
         centerpaint.setAntiAlias(true);
         centerpaint.setColor(centerCircleColor);
@@ -123,6 +108,11 @@ public class CirclePieView extends View {
         mTextPaint.setColor(textColor);
         mTextPaint.setAntiAlias(true);
         mTextPaint.setTextAlign(Paint.Align.CENTER);
+        mTextOutPaint = new Paint();
+        mTextOutPaint.setTextSize(sp2px(context, textSize));
+        mTextOutPaint.setColor(textOutColor);
+        mTextOutPaint.setAntiAlias(true);
+        mTextOutPaint.setTextAlign(Paint.Align.LEFT);
         linePaint = new Paint();
         linePaint.setColor(lineColor);
         linePaint.setStrokeWidth(lineStrokeWidth);
@@ -194,12 +184,25 @@ public class CirclePieView extends View {
 //        }
     }
 
+    public static Paint getPaint() {
+        if (paint == null) {
+            paint = new Paint();
+        }
+        int r = (new Random().nextInt(100) + 10) * 4;
+        int g = (new Random().nextInt(100) + 10) * 3 * 4;
+        int b = (new Random().nextInt(100) + 10) * 2 * 4;
+        int color = Color.rgb(r, g, b);
+        paint.setColor(color);
+        paint.setAntiAlias(true);
+        return paint;
+    }
 
     private void paintme(Canvas canvas, float value) {//绘制函数，这里主要做的是针对传来的动画值进行相应的绘
         // 制，在动画值没有达到相应模块的绘制阈值时，就不进行绘制，若达到了阈值，就绘制到相应的动画值，若超过了阈
         // 值，就只绘制到相应模块的最大值处，即arclist.get(i)中取出的值处。
         int num = 0;
         for (int i = 0; i < arclist.size(); i++) {
+            Paint paint = getPaint();
             if (value > num && value < num + arclist.get(i)) {
                 canvas.drawArc(rectF, num, value - num, true, paints.get(i));
                 drawText(canvas, num, "总结", arclist.get(i));
@@ -221,9 +224,12 @@ public class CirclePieView extends View {
             Log.d("xiao", "in");
             if (needDrawAngle < minAngle) { //如果小于某个度数,就把文字画在饼状图外面
                 mCanvas.drawLine((float) (redius * 0.75 * Math.cos(Math.toRadians(textAngle + needDrawAngle / 2))) + mWidth / 2, (float) (redius * 0.75 * Math.sin(Math.toRadians(textAngle + needDrawAngle / 2))) + mheight / 2,
-                        (float) (redius * 1.2 * Math.cos(Math.toRadians(textAngle + needDrawAngle / 2))) + mWidth / 2, (float) (redius * 1.2 * Math.sin(Math.toRadians(textAngle + needDrawAngle / 2))) + rect.height() / 2 + mheight / 2 - 10, linePaint);
+                        (float) (float) (redius * Math.cos(Math.toRadians(textAngle + needDrawAngle / 2))) + mWidth / 2, (float) (redius * Math.sin(Math.toRadians(textAngle + needDrawAngle / 2))) + mheight / 2, linePaint);
+                mCanvas.drawLine((float) (redius * Math.cos(Math.toRadians(textAngle + needDrawAngle / 2))) + mWidth / 2, (float) (redius * Math.sin(Math.toRadians(textAngle + needDrawAngle / 2))) + mheight / 2,
+                        (float) (redius * 1.2 * Math.cos(Math.toRadians(textAngle + needDrawAngle / 2))) + mWidth / 2, (float) (redius * Math.sin(Math.toRadians(textAngle + needDrawAngle / 2))) + mheight / 2, linePaint);
+
                 mCanvas.drawCircle((float) (redius * 0.75 * Math.cos(Math.toRadians(textAngle + needDrawAngle / 2))) + mWidth / 2, (float) (redius * 0.75 * Math.sin(Math.toRadians(textAngle + needDrawAngle / 2))) + mheight / 2, 6, circlePaint);
-                mCanvas.drawText(kinds, (float) (redius * 1.2 * Math.cos(Math.toRadians(textAngle + needDrawAngle / 2))) + mWidth / 2, (float) (redius * 1.2 * Math.sin(Math.toRadians(textAngle + needDrawAngle / 2))) + rect.height() / 2 + mheight / 2, mTextPaint);
+                mCanvas.drawText(kinds, (float) (redius * 1.2 * Math.cos(Math.toRadians(textAngle + needDrawAngle / 2))) + mWidth / 2, (float) (redius * Math.sin(Math.toRadians(textAngle + needDrawAngle / 2))) + rect.height() / 2 + mheight / 2, mTextOutPaint);
             } else {
                 mCanvas.drawText(kinds, (float) (redius * 0.75 * Math.cos(Math.toRadians(textAngle + needDrawAngle / 2))) + mWidth / 2, (float) (redius * 0.75 * Math.sin(Math.toRadians(textAngle + needDrawAngle / 2))) + rect.height() / 2 + mheight / 2, mTextPaint);
             }

@@ -1598,9 +1598,11 @@ public class Parse {
 		int index = 0;
 
 		int fullframelength = 0;
+		Log.d("xiaoxiao", String.valueOf(MyTools.fourBytesToInt(MyTools.nigetPartByteArray(b, index,
+				index + 3))));
 		while (index < available - 2
 				&& MyTools.fourBytesToInt(MyTools.nigetPartByteArray(b, index,
-						index + 3)) == 0xEEEEEEEE) {
+						index + 3)) == 0xEEEEEEEE) {   //解析判断是否是正确的包头
 			if (b[index + 8] == 46) {
 				int templength = MyTools.fourBytesToInt(MyTools
 						.nigetPartByteArray(b, index + 9, index + 12));// 具体帧的长度
@@ -1612,6 +1614,7 @@ public class Parse {
 							.twoBytesToShort(temp) / 10);
 					SinglefrequencyDFActivity.handler
 							.sendEmptyMessage(SinglefrequencyDFActivity.PARTFRESH);
+                    Log.d("xiaochixu", "电平");
 					break;
 				case 37:// 示向度
 					GlobalData.north = (short) (MyTools.twoBytesToShort(MyTools
@@ -1630,6 +1633,7 @@ public class Parse {
 						MapActivity.handler
 								.sendEmptyMessage(MapActivity.SHISHIHUAXIAN);
 					}
+                    Log.d("xiaochixu", "是想赌");
 					break;
 				case 36:// 频谱数据
 					GlobalData.startfreq = MyTools.byteToDouble(MyTools
@@ -1644,13 +1648,14 @@ public class Parse {
 					for (int i = index + 34; i < index + fullframelength - 1
 							&& n < GlobalData.count; i = i + 2) {
 						byte[] temps = new byte[] { b[i + 1], b[i] };
-						save[n] = (short) (MyTools.twoBytesToShort(temps) / 10);
+						save[n] = (short) (MyTools.twoBytesToShort(temps) / 10);//byte[]转为short[]数据,长度减半了
 
 						n++;
 					}
 					GlobalData.pinpu = save;
 					SinglefrequencyDFActivity.handler
 							.sendEmptyMessage(SinglefrequencyDFActivity.NETREFRESH);
+                    Log.d("xiaochixu", "频谱");
 					break;
 				}
 			}

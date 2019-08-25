@@ -4,12 +4,15 @@ import android.os.Handler;
 import android.os.Message;
 import android.util.Log;
 
+import com.huari.client.SinglefrequencyDFActivity;
+
 import java.io.BufferedInputStream;
 import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.IOException;
+import java.io.InputStream;
 import java.io.RandomAccessFile;
 import java.nio.ByteBuffer;
 import java.nio.MappedByteBuffer;
@@ -30,6 +33,8 @@ public class ByteFileIoUtils {
     private int position = 0;
     private RandomAccessFile randomFile;
     ExecutorService executorService;
+    public static boolean runFlag = false;  //写线程的标志位
+    private InputStream inputStream;
 
     public static ByteFileIoUtils getInstance() {
         if (byteFileIoUtils == null) {
@@ -47,15 +52,14 @@ public class ByteFileIoUtils {
         File file = new File(SysApplication.fileOs.forSaveFloder + File.separator + filePath);
         long fileSize = file.length();
         if (fileSize > Integer.MAX_VALUE) {
-            System.out.println("file too big...");
+            Log.d("xiao","file too big...");
             return null;
         }
         FileInputStream fi = new FileInputStream(file);
         byte[] buffer = new byte[(int) fileSize];
         int offset = 0;
         int numRead = 0;
-        while (offset < buffer.length
-                && (numRead = fi.read(buffer, offset, buffer.length - offset)) >= 0) {
+        while (offset < buffer.length && (numRead = fi.read(buffer, offset, buffer.length - offset)) >= 0) {
             offset += numRead;
         }
         // 确保所有数据均被读取
@@ -158,7 +162,7 @@ public class ByteFileIoUtils {
             fc = null;
             try {
                 File file = new File(SysApplication.fileOs.forSaveFloder + File.separator + filename);
-                SysApplication.fileOs.addRecentFile(file.getAbsolutePath(),1);
+                SysApplication.fileOs.addRecentFile(file.getAbsolutePath(), 1);
                 fc = new RandomAccessFile(file, "r").getChannel();
                 byteBuffer = fc.map(FileChannel.MapMode.READ_ONLY, 0, fc.size()).load();
                 result = new byte[everyTimeRead];
@@ -183,17 +187,26 @@ public class ByteFileIoUtils {
     /**
      * 写入
      */
-    public void writeBytesToFile(String filename, byte[] bytes) {
+    public void writeBytesToFile(String filename) {
         Runnable runnable = () -> {
             try {
                 randomFile = new RandomAccessFile(SysApplication.fileOs.forSaveFloder + File.separator + filename, "rw");
-                // 文件长度，字节数
-                long fileLength = randomFile.length();
-                //将写文件指针移到文件尾。
-                randomFile.seek(fileLength);
-                randomFile.write(bytes);
-                SysApplication.fileOs.addRecentFile(SysApplication.fileOs.forSaveFloder +
-                        File.separator + filename,1);
+                byte[] bytes;
+                while (runFlag) {
+                    synchronized (SinglefrequencyDFActivity.queue) {
+                        bytes = SinglefrequencyDFActivity.queue.peek();
+                    }
+                    if (bytes == null) {
+                        Thread.sleep(20);
+                        continue;
+                    }
+                    // 文件长度，字节数
+                    long fileLength = randomFile.length();
+                    //将写文件指针移到文件尾。
+                    randomFile.seek(fileLength);
+                    randomFile.write(SinglefrequencyDFActivity.queue.poll());
+                }
+                SysApplication.fileOs.addRecentFile(SysApplication.fileOs.forSaveFloder + File.separator + filename, 1);
                 randomFile.close();
             } catch (Exception e) {
                 e.printStackTrace();
@@ -202,6 +215,17 @@ public class ByteFileIoUtils {
         };
         thread = new Thread(runnable);
         thread.start();
+    }
+
+    public InputStream readFile(String fileName){
+        File file = new File(SysApplication.fileOs.forSaveFloder+File.separator+fileName);
+        try {
+            inputStream = new FileInputStream(file);
+        } catch (FileNotFoundException e) {
+            e.printStackTrace();
+            Log.d("xiao","file is not find");
+        }
+        return inputStream;
     }
 
     public void gc() {

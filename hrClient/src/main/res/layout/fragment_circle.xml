@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical">
+
+    <com.huari.ui.CirclePainView
+        android:id="@+id/ampere"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1"
+        app:all="100"
+        app:one_big_step="10"
+        app:one_small_step="1"
+        app:text_bottom="电流"
+        app:unit="℃" />
+
+    <com.huari.ui.CirclePainView
+
+        android:id="@+id/voltmeter"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1"
+        app:text_bottom="电压"
+        app:unit="V" />
+</LinearLayout>

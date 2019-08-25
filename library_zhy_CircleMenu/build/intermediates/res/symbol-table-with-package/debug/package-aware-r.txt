@@ -1,5 +1,4 @@
 com.zhy.ccbCricleMenu
-attr alpha
 attr coordinatorLayoutStyle
 attr font
 attr fontProviderAuthority
@@ -51,7 +50,6 @@ dimen notification_small_icon_size_as_large
 dimen notification_subtext_size
 dimen notification_top_pad
 dimen notification_top_pad_large_text
-dimen subtitle_corner_radius
 dimen subtitle_outline_width
 dimen subtitle_shadow_offset
 dimen subtitle_shadow_radius
@@ -105,8 +103,6 @@ id right_side
 id start
 id status_bar_latest_event_content
 id tag_transition_group
-id tag_unhandled_key_event_manager
-id tag_unhandled_key_listeners
 id text
 id text2
 id time
@@ -149,10 +145,7 @@ style TextAppearance_Compat_Notification_Title_Media
 style Widget_Compat_NotificationActionContainer
 style Widget_Compat_NotificationActionText
 style Widget_Support_CoordinatorLayout
-styleable ColorStateListItem alpha android_alpha android_color
 styleable CoordinatorLayout keylines statusBarBackground
 styleable CoordinatorLayout_Layout android_layout_gravity layout_anchor layout_anchorGravity layout_behavior layout_dodgeInsetEdges layout_insetEdge layout_keyline
 styleable FontFamily fontProviderAuthority fontProviderCerts fontProviderFetchStrategy fontProviderFetchTimeout fontProviderPackage fontProviderQuery
 styleable FontFamilyFont android_font android_fontStyle android_fontVariationSettings android_fontWeight android_ttcIndex font fontStyle fontVariationSettings fontWeight ttcIndex
-styleable GradientColor android_centerColor android_centerX android_centerY android_endColor android_endX android_endY android_gradientRadius android_startColor android_startX android_startY android_tileMode android_type
-styleable GradientColorItem android_color android_offset

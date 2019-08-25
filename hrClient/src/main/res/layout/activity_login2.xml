@@ -23,32 +23,32 @@
         android:textColor="#FFFFFF"
         android:textSize="20sp" />
 
-    <FrameLayout
-        android:layout_width="match_parent"
-        android:layout_height="60sp"
-        android:layout_gravity="center"
-        android:layout_marginStart="50sp"
-        android:layout_marginEnd="50sp"
-        android:background="@drawable/edittextback"
-        android:visibility="gone">
+    <!--<FrameLayout-->
+        <!--android:layout_width="match_parent"-->
+        <!--android:layout_height="60sp"-->
+        <!--android:layout_gravity="center"-->
+        <!--android:layout_marginStart="50sp"-->
+        <!--android:layout_marginEnd="50sp"-->
+        <!--android:background="@drawable/edittextback"-->
+        <!--android:visibility="gone">-->
 
-        <EditText
-            android:id="@+id/ip_edit1"
-            android:layout_width="match_parent"
-            android:layout_height="60sp"
-            android:background="@null"
-            android:digits="1234567890."
-            android:hint="IP:"
-            android:paddingLeft="20sp"
-            android:textColor="#DD000000"
-            android:textColorHint="#60000000"
-            android:textCursorDrawable="@null" />
+        <!--<EditText-->
+            <!--android:id="@+id/ip_edit1"-->
+            <!--android:layout_width="match_parent"-->
+            <!--android:layout_height="60sp"-->
+            <!--android:background="@null"-->
+            <!--android:digits="1234567890."-->
+            <!--android:hint="IP:"-->
+            <!--android:paddingLeft="20sp"-->
+            <!--android:textColor="#DD000000"-->
+            <!--android:textColorHint="#60000000"-->
+            <!--android:textCursorDrawable="@null" />-->
 
-        <Spinner
-            android:layout_width="60sp"
-            android:layout_height="match_parent"
-            android:layout_gravity="end" />
-    </FrameLayout>
+        <!--<Spinner-->
+            <!--android:layout_width="60sp"-->
+            <!--android:layout_height="match_parent"-->
+            <!--android:layout_gravity="end" />-->
+    <!--</FrameLayout>-->
 
     <FrameLayout
         android:id="@+id/contact_edit_frame"
@@ -64,7 +64,7 @@
             android:layout_height="121sp"
             android:background="@drawable/edit_back"
             android:orientation="vertical">
-            <android.support.design.widget.TextInputLayout
+            <com.google.android.material.textfield.TextInputLayout
                 android:id="@+id/ip_edit_layout"
                 android:layout_width="match_parent"
                 android:textColorHint="#60000000"
@@ -83,7 +83,7 @@
                     android:textColorHint="#60000000"
                     android:textCursorDrawable="@null"
                     android:textSize="15sp" />
-            </android.support.design.widget.TextInputLayout>
+            </com.google.android.material.textfield.TextInputLayout>
 
             <View
                 android:layout_width="match_parent"
@@ -94,7 +94,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="60sp"
                 android:orientation="horizontal">
-                <android.support.design.widget.TextInputLayout
+                <com.google.android.material.textfield.TextInputLayout
                     android:id="@+id/port1_edit_layout"
                     android:layout_width="0dp"
                     android:layout_height="60sp"
@@ -115,12 +115,12 @@
                         android:textColorHint="#60000000"
                         android:textCursorDrawable="@null"
                         android:textSize="15sp" />
-                </android.support.design.widget.TextInputLayout>
+                </com.google.android.material.textfield.TextInputLayout>
                 <View
                     android:layout_width="1sp"
                     android:layout_height="60sp"
                     android:background="#44000000"/>
-                <android.support.design.widget.TextInputLayout
+                <com.google.android.material.textfield.TextInputLayout
                     android:id="@+id/port2_edit_layout"
                     android:layout_width="0dp"
                     android:layout_height="60sp"
@@ -142,7 +142,7 @@
                         android:textColorHint="#60000000"
                         android:textCursorDrawable="@null"
                         android:textSize="15sp" />
-                </android.support.design.widget.TextInputLayout>
+                </com.google.android.material.textfield.TextInputLayout>
 
             </LinearLayout>
 

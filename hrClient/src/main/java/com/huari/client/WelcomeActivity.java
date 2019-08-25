@@ -8,9 +8,9 @@ import android.os.Bundle;
 import android.os.Handler;
 import android.app.Activity;
 import android.content.Intent;
-import android.support.annotation.NonNull;
-import android.support.v4.app.ActivityCompat;
-import android.support.v4.content.ContextCompat;
+import androidx.annotation.NonNull;
+import androidx.core.app.ActivityCompat;
+import androidx.core.content.ContextCompat;
 import android.view.KeyEvent;
 
 public class WelcomeActivity extends Activity {
@@ -43,7 +43,6 @@ public class WelcomeActivity extends Activity {
         // share=getSharedPreferences("count", MODE_PRIVATE);
         // editor=share.edit();
         // count=share.getInt("count", 0);
-
     }
 
     private void start() {
@@ -61,7 +60,7 @@ public class WelcomeActivity extends Activity {
             // else
             // {
             //startActivity(new Intent(WelcomeActivity.this, MainActivity.class));
-            startActivity(new Intent(WelcomeActivity.this, Login2Activity.class));
+            startActivity(new Intent(WelcomeActivity.this, OfflineDownloadActivity.class));
             finish();
             // }
             // editor.putInt("count", 1);

@@ -40,7 +40,7 @@
         android:layout_weight="1"
         android:layout_height="match_parent"/>
     </LinearLayout>"
-    <android.support.v4.view.ViewPager
+    <androidx.viewpager.widget.ViewPager
        android:id="@+id/taskandplan"
        android:layout_width="match_parent"
        android:layout_height="0dp"

@@ -3,7 +3,7 @@ package com.huari.client;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
-import android.support.v7.app.AppCompatActivity;
+import androidx.appcompat.app.AppCompatActivity;
 import android.util.Log;
 import android.widget.Button;
 import android.widget.EditText;
@@ -44,15 +44,15 @@ public class FileAbout extends AppCompatActivity {
                 }
             }
         };
-        saveButton.setOnClickListener(v -> {
-            fileContent = editTextFileName.getText().toString();
-            byte[] bytes = fileContent.getBytes();
-            SimpleDateFormat df = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
-            fileName = df.format(new Date()).replaceAll(" ", "|");
-            Log.d("xiaotime", fileName);
-            bytes = new byte[]{'a','b','c','b','c','b','c','b','c','b','c','b','c'};
-            SysApplication.byteFileIoUtils.writeBytesToFile(fileName, bytes);
-        });
+//        saveButton.setOnClickListener(v -> {
+//            fileContent = editTextFileName.getText().toString();
+//            byte[] bytes = fileContent.getBytes();
+//            SimpleDateFormat df = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+//            fileName = df.format(new Date()).replaceAll(" ", "|");
+//            Log.d("xiaotime", fileName);
+//            bytes = new byte[]{'a','b','c','b','c','b','c','b','c','b','c','b','c'};
+//            SysApplication.byteFileIoUtils.writeBytesToFile(fileName, bytes);
+//        });
         stopbutton.setOnClickListener(v -> {
             if (SysApplication.byteFileIoUtils.thread != null) {
                 SysApplication.byteFileIoUtils.thread.interrupt();

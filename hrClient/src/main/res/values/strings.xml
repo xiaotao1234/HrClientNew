@@ -214,5 +214,7 @@
     <string name="title_activity_map">地图</string>
     <string name="title_activity_single_set">单频测向参数设置</string>
     <string name="title_activity_from_map">地图实时画线参数设置</string>
+    <string name="channel_name">HrClient</string>
+    <string name="channel_description">通知消息</string>
 
 </resources>

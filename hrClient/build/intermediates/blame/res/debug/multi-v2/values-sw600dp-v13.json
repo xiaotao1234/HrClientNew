@@ -4,7 +4,17 @@
             "outputFile": "C:\\dididi\\HrClientNew0723\\mmm\\HrClientNew\\hrClient\\build\\intermediates\\incremental\\mergeDebugResources\\merged.dir\\values-sw600dp-v13\\values-sw600dp-v13.xml",
             "map": [
                 {
-                    "source": "C:\\Users\\Public\\Downloads\\xx\\caches\\transforms-1\\files-1.1\\design-28.0.0.aar\\a80cd54020a10eb668d400c0761a643d\\res\\values-sw600dp-v13\\values-sw600dp-v13.xml",
+                    "source": "C:\\Users\\Public\\Downloads\\xx\\caches\\transforms-1\\files-1.1\\appcompat-1.0.0-beta01.aar\\77d7037957615b68da2d90a2b03435f1\\res\\values-sw600dp-v13\\values-sw600dp-v13.xml",
+                    "from": {
+                        "startLines": "2,3,4,5,6,7,8,9",
+                        "startColumns": "4,4,4,4,4,4,4,4",
+                        "startOffsets": "55,124,193,263,337,413,472,543",
+                        "endColumns": "68,68,69,73,75,58,70,67",
+                        "endOffsets": "119,188,258,332,408,467,538,606"
+                    }
+                },
+                {
+                    "source": "C:\\Users\\Public\\Downloads\\xx\\caches\\transforms-1\\files-1.1\\material-1.0.0-alpha1.aar\\f270a0ec9215f38885bd3c594cbef4b5\\res\\values-sw600dp-v13\\values-sw600dp-v13.xml",
                     "from": {
                         "startLines": "2,3,4,5,6,7,8,10,11,12",
                         "startColumns": "4,4,4,4,4,4,4,4,4,4",
@@ -20,16 +30,6 @@
                         "endLines": "10,11,12,13,14,15,17,18,19,23",
                         "endColumns": "59,69,70,71,57,57,10,63,62,10",
                         "endOffsets": "666,736,807,879,937,995,1104,1168,1231,1403"
-                    }
-                },
-                {
-                    "source": "C:\\Users\\Public\\Downloads\\xx\\caches\\transforms-1\\files-1.1\\appcompat-v7-28.0.0.aar\\742e4a40ae74093edaaaa6cacd008f86\\res\\values-sw600dp-v13\\values-sw600dp-v13.xml",
-                    "from": {
-                        "startLines": "2,3,4,5,6,7,8,9",
-                        "startColumns": "4,4,4,4,4,4,4,4",
-                        "startOffsets": "55,124,193,263,337,413,472,543",
-                        "endColumns": "68,68,69,73,75,58,70,67",
-                        "endOffsets": "119,188,258,332,408,467,538,606"
                     }
                 }
             ]

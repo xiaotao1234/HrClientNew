@@ -155,7 +155,7 @@ public class VColumns extends View {
 		yellowpaint.setColor(Color.YELLOW);
 		yellowpaint.setTextSize(16);
 		whitepaint = new Paint();
-		whitepaint.setColor(Color.WHITE);
+		whitepaint.setColor(Color.BLACK);
 		whitepaint.setStrokeWidth(2);
 		whitepaint.setTextSize(15);
 		whitepaint.setTextAlign(Align.LEFT);

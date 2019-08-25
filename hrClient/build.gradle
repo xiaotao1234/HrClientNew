@@ -6,8 +6,11 @@ android {
 
     defaultConfig {
         applicationId "com.huari.client"
-        minSdkVersion 18
+        minSdkVersion 19
         targetSdkVersion 26
+        ndk {
+            abiFilters "armeabi"
+        }
     }
 
     lintOptions {
@@ -24,20 +27,37 @@ android {
         sourceCompatibility = '1.8'
         targetCompatibility = '1.8'
     }
+    allprojects {
+        repositories {
+            jcenter()
+            //Bmob的maven仓库地址
+            maven { url "https://raw.github.com/bmob/bmob-android-sdk/master" }
+        }
+    }
 }
 
 dependencies {
     implementation project(':library_zhy_CircleMenu')
     implementation project(':guiCtrl')
-    implementation 'com.android.support:support-v4:28.0.0'
-    implementation 'com.android.support:appcompat-v7:28.0.0'
+    implementation 'androidx.legacy:legacy-support-v4:1.0.0-alpha1'
+    implementation 'androidx.appcompat:appcompat:1.0.0-alpha1'
     implementation files('libs/javastruct-0.1.jar')
     implementation files('libs/BaiduLBS_Android.jar')
     implementation 'androidx.constraintlayout:constraintlayout:1.1.2'
     implementation 'com.wang.avi:library:2.1.3'
-    implementation 'com.android.support:design:28.0.0'
+    implementation 'com.google.android.material:material:1.0.0-alpha1'
     implementation files('libs/tbs_sdk_thirdapp_v3.6.0.1249_43610_sharewithdownload_withoutGame_obfs_20180608_114954.jar')
     androidTestImplementation 'androidx.test:runner:1.1.0-alpha3'
     androidTestImplementation 'androidx.test.espresso:espresso-core:3.1.0-alpha3'
     implementation 'org.greenrobot:eventbus:3.1.1'
+
+    implementation 'cn.bmob.android:bmob-sdk:3.6.9-rc2'
+    //Bmob的消息推送SDK
+    implementation 'cn.bmob.android:bmob-push:1.0.3'
+    implementation "io.reactivex.rxjava2:rxjava:2.2.2"
+    implementation 'io.reactivex.rxjava2:rxandroid:2.1.0'
+    implementation 'com.squareup.okio:okio:2.1.0'
+    implementation 'com.google.code.gson:gson:2.8.5'
+    implementation 'com.squareup.okhttp3:okhttp:3.12.0'
+    implementation 'androidx.core:core:1.0.0+'
 }

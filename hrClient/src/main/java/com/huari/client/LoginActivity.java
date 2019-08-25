@@ -9,7 +9,9 @@ import android.content.SharedPreferences;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.os.Handler;
-import android.support.v7.app.AppCompatActivity;
+
+import androidx.appcompat.app.AppCompatActivity;
+
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.animation.AccelerateDecelerateInterpolator;
@@ -23,6 +25,7 @@ import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.Toast;
+
 import com.huari.dataentry.GlobalData;
 import com.huari.service.MainService;
 import com.wang.avi.AVLoadingIndicatorView;
@@ -32,7 +35,8 @@ public class LoginActivity extends AppCompatActivity {
     EditText port1Edittext;
     EditText port2Edittext;
     LinearLayout portContain;
-    ImageView loginImage;AVLoadingIndicatorView avLoadingIndicatorView;
+    ImageView loginImage;
+    AVLoadingIndicatorView avLoadingIndicatorView;
     public static Handler handler;
 
     SharedPreferences preferences;
@@ -68,113 +72,106 @@ public class LoginActivity extends AppCompatActivity {
                     GlobalData.mainTitle = "已登录";
                     avLoadingIndicatorView.setVisibility(View.INVISIBLE);
                     loginImage.setVisibility(View.VISIBLE);
-                    startActivity(new Intent(LoginActivity.this,MainActivity.class));
+                    startActivity(new Intent(LoginActivity.this, MainActivity.class));
                 }
-            };
-        };
-        loginImage.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                startActivity(new Intent(LoginActivity.this,Main2Activity.class));
-
-//                saveStationCount = preferences.getInt("savecount", -1);
-//                if (saveStationCount == -1) {
-//                    seditor.putInt("savecount", 0);
-//                }
-//                GlobalData.mainIP = ipEdittext.getText().toString();
-//                GlobalData.port1 = Integer.parseInt(port1Edittext.getText().toString());
-//                GlobalData.port2 = Integer.parseInt(port2Edittext.getText().toString());
-//                serviceIntent = new Intent();
-//                serviceIntent.setAction("com.huari.service.mainservice");
-//                try {
-//                    ip = ipEdittext.getText().toString();
-//                    port1 = Integer.parseInt(port1Edittext
-//                            .getText().toString());
-//                    port2 = Integer.parseInt(port2Edittext
-//                            .getText().toString());
-//                    seditor.putInt("port1", port1);
-//                    seditor.putInt("port2", port2);
-//                    seditor.putString("ip", ip);
-//                    GlobalData.mainIP = ip;
-//                    GlobalData.port1 = port1;
-//                    GlobalData.port2 = port2;
-//                    seditor.commit();
-//
-//                    if (GlobalData.toCreatService == false) {
-//                        new Thread() {
-//                            public void run() {
-//                                startService(serviceIntent);
-//                                MainService.startFunction();
-//                                GlobalData.toCreatService = true;
-//                            }
-//                        }.start();
-//                    }
-//                } catch (Exception e) {
-//                    GlobalData.mainIP = ip;
-//                    GlobalData.port1 = port1;
-//                    GlobalData.port2 = port2;
-//                }
-//
-//                loginImage.setVisibility(View.INVISIBLE);
-//                avLoadingIndicatorView.setVisibility(View.VISIBLE);
-//                avLoadingIndicatorView.show();
-//                avLoadingIndicatorView.setIndicatorColor(Color.parseColor("#1296DB"));
-//                LinearLayout.LayoutParams layoutParams = (LinearLayout.LayoutParams) portContain.getLayoutParams();
-//                int width = layoutParams.width;
-//                int height = layoutParams.height;
-//                LinearInterpolator linearInterpolator = new LinearInterpolator();
-//                Animation animation = new ScaleAnimation(1,0,1,0);
-//                animation.setDuration(1000);
-//                animation.setInterpolator(linearInterpolator);
-//                ipEdittext.setAnimation(animation);
-//
-//                AnimatorSet set = new AnimatorSet();
-//                ValueAnimator animator = ValueAnimator.ofFloat(0, width);
-//                ObjectAnimator animator2 = ObjectAnimator.ofFloat(portContain,
-//                        "scaleX", 1f, 0f);
-//                animator.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() {
-//
-//                    @Override
-//                    public void onAnimationUpdate(ValueAnimator animation) {
-//                        float value = (Float) animation.getAnimatedValue();
-//                        ViewGroup.MarginLayoutParams params = (ViewGroup.MarginLayoutParams) portContain
-//                                .getLayoutParams();
-//                        params.leftMargin = (int) value;
-//                        params.rightMargin = (int) value;
-//                        portContain.setLayoutParams(params);
-//                    }
-//                });
-//                set.setDuration(1000);
-//                set.setInterpolator(new AccelerateDecelerateInterpolator());
-//                set.playTogether(animator2);
-//                set.start();
-//                set.addListener(new Animator.AnimatorListener() {
-//
-//                    @Override
-//                    public void onAnimationStart(Animator animation) {
-//
-//                    }
-//
-//                    @Override
-//                    public void onAnimationRepeat(Animator animation) {
-//
-//                    }
-//
-//                    @Override
-//                    public void onAnimationEnd(Animator animation) {
-//                        /**
-//                         * 动画结束后，先显示加载的动画，然后再隐藏输入框
-//                         */
-//
-//                    }
-//
-//                    @Override
-//                    public void onAnimationCancel(Animator animation) {
-//
-//                    }
-//                });
-
             }
+
+            ;
+        };
+        loginImage.setOnClickListener(v -> {
+            saveStationCount = preferences.getInt("savecount", -1);
+            if (saveStationCount == -1) {
+                seditor.putInt("savecount", 0);
+            }
+            GlobalData.mainIP = ipEdittext.getText().toString();
+            GlobalData.port1 = Integer.parseInt(port1Edittext.getText().toString());
+            GlobalData.port2 = Integer.parseInt(port2Edittext.getText().toString());
+            serviceIntent = new Intent();
+            serviceIntent.setAction("com.huari.service.mainservice");
+            try {
+                ip = ipEdittext.getText().toString();
+                port1 = Integer.parseInt(port1Edittext
+                        .getText().toString());
+                port2 = Integer.parseInt(port2Edittext
+                        .getText().toString());
+                seditor.putInt("port1", port1);
+                seditor.putInt("port2", port2);
+                seditor.putString("ip", ip);
+                GlobalData.mainIP = ip;
+                GlobalData.port1 = port1;
+                GlobalData.port2 = port2;
+                seditor.commit();
+
+                if (GlobalData.toCreatService == false) {
+                    new Thread() {
+                        public void run() {
+                            startService(serviceIntent);
+                            MainService.startFunction();
+                            GlobalData.toCreatService = true;
+                        }
+                    }.start();
+                }
+            } catch (Exception e) {
+                GlobalData.mainIP = ip;
+                GlobalData.port1 = port1;
+                GlobalData.port2 = port2;
+            }
+
+            loginImage.setVisibility(View.INVISIBLE);
+            avLoadingIndicatorView.setVisibility(View.VISIBLE);
+            avLoadingIndicatorView.show();
+            avLoadingIndicatorView.setIndicatorColor(Color.parseColor("#1296DB"));
+            LinearLayout.LayoutParams layoutParams = (LinearLayout.LayoutParams) portContain.getLayoutParams();
+            int width = layoutParams.width;
+            int height = layoutParams.height;
+            LinearInterpolator linearInterpolator = new LinearInterpolator();
+            Animation animation = new ScaleAnimation(1, 0, 1, 0);
+            animation.setDuration(1000);
+            animation.setInterpolator(linearInterpolator);
+            ipEdittext.setAnimation(animation);
+
+            AnimatorSet set = new AnimatorSet();
+            ValueAnimator animator = ValueAnimator.ofFloat(0, width);
+            ObjectAnimator animator2 = ObjectAnimator.ofFloat(portContain,
+                    "scaleX", 1f, 0f);
+            animator.addUpdateListener(animation1 -> {
+                float value = (Float) animation1.getAnimatedValue();
+                ViewGroup.MarginLayoutParams params = (ViewGroup.MarginLayoutParams) portContain
+                        .getLayoutParams();
+                params.leftMargin = (int) value;
+                params.rightMargin = (int) value;
+                portContain.setLayoutParams(params);
+            });
+            set.setDuration(1000);
+            set.setInterpolator(new AccelerateDecelerateInterpolator());
+            set.playTogether(animator2);
+            set.start();
+            set.addListener(new Animator.AnimatorListener() {
+
+                @Override
+                public void onAnimationStart(Animator animation) {
+
+                }
+
+                @Override
+                public void onAnimationRepeat(Animator animation) {
+
+                }
+
+                @Override
+                public void onAnimationEnd(Animator animation) {
+                    /**
+                     * 动画结束后，先显示加载的动画，然后再隐藏输入框
+                     */
+
+                }
+
+                @Override
+                public void onAnimationCancel(Animator animation) {
+
+                }
+            });
+
         });
     }
 

@@ -1,7 +1,7 @@
 package com.huari.adapter;
 
 import android.content.Context;
-import android.support.v7.widget.RecyclerView;
+import androidx.recyclerview.widget.RecyclerView;
 import android.util.Log;
 import android.view.Gravity;
 import android.view.View;
@@ -49,12 +49,7 @@ public class TagCloudAdapter extends TagsAdapter {
         tv.setLayoutParams(lp);
         tv.setText("No." + position);
         tv.setGravity(Gravity.CENTER);
-        tv.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                smoothMoveToPosition(recyclerView,position);
-            }
-        });
+        tv.setOnClickListener(v -> smoothMoveToPosition(recyclerView,position));
         tv.setClickable(false);
         tv.setBackgroundResource(R.drawable.circle_bg);
         return tv;

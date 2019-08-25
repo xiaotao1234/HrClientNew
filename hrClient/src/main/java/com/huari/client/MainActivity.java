@@ -11,8 +11,8 @@ import android.app.AlertDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
-import android.support.v7.app.ActionBar;
-import android.support.v7.app.AppCompatActivity;
+import androidx.appcompat.app.ActionBar;
+import androidx.appcompat.app.AppCompatActivity;
 import android.util.DisplayMetrics;
 import android.view.KeyEvent;
 import android.view.Menu;
@@ -89,45 +89,38 @@ public class MainActivity extends AppCompatActivity {
 
 		dialog = new AlertDialog.Builder(MainActivity.this).setTitle("服务器登录设置")
 				.setView(ipsetLayout)
-				.setNegativeButton("取消", new DialogInterface.OnClickListener() {
-					@Override
-					public void onClick(DialogInterface arg0, int arg1) {
+				.setNegativeButton("取消", (arg0, arg1) -> {
+					iptextview.setText(ip);
+					port1textview.setText(port1 + "");
+					port2textview.setText(port2 + "");
+					GlobalData.mainIP = ip;
+					GlobalData.port1 = port1;
+					GlobalData.port2 = port2;
+				})
+				.setPositiveButton("确定", (arg0, arg1) -> {
+					try {
+						ip = iptextview.getText().toString();
+						port1 = Integer.parseInt(port1textview.getText()
+								.toString());
+						port2 = Integer.parseInt(port2textview.getText()
+								.toString());
+						seditor.putInt("port1", port1);
+						seditor.putInt("port2", port2);
+						seditor.putString("ip", ip);
+						GlobalData.mainIP = ip;
+						GlobalData.port1 = port1;
+						GlobalData.port2 = port2;
+						seditor.commit();
+					} catch (Exception e) {
+						Toast.makeText(MainActivity.this,
+								"参数值输入格式错误或不可为空,请检查后重新输入",
+								Toast.LENGTH_SHORT).show();
 						iptextview.setText(ip);
 						port1textview.setText(port1 + "");
 						port2textview.setText(port2 + "");
 						GlobalData.mainIP = ip;
 						GlobalData.port1 = port1;
 						GlobalData.port2 = port2;
-					}
-				})
-				.setPositiveButton("确定", new DialogInterface.OnClickListener() {
-
-					@Override
-					public void onClick(DialogInterface arg0, int arg1) {
-						try {
-							ip = iptextview.getText().toString();
-							port1 = Integer.parseInt(port1textview.getText()
-									.toString());
-							port2 = Integer.parseInt(port2textview.getText()
-									.toString());
-							seditor.putInt("port1", port1);
-							seditor.putInt("port2", port2);
-							seditor.putString("ip", ip);
-							GlobalData.mainIP = ip;
-							GlobalData.port1 = port1;
-							GlobalData.port2 = port2;
-							seditor.commit();
-						} catch (Exception e) {
-							Toast.makeText(MainActivity.this,
-									"参数值输入格式错误或不可为空,请检查后重新输入",
-									Toast.LENGTH_SHORT).show();
-							iptextview.setText(ip);
-							port1textview.setText(port1 + "");
-							port2textview.setText(port2 + "");
-							GlobalData.mainIP = ip;
-							GlobalData.port1 = port1;
-							GlobalData.port2 = port2;
-						}
 					}
 				}).create();
 
@@ -147,18 +140,15 @@ public class MainActivity extends AppCompatActivity {
 				final String s = buttoncount + "";
 				Button bn = (Button) sonviewGroup.getChildAt(m);
 				final String funcname = bn.getText().toString();
-				bn.setOnClickListener(new OnClickListener() {
-					@Override
-					public void onClick(View v) {
-						Intent intent = new Intent();
-						intent.setAction("function" + s);
-						Bundle bundle = new Bundle();
-						bundle.putString("from", "FUN");
-						bundle.putString("functionname", funcname);
-						intent.putExtras(bundle);
-						startActivity(intent);
-						// MainActivity.this.finish();
-					}
+				bn.setOnClickListener(v -> {
+					Intent intent = new Intent();
+					intent.setAction("function" + s);
+					Bundle bundle = new Bundle();
+					bundle.putString("from", "FUN");
+					bundle.putString("functionname", funcname);
+					intent.putExtras(bundle);
+					startActivity(intent);
+					// MainActivity.this.finish();
 				});
 			}
 		}
@@ -197,14 +187,11 @@ public class MainActivity extends AppCompatActivity {
 			builder.setMessage("确定要退出程序吗？");
 
 			builder.setPositiveButton("确定",
-					new DialogInterface.OnClickListener() {
-						@Override
-						public void onClick(DialogInterface dialog, int which) {
-							// android.os.Process.killProcess(android.os.Process.myPid());
-							MainService.stopFunction();
-							stopService(serviceIntent);
-							SysApplication.getInstance().exit();
-						}
+					(dialog, which) -> {
+						// android.os.Process.killProcess(android.os.Process.myPid());
+						MainService.stopFunction();
+						stopService(serviceIntent);
+						SysApplication.getInstance().exit();
 					});
 			builder.setNegativeButton("取消", null);
 			builder.create();

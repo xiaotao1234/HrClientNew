@@ -1,17 +1,43 @@
 package com.huari.client;
 
+import android.Manifest;
+import android.annotation.TargetApi;
+import android.app.Service;
+import android.content.Context;
 import android.content.Intent;
+import android.content.pm.PackageManager;
 import android.graphics.Color;
+import android.net.ConnectivityManager;
+import android.net.Network;
+import android.net.NetworkRequest;
 import android.os.Build;
 import android.os.Bundle;
 import android.os.Environment;
-import android.support.v4.widget.NestedScrollView;
-import android.support.v7.app.AppCompatActivity;
-import android.support.v7.widget.CardView;
+
+import androidx.annotation.NonNull;
+import androidx.core.app.ActivityCompat;
+import androidx.core.content.ContextCompat;
+import androidx.core.widget.NestedScrollView;
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.cardview.widget.CardView;
+import cn.bmob.v3.BmobPushManager;
+import cn.bmob.v3.exception.BmobException;
+import cn.bmob.v3.listener.PushListener;
+
+import android.util.Log;
 import android.view.View;
 import android.view.ViewGroup;
 
+import com.huari.dataentry.GlobalData;
+import com.huari.service.MainService;
+
 import java.io.File;
+import java.io.InputStream;
+import java.net.HttpURLConnection;
+import java.net.URL;
+
+import static android.net.NetworkCapabilities.NET_CAPABILITY_INTERNET;
+import static android.net.NetworkCapabilities.TRANSPORT_CELLULAR;
 
 public class Main2Activity extends AppCompatActivity {
     CardView cardView;
@@ -19,11 +45,32 @@ public class Main2Activity extends AppCompatActivity {
     CardView recentCardView;
     CardView queryInfo;
     CardView playerCard;
+    CardView managerCard;
+    CardView dhMoudle;
+    CardView bombCard;
+    CardView danCard;
+    CardView mapCard;
+    CardView DataHuifDanpin;
+    CardView fileManager;
     NestedScrollView scrollView;
     ViewGroup v;
+    Intent serviceIntent;
     private int buttoncount;
-    private String fileUrl=Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DCIM).getAbsolutePath()+File.separator+"test.doc";//远程文档地址
-    private String fileUrl1=Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DCIM).getAbsolutePath()+File.separator+"test.xlsx";//远程文档地址
+    private String fileUrl = Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DCIM).getAbsolutePath() + File.separator + "test.doc";//远程文档地址
+    private String fileUrl1 = Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DCIM).getAbsolutePath() + File.separator + "test.xlsx";//远程文档地址
+
+    @Override
+    public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
+        super.onRequestPermissionsResult(requestCode, permissions, grantResults);
+        switch (requestCode) {
+            case 1:
+                if (grantResults != null && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
+                    clickbomb();
+                } else {
+
+                }
+        }
+    }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -36,11 +83,15 @@ public class Main2Activity extends AppCompatActivity {
             decorView.setSystemUiVisibility(option);
             getWindow().setStatusBarColor(Color.TRANSPARENT);
         }
+        serviceIntent = new Intent();
+        serviceIntent.setAction("com.huari.service.mainservice");
+        serviceIntent.setPackage(getPackageName());
+        dhMoudle = findViewById(R.id.dh_moudle);
         cardView = findViewById(R.id.ppu);
         cardView.setSystemUiVisibility(View.INVISIBLE);
         cardView.setOnClickListener(v -> startActivity(new Intent(Main2Activity.this,
                 RecordListActivity.class)));
-        cardView1 = findViewById(R.id.p);
+        cardView1 = findViewById(R.id.pp);
         cardView1.setOnClickListener(v -> startActivity(new Intent(Main2Activity.this,
                 AllRecordQueryActivity.class)));
         recentCardView = findViewById(R.id.recent_card);
@@ -48,12 +99,74 @@ public class Main2Activity extends AppCompatActivity {
                 RecordListActivity.class)));
         queryInfo = findViewById(R.id.query_info);
         queryInfo.setOnClickListener(v ->
-                startActivity(new Intent(Main2Activity.this,IquareActivity.class))
+                        startActivity(new Intent(Main2Activity.this, IquareActivity.class))
 //                FileDisplayActivity.actionStart(Main2Activity.this, fileUrl1,null)
         );
         playerCard = findViewById(R.id.player_card);
         playerCard.setOnClickListener(v -> startActivity(new Intent(Main2Activity.this,
                 FileListActivity.class)));
+        managerCard = findViewById(R.id.server_manager);
+        managerCard.setOnClickListener(v -> startActivity(new Intent(Main2Activity.this, ServerManagerActivity.class)));
+        fileManager = findViewById(R.id.file);
+        fileManager.setOnClickListener(v -> startActivity(new Intent(Main2Activity.this, FileListActivity.class)));
+        bombCard = findViewById(R.id.bomb);
+        bombCard.setOnClickListener(v -> {
+            if (ContextCompat.checkSelfPermission(Main2Activity.this, Manifest.permission.READ_EXTERNAL_STORAGE) != PackageManager.PERMISSION_GRANTED) {
+                ActivityCompat.requestPermissions(Main2Activity.this, new String[]{Manifest.permission.READ_EXTERNAL_STORAGE}, 1);
+            } else {
+                clickbomb();
+            }
+        });
+        danCard = findViewById(R.id.danpin);
+        danCard.setOnClickListener(v -> {
+
+            if (GlobalData.toCreatService == false) {
+                new Thread() {
+                    public void run() {
+                        startService(serviceIntent);
+                        MainService.startFunction();
+                        GlobalData.toCreatService = true;
+                    }
+                }.start();
+            }
+
+            Intent intent = new Intent();
+            intent.setAction("function" + 2);
+            Bundle bundle = new Bundle();
+            bundle.putString("from", "FUN");
+            bundle.putString("functionname", "单频测向");
+            intent.putExtras(bundle);
+            startActivity(intent);
+
+        });
+        DataHuifDanpin = findViewById(R.id.data_get_danpin);
+        DataHuifDanpin.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+            }
+        });
+        mapCard = findViewById(R.id.p);
+        mapCard.setOnClickListener(v -> {
+            if (GlobalData.toCreatService == false) {
+                new Thread() {
+                    public void run() {
+                        startService(serviceIntent);
+                        MainService.startFunction();
+                        GlobalData.toCreatService = true;
+                    }
+                }.start();
+            }
+
+            Intent intent = new Intent();
+            intent.setAction("function" + 4);
+            Bundle bundle = new Bundle();
+            bundle.putString("from", "FUN");
+            bundle.putString("functionname", "地图显示");
+            intent.putExtras(bundle);
+            startActivity(intent);
+        });
+        dhMoudle.setOnClickListener(v -> startActivity(new Intent(Main2Activity.this, DzActivity.class)));
 //        v = findViewById(R.id.main_group);
 //        for (int i = 0; i < v.getChildCount(); i++) {
 //            ViewGroup sonviewGroup = (ViewGroup) v.getChildAt(i);
@@ -77,5 +190,52 @@ public class Main2Activity extends AppCompatActivity {
 //                });
 //            }
 //        }
+    }
+
+    private void clickbomb() {
+        BmobPushManager bmobPushManager = new BmobPushManager();
+        bmobPushManager.pushMessageAll("消息内容", new PushListener() {
+            @Override
+            public void done(BmobException e) {
+                if (e == null) {
+                    Log.d("xiao", "推送成功！");
+                } else {
+                    Log.d("xiao", "异常：");
+                }
+            }
+        });
+//        forceSendRequestByMobileData();
+    }
+
+    @TargetApi(28)
+    private void forceSendRequestByMobileData() {
+        ConnectivityManager connectivityManager = (ConnectivityManager) getSystemService(Context.CONNECTIVITY_SERVICE);
+        NetworkRequest.Builder builder = new NetworkRequest.Builder();
+        builder.addCapability(NET_CAPABILITY_INTERNET);
+        //强制使用蜂窝数据网络-移动数据
+        builder.addTransportType(TRANSPORT_CELLULAR);
+        NetworkRequest build = builder.build();
+        connectivityManager.requestNetwork(build, new ConnectivityManager.NetworkCallback() {
+            @Override
+            public void onAvailable(final Network network) {
+                super.onAvailable(network);
+                try {
+                    BmobPushManager bmobPushManager = new BmobPushManager();
+                    bmobPushManager.pushMessageAll("消息内容", new PushListener() {
+                        @Override
+                        public void done(BmobException e) {
+                            if (e == null) {
+                                Log.d("xiao", "推送成功！");
+                            } else {
+                                Log.d("xiao", "异常：");
+                            }
+                        }
+                    });
+                } catch (Exception e) {
+
+                }
+
+            }
+        });
     }
 }

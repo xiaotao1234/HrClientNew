@@ -1,6 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
 <menu xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:customactionbar1="http://schemas.android.com/apk/res-auto" >
+    <item android:id="@+id/save_data"
+        customactionbar1:showAsAction="ifRoom"
+        android:menuCategory="system"
+        android:title="保存数据" />
     <item android:id="@+id/singlepause"
         customactionbar1:showAsAction="ifRoom"
         android:menuCategory="container"

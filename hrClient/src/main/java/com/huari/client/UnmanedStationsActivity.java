@@ -74,8 +74,8 @@ public class UnmanedStationsActivity extends Activity {
 			UnManStation uas) {
 		LinearLayout linear = (LinearLayout) getLayoutInflater().inflate(
 				R.layout.unmanchildlineaylayout, null);
-		Button bn1 = (Button) linear.findViewById(R.id.unmanbn5);
-		Button bn2 = (Button) linear.findViewById(R.id.unmanbn6);
+		Button bn1 = linear.findViewById(R.id.unmanbn5);
+		Button bn2 = linear.findViewById(R.id.unmanbn6);
 		bn1.setText(s + "(开)");
 		bn2.setText(s + "(关)");
 
@@ -106,7 +106,7 @@ public class UnmanedStationsActivity extends Activity {
 		setContentView(R.layout.activity_unmaned_stations);
 		SysApplication.getInstance().addActivity(this);
 		Thread.setDefaultUncaughtExceptionHandler(GlobalData.myExceptionHandler);
-		expandableListView = (ExpandableListView) findViewById(R.id.nomanexpandedview);
+		expandableListView = findViewById(R.id.nomanexpandedview);
 		expandableListView.setGroupIndicator(null);
 		adapter = new NoManStationExpandableListAdapter();
 		expandableListView.setAdapter(adapter);
@@ -142,15 +142,15 @@ public class UnmanedStationsActivity extends Activity {
 
 			LinearLayout child = (LinearLayout) getLayoutInflater().inflate(
 					R.layout.newnomanchilditem, null);
-			TextView tail = (TextView) child.findViewById(R.id.nomaninfo);
-			LinearLayout head = (LinearLayout) child
+			TextView tail = child.findViewById(R.id.nomaninfo);
+			LinearLayout head = child
 					.findViewById(R.id.nomanSwitch);
-			TextView lan = (TextView) child.findViewById(R.id.unmanlan);
-			TextView lon = (TextView) child.findViewById(R.id.unmanlon);
-			TextView support = (TextView) child.findViewById(R.id.unmansupport);
-			Button bn = (Button) child.findViewById(R.id.unmanon);// 唤醒
-			Button bn1 = (Button) child.findViewById(R.id.unmanoff);// 关闭无人站
-			Button bn2 = (Button) child.findViewById(R.id.unmanforceon);// 强制关闭无人站
+			TextView lan = child.findViewById(R.id.unmanlan);
+			TextView lon = child.findViewById(R.id.unmanlon);
+			TextView support = child.findViewById(R.id.unmansupport);
+			Button bn = child.findViewById(R.id.unmanon);// 唤醒
+			Button bn1 = child.findViewById(R.id.unmanoff);// 关闭无人站
+			Button bn2 = child.findViewById(R.id.unmanforceon);// 强制关闭无人站
 
 			UnManStation uas = list.get(groupPosition);
 

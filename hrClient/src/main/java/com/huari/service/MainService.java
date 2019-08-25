@@ -8,6 +8,7 @@ import struct.JavaStruct;
 
 //import com.huari.client.MainActivity;
 import com.huari.client.CircleActivity;
+import com.huari.client.Login2Activity;
 import com.huari.client.LoginActivity;
 import com.huari.commandstruct.FunctionFrame;
 import com.huari.dataentry.GlobalData;
@@ -96,10 +97,10 @@ public class MainService extends Service {
 				socket.setSoTimeout(5000);
 				ops = socket.getOutputStream();
 				//MainActivity.handler.sendEmptyMessage(MainActivity.LINKSUCCESS);
-				LoginActivity.handler.sendEmptyMessage(LoginActivity.LINKSUCCESS);
+				Login2Activity.handler.sendEmptyMessage(LoginActivity.LINKSUCCESS);
 			} catch (Exception e) {
 				//MainActivity.handler.sendEmptyMessage(MainActivity.LINKFAILED);
-				LoginActivity.handler.sendEmptyMessage(LoginActivity.LINKFAILED);
+				Login2Activity.handler.sendEmptyMessage(LoginActivity.LINKFAILED);
 				try {
 					Thread.sleep(3000);
 				} catch (InterruptedException e1) {

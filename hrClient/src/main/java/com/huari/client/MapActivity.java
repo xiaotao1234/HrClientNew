@@ -46,7 +46,7 @@ import com.huari.tools.MyTools;
 import com.huari.tools.Parse;
 import com.huari.tools.SysApplication;
 
-import android.support.v7.app.ActionBar;
+import androidx.appcompat.app.ActionBar;
 import android.app.AlertDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
@@ -56,7 +56,7 @@ import android.graphics.Point;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
-import android.support.v7.app.AppCompatActivity;
+import androidx.appcompat.app.AppCompatActivity;
 import android.util.DisplayMetrics;
 import android.view.Gravity;
 import android.view.KeyEvent;
@@ -572,12 +572,11 @@ public class MapActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        SDKInitializer.initialize(getApplicationContext());
         setContentView(R.layout.activity_baidumap);
 
         offlinemap = new MKOfflineMap();
         offlinemap.init(mkoml);
-        ArrayList<MKOLSearchRecord> records = offlinemap.searchCity("成都");
+        ArrayList<MKOLSearchRecord> records = offlinemap.searchCity("北京");
         if (records != null && records.size() == 1) {
             cityId = records.get(0).cityID;
         }
@@ -585,7 +584,7 @@ public class MapActivity extends AppCompatActivity {
         offlinemap.importOfflineData();
         localMapList = offlinemap.getAllUpdateInfo();
         if (localMapList == null) {
-            localMapList = new ArrayList<MKOLUpdateElement>();
+            localMapList = new ArrayList<>();
         }
 
         actionbar = getSupportActionBar();

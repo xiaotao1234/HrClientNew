@@ -50,7 +50,7 @@
                     android:layout_width="0dp"
                     android:layout_height="1dp"
                     android:layout_weight="1"/>
-                <android.support.v7.widget.CardView
+                <androidx.cardview.widget.CardView
                     android:id="@+id/ppu"
                     android:layout_width="160sp"
                     android:layout_height="150sp"
@@ -75,12 +75,12 @@
                         android:text="无人站"
                         android:textColor="#000000"
                         android:textSize="15sp"/>
-                </android.support.v7.widget.CardView>
+                </androidx.cardview.widget.CardView>
                 <View
                     android:layout_width="0dp"
                     android:layout_height="1dp"
                     android:layout_weight="1"/>
-                <android.support.v7.widget.CardView
+                <androidx.cardview.widget.CardView
                     android:id="@+id/p"
                     android:layout_width="160sp"
                     android:layout_height="150sp"
@@ -104,7 +104,7 @@
                         android:text="地图显示"
                         android:textColor="#000000"
                         android:textSize="15sp"/>
-                </android.support.v7.widget.CardView>
+                </androidx.cardview.widget.CardView>
                 <View
                     android:layout_width="0dp"
                     android:layout_height="1dp"
@@ -123,7 +123,7 @@
                     android:layout_width="0dp"
                     android:layout_height="1dp"
                     android:layout_weight="1"/>
-                <android.support.v7.widget.CardView
+                <androidx.cardview.widget.CardView
                     android:id="@+id/pp"
                     android:layout_width="160sp"
                     android:layout_height="150sp"
@@ -148,12 +148,12 @@
                         android:text="频段扫描"
                         android:textColor="#000000"
                         android:textSize="15sp"/>
-                </android.support.v7.widget.CardView>
+                </androidx.cardview.widget.CardView>
                 <View
                     android:layout_width="0dp"
                     android:layout_height="1dp"
                     android:layout_weight="1"/>
-                <android.support.v7.widget.CardView
+                <androidx.cardview.widget.CardView
                     android:id="@+id/p3"
                     android:layout_width="160sp"
                     android:layout_height="150sp"
@@ -178,7 +178,7 @@
                         android:text="单频测向"
                         android:textColor="#000000"
                         android:textSize="15sp"/>
-                </android.support.v7.widget.CardView>
+                </androidx.cardview.widget.CardView>
                 <View
                     android:layout_width="0dp"
                     android:layout_height="1dp"
@@ -197,7 +197,7 @@
                     android:layout_width="0dp"
                     android:layout_height="1dp"
                     android:layout_weight="1"/>
-                <android.support.v7.widget.CardView
+                <androidx.cardview.widget.CardView
                     android:id="@+id/p2"
                     android:layout_width="160sp"
                     android:layout_height="150sp"
@@ -222,12 +222,12 @@
                         android:text="检测站列表"
                         android:textColor="#000000"
                         android:textSize="15sp"/>
-                </android.support.v7.widget.CardView>
+                </androidx.cardview.widget.CardView>
                 <View
                     android:layout_width="0dp"
                     android:layout_height="1dp"
                     android:layout_weight="1"/>
-                <android.support.v7.widget.CardView
+                <androidx.cardview.widget.CardView
                     android:id="@+id/p1"
                     android:layout_width="160sp"
                     android:layout_height="150sp"
@@ -252,7 +252,7 @@
                         android:text="频谱分析"
                         android:textColor="#000000"
                         android:textSize="15sp"/>
-                </android.support.v7.widget.CardView>
+                </androidx.cardview.widget.CardView>
                 <View
                     android:layout_width="0dp"
                     android:layout_height="1dp"
@@ -277,7 +277,7 @@
                     android:layout_width="0dp"
                     android:layout_height="1dp"
                     android:layout_weight="1"/>
-                <android.support.v7.widget.CardView
+                <androidx.cardview.widget.CardView
                     android:id="@+id/recent_card"
                     android:layout_width="160sp"
                     android:layout_height="150sp"
@@ -302,12 +302,12 @@
                         android:text="热点数据"
                         android:textColor="#000000"
                         android:textSize="15sp"/>
-                </android.support.v7.widget.CardView>
+                </androidx.cardview.widget.CardView>
                 <View
                     android:layout_width="0dp"
                     android:layout_height="1dp"
                     android:layout_weight="1"/>
-                <android.support.v7.widget.CardView
+                <androidx.cardview.widget.CardView
                     android:id="@+id/query_info"
                     android:layout_width="160sp"
                     android:layout_height="150sp"
@@ -331,7 +331,7 @@
                         android:text="查询统计"
                         android:textColor="#000000"
                         android:textSize="15sp"/>
-                </android.support.v7.widget.CardView>
+                </androidx.cardview.widget.CardView>
                 <View
                     android:layout_width="0dp"
                     android:layout_height="1dp"
@@ -350,7 +350,7 @@
                     android:layout_width="0dp"
                     android:layout_height="1dp"
                     android:layout_weight="1"/>
-                <android.support.v7.widget.CardView
+                <androidx.cardview.widget.CardView
                     android:id="@+id/pp1"
                     android:layout_width="160sp"
                     android:layout_height="150sp"
@@ -375,12 +375,12 @@
                         android:text="频段扫描"
                         android:textColor="#000000"
                         android:textSize="15sp"/>
-                </android.support.v7.widget.CardView>
+                </androidx.cardview.widget.CardView>
                 <View
                     android:layout_width="0dp"
                     android:layout_height="1dp"
                     android:layout_weight="1"/>
-                <android.support.v7.widget.CardView
+                <androidx.cardview.widget.CardView
                     android:id="@+id/p31"
                     android:layout_width="160sp"
                     android:layout_height="150sp"
@@ -405,7 +405,7 @@
                         android:text="单频测向"
                         android:textColor="#000000"
                         android:textSize="15sp"/>
-                </android.support.v7.widget.CardView>
+                </androidx.cardview.widget.CardView>
                 <View
                     android:layout_width="0dp"
                     android:layout_height="1dp"
@@ -425,7 +425,7 @@
                     android:layout_width="0dp"
                     android:layout_height="1dp"
                     android:layout_weight="1"/>
-                <android.support.v7.widget.CardView
+                <androidx.cardview.widget.CardView
                     android:id="@+id/p21"
                     android:layout_width="160sp"
                     android:layout_height="150sp"
@@ -450,12 +450,12 @@
                         android:text="检测站列表"
                         android:textColor="#000000"
                         android:textSize="15sp"/>
-                </android.support.v7.widget.CardView>
+                </androidx.cardview.widget.CardView>
                 <View
                     android:layout_width="0dp"
                     android:layout_height="1dp"
                     android:layout_weight="1"/>
-                <android.support.v7.widget.CardView
+                <androidx.cardview.widget.CardView
                     android:id="@+id/p11"
                     android:layout_width="160sp"
                     android:layout_height="150sp"
@@ -480,7 +480,7 @@
                         android:text="频谱分析"
                         android:textColor="#000000"
                         android:textSize="15sp"/>
-                </android.support.v7.widget.CardView>
+                </androidx.cardview.widget.CardView>
                 <View
                     android:layout_width="0dp"
                     android:layout_height="1dp"

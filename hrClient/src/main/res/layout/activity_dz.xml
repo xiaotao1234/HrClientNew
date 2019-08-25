@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="horizontal"
+    tools:context=".DzActivity">
+    <LinearLayout
+        android:layout_width="0dp"
+        android:layout_height="match_parent"
+        android:orientation="vertical"
+        android:layout_weight="2">
+        <com.huari.ui.CirclePainView
+            android:id="@+id/ampere"
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_weight="1"
+            app:all="100"
+            app:one_big_step="10"
+            app:one_small_step="1"
+            app:text_bottom="电流"
+            app:unit="℃" />
+
+        <com.huari.ui.CirclePainView
+
+            android:id="@+id/voltmeter"
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_weight="1"
+            app:text_bottom="电压"
+            app:unit="V" />
+    </LinearLayout>
+    <LinearLayout
+        android:layout_width="0dp"
+        android:layout_height="match_parent"
+        android:layout_weight="1">
+        <com.huari.ui.LinView
+            android:id="@+id/temperature"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            app:text_bottom_lin="温度"
+            app:unit_lin="℃"/>
+
+        <com.huari.ui.LinView
+            android:id="@+id/humidity"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            app:text_bottom_lin="湿度"
+            app:unit_lin="%" />
+    </LinearLayout>
+
+</LinearLayout>

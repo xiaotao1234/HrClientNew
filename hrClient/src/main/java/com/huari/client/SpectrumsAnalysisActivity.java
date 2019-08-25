@@ -28,9 +28,9 @@ import android.os.Handler;
 import android.os.Message;
 import android.os.PowerManager;
 import android.os.Process;
-import android.support.v4.view.ViewPager;
-import android.support.v7.app.ActionBar;
-import android.support.v7.app.AppCompatActivity;
+import androidx.viewpager.widget.ViewPager;
+import androidx.appcompat.app.ActionBar;
+import androidx.appcompat.app.AppCompatActivity;
 import android.text.format.Time;
 import android.util.DisplayMetrics;
 import android.view.KeyEvent;
@@ -84,7 +84,7 @@ public class SpectrumsAnalysisActivity extends AppCompatActivity {
     
 	ShowWaveView waveview;
 	com.huari.ui.PartWaveShowView showwave;
-	android.support.v4.view.ViewPager viewpager;
+	ViewPager viewpager;
 	ItuAdapterOfListView listAdapter;
 	PagerAdapterOfSpectrum spectrumAdapter;
 	ListView itulistview;

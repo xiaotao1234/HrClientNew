@@ -34,7 +34,7 @@ public class FileOsImpl {
     File currentFloder;//当前所在目录
     File currentFile;//当前正在使用的文件
     private static FileOsImpl fileOsImpl;
-    String forSaveFloder = Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DCIM).getAbsolutePath();
+    public static String forSaveFloder = Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DCIM).getAbsolutePath();
     private Thread thread;
     public int MUSIC = 0,WORD = 1,EXCEL = 2;
 

@@ -1,7 +1,7 @@
 package com.huari.adapter;
 
 import android.content.Context;
-import android.support.v7.widget.RecyclerView;
+import androidx.recyclerview.widget.RecyclerView;
 import android.util.SparseBooleanArray;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -29,13 +29,19 @@ public class RecordAllAdapter extends RecordAllBaseAdapter<RecordAllAdapter.Clas
     //用于记录当前班级是隐藏还是显示
     private SparseBooleanArray mBooleanMap;
 
-    public RecordAllAdapter(Context context, List mContent) {
+    public RecordAllAdapter(Context context, List mContent,StationFunctionListener stationFunctionListener) {
         this.context = context;
         this.mContent = mContent;
+        this.stationFunctionListener = stationFunctionListener;
         mInflater = LayoutInflater.from(context);
-
         mBooleanMap = new SparseBooleanArray();
     }
+
+    public interface StationFunctionListener{
+        void callback();
+    }
+
+    StationFunctionListener stationFunctionListener;
 
     @Override
     public int getHeadersCount() {
@@ -94,6 +100,7 @@ public class RecordAllAdapter extends RecordAllBaseAdapter<RecordAllAdapter.Clas
     @Override
     public void onBindContentViewHolder(StudentHolder holder, int HeaderPosition, int ContentPositionForHeader) {
         holder.tvName.setText(mContent.get(HeaderPosition).classStudents.get(ContentPositionForHeader));
+        holder.tvName.setOnClickListener(v -> stationFunctionListener.callback());
     }
 
 

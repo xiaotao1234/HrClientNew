@@ -1,41 +1,53 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <declare-styleable name="UseImageView">
-        <attr name="wh" format="float"/>
+        <attr name="wh" format="float" />
         <attr name="ratio_wh" format="float" />
     </declare-styleable>
     <declare-styleable name="TagCloudView">
         <attr name="autoScrollMode">
-            <enum name="disable" value="0"/>
-            <enum name="decelerate" value="1"/>
-            <enum name="uniform" value="2"/>
+            <enum name="disable" value="0" />
+            <enum name="decelerate" value="1" />
+            <enum name="uniform" value="2" />
         </attr>
 
-        <attr name="radiusPercent" format="float"/>
-        <attr name="scrollSpeed" format="float"/>
-        <attr name="lightColor" format="color"/>
-        <attr name="darkColor" format="color"/>
+        <attr name="radiusPercent" format="float" />
+        <attr name="scrollSpeed" format="float" />
+        <attr name="lightColor" format="color" />
+        <attr name="darkColor" format="color" />
     </declare-styleable>
 
     <!--分类筛选-->
     <declare-styleable name="Classification">
-        <attr name="title" format="string"/>
-        <attr name="icon" format="reference"/>
-        <attr name="title_color" format="color"/>
-        <attr name="content_title" format="string"/>
-        <attr name="content_title_color" format="color"/>
+        <attr name="title" format="string" />
+        <attr name="icon" format="reference" />
+        <attr name="title_color" format="color" />
+        <attr name="content_title" format="string" />
+        <attr name="content_title_color" format="color" />
     </declare-styleable>
     <declare-styleable name="CustomProgress">
-        <attr name="backgroud_color" format="color"/>
-        <attr name="current_color" format="color"/>
-        <attr name="progress_color" format="color"/>
+        <attr name="backgroud_color" format="color" />
+        <attr name="current_color" format="color" />
+        <attr name="progress_color" format="color" />
     </declare-styleable>
     <declare-styleable name="CirclePieView">
-        <attr name="line_color" format="color"/>
-        <attr name="text_color" format="color"/>
-        <attr name="center_circle_color" format="color"/>
-        <attr name="line_stroke_width" format="integer"/>
-        <attr name="small_circle_color" format="color"/>
-        <attr name="text_size" format="float"/>
+        <attr name="line_color" format="color" />
+        <attr name="text_color" format="color" />
+        <attr name="text_out_color" format="color" />
+        <attr name="center_circle_color" format="color" />
+        <attr name="line_stroke_width" format="integer" />
+        <attr name="small_circle_color" format="color" />
+        <attr name="text_size" format="float" />
+    </declare-styleable>
+    <declare-styleable name="CirclePainView">
+        <attr name="text_bottom" format="string" />
+        <attr name="unit" format="string" />
+        <attr name="all" format="integer" />
+        <attr name="one_big_step" format="integer" />
+        <attr name="one_small_step" format="integer" />
+    </declare-styleable>
+    <declare-styleable name="LinView">
+        <attr name="text_bottom_lin" format="string" />
+        <attr name="unit_lin" format="string" />
     </declare-styleable>
 </resources>
