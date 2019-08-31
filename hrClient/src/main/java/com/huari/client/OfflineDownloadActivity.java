@@ -6,6 +6,7 @@ import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.BaseAdapter;
 import android.widget.Button;
@@ -51,7 +52,7 @@ public class OfflineDownloadActivity extends Activity implements MKOfflineMapLis
         cidView = findViewById(R.id.cityid);
         cityNameView = findViewById(R.id.city);
         stateView = findViewById(R.id.state);
-        next.setOnClickListener(v -> startActivity(new Intent(OfflineDownloadActivity.this, Login2Activity.class)));
+        next.setOnClickListener(v -> startActivity(new Intent(OfflineDownloadActivity.this, MajorActivity.class)));
         ListView hotCityList = findViewById(R.id.hotcitylist);
         ArrayList<String> hotCities = new ArrayList<>();
         final ArrayList<String> hotCityNames = new ArrayList<>();
@@ -86,7 +87,10 @@ public class OfflineDownloadActivity extends Activity implements MKOfflineMapLis
         ListAdapter aAdapter = new ArrayAdapter<>(this,
                 android.R.layout.simple_list_item_1, allCities);
         allCityList.setAdapter(aAdapter);
-        allCityList.setOnItemClickListener((adapterView, view, i, l) -> cityNameView.setText(allCityNames.get(i)));
+        allCityList.setOnItemClickListener((parent, view, position, id) -> {
+            cityNameView.setText(allCityNames.get(position));
+            search(allCityList);
+        });
         LinearLayout cl = findViewById(R.id.citylist_layout);
         LinearLayout lm = findViewById(R.id.localmap_layout);
         lm.setVisibility(View.GONE);
@@ -132,7 +136,7 @@ public class OfflineDownloadActivity extends Activity implements MKOfflineMapLis
     /**
      * 搜索离线需市
      *
-     * @param view
+
      */
     public void search(View view) {
         ArrayList<MKOLSearchRecord> records = mOffline.searchCity(cityNameView

@@ -21,6 +21,7 @@ import java.util.concurrent.TimeUnit;
 import struct.JavaStruct;
 import struct.StructException;
 
+import com.huari.NetMonitor.WindowController;
 import com.huari.NetMonitor.WindowHelper;
 import com.huari.commandstruct.PPFXRequest;
 import com.huari.commandstruct.PinPuParameter;
@@ -30,9 +31,11 @@ import com.huari.dataentry.LogicParameter;
 import com.huari.dataentry.MyDevice;
 import com.huari.dataentry.Parameter;
 import com.huari.dataentry.Station;
+import com.huari.dataentry.Type;
 import com.huari.tools.ByteFileIoUtils;
 import com.huari.tools.MyTools;
 import com.huari.tools.Parse;
+import com.huari.tools.RealTimeSaveStore;
 import com.huari.tools.SysApplication;
 import com.huari.ui.DataSave;
 import com.huari.ui.Disk;
@@ -40,6 +43,7 @@ import com.huari.ui.HColumns;
 import com.huari.ui.MyData;
 import com.huari.ui.VColumns;
 
+import android.content.Context;
 import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Build;
@@ -67,6 +71,8 @@ import android.widget.LinearLayout;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
+
+import org.greenrobot.eventbus.EventBus;
 
 //单频测向功能窗体
 public class SinglefrequencyDFActivity extends AppCompatActivity {
@@ -125,10 +131,9 @@ public class SinglefrequencyDFActivity extends AppCompatActivity {
     Parameter filterSpanParameter;// 次选带宽
     Parameter spectrumParameter;// 首选带宽
 
-    boolean saveFlag = true;
-    ExecutorService executorService = Executors.newCachedThreadPool();
+    public static boolean saveFlag = false;
     public static Queue<byte[]> queue;
-
+    private String fileName;
 
     class IniThread extends Thread {
         public void run() {
@@ -179,11 +184,6 @@ public class SinglefrequencyDFActivity extends AppCompatActivity {
     class MyThread extends Thread {
 
         private void sendStartCmd() {
-            ByteFileIoUtils.runFlag = true;
-            queue = new LinkedBlockingDeque<>();
-            SimpleDateFormat df = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
-            String fileName = "DF|"+df.format(new Date()).replaceAll(" ", "|");
-            SysApplication.byteFileIoUtils.writeBytesToFile(fileName); //开始保存数据前的初始化
             try {
                 m++;
                 byte[] bbb = iRequestInfo();
@@ -205,8 +205,24 @@ public class SinglefrequencyDFActivity extends AppCompatActivity {
             }
         }
 
+        public void savePrepare() {
+            ByteFileIoUtils.runFlag = true;
+            queue = new LinkedBlockingDeque<>();
+            SimpleDateFormat df = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+            fileName = "DF|" + df.format(new Date()).replaceAll(" ", "|");
+//                    + "||" + stationname + "|" + devicename + "|" + stationKey + "|" + lan + "|" + lon;
+//                    +"|"+logicId;    //会导致名字长度超出限制
+            SharedPreferences sharedPreferences = getSharedPreferences("myclient", MODE_PRIVATE);
+            SharedPreferences.Editor shareEditor = sharedPreferences.edit();
+            shareEditor.putString(fileName, stationname + "|" + devicename + "||" + stationKey + "|||" + lan + "||||" + lon + "|||||" + logicId);
+            shareEditor.commit();  //以文件名作为key来将台站信息存入shareReferences
+            Log.d("xiaoxiao", String.valueOf(fileName.length()));
+            SysApplication.byteFileIoUtils.writeBytesToFile(fileName, 1); //开始保存数据前的初始化
+        }
+
         private void sendEndCmd() {
             ByteFileIoUtils.runFlag = false;
+            saveFlag = false;
             m = 0;
             StopTaskFrame st = new StopTaskFrame();
             st.functionNum = 46;
@@ -229,6 +245,8 @@ public class SinglefrequencyDFActivity extends AppCompatActivity {
                 int segment = 0;
                 byte[] info = null;
                 long time = 0;
+                int flag = 0;
+
                 while (available == 0 && runmyThread) {
 //                    SysApplication.byteFileIoUtils.readFile("nba");
                     available = ins.available();
@@ -241,8 +259,12 @@ public class SinglefrequencyDFActivity extends AppCompatActivity {
                         } catch (Exception e) {
                             // System.out.println("开始接收DDF数据，解析发生了异常，定位到DDF的Activity的225行");
                         }
-                        if (saveFlag == true) {//给数据加一个时间的包头后递交到缓存队列中
-                            time = SaveAtTime(available, info, time);
+                        if (saveFlag == true) {
+                            if (flag == 0) {
+                                savePrepare();
+                                flag++;
+                            }
+                            time = RealTimeSaveStore.SaveAtTime(available, info, time, 1);//给数据加一个时间的包头后递交到缓存队列中
                         }
                         available = 0;
                     }
@@ -251,88 +273,24 @@ public class SinglefrequencyDFActivity extends AppCompatActivity {
                 e.printStackTrace();
             }
         }
-
-
-        private long SaveAtTime(int available, byte[] info, long time) {
-            int delay = 0;
-            if (time != 0) {
-                delay = (int) (System.currentTimeMillis() - time);
-            }
-            time = System.currentTimeMillis();
-            byte[] headBytes = MyTools.int2ByteArray(0xAAAAAAAA);//帧头
-            byte[] timeBytes = MyTools.int2ByteArray(delay);//当前数据帧距下一个数据帧延时的时间
-            byte[] lengthBytes = MyTools.int2ByteArray(available);//数据帧长度
-            byte[] bytesForSave = new byte[available + 4 + 4 + 4];
-            Log.d("liyuqian", String.valueOf(MyTools.fourBytesToInt(MyTools.nigetPartByteArray(headBytes, 0, 3))) + 1);
-            System.arraycopy(headBytes, 0, bytesForSave, 0, 4);
-            System.arraycopy(timeBytes, 0, bytesForSave, 4, 4);
-            System.arraycopy(lengthBytes, 0, bytesForSave, 8, 4);
-            System.arraycopy(info, 0, bytesForSave, 12, info.length);
-            synchronized (queue) {
-                queue.offer(bytesForSave);
-            }
-            return time;
-        }
     }
 
-    private void ParseLocalDdfData(String fileName, Handler handler) {
-        pause = false;
-        Thread thread = new Thread(() -> {
-            InputStream inputStream = SysApplication.byteFileIoUtils.readFile(fileName);
-            byte[] readWithTiem = new byte[12];
-            try {
-                inputStream.read(readWithTiem, 0, 12);
-            } catch (IOException e1) {
-                e1.printStackTrace();
-            }
-            int delayTime = 0;
-            int frameLength;
-            int available = 0;
-            try {
-                available = inputStream.available();
-            } catch (IOException e1) {
-                e1.printStackTrace();
-            }
-            Log.d("xiao", String.valueOf(MyTools.fourBytesToInt(MyTools.nigetPartByteArray(readWithTiem, 0, 3))));
-            while (available > 12 && MyTools.fourBytesToInt(MyTools.nigetPartByteArray(readWithTiem, 0, 3)) == 0xAAAAAAAA) {
-                delayTime = MyTools.bytesToIntLittle(MyTools.nigetPartByteArray(readWithTiem, 4, 7));
-                frameLength = MyTools.bytesToIntLittle(MyTools.nigetPartByteArray(readWithTiem, 8, 11));
-                byte[] dateFrame = new byte[frameLength];
-                try {
-                    inputStream.read(dateFrame, 0, frameLength);
-                    available = inputStream.available();
-                    try {
-                        Thread.sleep(delayTime);
-                    } catch (InterruptedException e1) {
-                        e1.printStackTrace();
-                    }
-                    Parse.parseDDF(dateFrame);
-                    inputStream.read(readWithTiem, 0, 12);
-                } catch (IOException e1) {
-                    e1.printStackTrace();
-                }
-            }
-        });
-        thread.start();
+    @Override
+    protected void onPause() {
+        super.onPause();
+        WindowHelper.instance.stopWindowService(this);
     }
-
-    Handler handler1 = new Handler() {
-        @Override
-        public void handleMessage(Message msg) {
-            super.handleMessage(msg);
-            byte[] bytes = (byte[]) msg.obj;
-            Parse.parseDDF(bytes);
-        }
-    };
 
     @Override
     protected void onResume() {
         super.onResume();
         startWindow();
-        ParseLocalDdfData("nba", handler1);
+//        RealTimeSaveStore.ParseLocalDdfData("nba", 1);
     }
 
     private void startWindow() {
+        Type type = new Type(WindowController.FLAG_DF);
+        EventBus.getDefault().postSticky(type);
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
             if (Settings.canDrawOverlays(this)) {
                 WindowHelper.instance.setHasPermission(true);
@@ -364,7 +322,6 @@ public class SinglefrequencyDFActivity extends AppCompatActivity {
             setContentView(R.layout.activity_frequencyscanning);
             sharepre = getSharedPreferences("myclient", MODE_PRIVATE);
             shareEditor = sharepre.edit();
-
             inithread = new IniThread();
             inithread.start();
             SysApplication.getInstance().addActivity(this);
@@ -383,10 +340,6 @@ public class SinglefrequencyDFActivity extends AppCompatActivity {
             } else {
                 setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_USER_PORTRAIT);
             }
-            actionbar = getSupportActionBar();
-            actionbar.setDisplayShowHomeEnabled(false);
-            actionbar.setDisplayShowCustomEnabled(true);
-            actionbar.setDisplayShowTitleEnabled(true);
             l = (LinearLayout) getLayoutInflater().inflate(
                     R.layout.actionbarview, null);
             Intent intent = getIntent();
@@ -399,10 +352,16 @@ public class SinglefrequencyDFActivity extends AppCompatActivity {
             lan = bundle.getFloat("lan");
             lon = bundle.getFloat("lon");
             logicId = bundle.getString("lid");
+            Log.d("xiaoxiaox", String.valueOf(logicId.length()));
             stationtextview = l.findViewById(R.id.name1);
             devicetextview = l.findViewById(R.id.name2);
             stationtextview.setText(stationname);
             devicetextview.setText(devicename);
+
+            actionbar = getSupportActionBar();
+            actionbar.setDisplayShowHomeEnabled(false);
+            actionbar.setDisplayShowCustomEnabled(true);
+            actionbar.setDisplayShowTitleEnabled(true);
             actionbar.setCustomView(l);
 
             fmv = findViewById(R.id.buildcusli);
@@ -465,7 +424,6 @@ public class SinglefrequencyDFActivity extends AppCompatActivity {
                 } else if (p.name.equals("AntennaSelect")) {
                     txname = p.defaultValue;
                 }
-                ;
                 if (p.name.equals("FilterSpan")) {
                     halfSpectrumsWide = Float.parseFloat(p.defaultValue) / 2000f;
                     filterSpanParameter = p;
@@ -482,8 +440,13 @@ public class SinglefrequencyDFActivity extends AppCompatActivity {
             endFreq = (Float.parseFloat(centerParameter.defaultValue) * 1000f + halfSpectrumsWide * 1000) / 1000;
             showwaveview.setF(startFreq, endFreq, pStepFreq);
 
+//            handler = new Handler(){
+//                @Override
+//                public void handleMessage(Message msg) {
+//                    super.handleMessage(msg);
+//                }
+//            };
             handler = new Handler() {
-                @SuppressWarnings("unused")
                 @Override
                 public void handleMessage(Message msg) {
                     switch (msg.what) {
@@ -511,7 +474,7 @@ public class SinglefrequencyDFActivity extends AppCompatActivity {
                 }
             };
         } catch (Exception e) {
-            // System.out.println("onCreate( )中第6部分异常 406 行");
+            e.printStackTrace();
         }
     }
 
@@ -879,7 +842,6 @@ public class SinglefrequencyDFActivity extends AppCompatActivity {
     public void run() {
         MyData mydata;
         try {
-
             if (pause == false) {
                 dianping = GlobalData.DDFdianping;// new
                 // Random().nextInt(121)-20;
@@ -904,28 +866,21 @@ public class SinglefrequencyDFActivity extends AppCompatActivity {
                         mydata.reldegree = relativedegree;
                         DataSave.datamap.put(absolutedegree, mydata);
                     }
-                    ;
-
                     if (mydata.count >= DataSave.maxcount) {
                         DataSave.maxcount = mydata.count;
                         DataSave.MaxProdegree = absolutedegree;
                     }
-                    ;
                     if (mydata.maxplitude >= DataSave.maxpli) {
                         DataSave.maxpli = mydata.maxplitude;
                         DataSave.MaxPlidegree = absolutedegree;
                     }
-                    ;
                     if (mydata.maxquality >= DataSave.maxqua) {
                         DataSave.maxqua = mydata.maxquality;
                         DataSave.MaxQuadegree = absolutedegree;
                     }
-                    ;
-
                     fmv.refresh();// 被屏蔽掉的地方1
                 }
             }
-
         } catch (Exception e) {
             // TODO Auto-generated catch block
             System.out.println("发生异常");
@@ -933,32 +888,32 @@ public class SinglefrequencyDFActivity extends AppCompatActivity {
 
     }
 
-    @Override
-    public boolean onKeyDown(int keyCode, KeyEvent event) {
-        if (keyCode == KeyEvent.KEYCODE_BACK) {
-            AlertDialog.Builder builder = new AlertDialog.Builder(
-                    SinglefrequencyDFActivity.this);
-            builder.setTitle("警告!");
-            builder.setMessage("确定要退出该功能吗？");
-            builder.setPositiveButton("确定",
-                    new DialogInterface.OnClickListener() {
-
-                        @Override
-                        public void onClick(DialogInterface dialog, int which) {
-                            // TODO Auto-generated method stub
-                            willExit();
-                            Intent intent = new Intent(
-                                    SinglefrequencyDFActivity.this,
-                                    MainActivity.class);//CircleActivity.class);
-                            startActivity(intent);
-                        }
-                    });
-            builder.setNegativeButton("取消", null);
-            builder.create();
-            builder.show();
-        }
-        return super.onKeyDown(keyCode, event);
-    }
+//    @Override
+//    public boolean onKeyDown(int keyCode, KeyEvent event) {
+//        if (keyCode == KeyEvent.KEYCODE_BACK) {
+//            AlertDialog.Builder builder = new AlertDialog.Builder(
+//                    SinglefrequencyDFActivity.this);
+//            builder.setTitle("警告!");
+//            builder.setMessage("确定要退出该功能吗？");
+//            builder.setPositiveButton("确定",
+//                    new DialogInterface.OnClickListener() {
+//
+//                        @Override
+//                        public void onClick(DialogInterface dialog, int which) {
+//                            // TODO Auto-generated method stub
+//                            willExit();
+//                            Intent intent = new Intent(
+//                                    SinglefrequencyDFActivity.this,
+//                                    MainActivity.class);//CircleActivity.class);
+//                            startActivity(intent);
+//                        }
+//                    });
+//            builder.setNegativeButton("取消", null);
+//            builder.create();
+//            builder.show();
+//        }
+//        return super.onKeyDown(keyCode, event);
+//    }
 
     @Override
     protected void onActivityResult(int arg0, int arg1, Intent arg2) {

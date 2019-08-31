@@ -47,7 +47,7 @@ public class TagCloudAdapter extends TagsAdapter {
         final TextView tv = new TextView(context);
         ViewGroup.MarginLayoutParams lp = new ViewGroup.MarginLayoutParams(100, 100);
         tv.setLayoutParams(lp);
-        tv.setText("No." + position);
+        tv.setText("8." + position);
         tv.setGravity(Gravity.CENTER);
         tv.setOnClickListener(v -> smoothMoveToPosition(recyclerView,position));
         tv.setClickable(false);

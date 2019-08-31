@@ -1,23 +1,36 @@
 package com.huari.tools;
 
+import android.os.Environment;
 import android.os.Handler;
 import android.os.Message;
 import android.util.Log;
 
+import com.huari.client.PinDuanScanningActivity;
 import com.huari.client.SinglefrequencyDFActivity;
+import com.huari.client.SpectrumsAnalysisActivity;
+import com.huari.dataentry.GlobalData;
+import com.huari.dataentry.Station;
 
 import java.io.BufferedInputStream;
 import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
+import java.io.ObjectInputStream;
+import java.io.ObjectOutputStream;
 import java.io.RandomAccessFile;
 import java.nio.ByteBuffer;
 import java.nio.MappedByteBuffer;
 import java.nio.channels.FileChannel;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Queue;
 import java.util.concurrent.ExecutorService;
+import java.util.concurrent.LinkedBlockingDeque;
 
 /**
  *
@@ -52,7 +65,7 @@ public class ByteFileIoUtils {
         File file = new File(SysApplication.fileOs.forSaveFloder + File.separator + filePath);
         long fileSize = file.length();
         if (fileSize > Integer.MAX_VALUE) {
-            Log.d("xiao","file too big...");
+            Log.d("xiao", "file too big...");
             return null;
         }
         FileInputStream fi = new FileInputStream(file);
@@ -187,14 +200,33 @@ public class ByteFileIoUtils {
     /**
      * 写入
      */
-    public void writeBytesToFile(String filename) {
+    public void writeBytesToFile(String filename, int type) {
         Runnable runnable = () -> {
             try {
-                randomFile = new RandomAccessFile(SysApplication.fileOs.forSaveFloder + File.separator + filename, "rw");
+
+                Queue<byte[]> queue = new LinkedBlockingDeque<>();
+                switch (type) {
+                    case 1:
+                        queue = SinglefrequencyDFActivity.queue;
+                        break;
+                    case 2:
+                        queue = SpectrumsAnalysisActivity.queue;
+                        break;
+                    case 3:
+                        queue = PinDuanScanningActivity.queue;
+                        break;
+                }
+                File file = new File(SysApplication.fileOs.forSaveFloder+File.separator+"data");
+                if(!file.exists()){
+                    file.mkdirs();
+                }
+                Log.d("xiao", String.valueOf(filename.length()));
+                randomFile = new RandomAccessFile(file.getAbsolutePath() + File.separator + filename, "rw");
                 byte[] bytes;
+                serializestationForSave(filename);
                 while (runFlag) {
-                    synchronized (SinglefrequencyDFActivity.queue) {
-                        bytes = SinglefrequencyDFActivity.queue.peek();
+                    synchronized (queue) {
+                        bytes = queue.peek();
                     }
                     if (bytes == null) {
                         Thread.sleep(20);
@@ -204,12 +236,14 @@ public class ByteFileIoUtils {
                     long fileLength = randomFile.length();
                     //将写文件指针移到文件尾。
                     randomFile.seek(fileLength);
-                    randomFile.write(SinglefrequencyDFActivity.queue.poll());
+                    Log.d("xiao", String.valueOf(queue.peek()));
+                    randomFile.write(queue.poll());
                 }
                 SysApplication.fileOs.addRecentFile(SysApplication.fileOs.forSaveFloder + File.separator + filename, 1);
                 randomFile.close();
             } catch (Exception e) {
                 e.printStackTrace();
+                Log.d("xiao","有问题");
             }
             Log.d("xiaofile", "线程停止了");
         };
@@ -217,13 +251,48 @@ public class ByteFileIoUtils {
         thread.start();
     }
 
-    public InputStream readFile(String fileName){
-        File file = new File(SysApplication.fileOs.forSaveFloder+File.separator+fileName);
+    private static void serializestationForSave(String name) {
+        Thread thread = new Thread(() -> {
+            // ObjectOutputStream 对象输出流，将 flyPig 对象存储到E盘的 flyPig.txt 文件中，完成对 flyPig 对象的序列化操作
+            try {
+                File file = new File(SysApplication.fileOs.forSaveFloder+File.separator+"data"+File.separator+name+"station");
+                if (!file.getParentFile().exists()){
+                    file.getParentFile().mkdirs();
+                }
+                FileOutputStream fileOutputStream = new FileOutputStream(file);
+                ObjectOutputStream oos = new ObjectOutputStream(fileOutputStream);
+                oos.writeObject(GlobalData.stationHashMap);
+                oos.close();
+            }catch (Exception e){
+                e.printStackTrace();
+            }
+        });
+        thread.start();
+    }
+    public static void deserializeFlyPig(String filename,Handler handler) {
+        Thread thread = new Thread(() -> {
+            try {
+                HashMap<String, Station> stationHashMap;
+                ObjectInputStream ois = new ObjectInputStream(new FileInputStream(new File(SysApplication.fileOs.
+                        forSaveFloder+File.separator+"data"+File.separator+filename+"station")));
+                stationHashMap =  (HashMap<String, Station>)ois.readObject();
+                Message message = Message.obtain();
+                message.obj = stationHashMap;
+                handler.sendMessage(message);
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+        });
+        thread.start();
+    }
+
+    public InputStream readFile(String fileName) {
+        File file = new File(SysApplication.fileOs.forSaveFloder + File.separator + fileName);
         try {
             inputStream = new FileInputStream(file);
         } catch (FileNotFoundException e) {
             e.printStackTrace();
-            Log.d("xiao","file is not find");
+            Log.d("xiao", "file is not find");
         }
         return inputStream;
     }

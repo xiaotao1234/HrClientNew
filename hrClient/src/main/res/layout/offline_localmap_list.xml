@@ -36,6 +36,8 @@
 
     <Button
         android:id="@+id/remove"
+        android:background="@drawable/button_line_bg"
+        android:textColor="#FFFFFF"
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
         android:layout_weight="1"

@@ -52,6 +52,8 @@ public class Main2Activity extends AppCompatActivity {
     CardView mapCard;
     CardView DataHuifDanpin;
     CardView fileManager;
+    CardView pinPuFX;
+    CardView fileB;
     NestedScrollView scrollView;
     ViewGroup v;
     Intent serviceIntent;
@@ -92,19 +94,22 @@ public class Main2Activity extends AppCompatActivity {
         cardView.setOnClickListener(v -> startActivity(new Intent(Main2Activity.this,
                 RecordListActivity.class)));
         cardView1 = findViewById(R.id.pp);
-        cardView1.setOnClickListener(v -> startActivity(new Intent(Main2Activity.this,
-                AllRecordQueryActivity.class)));
+        cardView1.setOnClickListener(v -> skip("频段扫描",3));
         recentCardView = findViewById(R.id.recent_card);
         recentCardView.setOnClickListener(v -> startActivity(new Intent(Main2Activity.this,
                 RecordListActivity.class)));
+        fileB = findViewById(R.id.file_b);
+        fileB.setOnClickListener(v -> startActivity(new Intent(Main2Activity.this,
+                AllRecordQueryActivity.class)));
         queryInfo = findViewById(R.id.query_info);
         queryInfo.setOnClickListener(v ->
                         startActivity(new Intent(Main2Activity.this, IquareActivity.class))
-//                FileDisplayActivity.actionStart(Main2Activity.this, fileUrl1,null)
         );
         playerCard = findViewById(R.id.player_card);
         playerCard.setOnClickListener(v -> startActivity(new Intent(Main2Activity.this,
-                FileListActivity.class)));
+                HistoryDataActivity.class)));
+        pinPuFX = findViewById(R.id.pinpufx);
+        pinPuFX.setOnClickListener(v -> skip("频谱分析", 2));
         managerCard = findViewById(R.id.server_manager);
         managerCard.setOnClickListener(v -> startActivity(new Intent(Main2Activity.this, ServerManagerActivity.class)));
         fileManager = findViewById(R.id.file);
@@ -118,78 +123,32 @@ public class Main2Activity extends AppCompatActivity {
             }
         });
         danCard = findViewById(R.id.danpin);
-        danCard.setOnClickListener(v -> {
-
-            if (GlobalData.toCreatService == false) {
-                new Thread() {
-                    public void run() {
-                        startService(serviceIntent);
-                        MainService.startFunction();
-                        GlobalData.toCreatService = true;
-                    }
-                }.start();
-            }
-
-            Intent intent = new Intent();
-            intent.setAction("function" + 2);
-            Bundle bundle = new Bundle();
-            bundle.putString("from", "FUN");
-            bundle.putString("functionname", "单频测向");
-            intent.putExtras(bundle);
-            startActivity(intent);
-
-        });
+        danCard.setOnClickListener(v -> skip("单频测向", 2));
         DataHuifDanpin = findViewById(R.id.data_get_danpin);
-        DataHuifDanpin.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-
-            }
+        DataHuifDanpin.setOnClickListener(v -> {
         });
         mapCard = findViewById(R.id.p);
-        mapCard.setOnClickListener(v -> {
-            if (GlobalData.toCreatService == false) {
-                new Thread() {
-                    public void run() {
-                        startService(serviceIntent);
-                        MainService.startFunction();
-                        GlobalData.toCreatService = true;
-                    }
-                }.start();
-            }
-
-            Intent intent = new Intent();
-            intent.setAction("function" + 4);
-            Bundle bundle = new Bundle();
-            bundle.putString("from", "FUN");
-            bundle.putString("functionname", "地图显示");
-            intent.putExtras(bundle);
-            startActivity(intent);
-        });
+        mapCard.setOnClickListener(v -> skip("地图显示",4));
         dhMoudle.setOnClickListener(v -> startActivity(new Intent(Main2Activity.this, DzActivity.class)));
-//        v = findViewById(R.id.main_group);
-//        for (int i = 0; i < v.getChildCount(); i++) {
-//            ViewGroup sonviewGroup = (ViewGroup) v.getChildAt(i);
-//            for (int m = 0; m < sonviewGroup.getChildCount(); m++) {
-//                buttoncount = buttoncount + 1;
-//                final String s = buttoncount + "";
-//                Button bn = (Button) sonviewGroup.getChildAt(m);
-//                final String funcname = bn.getText().toString();
-//                bn.setOnClickListener(new View.OnClickListener() {
-//                    @Override
-//                    public void onClick(View v) {
-//                        Intent intent = new Intent();
-//                        intent.setAction("function" + s);
-//                        Bundle bundle = new Bundle();
-//                        bundle.putString("from", "FUN");
-//                        bundle.putString("functionname", funcname);
-//                        intent.putExtras(bundle);
-//                        startActivity(intent);
-//                        // MainActivity.this.finish();
-//                    }
-//                });
-//            }
-//        }
+    }
+
+    private void skip(String name, int i) {
+        if (GlobalData.toCreatService == false) {
+            new Thread() {
+                public void run() {
+                    startService(serviceIntent);
+                    MainService.startFunction();
+                    GlobalData.toCreatService = true;
+                }
+            }.start();
+        }
+        Intent intent = new Intent();
+        intent.setAction("function" + i);
+        Bundle bundle = new Bundle();
+        bundle.putString("from", "FUN");
+        bundle.putString("functionname", name);
+        intent.putExtras(bundle);
+        startActivity(intent);
     }
 
     private void clickbomb() {

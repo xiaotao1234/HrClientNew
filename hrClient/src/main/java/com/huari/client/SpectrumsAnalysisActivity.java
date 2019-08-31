@@ -8,8 +8,12 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
 import java.net.Socket;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.HashMap;
+import java.util.Queue;
+import java.util.concurrent.LinkedBlockingDeque;
 
 import struct.JavaStruct;
 import struct.StructException;
@@ -18,10 +22,13 @@ import android.annotation.SuppressLint;
 import android.app.AlertDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.content.pm.ActivityInfo;
 import android.media.AudioFormat;
 import android.media.AudioManager;
 import android.media.AudioTrack;
+import android.net.Uri;
+import android.os.Build;
 import android.os.Bundle;
 import android.os.Environment;
 import android.os.Handler;
@@ -30,10 +37,10 @@ import android.os.PowerManager;
 import android.os.Process;
 import androidx.viewpager.widget.ViewPager;
 import androidx.appcompat.app.ActionBar;
-import androidx.appcompat.app.AppCompatActivity;
-import android.text.format.Time;
+
+import android.provider.Settings;
 import android.util.DisplayMetrics;
-import android.view.KeyEvent;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -42,6 +49,9 @@ import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.huari.Base.AnalysisBase;
+import com.huari.NetMonitor.WindowController;
+import com.huari.NetMonitor.WindowHelper;
 import com.huari.adapter.ItuAdapterOfListView;
 import com.huari.adapter.PagerAdapterOfSpectrum;
 import com.huari.commandstruct.PPFXRequest;
@@ -52,25 +62,30 @@ import com.huari.dataentry.LogicParameter;
 import com.huari.dataentry.MyDevice;
 import com.huari.dataentry.Parameter;
 import com.huari.dataentry.Station;
+import com.huari.dataentry.Type;
+import com.huari.tools.ByteFileIoUtils;
 import com.huari.tools.MyTools;
 import com.huari.tools.Parse;
+import com.huari.tools.RealTimeSaveStore;
 import com.huari.tools.SysApplication;
 import com.huari.ui.ShowWaveView;
 
-public class SpectrumsAnalysisActivity extends AppCompatActivity {
+import org.greenrobot.eventbus.EventBus;
+
+public class SpectrumsAnalysisActivity extends AnalysisBase {
 	PowerManager pm;
 	PowerManager.WakeLock wl;
 
 	boolean cq;// 是否显示场强
 
-	public static int PINPUDATA = 0x10;
-	public static int DIANPINGDATA = 0x987;
-	public static int ITUDATA = 0x3;
 	public static int IQDATA = 0x4;
 	public static int AUDIODATA = 0x5;
 	public static int PARAMETERREFRESH = 0x6;
 	public static int FIRSTAUDIOCOME = 0x9;
 	public static int tempLength = 409600;
+	public static Queue<byte[]> queue;
+	public static boolean saveFlag = false;
+	float lan,lon;
 	
 	private final  static String AUDIO_RAW_FILENAME = "RawAudio.raw";
 
@@ -80,8 +95,7 @@ public class SpectrumsAnalysisActivity extends AppCompatActivity {
     private String AudioName = "";        //原始音频数据文件 ，麦克风    
     private String NewAudioName = "";     //可播放的音频文件  
 	private static File recordFile ;
-    public  static FileOutputStream fos = null;
-    
+
 	ShowWaveView waveview;
 	com.huari.ui.PartWaveShowView showwave;
 	ViewPager viewpager;
@@ -93,10 +107,7 @@ public class SpectrumsAnalysisActivity extends AppCompatActivity {
 
 	public static ArrayList<byte[]> audiolist1, audiolist2;
 	public static boolean firstaudio = true;
-	public static boolean isRecording = false;
-	public static int audioindex = 0;
-	public static Object synObject = new Object();
-	
+
 	boolean partispause, fullispause = true;
 	ArrayList<Parameter> ap;
 	float startFreq = 0f, endFreq = 0f, pStepFreq = 0f, centerFreq = 0f,
@@ -107,7 +118,6 @@ public class SpectrumsAnalysisActivity extends AppCompatActivity {
 	MenuItem mitem;
 
 	static byte[] info;
-	public static Handler handle;
 
 	View parentview;
 	String[] namesofitems, advanceditems, generalparent, generaletdata;
@@ -140,11 +150,8 @@ public class SpectrumsAnalysisActivity extends AppCompatActivity {
 	boolean showMax, showMin, showAvg;
 
 	// 解析声音相关的东西
-	public static AudioTrack at;
-	public static int audioBuffersize;
-	public static byte[] audioBuffer;
-	public static byte[] tempAudioBuffer;
-	public static int tempbufferindex = 0;
+	private String fileName;
+	private static String fileBasePath;
 
 	//public static PlayAudioThread playAudioThread;
 
@@ -221,18 +228,21 @@ public class SpectrumsAnalysisActivity extends AppCompatActivity {
 	}
 
 	private void sendClose() {
-		StopTaskFrame st = new StopTaskFrame();
-		st.length = 2;
-		st.functionNum = 16;
-		st.tail = 22;
-		byte[] b;
-		try {
-			b = JavaStruct.pack(st);
-			outs.write(b);
-			outs.flush();
-		} catch (Exception e) {
-			e.printStackTrace();
-		}
+		Thread thread = new Thread(() -> {
+			StopTaskFrame st = new StopTaskFrame();
+			st.length = 2;
+			st.functionNum = 16;
+			st.tail = 22;
+			byte[] b;
+			try {
+				b = JavaStruct.pack(st);
+				outs.write(b);
+				outs.flush();
+			} catch (Exception e) {
+				e.printStackTrace();
+			}
+		});
+		thread.start();
 	}
 
 	class MyThread extends Thread {
@@ -243,55 +253,66 @@ public class SpectrumsAnalysisActivity extends AppCompatActivity {
 		}
 
 		private void sendStartCmd() {
-			try {
-				byte[] bbb = iRequestInfo();
+//			savePrepare();
+			Thread thread = new Thread(() -> {
+				try {
+					byte[] bbb = iRequestInfo();
 
-				GlobalData.clearSpectrums();
-				if (filterSpanParameter != null) {
-					halfSpectrumsWide = Float
-							.parseFloat(filterSpanParameter.defaultValue) / 2000f;
-				}
-				if (spectrumParameter != null) {
-					halfSpectrumsWide = Float
-							.parseFloat(spectrumParameter.defaultValue) / 2000f;
-				}
-				startFreq = (float) (Math.floor(Float
-						.parseFloat(centerParameter.defaultValue)
-						* 1000f
-						- halfSpectrumsWide * 1000)) / 1000;
-				endFreq = (Float.parseFloat(centerParameter.defaultValue) * 1000f + halfSpectrumsWide * 1000) / 1000;
-				waveview.setF(startFreq, endFreq, pStepFreq);
-				outs.write(bbb);
-				outs.flush();
+					GlobalData.clearSpectrums();
+					if (filterSpanParameter != null) {
+						halfSpectrumsWide = Float
+								.parseFloat(filterSpanParameter.defaultValue) / 2000f;
+					}
+					if (spectrumParameter != null) {
+						halfSpectrumsWide = Float
+								.parseFloat(spectrumParameter.defaultValue) / 2000f;
+					}
+					startFreq = (float) (Math.floor(Float
+							.parseFloat(centerParameter.defaultValue)
+							* 1000f
+							- halfSpectrumsWide * 1000)) / 1000;
+					endFreq = (Float.parseFloat(centerParameter.defaultValue) * 1000f + halfSpectrumsWide * 1000) / 1000;
+					waveview.setF(startFreq, endFreq, pStepFreq);
+					outs.write(bbb);
+					outs.flush();
 
-			} catch (NullPointerException e) {
-				System.out.println("异常");
-				sendStartCmd();
-			} catch (Exception e) {
-				System.out.println("84854959异常");
-			}
+				} catch (NullPointerException e) {
+					System.out.println("异常");
+					sendStartCmd();
+				} catch (Exception e) {
+					System.out.println("84854959异常");
+				}
+			});
+			thread.start();
 		}
 
-		private void sendEndCmd() {
-			StopTaskFrame st = new StopTaskFrame();
-			st.functionNum = 16;
-			st.length = 2;
-			byte[] b;
-			try {
-				b = JavaStruct.pack(st);
-				outs.write(b);
-				outs.flush();
 
-			} catch (Exception e) {
-				e.printStackTrace();
-			}
+		private void sendEndCmd() {
+			ByteFileIoUtils.runFlag = false;
+			Thread thread = new Thread(() -> {
+				StopTaskFrame st = new StopTaskFrame();
+				st.functionNum = 16;
+				st.length = 2;
+				byte[] b;
+				try {
+					b = JavaStruct.pack(st);
+					outs.write(b);
+					outs.flush();
+
+				} catch (Exception e) {
+					e.printStackTrace();
+				}
+			});
+			thread.start();
 		}
 
 		public void run() {
 			try {
 				Process.setThreadPriority(Process.THREAD_PRIORITY_URGENT_AUDIO);
 				int available = 0;
-				byte[] info = null;
+				long time = 0;
+				byte[] info;
+				int flag = 0;
 
 				while (available == 0 && end == false) {
 					available = ins.available();
@@ -299,6 +320,13 @@ public class SpectrumsAnalysisActivity extends AppCompatActivity {
 						info = new byte[available];
 						ins.read(info);
 						Parse.newParseSpectrumsAnalysis(info);
+						if (saveFlag == true) {
+							if (flag == 0) {
+								savePrepare();
+								flag++;
+							}
+							time = RealTimeSaveStore.SaveAtTime(available, info, time, 2);//给数据加一个时间的包头后递交到缓存队列中
+						}
 						available = 0;
 					}
 				}
@@ -307,6 +335,21 @@ public class SpectrumsAnalysisActivity extends AppCompatActivity {
 				e.printStackTrace();
 			}
 		}
+	}
+
+	public void savePrepare() {
+		ByteFileIoUtils.runFlag = true;
+		queue = new LinkedBlockingDeque<>();
+		SimpleDateFormat df = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+		fileName = "AN|" + df.format(new Date()).replaceAll(" ", "|");
+//                    + "||" + stationname + "|" + devicename + "|" + stationKey + "|" + lan + "|" + lon;
+//                    +"|"+logicId;    //会导致名字长度超出限制
+		SharedPreferences sharedPreferences = getSharedPreferences("myclient", MODE_PRIVATE);
+		SharedPreferences.Editor shareEditor = sharedPreferences.edit();
+		shareEditor.putString(fileName, stationname + "|" + devicename + "||" + stationKey + "|||" + lan + "||||" + lon + "|||||" + logicId);
+		shareEditor.commit();  //以文件名作为key来将台站信息存入shareReferences
+		Log.d("xiaoxiao", String.valueOf(fileName.length()));
+		SysApplication.byteFileIoUtils.writeBytesToFile(fileName, 2); //开始保存数据前的初始化
 	}
 
 	@SuppressLint("InvalidWakeLockTag")
@@ -356,11 +399,6 @@ public class SpectrumsAnalysisActivity extends AppCompatActivity {
 		} else {
 			setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_USER_PORTRAIT);
 		}
-		actionbar = getSupportActionBar();
-		actionbar.setDisplayShowHomeEnabled(false);
-		actionbar.setDisplayHomeAsUpEnabled(false);
-		actionbar.setDisplayShowCustomEnabled(true);
-		actionbar.setDisplayShowTitleEnabled(true);
 
 		Intent intent = getIntent();
 		Bundle bundle = intent.getExtras();
@@ -378,7 +416,13 @@ public class SpectrumsAnalysisActivity extends AppCompatActivity {
 
 		stationtextview.setText(stationname);
 		devicetextview.setText(devicename);
-		actionbar.setCustomView(titlebar);
+
+//		actionbar = getSupportActionBar();
+//		actionbar.setDisplayShowHomeEnabled(false);
+//		actionbar.setDisplayHomeAsUpEnabled(false);
+//		actionbar.setDisplayShowCustomEnabled(true);
+//		actionbar.setDisplayShowTitleEnabled(true);
+//		actionbar.setCustomView(titlebar);
 
 		showwave = (com.huari.ui.PartWaveShowView) getLayoutInflater().inflate(
 				R.layout.a, null);
@@ -431,6 +475,8 @@ public class SpectrumsAnalysisActivity extends AppCompatActivity {
 		handle = new Handler() {
 			@Override
 			public void handleMessage(Message msg) {
+				fullispause = false;
+				partispause = false;
 				try {
 					if (msg.what == DIANPINGDATA && fullispause == false
 							&& partispause == false) {
@@ -519,33 +565,33 @@ public class SpectrumsAnalysisActivity extends AppCompatActivity {
 
 	}
 
-	@Override
-	public boolean onKeyDown(int keyCode, KeyEvent event) {
-		if (keyCode == KeyEvent.KEYCODE_BACK) {
-			AlertDialog.Builder builder = new AlertDialog.Builder(
-					SpectrumsAnalysisActivity.this);
-			builder.setTitle("警告!");
-			builder.setMessage("确定要退出该功能吗？");
-			builder.setPositiveButton("确定",
-					new DialogInterface.OnClickListener() {
-
-						@Override
-						public void onClick(DialogInterface dialog, int which) {
-							// TODO Auto-generated method stub
-							willExit();
-							Intent intent = new Intent(
-									SpectrumsAnalysisActivity.this,
-									MainActivity.class);//CircleActivity.class);
-							startActivity(intent);
-							finish();
-						}
-					});
-			builder.setNegativeButton("取消", null);
-			builder.create();
-			builder.show();
-		}
-		return super.onKeyDown(keyCode, event);
-	}
+//	@Override
+//	public boolean onKeyDown(int keyCode, KeyEvent event) {
+//		if (keyCode == KeyEvent.KEYCODE_BACK) {
+//			AlertDialog.Builder builder = new AlertDialog.Builder(
+//					SpectrumsAnalysisActivity.this);
+//			builder.setTitle("警告!");
+//			builder.setMessage("确定要退出该功能吗？");
+//			builder.setPositiveButton("确定",
+//					new DialogInterface.OnClickListener() {
+//
+//						@Override
+//						public void onClick(DialogInterface dialog, int which) {
+//							// TODO Auto-generated method stub
+//							willExit();
+//							Intent intent = new Intent(
+//									SpectrumsAnalysisActivity.this,
+//									MainActivity.class);//CircleActivity.class);
+//							startActivity(intent);
+//							finish();
+//						}
+//					});
+//			builder.setNegativeButton("取消", null);
+//			builder.create();
+//			builder.show();
+//		}
+//		return super.onKeyDown(keyCode, event);
+//	}
 
 	@Override
 	public boolean onCreateOptionsMenu(Menu menu) {
@@ -889,7 +935,7 @@ public class SpectrumsAnalysisActivity extends AppCompatActivity {
 			try {
 				inithread.destroy();
 			} catch (Exception e) {
-
+				e.printStackTrace();
 			}
 			inithread = null;
 		}
@@ -927,13 +973,45 @@ public class SpectrumsAnalysisActivity extends AppCompatActivity {
 	@Override
 	protected void onResume() {
 		wl.acquire();
+		fullispause = false;
+		partispause = false;
+		startWindow();
+//		RealTimeSaveStore.ParseLocalDdfData("nba",2,30);
 		super.onResume();
+	}
+
+	private void startWindow() {
+		Type type = new Type(WindowController.FLAG_ANALYSIS);
+		EventBus.getDefault().postSticky(type);
+		if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+			if (Settings.canDrawOverlays(this)) {
+				WindowHelper.instance.setHasPermission(true);
+				WindowHelper.instance.startWindowService(getApplicationContext());
+			} else {
+				new AlertDialog.Builder(this)
+						.setTitle("提示：")
+						.setMessage("需要悬浮窗权限")
+						.setCancelable(true)
+						.setPositiveButton("设置", (dialog, which) -> {
+							Intent intent = new Intent();
+							intent.setAction(Settings.ACTION_MANAGE_OVERLAY_PERMISSION);
+							intent.setData(Uri.parse("package:" + getPackageName()));
+							startActivity(intent);
+						})
+						.setNegativeButton("取消", (dialog, which) -> dialog.dismiss()).show();
+			}
+		} else {
+			WindowHelper.instance.setHasPermission(true);
+			WindowHelper.instance.startWindowService(getApplicationContext());
+		}
 	}
 
 	@Override
 	protected void onPause() {
 		wl.release();
 		super.onPause();
+		ByteFileIoUtils.runFlag = false;
+		willExit();
 	}
 
     /**
@@ -954,21 +1032,25 @@ public class SpectrumsAnalysisActivity extends AppCompatActivity {
     public static String getRawFilePath(){
         String mAudioRawPath = "";
         if(isSdcardExit()){
-            String fileBasePath = Environment.getExternalStorageDirectory().getAbsolutePath();
-            mAudioRawPath = fileBasePath + "/" + AUDIO_RAW_FILENAME;
+			fileBasePath = Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DCIM).getAbsolutePath();
+            mAudioRawPath = fileBasePath + File.separator + "Voice"+File.separator+"transfer";
         }   
-         
+        if (!(new File(fileBasePath).exists())){
+        	new File(fileBasePath).mkdirs();
+		}
         return mAudioRawPath;
     }
     
     public static String getWavFilePath(){
         String mAudioWavPath = "";
-	    Time t = new Time("GMT+8");
-	    t.setToNow();
-	    String tt = t.toString();
         if (isSdcardExit()) {
-            String fileBasePath = Environment.getExternalStorageDirectory().getAbsolutePath();
-            mAudioWavPath = fileBasePath + "/rec_" + centerParameter.defaultValue + tt +".wav";;
+            String fileBasePath = Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DCIM).getAbsolutePath();
+			SimpleDateFormat df = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+			String fileName = "REC|"+df.format(new Date()).replaceAll(" ", "|")+".wav";
+            mAudioWavPath = fileBasePath + File.separator + "Voice" +File.separator+ fileName;
+            if (!(new File(mAudioWavPath).exists())){
+				new File(mAudioWavPath).mkdirs();
+			}
         }
         return mAudioWavPath;
     }

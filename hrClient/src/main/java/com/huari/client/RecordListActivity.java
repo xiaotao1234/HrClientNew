@@ -39,7 +39,7 @@ public class RecordListActivity extends AppCompatActivity {
         rv.setLayoutManager(new LinearLayoutManager(this));
         rv.setAdapter(new SimpleTestAdapter(this));
         tagCloudView = findViewById(R.id.tag_cloud);
-        tagCloudView.setBackgroundColor(Color.parseColor("#2c2d41"));
+        tagCloudView.setBackgroundColor(Color.parseColor("#000000"));
         final TagCloudAdapter adapter = new TagCloudAdapter(new String[100],rv);
         tagCloudView.setAdapter(adapter);
         final View rootView = findViewById(android.R.id.content);

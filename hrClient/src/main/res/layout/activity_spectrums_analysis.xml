@@ -11,12 +11,12 @@
         android:layout_weight="0.8"
         />
 
-    <com.huari.ui.PartWaveShowView
-            android:id="@+id/buildpartwaveshow"
-            android:background="@android:color/black"
-            android:layout_width="match_parent"
-            android:layout_height="0dp"
-            android:layout_weight="0.8"/>
+    <!--<com.huari.ui.PartWaveShowView-->
+            <!--android:id="@+id/buildpartwaveshow"-->
+            <!--android:background="@android:color/black"-->
+            <!--android:layout_width="match_parent"-->
+            <!--android:layout_height="0dp"-->
+            <!--android:layout_weight="0.8"/>-->
 
     
     <com.huari.ui.ShowWaveView 

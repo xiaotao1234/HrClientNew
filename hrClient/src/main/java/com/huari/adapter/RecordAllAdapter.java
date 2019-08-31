@@ -83,11 +83,11 @@ public class RecordAllAdapter extends RecordAllBaseAdapter<RecordAllAdapter.Clas
 
     @Override
     public void onBindHeaderViewHolder(ClassHolder holder, int position) {
-        holder.tvClassName.setOnClickListener(null);
+        holder.linearLayout.setOnClickListener(null);
         holder.tvClassName.setText(mContent.get(position).className);
 
-        holder.tvClassName.setTag(position);
-        holder.tvClassName.setOnClickListener(v -> {
+        holder.linearLayout.setTag(position);
+        holder.linearLayout.setOnClickListener(v -> {
             int position1 = (int) v.getTag();
 
             boolean isOpen = mBooleanMap.get(position1);
@@ -100,7 +100,7 @@ public class RecordAllAdapter extends RecordAllBaseAdapter<RecordAllAdapter.Clas
     @Override
     public void onBindContentViewHolder(StudentHolder holder, int HeaderPosition, int ContentPositionForHeader) {
         holder.tvName.setText(mContent.get(HeaderPosition).classStudents.get(ContentPositionForHeader));
-        holder.tvName.setOnClickListener(v -> stationFunctionListener.callback());
+        holder.linearLayout.setOnClickListener(v -> stationFunctionListener.callback());
     }
 
 
@@ -108,20 +108,24 @@ public class RecordAllAdapter extends RecordAllBaseAdapter<RecordAllAdapter.Clas
     class ClassHolder extends RecyclerView.ViewHolder{
 
         public TextView tvClassName;
+        public LinearLayout linearLayout;
 
         public ClassHolder(View itemView) {
             super(itemView);
             tvClassName = itemView.findViewById(R.id.tvInfo);
+            linearLayout = itemView.findViewById(R.id.recorder_item);
         }
     }
 
     class StudentHolder extends RecyclerView.ViewHolder{
 
         public TextView tvName;
+        LinearLayout linearLayout;
 
         public StudentHolder(View itemView) {
             super(itemView);
             tvName = itemView.findViewById(R.id.tvInfo_day);
+            linearLayout = itemView.findViewById(R.id.recorder_item);
         }
     }
 

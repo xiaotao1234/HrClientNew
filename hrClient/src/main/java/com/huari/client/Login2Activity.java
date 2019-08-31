@@ -85,7 +85,7 @@ public class Login2Activity extends AppCompatActivity {
     }
 
     private void initViews() {
-                                            startActivity(new Intent(Login2Activity.this, Main2Activity.class));
+//                                            startActivity(new Intent(Login2Activity.this, Main2Activity.class));
         frameLayout = findViewById(R.id.contact_edit_frame);
         linearLayout = findViewById(R.id.contact_edit_linearlayout);
         editTextIp = findViewById(R.id.ip_edit);

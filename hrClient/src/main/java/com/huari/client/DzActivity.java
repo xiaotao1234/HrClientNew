@@ -6,8 +6,6 @@ import androidx.viewpager.widget.ViewPager;
 
 import android.os.Bundle;
 
-import com.huari.Fragment.FragmentCircle;
-import com.huari.Fragment.FragmentLin;
 import com.huari.adapter.DzPagerAdapter;
 
 import java.util.ArrayList;
@@ -21,9 +19,11 @@ public class DzActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_dz);
+
+
 //        viewPager = findViewById(R.id.viewpager_dz);
-//        fragments.add(new FragmentCircle());
-//        fragments.add(new FragmentLin());
+//        fragments.add(new LineFragment());
+//        fragments.add(new OfflineFragment(this));
 //        dzPagerAdapter = new DzPagerAdapter(getSupportFragmentManager(),fragments);
 //        viewPager.setAdapter(dzPagerAdapter);
     }

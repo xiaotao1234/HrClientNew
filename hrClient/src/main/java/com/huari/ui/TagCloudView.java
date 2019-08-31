@@ -319,14 +319,11 @@ public class TagCloudView extends ViewGroup implements Runnable, TagsAdapter.OnD
                 double scaleMath = Math.sqrt((mAngleX*mAngleX+mAngleY*mAngleY)*2);
                 animator = ValueAnimator.ofFloat(mAngleX, (float) (mAngleX /scaleMath));
                 animator.setDuration(1500);
-                animator.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() {
-                    @Override
-                    public void onAnimationUpdate(ValueAnimator animation) {
-                        float value = (Float) animation.getAnimatedValue();
-                        float m = mAngleY/mAngleX;
-                        mAngleX = value;
-                        mAngleY = m*mAngleX;
-                    }
+                animator.addUpdateListener(animation -> {
+                    float value = (Float) animation.getAnimatedValue();
+                    float m = mAngleY/mAngleX;
+                    mAngleX = value;
+                    mAngleY = m*mAngleX;
                 });
                 animator.start();
             case MotionEvent.ACTION_CANCEL:

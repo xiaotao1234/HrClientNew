@@ -3,6 +3,7 @@
     android:id="@+id/station_fuction_view"
     android:orientation="vertical"
     android:layout_width="match_parent"
+    android:background="@drawable/buttton_change_bg"
     android:layout_height="wrap_content">
     <ImageView
         android:id="@+id/station_function_picture"

@@ -33,9 +33,8 @@
 
                 <androidx.appcompat.widget.Toolbar
                     android:layout_width="match_parent"
-                    android:layout_height="?android:attr/actionBarSize"
+                    android:layout_height="50sp"
                     android:contentInsetStart="0sp"
-
                     app:layout_collapseMode="pin">
 
                     <LinearLayout
@@ -289,7 +288,7 @@
                         android:layout_weight="1" />
 
                     <androidx.cardview.widget.CardView
-                        android:id="@+id/p1"
+                        android:id="@+id/pinpufx"
                         android:layout_width="160sp"
                         android:layout_height="150sp"
                         android:layout_marginTop="0sp"
@@ -641,7 +640,7 @@
                 </LinearLayout>
                 <View
                     android:layout_width="1dp"
-                    android:layout_height="80dp"/>
+                    android:layout_height="90sp"/>
             </LinearLayout>
 
         </androidx.core.widget.NestedScrollView>

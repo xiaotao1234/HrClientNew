@@ -202,7 +202,6 @@ public class CirclePieView extends View {
         // 值，就只绘制到相应模块的最大值处，即arclist.get(i)中取出的值处。
         int num = 0;
         for (int i = 0; i < arclist.size(); i++) {
-            Paint paint = getPaint();
             if (value > num && value < num + arclist.get(i)) {
                 canvas.drawArc(rectF, num, value - num, true, paints.get(i));
                 drawText(canvas, num, "总结", arclist.get(i));

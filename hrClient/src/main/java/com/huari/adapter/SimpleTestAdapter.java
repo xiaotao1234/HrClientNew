@@ -40,13 +40,10 @@ public class SimpleTestAdapter extends RecyclerView.Adapter<SimpleTestAdapter.Te
     @Override
     public void onBindViewHolder(final TextViewHolder holder, int position) {
         holder.textView.setText("2019-8-" + position);
-        holder.linearLayout.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent intent = new Intent(context,
-                        RecordShowOnewActivity.class);
-                context.startActivity(intent);
-            }
+        holder.linearLayout.setOnClickListener(v -> {
+            Intent intent = new Intent(context,
+                    RecordShowOnewActivity.class);
+            context.startActivity(intent);
         });
     }
 

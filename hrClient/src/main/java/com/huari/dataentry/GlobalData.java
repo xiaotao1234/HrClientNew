@@ -34,7 +34,7 @@ public class GlobalData {
 	public static int port1 = 5000, port2 = 5012;
 	public static String mainTitle = "已登陆";
 
-	public static HashMap<String, Station> stationHashMap = new HashMap<String, Station>();// 用以存储监测站
+	public static HashMap<String, Station> stationHashMap = new HashMap<>();// 用以存储监测站
 	public static HashMap<String, UnManStation> unmanHashMap = new HashMap<String, UnManStation>();// 用以存储无人站
 	public static HashMap<String, UnManServer> unmanServerHashMap = new HashMap<String, UnManServer>();// 用以存储无人站的服务器
 	public static byte[] unmanbuffer;

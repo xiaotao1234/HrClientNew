@@ -42,7 +42,7 @@ public class StationListActivity extends Activity {
 		setContentView(R.layout.activity_station_list);
 		SysApplication.getInstance().addActivity(this);
 		Thread.setDefaultUncaughtExceptionHandler(GlobalData.myExceptionHandler);
-		mylistview = (ExpandableListView) findViewById(R.id.listexpandablelistview);
+		mylistview = findViewById(R.id.listexpandablelistview);
 		Intent intent = getIntent();
 		Bundle bundle = intent.getExtras();
 		from = bundle.getString("from");
@@ -115,7 +115,7 @@ public class StationListActivity extends Activity {
 			final MyDevice temp = curDevice;
 			LinearLayout linearview = (LinearLayout) getLayoutInflater()
 					.inflate(R.layout.deviceitem, null);
-			TextView tv = (TextView) linearview
+			TextView tv = linearview
 					.findViewById(R.id.deviceitemtextview);
 			if (curDevice.isOccupied == 1) {
 				tv.setText(curDevice.name + "(正在使用)");
@@ -125,120 +125,117 @@ public class StationListActivity extends Activity {
 			if (curDevice.state == 1) {
 				tv.setText(curDevice.name + "(故障)");
 			}
-			Button bn = (Button) linearview.findViewById(R.id.deviceitembutton);
+			Button bn = linearview.findViewById(R.id.deviceitembutton);
 			if (from.equals("FUN")
 					&& (functionname.equals("频谱分析")
 							|| functionname.equals("单频测向") || functionname
 								.equals("频段扫描"))) {
 				// spinner.setVisibility(View.INVISIBLE);
-				bn.setOnClickListener(new OnClickListener() {
-					@Override
-					public void onClick(View v) {
-						String[] functionArray = new String[deviceObjectArray[m][n].logic
-								.size()];
-						int f1 = 0;
-						for (String ffff : deviceObjectArray[m][n].logic
-								.keySet()) {
-							LogicParameter llp = deviceObjectArray[m][n].logic
-									.get(ffff);
-							functionArray[f1] = llp.type;
-							if (llp.type.startsWith("L")) {
-								logicPPFXId = llp.id;       //频谱分析
-							} else if (llp.type.startsWith("S")) {
-								logicPDSMId = llp.id;		//频段扫描
-							} else if (llp.type.startsWith("D")) {
-								logicDPCXId = llp.id;		//单频测向
-							}
-							f1++;
+				bn.setOnClickListener(v -> {
+					String[] functionArray = new String[deviceObjectArray[m][n].logic
+							.size()];
+					int f1 = 0;
+					for (String ffff : deviceObjectArray[m][n].logic
+							.keySet()) {
+						LogicParameter llp = deviceObjectArray[m][n].logic
+								.get(ffff);
+						functionArray[f1] = llp.type;
+						if (llp.type.startsWith("L")) {
+							logicPPFXId = llp.id;       //频谱分析
+						} else if (llp.type.startsWith("S")) {
+							logicPDSMId = llp.id;		//频段扫描
+						} else if (llp.type.startsWith("D")) {
+							logicDPCXId = llp.id;		//单频测向
 						}
-						if (functionname.equals("频谱分析")) {
-							boolean have = false;
-							float centerFreq = 0f;// 中心频率，单位为MHz
-							float demodulationSpan = 0f;// 频率带宽，单位为KHz
-							float stepFreq = 0f;// 频率步进，单位KHz
-							for (String h : functionArray) {
-								if (h.startsWith("LEVE")) {
-									have = true;
-									break;
-								}
+						f1++;
+					}
+					if (functionname.equals("频谱分析")) {
+						boolean have = false;
+						float centerFreq = 0f;// 中心频率，单位为MHz
+						float demodulationSpan = 0f;// 频率带宽，单位为KHz
+						float stepFreq = 0f;// 频率步进，单位KHz
+						for (String h : functionArray) {
+							if (h.startsWith("LEVE")) {
+								have = true;
+								break;
 							}
-							if (!have) {
-								Toast.makeText(getApplicationContext(),
-										"该设备无此功能", Toast.LENGTH_SHORT).show();
-							} else {
+						}
+						if (!have) {
+							Toast.makeText(getApplicationContext(),
+									"该设备无此功能", Toast.LENGTH_SHORT).show();
+						} else {
 
-								Intent intent = new Intent();
-								intent.setAction("function0");
-								Bundle bundle = new Bundle();
-								bundle.putString("devicename",
-										deviceObjectArray[m][n].name);
-								bundle.putString("stationname",
-										stationObjectArray[m].name);
-								bundle.putString("stationKey",
-										stationObjectArray[m].id);
-								bundle.putString("lid", logicPPFXId);
-								intent.putExtras(bundle);
-								startActivity(intent);
+							Intent intent = new Intent();
+							intent.setAction("function0");
+							Bundle bundle = new Bundle();
+							bundle.putString("devicename",
+									deviceObjectArray[m][n].name);
+							bundle.putString("stationname",
+									stationObjectArray[m].name);
+							bundle.putString("stationKey",
+									stationObjectArray[m].id);
+							bundle.putString("lid", logicPPFXId);
+							intent.putExtras(bundle);
+							startActivity(intent);
+						}
+					} else if (functionname.equals("单频测向")) {
+						boolean have = false;
+						for (String h : functionArray) {
+							if (h.startsWith("DDF")) {
+								have = true;
+								break;
 							}
-						} else if (functionname.equals("单频测向")) {
-							boolean have = false;
-							for (String h : functionArray) {
-								if (h.startsWith("DDF")) {
-									have = true;
-									break;
-								}
-							}
-							if (!have) {
-								Toast.makeText(getApplicationContext(),
-										"该设备无此功能", Toast.LENGTH_SHORT).show();
-							} else {
+						}
+						if (!have) {
+							Toast.makeText(getApplicationContext(),
+									"该设备无此功能", Toast.LENGTH_SHORT).show();
+						} else {
 
-								Intent intent = new Intent();
-								intent.setAction("function12");
-								Bundle bundle = new Bundle();
-								bundle.putString("devicename",
-										deviceObjectArray[m][n].name);
-								bundle.putString("stationname",
-										stationObjectArray[m].name);
-								bundle.putFloat("lan",
-										stationObjectArray[m].lan);
-								bundle.putFloat("lon",
-										stationObjectArray[m].lon);
-								bundle.putString("stationKey",
-										stationObjectArray[m].id);
-								bundle.putString("lid", logicDPCXId);
-								Log.i(deviceObjectArray[m][n].name + "   "
-										+ stationObjectArray[m].name, "key"
-										+ stationObjectArray[m].id
-										+ "   logicID" + logicDPCXId);
-								intent.putExtras(bundle);
-								startActivity(intent);
+							Intent intent = new Intent();
+							intent.setAction("function12");
+							Bundle bundle = new Bundle();
+							bundle.putString("devicename",
+									deviceObjectArray[m][n].name);
+							bundle.putString("stationname",
+									stationObjectArray[m].name);
+							bundle.putFloat("lan",
+									stationObjectArray[m].lan);
+							bundle.putFloat("lon",
+									stationObjectArray[m].lon);
+							bundle.putString("stationKey",
+									stationObjectArray[m].id);
+							bundle.putString("lid", logicDPCXId);
+							Log.i(deviceObjectArray[m][n].name + "   "
+									+ stationObjectArray[m].name, "key"
+									+ stationObjectArray[m].id
+									+ "   logicID" + logicDPCXId);
+							intent.putExtras(bundle);
+							startActivity(intent);
+						}
+					} else if (functionname.equals("频段扫描")) {
+						boolean have = false;
+						for (String h : functionArray) {
+							if (h.startsWith("SCAN")) {
+								have = true;
+								break;
 							}
-						} else if (functionname.equals("频段扫描")) {
-							boolean have = false;
-							for (String h : functionArray) {
-								if (h.startsWith("SCAN")) {
-									have = true;
-									break;
-								}
-							}
-							if (!have) {
-								Toast.makeText(getApplicationContext(),
-										"该设备无此功能", Toast.LENGTH_SHORT).show();
-							} else {
-								Intent intent = new Intent();
-								intent.setAction("function18");
-								Bundle bundle = new Bundle();
-								bundle.putString("devicename",
-										deviceObjectArray[m][n].name);
-								bundle.putString("stationname",
-										stationObjectArray[m].name);
-								bundle.putString("stationKey",
-										stationObjectArray[m].id);
-								bundle.putString("lid", logicPDSMId);
-								intent.putExtras(bundle);
-								startActivity(intent);
-							}
+						}
+						if (!have) {
+							Toast.makeText(getApplicationContext(),
+									"该设备无此功能", Toast.LENGTH_SHORT).show();
+						} else {
+							Intent intent = new Intent();
+							intent.setAction("function18");
+							Bundle bundle = new Bundle();
+							bundle.putString("devicename",
+									deviceObjectArray[m][n].name);
+							bundle.putString("stationname",
+									stationObjectArray[m].name);
+							bundle.putString("stationKey",
+									stationObjectArray[m].id);
+							bundle.putString("lid", logicPDSMId);
+							intent.putExtras(bundle);
+							startActivity(intent);
 						}
 					}
 				});

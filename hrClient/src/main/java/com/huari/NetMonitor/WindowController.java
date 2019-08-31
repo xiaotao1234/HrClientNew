@@ -16,10 +16,19 @@ import android.widget.RadioButton;
 import android.widget.RadioGroup;
 import android.widget.TextView;
 
+import com.huari.client.PinDuanScanningActivity;
 import com.huari.client.R;
+import com.huari.client.SinglefrequencyDFActivity;
+import com.huari.client.SpectrumsAnalysisActivity;
+import com.huari.dataentry.Type;
 
+import org.greenrobot.eventbus.EventBus;
+import org.greenrobot.eventbus.Subscribe;
+
+import java.sql.Time;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Timer;
 
 import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
@@ -27,10 +36,16 @@ import androidx.viewpager.widget.ViewPager;
 
 public class WindowController {
 
+    public static int FLAG_DF = 0;
+    public static int FLAG_ANALYSIS = 1;
+    public static int FLAG_PINDUAN = 2;
+    int type = 0;
+
     private final int HIDE = 0x001;
     private final int SHOW = 0x002;
     private final int REFRESH = 0x003;
     private final int CLICK = 0x004;
+    private final int TIMER = 5;
 
     private static WindowController instance;
     private Context context;
@@ -39,7 +54,7 @@ public class WindowController {
     //最小滑动距离
     private int mTouchSlop;
     //上下两个布局
-    private LinearLayout layoutTop, layoutBottom;
+    private LinearLayout layoutTop;
     private TextView top;
     private ViewPager viewPager;
     //viewPager的adapter
@@ -69,27 +84,29 @@ public class WindowController {
     //状态栏的高度
     private int statusBarHeight;
     //展开 or 收起
-    private boolean isShow;
+    private boolean isRecord = false;
 
     private Handler handler = new Handler() {
         @Override
         public void handleMessage(Message msg) {
             switch (msg.what) {
-                case HIDE:
-                    hideBottom();
-                    break;
-                case SHOW:
-                    showBottom();
-                    break;
+//                case HIDE:
+//                    hideBottom();
+//                    break;
+//                case SHOW:
+//                    showBottom();
+//                    break;
                 case REFRESH:
                     mWindowManager.updateViewLayout(layoutTop, wParamsTop);
-                    if (isShow) {
-                        mWindowManager.updateViewLayout(layoutBottom, wParamsBottom);
-                    }
                     break;
                 case CLICK:
                     click();
                     break;
+                case TIMER:
+                    String s;
+                    int a = (int) msg.obj;
+                    s = a / 10 + "." + a % 10;
+                    top.setText(s);
                 default:
                     super.handleMessage(msg);
             }
@@ -99,6 +116,7 @@ public class WindowController {
 
     private WindowController(Context context) {
         this.context = context;
+        EventBus.getDefault().register(this);
         mWindowManager = (WindowManager) context.getSystemService(Context.WINDOW_SERVICE);
         mDatas = new ArrayList<>();
         viewList = new ArrayList<>();
@@ -152,72 +170,69 @@ public class WindowController {
         top = layoutTop.findViewById(R.id.top);
 
         //监听触摸事件,实现拖动和点击。
-        top.setOnTouchListener(new View.OnTouchListener() {
-            @Override
-            public boolean onTouch(View v, MotionEvent event) {
-                switch (event.getAction()) {
-                    case MotionEvent.ACTION_DOWN:
-                        Log.e("ZXK", "MotionEvent.ACTION_DOWN");
-                        downTime = (int) System.currentTimeMillis();
+        top.setOnTouchListener((v, event) -> {
+            switch (event.getAction()) {
+                case MotionEvent.ACTION_DOWN:
+                    Log.e("ZXK", "MotionEvent.ACTION_DOWN");
+                    downTime = (int) System.currentTimeMillis();
+
+                    lastX = (int) event.getRawX();
+                    lastY = (int) event.getRawY();
+                    //保留相对距离，后面可以通过绝对坐标算出真实坐标
+                    downX = (int) event.getX();
+                    downY = (int) event.getY();
+                    break;
+                case MotionEvent.ACTION_MOVE:
+
+                    Log.e("ZXK", "MotionEvent.ACTION_MOVE");
+
+                    if (Math.abs(event.getRawX() - lastX) > 0 || Math.abs(event.getRawY() - lastY) > 0) {
+                        topX = (int) (event.getRawX() - downX);
+                        //需要减去状态栏高度
+                        topY = (int) (event.getRawY() - statusBarHeight - downY);
+
+                        //top左右不能越界
+                        if (topX < 0) {
+                            topX = 0;
+                        } else if ((topX + topWidth) > screenWidth) {
+                            topX = screenWidth - topWidth;
+                        }
+                        wParamsTop.x = topX;
+
+                        //top上下不能越界
+                        if (topY < 0) {
+                            topY = 0;
+                        } else if ((topY + topHeight) > screenHeight) {
+                            topY = screenHeight - topHeight;
+                        }
+                        wParamsTop.y = topY;
+
+                        if (screenHeight - topY - topHeight < bottomHeight) {
+                            bottomY = topY - bottomHeight;
+                        } else {
+                            bottomY = topY + topHeight;
+                        }
+                        wParamsBottom.y = bottomY;
 
                         lastX = (int) event.getRawX();
                         lastY = (int) event.getRawY();
-                        //保留相对距离，后面可以通过绝对坐标算出真实坐标
-                        downX = (int) event.getX();
-                        downY = (int) event.getY();
-                        break;
-                    case MotionEvent.ACTION_MOVE:
 
-                        Log.e("ZXK", "MotionEvent.ACTION_MOVE");
+                        handler.sendEmptyMessage(REFRESH);
+                    }
 
-                        if (Math.abs(event.getRawX() - lastX) > 0 || Math.abs(event.getRawY() - lastY) > 0) {
-                            topX = (int) (event.getRawX() - downX);
-                            //需要减去状态栏高度
-                            topY = (int) (event.getRawY() - statusBarHeight - downY);
+                    break;
+                case MotionEvent.ACTION_UP:
+                    int currentTime = (int) System.currentTimeMillis();
+                    if (currentTime - downTime < 200 && Math.abs(event.getRawX() - lastX) < mTouchSlop && Math.abs(event.getRawY() - lastY) < mTouchSlop) {
+                        handler.sendEmptyMessage(CLICK);
+                    }
 
-                            //top左右不能越界
-                            if (topX < 0) {
-                                topX = 0;
-                            } else if ((topX + topWidth) > screenWidth) {
-                                topX = screenWidth - topWidth;
-                            }
-                            wParamsTop.x = topX;
-
-                            //top上下不能越界
-                            if (topY < 0) {
-                                topY = 0;
-                            } else if ((topY + topHeight) > screenHeight) {
-                                topY = screenHeight - topHeight;
-                            }
-                            wParamsTop.y = topY;
-
-                            if (screenHeight - topY - topHeight < bottomHeight) {
-                                bottomY = topY - bottomHeight;
-                            } else {
-                                bottomY = topY + topHeight;
-                            }
-                            wParamsBottom.y = bottomY;
-
-                            lastX = (int) event.getRawX();
-                            lastY = (int) event.getRawY();
-
-                            handler.sendEmptyMessage(REFRESH);
-                        }
-
-                        break;
-                    case MotionEvent.ACTION_UP:
-                        int currentTime = (int) System.currentTimeMillis();
-                        if (currentTime - downTime < 200 && Math.abs(event.getRawX() - lastX) < mTouchSlop && Math.abs(event.getRawY() - lastY) < mTouchSlop) {
-                            handler.sendEmptyMessage(CLICK);
-                        }
-
-                        //保留坐标
-                        WindowHelper.setCoordinateX(context, topX);
-                        WindowHelper.setCoordinateY(context, topY);
-                        break;
-                }
-                return true;
+                    //保留坐标
+                    WindowHelper.setCoordinateX(context, topX);
+                    WindowHelper.setCoordinateY(context, topY);
+                    break;
             }
+            return true;
         });
 
         wParamsTop = new WindowManager.LayoutParams();
@@ -239,27 +254,6 @@ public class WindowController {
      * 初始化bottom视图
      */
     private void initBottom() {
-        layoutBottom = (LinearLayout) LayoutInflater.from(context).inflate(R.layout.window_bottom, null);
-        viewPager = layoutBottom.findViewById(R.id.viewPager);
-        radioGroup = layoutBottom.findViewById(R.id.radioGroup);
-        ((RadioButton) radioGroup.getChildAt(0)).setChecked(true);
-        viewPager.addOnPageChangeListener(new ViewPager.OnPageChangeListener() {
-            @Override
-            public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
-
-            }
-
-            @Override
-            public void onPageSelected(int position) {
-                ((RadioButton) radioGroup.getChildAt(position)).setChecked(true);
-            }
-
-            @Override
-            public void onPageScrollStateChanged(int state) {
-
-            }
-        });
-
         wParamsBottom = new WindowManager.LayoutParams();
         wParamsBottom.width = WindowManager.LayoutParams.MATCH_PARENT;
         wParamsBottom.height = WindowManager.LayoutParams.WRAP_CONTENT;
@@ -275,48 +269,76 @@ public class WindowController {
     /**
      * 收起
      */
-    private void hideBottom() {
-        if (isShow) {
-            try {
-                mWindowManager.removeView(layoutBottom);
-            } catch (Exception e) {
-                e.printStackTrace();
-            }
-        }
-        isShow = false;
-    }
-
-    /**
-     * 展开
-     */
-    private void showBottom() {
-        if (!isShow) {
-            //有些点击事件不会触发MotionEvent.ACTION_MOVE,如果top布局在屏幕底部,会出现bug
-            if (screenHeight - topY - topHeight < bottomHeight) {
-                bottomY = topY - bottomHeight;
-            } else {
-                bottomY = topY + topHeight;
-            }
-            wParamsBottom.y = bottomY;
-
-            //加入底部视图
-            mWindowManager.addView(layoutBottom, wParamsBottom);
-
-            //初始化底部视图
-            initData();
-        }
-        isShow = true;
-    }
 
     /**
      * 点击
      */
     private void click() {
-        if (isShow) {
-            handler.sendEmptyMessage(HIDE);
-        } else {
-            handler.sendEmptyMessage(SHOW);
+        switch (type) {
+            case 0:
+                if (SinglefrequencyDFActivity.saveFlag == false) {
+                    SinglefrequencyDFActivity.saveFlag = true;
+                } else {
+                    SinglefrequencyDFActivity.saveFlag = false;
+                }
+                break;
+            case 1:
+                if (SpectrumsAnalysisActivity.saveFlag == false) {
+                    SpectrumsAnalysisActivity.saveFlag = true;
+                } else {
+                    SpectrumsAnalysisActivity.saveFlag = false;
+                }
+                break;
+            case 2:
+                if (PinDuanScanningActivity.saveFlag == false) {
+                    PinDuanScanningActivity.saveFlag = true;
+                } else {
+                    PinDuanScanningActivity.saveFlag = false;
+                }
         }
+        timer();
+    }
+
+    private void timer() {
+        Thread thread = new Thread(() -> {
+            int start = (int) (System.currentTimeMillis() / 100);
+            int end;
+            while (isFlag() == true) {
+                try {
+                    Thread.sleep(100);
+                    end = (int) (System.currentTimeMillis() / 100);
+                    Message message = Message.obtain();
+                    message.what = 5;
+                    message.obj = end - start;
+                    handler.sendMessage(message);
+                } catch (InterruptedException e) {
+                    e.printStackTrace();
+                }
+            }
+        });
+        thread.start();
+    }
+
+    private boolean isFlag() {
+        boolean flag = false;
+        switch (type){
+            case 0:
+                flag = SinglefrequencyDFActivity.saveFlag;
+                break;
+            case 1:
+                flag = SpectrumsAnalysisActivity.saveFlag;
+                break;
+            case 2:
+                flag = PinDuanScanningActivity.saveFlag;
+                break;
+        }
+        return flag;
+    }
+
+
+    @Subscribe(sticky = true)
+    public void event(final Type type) {
+        this.type = type.getTypr();//来标识是哪一个窗口
     }
 
     /**
@@ -324,21 +346,21 @@ public class WindowController {
      */
     private void initData() {
         mDatas.clear();
-        for(int i = 0;i<9;i++){
-            mDatas.add(i+"");
+        for (int i = 0; i < 9; i++) {
+            mDatas.add(i + "");
         }
 
-        int pageSize = (mDatas.size()+2)/3;
+        int pageSize = (mDatas.size() + 2) / 3;
 
-        for(int i = 0;i<pageSize;i++){
+        for (int i = 0; i < pageSize; i++) {
             LinearLayout layout = (LinearLayout) LayoutInflater.from(context).inflate(R.layout.window_bottom_item, null);
             RecyclerView recyclerView = layout.findViewById(R.id.recyclerView);
-            recyclerView.setLayoutManager(new GridLayoutManager(context,3));
+            recyclerView.setLayoutManager(new GridLayoutManager(context, 3));
             pageData = new ArrayList<>();
-            viewAdapter = new ViewAdapter(context,pageData);
+            viewAdapter = new ViewAdapter(context, pageData);
             recyclerView.setAdapter(viewAdapter);
 
-            for(int j = 3*i;j<Math.min(mDatas.size(), (i + 1) * 3);j++){
+            for (int j = 3 * i; j < Math.min(mDatas.size(), (i + 1) * 3); j++) {
                 pageData.add(mDatas.get(j));
             }
             /*if(pageData.size()>0){
@@ -350,7 +372,7 @@ public class WindowController {
         windowAdapter = new WindowAdapter(viewList);
         viewPager.setAdapter(windowAdapter);
 
-        if(viewList.size()>0){
+        if (viewList.size() > 0) {
             //windowAdapter.notifyDataSetChanged();
             handler.sendEmptyMessage(REFRESH);
         }
@@ -359,9 +381,6 @@ public class WindowController {
     public void onDestroy() {
         if (mWindowManager != null) {
             try {
-                if (isShow) {
-                    hideBottom();
-                }
                 mWindowManager.removeView(layoutTop);
             } catch (Exception e) {
                 e.printStackTrace();
