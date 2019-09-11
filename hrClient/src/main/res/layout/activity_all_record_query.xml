@@ -26,7 +26,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:gravity="center"
-            android:hint="zdan"
+            android:hint="设备功能列表"
             android:padding="15sp"
             android:textColor="#000000"
             android:textSize="15sp" />

@@ -1,5 +1,6 @@
 package com.huari.ui;
 
+
 import android.animation.ValueAnimator;
 import android.content.Context;
 import android.content.res.TypedArray;
@@ -82,9 +83,9 @@ public class CirclePieView extends View {
 
     public void init() {
         TypedArray typedArray = context.obtainStyledAttributes(attributeSet, R.styleable.CirclePieView);
-        int lineColor = typedArray.getColor(R.styleable.CirclePieView_line_color, Color.parseColor("#66FFFFFF"));
-        int textColor = typedArray.getColor(R.styleable.CirclePieView_text_color, Color.parseColor("#FFFFFF"));
-        int centerCircleColor = typedArray.getColor(R.styleable.CirclePieView_center_circle_color, Color.parseColor("#555555"));
+        int lineColor = typedArray.getColor(R.styleable.CirclePieView_line_color, Color.parseColor("#222222"));
+        int textColor = typedArray.getColor(R.styleable.CirclePieView_text_color, Color.parseColor("#000000"));
+        int centerCircleColor = typedArray.getColor(R.styleable.CirclePieView_center_circle_color, Color.parseColor("#FFFFFF"));
         int smallCircleColor = typedArray.getColor(R.styleable.CirclePieView_small_circle_color, Color.parseColor("#BBFFFFFF"));
         int lineStrokeWidth = typedArray.getInt(R.styleable.CirclePieView_line_stroke_width, 4);
         float textSize = typedArray.getFloat(R.styleable.CirclePieView_text_size, 15);
@@ -257,9 +258,12 @@ public class CirclePieView extends View {
     public void initAnimator() {
         ValueAnimator valueAnimator = ValueAnimator.ofFloat(0, 360);
         valueAnimator.setDuration(3000);
-        valueAnimator.addUpdateListener(animation -> {
-            value = (float) animation.getAnimatedValue();
-            invalidate();
+        valueAnimator.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() {
+            @Override
+            public void onAnimationUpdate(ValueAnimator animation) {
+                value = (float) animation.getAnimatedValue();
+                invalidate();
+            }
         });
         valueAnimator.start();
     }

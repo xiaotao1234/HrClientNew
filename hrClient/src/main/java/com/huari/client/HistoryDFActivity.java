@@ -2,15 +2,19 @@ package com.huari.client;
 
 import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 import struct.JavaStruct;
 import struct.StructException;
 
+import android.annotation.SuppressLint;
 import android.app.AlertDialog;
-import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.pm.ActivityInfo;
+import android.graphics.Color;
+import android.graphics.drawable.ColorDrawable;
 import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Build;
@@ -20,17 +24,26 @@ import android.os.Message;
 import android.provider.Settings;
 import android.util.DisplayMetrics;
 import android.util.Log;
+import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.view.Window;
+import android.view.WindowManager;
+import android.widget.ArrayAdapter;
+import android.widget.Button;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.ListView;
+import android.widget.PopupWindow;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import com.huari.NetMonitor.WindowController;
 import com.huari.NetMonitor.WindowHelper;
+import com.huari.adapter.HistoryShowWindowAdapter;
 import com.huari.commandstruct.PPFXRequest;
 import com.huari.commandstruct.PinPuParameter;
 import com.huari.commandstruct.StopTaskFrame;
@@ -43,10 +56,9 @@ import com.huari.dataentry.Type;
 import com.huari.tools.ByteFileIoUtils;
 import com.huari.tools.MyTools;
 import com.huari.tools.Parse;
-import com.huari.tools.RealTimeSaveStore;
+import com.huari.tools.RealTimeSaveAndGetStore;
 import com.huari.tools.SysApplication;
 import com.huari.ui.CustomProgress;
-import com.huari.ui.CustomView;
 import com.huari.ui.DataSave;
 import com.huari.ui.Disk;
 import com.huari.ui.HColumns;
@@ -59,16 +71,13 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
 import java.net.Socket;
-import java.text.SimpleDateFormat;
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.HashMap;
-import java.util.Iterator;
+import java.util.List;
 import java.util.Queue;
 import java.util.Timer;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
-import java.util.concurrent.LinkedBlockingDeque;
 
 public class HistoryDFActivity extends AppCompatActivity {
 
@@ -82,6 +91,8 @@ public class HistoryDFActivity extends AppCompatActivity {
     String prefixion = "prefixion";
     SharedPreferences sharepre;
     SharedPreferences.Editor shareEditor;
+    private String[] datas = {"选项1", "选项2", "选项3", "选项4", "选项5"};
+
     int i = 0;
     int m = 0;// 用以控制发送开始命令时，如果异常，多试几次的次数
     float lan, lon;
@@ -89,6 +100,8 @@ public class HistoryDFActivity extends AppCompatActivity {
     Timer timer;
     HColumns hcs;
     CustomProgress customProgress;
+    TextView alllength;
+    TextView readnow;
     VColumns vcs;
     com.huari.ui.FourModeView fmv; //表格View
     com.huari.ui.ShowWaveViewOfDDF showwaveview;
@@ -122,6 +135,7 @@ public class HistoryDFActivity extends AppCompatActivity {
     MenuItem mitem;
     TextView stationtextview;
     TextView devicetextview;
+    TextView showStation;
 
     Parameter centerParameter;
     Parameter filterSpanParameter;// 次选带宽
@@ -131,6 +145,9 @@ public class HistoryDFActivity extends AppCompatActivity {
     ExecutorService executorService = Executors.newCachedThreadPool();
     public static Queue<byte[]> queue;
     private String filename;
+    private ImageView contorl;
+    ImageView previousButton;
+    ImageView nextButton;
 
     class IniThread extends Thread {
         public void run() {
@@ -239,7 +256,7 @@ public class HistoryDFActivity extends AppCompatActivity {
                             // System.out.println("开始接收DDF数据，解析发生了异常，定位到DDF的Activity的225行");
                         }
                         if (saveFlag == true) {
-                            time = RealTimeSaveStore.SaveAtTime(available, info, time, 1);//给数据加一个时间的包头后递交到缓存队列中
+                            time = RealTimeSaveAndGetStore.SaveAtTime(available, info, time, 1);//给数据加一个时间的包头后递交到缓存队列中
                         }
                         available = 0;
                     }
@@ -253,35 +270,40 @@ public class HistoryDFActivity extends AppCompatActivity {
     @Override
     protected void onResume() {
         super.onResume();
+        showStation.setSystemUiVisibility(View.INVISIBLE);
 //        startWindow();
         pause = false;
-        RealTimeSaveStore.ParseLocalWrap(filename, 1,handler);
+        RealTimeSaveAndGetStore.ParseLocalWrap(filename, 1,handler);
     }
 
-    private void startWindow() {
-        Type type = new Type(WindowController.FLAG_DF);
-        EventBus.getDefault().postSticky(type);
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
-            if (Settings.canDrawOverlays(this)) {
-                WindowHelper.instance.setHasPermission(true);
-                WindowHelper.instance.startWindowService(getApplicationContext());
-            } else {
-                new AlertDialog.Builder(this)
-                        .setTitle("提示：")
-                        .setMessage("需要悬浮窗权限")
-                        .setCancelable(true)
-                        .setPositiveButton("设置", (dialog, which) -> {
-                            Intent intent = new Intent();
-                            intent.setAction(Settings.ACTION_MANAGE_OVERLAY_PERMISSION);
-                            intent.setData(Uri.parse("package:" + getPackageName()));
-                            startActivity(intent);
-                        })
-                        .setNegativeButton("取消", (dialog, which) -> dialog.dismiss()).show();
-            }
-        } else {
-            WindowHelper.instance.setHasPermission(true);
-            WindowHelper.instance.startWindowService(getApplicationContext());
-        }
+    private void popWindow(View view) {
+        // TODO: 2016/5/17 构建一个popupwindow的布局
+        View popupView = HistoryDFActivity.this.getLayoutInflater().inflate(R.layout.popupwindow, null);
+        // TODO: 2016/5/17 为了演示效果，简单的设置了一些数据，实际中大家自己设置数据即可，相信大家都会。
+        RecyclerView lsvMore = popupView.findViewById(R.id.lsvMore);
+        List<String> list = new ArrayList<>();
+        list.add("ddada");
+        list.add("ddada");
+        list.add("ddada");
+        list.add("ddada");
+        list.add("ddada");
+        HistoryShowWindowAdapter historyShowWindowAdapter = new HistoryShowWindowAdapter(list);
+        lsvMore.setLayoutManager(new LinearLayoutManager(this));
+        lsvMore.setAdapter(historyShowWindowAdapter);
+        // TODO: 2016/5/17 创建PopupWindow对象，指定宽度和高度
+        PopupWindow window = new PopupWindow(popupView, 400, 600);
+        // TODO: 2016/5/17 设置动画
+        window.setAnimationStyle(R.style.popup_window_anim);
+        // TODO: 2016/5/17 设置背景颜色
+        window.setBackgroundDrawable(new ColorDrawable(Color.parseColor("#00000000")));
+        // TODO: 2016/5/17 设置可以获取焦点
+        window.setFocusable(true);
+        // TODO: 2016/5/17 设置可以触摸弹出框以外的区域
+        window.setOutsideTouchable(true);
+        // TODO：更新popupwindow的状态
+        window.update();
+        // TODO: 2016/5/17 以下拉的方式显示，并且可以设置显示的位置
+        window.showAsDropDown(view,0,-20,Gravity.TOP);
     }
 
     @Override
@@ -298,7 +320,6 @@ public class HistoryDFActivity extends AppCompatActivity {
             setContentView(R.layout.activity_history);
             sharepre = getSharedPreferences("myclient", MODE_PRIVATE);
             shareEditor = sharepre.edit();
-
             inithread = new IniThread();
             inithread.start();
             SysApplication.getInstance().addActivity(this);
@@ -329,24 +350,44 @@ public class HistoryDFActivity extends AppCompatActivity {
             mm.substring(mm.indexOf("|||") + 3, mm.indexOf("||||"));
             mm.substring(mm.indexOf("||||") + 4, mm.indexOf("|||||"));
             logicId = mm.substring(mm.indexOf("|||||") + 5, mm.length());
-
             stationtextview = l.findViewById(R.id.name1);
             devicetextview = l.findViewById(R.id.name2);
             stationtextview.setText(stationname);
             devicetextview.setText(devicename);
             customProgress = findViewById(R.id.video_progress);
+            alllength = findViewById(R.id.music_length);
+            readnow = findViewById(R.id.play_plan);
+            contorl = findViewById(R.id.play_control);
+            showStation = findViewById(R.id.station_button);
+            showStation.setOnClickListener(v -> {
+                popWindow(showStation);
+//                View view = LayoutInflater.from(HistoryDFActivity.this).inflate(R.layout.pop_window_view,null,false);
+//                PopupWindow popupWindow = new PopupWindow(view,100,200,true);
+//                popupWindow.showAtLocation(LayoutInflater.from(HistoryDFActivity.this).inflate(R.layout.activity_history,null,false),1,200,200);
+            });
+            contorl.setOnClickListener(v -> RealTimeSaveAndGetStore.pauseOrResume());
             customProgress.setProgress(0);
             customProgress.setProgressListener(progress -> {
                 pause = false;
                 Log.d("xiaotao", String.valueOf(progress));
-                RealTimeSaveStore.progressFlg = true;
-                RealTimeSaveStore.progress = (int) progress;
+                if(RealTimeSaveAndGetStore.thread.isAlive()){
+                    RealTimeSaveAndGetStore.progressFlg = true;
+                    RealTimeSaveAndGetStore.progress = (int) progress;
+                }else {
+                    RealTimeSaveAndGetStore.ParseLocalWrap(filename,1,handler);
+                    RealTimeSaveAndGetStore.progressFlg = true;
+                    RealTimeSaveAndGetStore.progress = (int)progress;
+                }
             });
             fmv = findViewById(R.id.buildcusli);
             fmv.setSystemUiVisibility(View.INVISIBLE);
             showwaveview = findViewById(R.id.ddfshowwaveview);
             vcs = findViewById(R.id.buildvcs);
             disks = findViewById(R.id.builddisk);
+            previousButton = findViewById(R.id.previous_button_bn);
+            nextButton = findViewById(R.id.next_button_bn);
+            previousButton.setOnClickListener(v -> RealTimeSaveAndGetStore.previousFrame(HistoryDFActivity.this));
+            nextButton.setOnClickListener(v -> RealTimeSaveAndGetStore.nextFrame(HistoryDFActivity.this));
             p = LayoutInflater.from(this).inflate(
                     R.layout.activity_frequencyscanning, null);
             vcs.setOnex0(75);
@@ -360,64 +401,22 @@ public class HistoryDFActivity extends AppCompatActivity {
             } else if (tongjimode.equals("概率")) {
                 fmv.tongjimodeswitch("gailv");
             }
-            ;
+
             if (showmode.equals("图形")) {
                 fmv.setGraphModeShow(true);
             } else if (showmode.equals("表格")) {
                 fmv.setGraphModeShow(false);
             }
-            ;
+
             if (jiaodumode.equals("正北")) {
                 disks.setRischecked(false);
             } else if (jiaodumode.equals("相对")) {
                 disks.setRischecked(true);
             }
 
-            Station stationF = GlobalData.stationHashMap.get(stationKey);
-            Iterator<String> it = GlobalData.stationHashMap.keySet().iterator();
-
-            if (stationF == null) {
-                return;
-            } else {
-            }
-
-            ArrayList<MyDevice> am = stationF.devicelist;
-            HashMap<String, LogicParameter> hsl = null;
-            for (MyDevice md : am) {
-                if (md.name.equals(devicename)) {
-                    hsl = md.logic;
-                }
-            }
-
-            LogicParameter currentLP = hsl.get(logicId);// 获取频谱分析相关的数据，以便画出初始界面
-            ap = currentLP.parameterlist;
-
-            for (Parameter p : ap) {
-                if (p.name.equals("DemodulationSpan")) {
-                    daikuan = Float.parseFloat(p.defaultValue);
-                } else if (p.name.equals("StepFreq")) {
-                    pStepFreq = Float.parseFloat(p.defaultValue);
-                } else if (p.name.equals("CenterFreq")) {
-                    centerFreq = Float.parseFloat(p.defaultValue);
-                    centerParameter = p;
-                } else if (p.name.equals("AntennaSelect")) {
-                    txname = p.defaultValue;
-                }
-                if (p.name.equals("FilterSpan")) {
-                    halfSpectrumsWide = Float.parseFloat(p.defaultValue) / 2000f;
-                    filterSpanParameter = p;
-                }
-                if (p.name.equals("SpectrumSpan")) {
-                    halfSpectrumsWide = Float.parseFloat(p.defaultValue) / 2000f;
-                    spectrumParameter = p;
-                }
-            }
-            startFreq = (float) (Math.floor(Float
-                    .parseFloat(centerParameter.defaultValue)
-                    * 1000f
-                    - halfSpectrumsWide * 1000)) / 1000;
-            endFreq = (Float.parseFloat(centerParameter.defaultValue) * 1000f + halfSpectrumsWide * 1000) / 1000;
-            showwaveview.setF(startFreq, endFreq, pStepFreq);
+//            Station stationF = GlobalData.stationHashMap.get(stationKey);
+            RealTimeSaveAndGetStore.deserializeFlyPig(filename,handler);//开始反序列化来完成Station这一数据结构的重建以用来初始化视图
+//            Iterator<String> it = GlobalData.stationHashMap.keySet().iterator();
 
             handler = new Handler() {
                 @SuppressWarnings("unused")
@@ -445,13 +444,70 @@ public class HistoryDFActivity extends AppCompatActivity {
                             showwaveview.setF(startFreq, endFreq, pStepFreq);
                             break;
                         case 121:
+                            if(first == true){
+                                first = false;
+                                alllength.setText(String.valueOf(RealTimeSaveAndGetStore.allLength));
+                            }
                             customProgress.setProgress((Integer) msg.obj);
+                            readnow.setText(String.valueOf(RealTimeSaveAndGetStore.allLength-RealTimeSaveAndGetStore.available));
+                            break;
+                        case 34:
+                            if (StationForViewDo((Station) msg.obj)) return;
+                            break;
                     }
                 }
             };
         } catch (Exception e) {
             // System.out.println("onCreate( )中第6部分异常 406 行");
         }
+    }
+
+    boolean first = true;
+
+    private boolean StationForViewDo(Station stationF) {//在反序列化完成后，开始用取到的Station信息来初始化视图
+        if (stationF == null) {
+            return true;
+        } else {
+        }
+
+        ArrayList<MyDevice> am = stationF.devicelist;
+        HashMap<String, LogicParameter> hsl = null;
+        for (MyDevice md : am) {
+            if (md.name.equals(devicename)) {
+                hsl = md.logic;
+            }
+        }
+
+        LogicParameter currentLP = hsl.get(logicId);// 获取频谱分析相关的数据，以便画出初始界面
+        ap = currentLP.parameterlist;
+
+        for (Parameter p : ap) {
+            if (p.name.equals("DemodulationSpan")) {
+                daikuan = Float.parseFloat(p.defaultValue);
+            } else if (p.name.equals("StepFreq")) {
+                pStepFreq = Float.parseFloat(p.defaultValue);
+            } else if (p.name.equals("CenterFreq")) {
+                centerFreq = Float.parseFloat(p.defaultValue);
+                centerParameter = p;
+            } else if (p.name.equals("AntennaSelect")) {
+                txname = p.defaultValue;
+            }
+            if (p.name.equals("FilterSpan")) {
+                halfSpectrumsWide = Float.parseFloat(p.defaultValue) / 2000f;
+                filterSpanParameter = p;
+            }
+            if (p.name.equals("SpectrumSpan")) {
+                halfSpectrumsWide = Float.parseFloat(p.defaultValue) / 2000f;
+                spectrumParameter = p;
+            }
+        }
+        startFreq = (float) (Math.floor(Float
+                .parseFloat(centerParameter.defaultValue)
+                * 1000f
+                - halfSpectrumsWide * 1000)) / 1000;
+        endFreq = (Float.parseFloat(centerParameter.defaultValue) * 1000f + halfSpectrumsWide * 1000) / 1000;
+        showwaveview.setF(startFreq, endFreq, pStepFreq);
+        return false;
     }
 
     private void willExit() {

@@ -1,22 +1,17 @@
 package com.huari.client;
 
-import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
 import java.net.Socket;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.Queue;
 import java.util.Timer;
-import java.util.concurrent.ExecutorService;
-import java.util.concurrent.Executors;
 import java.util.concurrent.LinkedBlockingDeque;
-import java.util.concurrent.TimeUnit;
 
 import struct.JavaStruct;
 import struct.StructException;
@@ -35,7 +30,7 @@ import com.huari.dataentry.Type;
 import com.huari.tools.ByteFileIoUtils;
 import com.huari.tools.MyTools;
 import com.huari.tools.Parse;
-import com.huari.tools.RealTimeSaveStore;
+import com.huari.tools.RealTimeSaveAndGetStore;
 import com.huari.tools.SysApplication;
 import com.huari.ui.DataSave;
 import com.huari.ui.Disk;
@@ -43,7 +38,6 @@ import com.huari.ui.HColumns;
 import com.huari.ui.MyData;
 import com.huari.ui.VColumns;
 
-import android.content.Context;
 import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Build;
@@ -62,7 +56,6 @@ import androidx.appcompat.app.AppCompatActivity;
 import android.provider.Settings;
 import android.util.DisplayMetrics;
 import android.util.Log;
-import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -134,6 +127,7 @@ public class SinglefrequencyDFActivity extends AppCompatActivity {
     public static boolean saveFlag = false;
     public static Queue<byte[]> queue;
     private String fileName;
+    private Station stationF;
 
     class IniThread extends Thread {
         public void run() {
@@ -211,13 +205,14 @@ public class SinglefrequencyDFActivity extends AppCompatActivity {
             SimpleDateFormat df = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
             fileName = "DF|" + df.format(new Date()).replaceAll(" ", "|");
 //                    + "||" + stationname + "|" + devicename + "|" + stationKey + "|" + lan + "|" + lon;
-//                    +"|"+logicId;    //会导致名字长度超出限制
+//                    +"|"+logicId;    //会导致文件名长度超出限制
             SharedPreferences sharedPreferences = getSharedPreferences("myclient", MODE_PRIVATE);
             SharedPreferences.Editor shareEditor = sharedPreferences.edit();
             shareEditor.putString(fileName, stationname + "|" + devicename + "||" + stationKey + "|||" + lan + "||||" + lon + "|||||" + logicId);
             shareEditor.commit();  //以文件名作为key来将台站信息存入shareReferences
             Log.d("xiaoxiao", String.valueOf(fileName.length()));
-            SysApplication.byteFileIoUtils.writeBytesToFile(fileName, 1); //开始保存数据前的初始化
+            SysApplication.byteFileIoUtils.writeBytesToFile(fileName, 1); //开始保存数据前的初始化，开启消费者所在线程
+            RealTimeSaveAndGetStore.serializeFlyPig(stationF,fileName,1);//在消费者线程开启后，开始Statio的序列化并放入队列缓冲区中等待消费者线程遍历之
         }
 
         private void sendEndCmd() {
@@ -264,7 +259,7 @@ public class SinglefrequencyDFActivity extends AppCompatActivity {
                                 savePrepare();
                                 flag++;
                             }
-                            time = RealTimeSaveStore.SaveAtTime(available, info, time, 1);//给数据加一个时间的包头后递交到缓存队列中
+                            time = RealTimeSaveAndGetStore.SaveAtTime(available, info, time, 1);//给数据加一个时间的包头后递交到缓存队列中
                         }
                         available = 0;
                     }
@@ -285,7 +280,7 @@ public class SinglefrequencyDFActivity extends AppCompatActivity {
     protected void onResume() {
         super.onResume();
         startWindow();
-//        RealTimeSaveStore.ParseLocalDdfData("nba", 1);
+//        RealTimeSaveAndGetStore.ParseLocalDdfData("nba", 1);
     }
 
     private void startWindow() {
@@ -394,8 +389,9 @@ public class SinglefrequencyDFActivity extends AppCompatActivity {
                 disks.setRischecked(true);
             }
 
-            Station stationF = GlobalData.stationHashMap.get(stationKey);
+            stationF = GlobalData.stationHashMap.get(stationKey);
             Iterator<String> it = GlobalData.stationHashMap.keySet().iterator();
+
 
             if (stationF == null) {
                 return;
@@ -473,6 +469,9 @@ public class SinglefrequencyDFActivity extends AppCompatActivity {
                     }
                 }
             };
+            GlobalData.stationKey = stationKey;
+            GlobalData.deviceName = devicename;
+            GlobalData.logicId = logicId;
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -668,7 +667,6 @@ public class SinglefrequencyDFActivity extends AppCompatActivity {
                         Toast.makeText(SinglefrequencyDFActivity.this, "保存成功！",
                                 Toast.LENGTH_SHORT).show();
                     }
-                    ;
                 }
                 break;
             case R.id.singleset:
@@ -689,50 +687,45 @@ public class SinglefrequencyDFActivity extends AppCompatActivity {
                     ab.setTitle("警告！");
                     ab.setMessage("功能运行期间不可更改设置，确定要停止功能进行设置吗？");
                     ab.setPositiveButton("确定",
-                            new DialogInterface.OnClickListener() {
-                                @SuppressWarnings("deprecation")
-                                @Override
-                                public void onClick(DialogInterface dialog,
-                                                    int which) {
-                                    // TODO Auto-generated method stub
-                                    pause = true;
-                                    findViewById(R.id.zanting1);
-                                    mitem.setTitle("开始测量");
+                            (dialog, which) -> {
+                                // TODO Auto-generated method stub
+                                pause = true;
+                                findViewById(R.id.zanting1);
+                                mitem.setTitle("开始测量");
 
-                                    mythread.sendEndCmd();
+                                mythread.sendEndCmd();
 
-                                    if (mythread != null) {
-                                        try {
-                                            mythread.destroy();
-                                        } catch (Exception e) {
+                                if (mythread != null) {
+                                    try {
+                                        mythread.destroy();
+                                    } catch (Exception e) {
 
-                                        }
                                     }
-                                    mythread = null;
-                                    if (inithread != null) {
-                                        try {
-                                            inithread.destroy();
-                                        } catch (Exception e) {
-
-                                        }
-                                        inithread = null;
-                                    }
-                                    GlobalData.Spectrumpinpu = null;
-                                    GlobalData.oldcount = 0;
-                                    GlobalData.haveCount = 0;
-                                    System.gc();
-
-                                    Intent intent = new Intent(
-                                            SinglefrequencyDFActivity.this,
-                                            SingleSetActivity.class);
-                                    Bundle bundle = new Bundle();
-                                    bundle.putString("sname", stationname);
-                                    bundle.putString("dname", devicename);
-                                    bundle.putString("stakey", stationKey);
-                                    bundle.putString("lids", logicId);
-                                    intent.putExtras(bundle);
-                                    startActivityForResult(intent, 0);
                                 }
+                                mythread = null;
+                                if (inithread != null) {
+                                    try {
+                                        inithread.destroy();
+                                    } catch (Exception e) {
+
+                                    }
+                                    inithread = null;
+                                }
+                                GlobalData.Spectrumpinpu = null;
+                                GlobalData.oldcount = 0;
+                                GlobalData.haveCount = 0;
+                                System.gc();
+
+                                Intent intent = new Intent(
+                                        SinglefrequencyDFActivity.this,
+                                        SingleSetActivity.class);
+                                Bundle bundle = new Bundle();
+                                bundle.putString("sname", stationname);
+                                bundle.putString("dname", devicename);
+                                bundle.putString("stakey", stationKey);
+                                bundle.putString("lids", logicId);
+                                intent.putExtras(bundle);
+                                startActivityForResult(intent, 0);
                             });
                     ab.setNegativeButton("取消", null);
                     ab.create();

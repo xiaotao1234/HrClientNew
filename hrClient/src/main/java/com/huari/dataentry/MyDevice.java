@@ -1,8 +1,9 @@
 package com.huari.dataentry;
 
+import java.io.Serializable;
 import java.util.HashMap;
 
-public class MyDevice   {
+public class MyDevice   implements Serializable {
 
 	public String name;
 	public byte logicParametersCount;

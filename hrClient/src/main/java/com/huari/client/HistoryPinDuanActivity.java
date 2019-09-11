@@ -1,7 +1,6 @@
 package com.huari.client;
 
 import androidx.appcompat.app.ActionBar;
-import androidx.appcompat.app.AppCompatActivity;
 import struct.JavaStruct;
 import struct.StructException;
 
@@ -19,6 +18,7 @@ import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -32,10 +32,9 @@ import com.huari.dataentry.LogicParameter;
 import com.huari.dataentry.MyDevice;
 import com.huari.dataentry.Parameter;
 import com.huari.dataentry.Station;
-import com.huari.tools.ByteFileIoUtils;
 import com.huari.tools.MyTools;
 import com.huari.tools.Parse;
-import com.huari.tools.RealTimeSaveStore;
+import com.huari.tools.RealTimeSaveAndGetStore;
 import com.huari.tools.SysApplication;
 import com.huari.ui.CustomProgress;
 
@@ -43,12 +42,9 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
 import java.net.Socket;
-import java.text.SimpleDateFormat;
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.HashMap;
 import java.util.Queue;
-import java.util.concurrent.LinkedBlockingDeque;
 
 public class HistoryPinDuanActivity extends PinDuanBase {
 
@@ -60,7 +56,9 @@ public class HistoryPinDuanActivity extends PinDuanBase {
     com.huari.ui.PinDuan pinduan;
     boolean pause;
     boolean showMax, showMin, showAvg;
-
+    ImageView contorl;
+    ImageView previousButton;
+    ImageView nextButton;
     String logicId, stationname, stationKey, devicename;
     private SharedPreferences sharepre;
     ActionBar actionbar;
@@ -215,13 +213,12 @@ public class HistoryPinDuanActivity extends PinDuanBase {
     @Override
     protected void onResume() {
         super.onResume();
-        RealTimeSaveStore.ParseLocalWrap(filename, 3,handler);
     }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_pinduansanmiao);
+        setContentView(R.layout.activity_pinduansanmiao_history);
         customProgress = findViewById(R.id.video_progress);
         sharepre = getSharedPreferences("myclient", MODE_PRIVATE);
         actionbar = getSupportActionBar();
@@ -258,7 +255,12 @@ public class HistoryPinDuanActivity extends PinDuanBase {
         mm.substring(mm.indexOf("|||") + 3, mm.indexOf("||||"));
         mm.substring(mm.indexOf("||||") + 4, mm.indexOf("|||||"));
         logicId = mm.substring(mm.indexOf("|||||") + 5, mm.length());
-
+        contorl = findViewById(R.id.play_control);
+        contorl.setOnClickListener(v -> RealTimeSaveAndGetStore.pauseOrResume());
+        previousButton = findViewById(R.id.previous_button);
+        nextButton = findViewById(R.id.next_button);
+        previousButton.setOnClickListener(v -> RealTimeSaveAndGetStore.previousFrame(HistoryPinDuanActivity.this));
+        nextButton.setOnClickListener(v -> RealTimeSaveAndGetStore.nextFrame(HistoryPinDuanActivity.this));
         LinearLayout titlebar = (LinearLayout) getLayoutInflater().inflate(
                 R.layout.actionbarview, null);
         stationtextview = titlebar.findViewById(R.id.name1);
@@ -268,48 +270,18 @@ public class HistoryPinDuanActivity extends PinDuanBase {
         customProgress.setProgressListener(progress -> {
             pause = false;
             Log.d("xiaotao", String.valueOf(progress));
-            RealTimeSaveStore.progressFlg = true;
-            RealTimeSaveStore.progress = (int) progress;
+            if (RealTimeSaveAndGetStore.thread.isAlive()) {
+                RealTimeSaveAndGetStore.progressFlg = true;
+                RealTimeSaveAndGetStore.progress = (int) progress;
+            } else {
+                RealTimeSaveAndGetStore.ParseLocalWrap(filename, 3, handler);
+                RealTimeSaveAndGetStore.progressFlg = true;
+                RealTimeSaveAndGetStore.progress = (int) progress;
+            }
         });
 
         stationtextview.setText(stationname);
         devicetextview.setText(devicename);
-        ArrayList<MyDevice> am = null;
-        try {
-            Station stationF = GlobalData.stationHashMap.get(stationKey);
-            am = stationF.devicelist;
-        } catch (Exception e) {
-            Toast.makeText(HistoryPinDuanActivity.this, "空的",
-                    Toast.LENGTH_SHORT).show();
-        }
-
-        HashMap<String, LogicParameter> hsl = null;
-        for (MyDevice md : am) {
-            if (md.name.equals(devicename)) {
-                hsl = md.logic;
-            }
-        }
-        LogicParameter currentLP = hsl.get(logicId);// 获取频段扫描参数相关的数据，以便画出初始界面
-        ap = currentLP.parameterlist;
-        for (Parameter p : ap) {
-            if (p.name.trim().equals("StartFreq")) {
-                startFreqParameter = p;
-                startFreq = Float.parseFloat(p.defaultValue.trim());
-            } else if (p.name.trim().equals("StopFreq")) {
-                endFreqParameter = p;
-                endFreq = Float.parseFloat(p.defaultValue.trim());
-            } else if (p.name.trim().equals("StepFreq")) {
-                stepFreqParameter = p;
-                pStepFreq = Float.parseFloat(p.defaultValue.trim()) / 1000f;
-            } else if (p.name.trim().equals("ScanType")) {
-                ScanType = p.defaultValue.trim();
-            }
-        }
-
-        // startFreq=(centerFreq*1000f-daikuan/2)/1000;
-        // endFreq=(centerFreq*1000f+daikuan/2)/1000;
-
-        pinduan.setParameters(startFreq, endFreq, pStepFreq * 1000);
 
         handler = new Handler() {
             @Override
@@ -458,13 +430,56 @@ public class HistoryPinDuanActivity extends PinDuanBase {
                             pinduan.refreshWave();
                             pinduan.refreshTable();
                         }
-
                     }
-                }else if(msg.what == 121){
-                        customProgress.setProgress((Integer) msg.obj);
+                } else if (msg.what == 121) {
+                    customProgress.setProgress((Integer) msg.obj);
+                } else if (msg.what == 34) {
+                    afterGetStation((Station) msg.obj);
                 }
             }
         };
+        RealTimeSaveAndGetStore.deserializeFlyPig(filename,handler);//开始反序列化
+    }
+
+    private void afterGetStation(Station stationF) {
+        ArrayList<MyDevice> am = null;
+        try {
+//            Station stationF = GlobalData.stationHashMap.get(stationKey);
+            am = stationF.devicelist;
+        } catch (Exception e) {
+            Toast.makeText(HistoryPinDuanActivity.this, "空的",
+                    Toast.LENGTH_SHORT).show();
+        }
+
+        HashMap<String, LogicParameter> hsl = null;
+        for (MyDevice md : am) {
+            if (md.name.equals(devicename)) {
+                hsl = md.logic;
+            }
+        }
+        LogicParameter currentLP = hsl.get(logicId);// 获取频段扫描参数相关的数据，以便画出初始界面
+        ap = currentLP.parameterlist;
+        for (Parameter p : ap) {
+            if (p.name.trim().equals("StartFreq")) {
+                startFreqParameter = p;
+                startFreq = Float.parseFloat(p.defaultValue.trim());
+            } else if (p.name.trim().equals("StopFreq")) {
+                endFreqParameter = p;
+                endFreq = Float.parseFloat(p.defaultValue.trim());
+            } else if (p.name.trim().equals("StepFreq")) {
+                stepFreqParameter = p;
+                pStepFreq = Float.parseFloat(p.defaultValue.trim()) / 1000f;
+            } else if (p.name.trim().equals("ScanType")) {
+                ScanType = p.defaultValue.trim();
+            }
+        }
+
+        // startFreq=(centerFreq*1000f-daikuan/2)/1000;
+        // endFreq=(centerFreq*1000f+daikuan/2)/1000;
+
+        pinduan.setParameters(startFreq, endFreq, pStepFreq * 1000);
+        Log.d("xiaotaohao","getstation");
+        RealTimeSaveAndGetStore.ParseLocalWrap(filename, 3, handler);//Station数据已解析完毕，开始解析数据到视图
     }
 
     @Override

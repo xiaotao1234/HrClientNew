@@ -20,16 +20,24 @@
         "source": "C:\\Users\\Public\\Downloads\\xx\\caches\\transforms-1\\files-1.1\\core-1.0.0.aar\\7d6773367113b2dfda9ccd4702637d9f\\res\\layout\\notification_template_part_chronometer.xml"
     },
     {
+        "merged": "C:\\dididi\\HrClientNew0723\\mmm\\HrClientNew\\hrClient\\build\\intermediates\\res\\merged\\debug\\layout_layout_basepickerview.xml.flat",
+        "source": "C:\\Users\\Public\\Downloads\\xx\\caches\\transforms-1\\files-1.1\\jetified-Android-PickerView-4.1.8.aar\\33eeb7a1c81c5ef234102f0cc90bf0c5\\res\\layout\\layout_basepickerview.xml"
+    },
+    {
         "merged": "C:\\dididi\\HrClientNew0723\\mmm\\HrClientNew\\hrClient\\build\\intermediates\\res\\merged\\debug\\drawable_notification_tile_bg.xml.flat",
         "source": "C:\\Users\\Public\\Downloads\\xx\\caches\\transforms-1\\files-1.1\\core-1.0.0.aar\\7d6773367113b2dfda9ccd4702637d9f\\res\\drawable\\notification_tile_bg.xml"
+    },
+    {
+        "merged": "C:\\dididi\\HrClientNew0723\\mmm\\HrClientNew\\hrClient\\build\\intermediates\\res\\merged\\debug\\drawable-hdpi-v4_newexit.png.flat",
+        "source": "C:\\dididi\\HrClientNew0723\\mmm\\HrClientNew\\guiCtrl\\build\\intermediates\\packaged_res\\debug\\drawable-hdpi-v4\\newexit.png"
     },
     {
         "merged": "C:\\dididi\\HrClientNew0723\\mmm\\HrClientNew\\hrClient\\build\\intermediates\\res\\merged\\debug\\anim_design_bottom_sheet_slide_out.xml.flat",
         "source": "C:\\Users\\Public\\Downloads\\xx\\caches\\transforms-1\\files-1.1\\material-1.0.0-rc01.aar\\93435797b916869cac0e5051200f7f84\\res\\anim\\design_bottom_sheet_slide_out.xml"
     },
     {
-        "merged": "C:\\dididi\\HrClientNew0723\\mmm\\HrClientNew\\hrClient\\build\\intermediates\\res\\merged\\debug\\drawable-hdpi-v4_newexit.png.flat",
-        "source": "C:\\dididi\\HrClientNew0723\\mmm\\HrClientNew\\guiCtrl\\build\\intermediates\\packaged_res\\debug\\drawable-hdpi-v4\\newexit.png"
+        "merged": "C:\\dididi\\HrClientNew0723\\mmm\\HrClientNew\\hrClient\\build\\intermediates\\res\\merged\\debug\\drawable_button_bg_write.xml.flat",
+        "source": "C:\\dididi\\HrClientNew0723\\mmm\\HrClientNew\\hrClient\\src\\main\\res\\drawable\\button_bg_write.xml"
     },
     {
         "merged": "C:\\dididi\\HrClientNew0723\\mmm\\HrClientNew\\hrClient\\build\\intermediates\\res\\merged\\debug\\layout_notification_template_big_media_narrow_custom.xml.flat",
@@ -156,12 +164,12 @@
         "source": "C:\\Users\\Public\\Downloads\\xx\\caches\\transforms-1\\files-1.1\\appcompat-1.0.0-rc01.aar\\c6c78672a44847140ca1088882e1cb30\\res\\drawable-mdpi-v4\\abc_btn_check_to_on_mtrl_015.png"
     },
     {
-        "merged": "C:\\dididi\\HrClientNew0723\\mmm\\HrClientNew\\hrClient\\build\\intermediates\\res\\merged\\debug\\drawable_circle_bg.xml.flat",
-        "source": "C:\\dididi\\HrClientNew0723\\mmm\\HrClientNew\\hrClient\\src\\main\\res\\drawable\\circle_bg.xml"
-    },
-    {
         "merged": "C:\\dididi\\HrClientNew0723\\mmm\\HrClientNew\\hrClient\\build\\intermediates\\res\\merged\\debug\\drawable-hdpi-v4_linearbackgroud.jpg.flat",
         "source": "C:\\dididi\\HrClientNew0723\\mmm\\HrClientNew\\guiCtrl\\build\\intermediates\\packaged_res\\debug\\drawable-hdpi-v4\\linearbackgroud.jpg"
+    },
+    {
+        "merged": "C:\\dididi\\HrClientNew0723\\mmm\\HrClientNew\\hrClient\\build\\intermediates\\res\\merged\\debug\\drawable_circle_bg.xml.flat",
+        "source": "C:\\dididi\\HrClientNew0723\\mmm\\HrClientNew\\hrClient\\src\\main\\res\\drawable\\circle_bg.xml"
     },
     {
         "merged": "C:\\dididi\\HrClientNew0723\\mmm\\HrClientNew\\hrClient\\build\\intermediates\\res\\merged\\debug\\drawable-ldrtl-mdpi-v17_abc_ic_menu_copy_mtrl_am_alpha.png.flat",
@@ -184,12 +192,12 @@
         "source": "C:\\Users\\Public\\Downloads\\xx\\caches\\transforms-1\\files-1.1\\appcompat-1.0.0-rc01.aar\\c6c78672a44847140ca1088882e1cb30\\res\\anim\\abc_grow_fade_in_from_bottom.xml"
     },
     {
-        "merged": "C:\\dididi\\HrClientNew0723\\mmm\\HrClientNew\\hrClient\\build\\intermediates\\res\\merged\\debug\\color-v23_abc_tint_btn_checkable.xml.flat",
-        "source": "C:\\Users\\Public\\Downloads\\xx\\caches\\transforms-1\\files-1.1\\appcompat-1.0.0-rc01.aar\\c6c78672a44847140ca1088882e1cb30\\res\\color-v23\\abc_tint_btn_checkable.xml"
-    },
-    {
         "merged": "C:\\dididi\\HrClientNew0723\\mmm\\HrClientNew\\hrClient\\build\\intermediates\\res\\merged\\debug\\layout_ninebar.xml.flat",
         "source": "C:\\dididi\\HrClientNew0723\\mmm\\HrClientNew\\hrClient\\src\\main\\res\\layout\\ninebar.xml"
+    },
+    {
+        "merged": "C:\\dididi\\HrClientNew0723\\mmm\\HrClientNew\\hrClient\\build\\intermediates\\res\\merged\\debug\\color-v23_abc_tint_btn_checkable.xml.flat",
+        "source": "C:\\Users\\Public\\Downloads\\xx\\caches\\transforms-1\\files-1.1\\appcompat-1.0.0-rc01.aar\\c6c78672a44847140ca1088882e1cb30\\res\\color-v23\\abc_tint_btn_checkable.xml"
     },
     {
         "merged": "C:\\dididi\\HrClientNew0723\\mmm\\HrClientNew\\hrClient\\build\\intermediates\\res\\merged\\debug\\drawable-hdpi-v4_bo2.png.flat",
@@ -284,12 +292,12 @@
         "source": "C:\\dididi\\HrClientNew0723\\mmm\\HrClientNew\\hrClient\\src\\main\\res\\drawable-hdpi\\df4.jpg"
     },
     {
-        "merged": "C:\\dididi\\HrClientNew0723\\mmm\\HrClientNew\\hrClient\\build\\intermediates\\res\\merged\\debug\\drawable-xxhdpi-v4_abc_ic_menu_cut_mtrl_alpha.png.flat",
-        "source": "C:\\Users\\Public\\Downloads\\xx\\caches\\transforms-1\\files-1.1\\appcompat-1.0.0-rc01.aar\\c6c78672a44847140ca1088882e1cb30\\res\\drawable-xxhdpi-v4\\abc_ic_menu_cut_mtrl_alpha.png"
-    },
-    {
         "merged": "C:\\dididi\\HrClientNew0723\\mmm\\HrClientNew\\hrClient\\build\\intermediates\\res\\merged\\debug\\drawable-xxhdpi-v4_abc_list_focused_holo.9.png.flat",
         "source": "C:\\Users\\Public\\Downloads\\xx\\caches\\transforms-1\\files-1.1\\appcompat-1.0.0-rc01.aar\\c6c78672a44847140ca1088882e1cb30\\res\\drawable-xxhdpi-v4\\abc_list_focused_holo.9.png"
+    },
+    {
+        "merged": "C:\\dididi\\HrClientNew0723\\mmm\\HrClientNew\\hrClient\\build\\intermediates\\res\\merged\\debug\\drawable-xxhdpi-v4_abc_ic_menu_cut_mtrl_alpha.png.flat",
+        "source": "C:\\Users\\Public\\Downloads\\xx\\caches\\transforms-1\\files-1.1\\appcompat-1.0.0-rc01.aar\\c6c78672a44847140ca1088882e1cb30\\res\\drawable-xxhdpi-v4\\abc_ic_menu_cut_mtrl_alpha.png"
     },
     {
         "merged": "C:\\dididi\\HrClientNew0723\\mmm\\HrClientNew\\hrClient\\build\\intermediates\\res\\merged\\debug\\layout_offline_localmap_list.xml.flat",
@@ -364,12 +372,12 @@
         "source": "C:\\Users\\Public\\Downloads\\xx\\caches\\transforms-1\\files-1.1\\appcompat-1.0.0-rc01.aar\\c6c78672a44847140ca1088882e1cb30\\res\\drawable-mdpi-v4\\abc_ic_star_black_48dp.png"
     },
     {
-        "merged": "C:\\dididi\\HrClientNew0723\\mmm\\HrClientNew\\hrClient\\build\\intermediates\\res\\merged\\debug\\drawable-hdpi_xl1.jpg.flat",
-        "source": "C:\\dididi\\HrClientNew0723\\mmm\\HrClientNew\\hrClient\\src\\main\\res\\drawable-hdpi\\xl1.jpg"
-    },
-    {
         "merged": "C:\\dididi\\HrClientNew0723\\mmm\\HrClientNew\\hrClient\\build\\intermediates\\res\\merged\\debug\\menu_guide.xml.flat",
         "source": "C:\\dididi\\HrClientNew0723\\mmm\\HrClientNew\\hrClient\\src\\main\\res\\menu\\guide.xml"
+    },
+    {
+        "merged": "C:\\dididi\\HrClientNew0723\\mmm\\HrClientNew\\hrClient\\build\\intermediates\\res\\merged\\debug\\drawable-hdpi_xl1.jpg.flat",
+        "source": "C:\\dididi\\HrClientNew0723\\mmm\\HrClientNew\\hrClient\\src\\main\\res\\drawable-hdpi\\xl1.jpg"
     },
     {
         "merged": "C:\\dididi\\HrClientNew0723\\mmm\\HrClientNew\\hrClient\\build\\intermediates\\res\\merged\\debug\\drawable-hdpi-v4_abc_switch_track_mtrl_alpha.9.png.flat",
@@ -428,12 +436,12 @@
         "source": "C:\\dididi\\HrClientNew0723\\mmm\\HrClientNew\\hrClient\\src\\main\\res\\drawable-hdpi\\lltask.jpg"
     },
     {
-        "merged": "C:\\dididi\\HrClientNew0723\\mmm\\HrClientNew\\hrClient\\build\\intermediates\\res\\merged\\debug\\layout_design_navigation_item_subheader.xml.flat",
-        "source": "C:\\Users\\Public\\Downloads\\xx\\caches\\transforms-1\\files-1.1\\material-1.0.0-rc01.aar\\93435797b916869cac0e5051200f7f84\\res\\layout\\design_navigation_item_subheader.xml"
-    },
-    {
         "merged": "C:\\dididi\\HrClientNew0723\\mmm\\HrClientNew\\hrClient\\build\\intermediates\\res\\merged\\debug\\drawable-hdpi_sg3.jpg.flat",
         "source": "C:\\dididi\\HrClientNew0723\\mmm\\HrClientNew\\hrClient\\src\\main\\res\\drawable-hdpi\\sg3.jpg"
+    },
+    {
+        "merged": "C:\\dididi\\HrClientNew0723\\mmm\\HrClientNew\\hrClient\\build\\intermediates\\res\\merged\\debug\\layout_design_navigation_item_subheader.xml.flat",
+        "source": "C:\\Users\\Public\\Downloads\\xx\\caches\\transforms-1\\files-1.1\\material-1.0.0-rc01.aar\\93435797b916869cac0e5051200f7f84\\res\\layout\\design_navigation_item_subheader.xml"
     },
     {
         "merged": "C:\\dididi\\HrClientNew0723\\mmm\\HrClientNew\\hrClient\\build\\intermediates\\res\\merged\\debug\\drawable-hdpi_splashscreen.png.flat",
@@ -500,28 +508,32 @@
         "source": "C:\\Users\\Public\\Downloads\\xx\\caches\\transforms-1\\files-1.1\\appcompat-1.0.0-rc01.aar\\c6c78672a44847140ca1088882e1cb30\\res\\color\\abc_background_cache_hint_selector_material_dark.xml"
     },
     {
-        "merged": "C:\\dididi\\HrClientNew0723\\mmm\\HrClientNew\\hrClient\\build\\intermediates\\res\\merged\\debug\\drawable_navigation_empty_icon.xml.flat",
-        "source": "C:\\Users\\Public\\Downloads\\xx\\caches\\transforms-1\\files-1.1\\material-1.0.0-rc01.aar\\93435797b916869cac0e5051200f7f84\\res\\drawable\\navigation_empty_icon.xml"
-    },
-    {
         "merged": "C:\\dididi\\HrClientNew0723\\mmm\\HrClientNew\\hrClient\\build\\intermediates\\res\\merged\\debug\\drawable-hdpi_sg2.jpg.flat",
         "source": "C:\\dididi\\HrClientNew0723\\mmm\\HrClientNew\\hrClient\\src\\main\\res\\drawable-hdpi\\sg2.jpg"
     },
     {
-        "merged": "C:\\dididi\\HrClientNew0723\\mmm\\HrClientNew\\hrClient\\build\\intermediates\\res\\merged\\debug\\layout_table.xml.flat",
-        "source": "C:\\dididi\\HrClientNew0723\\mmm\\HrClientNew\\guiCtrl\\build\\intermediates\\packaged_res\\debug\\layout\\table.xml"
+        "merged": "C:\\dididi\\HrClientNew0723\\mmm\\HrClientNew\\hrClient\\build\\intermediates\\res\\merged\\debug\\drawable_navigation_empty_icon.xml.flat",
+        "source": "C:\\Users\\Public\\Downloads\\xx\\caches\\transforms-1\\files-1.1\\material-1.0.0-rc01.aar\\93435797b916869cac0e5051200f7f84\\res\\drawable\\navigation_empty_icon.xml"
+    },
+    {
+        "merged": "C:\\dididi\\HrClientNew0723\\mmm\\HrClientNew\\hrClient\\build\\intermediates\\res\\merged\\debug\\drawable_selector_pickerview_btn.xml.flat",
+        "source": "C:\\Users\\Public\\Downloads\\xx\\caches\\transforms-1\\files-1.1\\jetified-Android-PickerView-4.1.8.aar\\33eeb7a1c81c5ef234102f0cc90bf0c5\\res\\drawable\\selector_pickerview_btn.xml"
     },
     {
         "merged": "C:\\dididi\\HrClientNew0723\\mmm\\HrClientNew\\hrClient\\build\\intermediates\\res\\merged\\debug\\drawable-xxhdpi-v4_abc_textfield_search_activated_mtrl_alpha.9.png.flat",
         "source": "C:\\Users\\Public\\Downloads\\xx\\caches\\transforms-1\\files-1.1\\appcompat-1.0.0-rc01.aar\\c6c78672a44847140ca1088882e1cb30\\res\\drawable-xxhdpi-v4\\abc_textfield_search_activated_mtrl_alpha.9.png"
     },
     {
-        "merged": "C:\\dididi\\HrClientNew0723\\mmm\\HrClientNew\\hrClient\\build\\intermediates\\res\\merged\\debug\\drawable-hdpi_setback.png.flat",
-        "source": "C:\\dididi\\HrClientNew0723\\mmm\\HrClientNew\\hrClient\\src\\main\\res\\drawable-hdpi\\setback.png"
+        "merged": "C:\\dididi\\HrClientNew0723\\mmm\\HrClientNew\\hrClient\\build\\intermediates\\res\\merged\\debug\\layout_table.xml.flat",
+        "source": "C:\\dididi\\HrClientNew0723\\mmm\\HrClientNew\\guiCtrl\\build\\intermediates\\packaged_res\\debug\\layout\\table.xml"
     },
     {
         "merged": "C:\\dididi\\HrClientNew0723\\mmm\\HrClientNew\\hrClient\\build\\intermediates\\res\\merged\\debug\\menu_sanshi.xml.flat",
         "source": "C:\\dididi\\HrClientNew0723\\mmm\\HrClientNew\\guiCtrl\\build\\intermediates\\packaged_res\\debug\\menu\\sanshi.xml"
+    },
+    {
+        "merged": "C:\\dididi\\HrClientNew0723\\mmm\\HrClientNew\\hrClient\\build\\intermediates\\res\\merged\\debug\\drawable-hdpi_setback.png.flat",
+        "source": "C:\\dididi\\HrClientNew0723\\mmm\\HrClientNew\\hrClient\\src\\main\\res\\drawable-hdpi\\setback.png"
     },
     {
         "merged": "C:\\dididi\\HrClientNew0723\\mmm\\HrClientNew\\hrClient\\build\\intermediates\\res\\merged\\debug\\drawable-xxxhdpi-v4_abc_btn_radio_to_on_mtrl_015.png.flat",
@@ -592,12 +604,12 @@
         "source": "C:\\Users\\Public\\Downloads\\xx\\caches\\transforms-1\\files-1.1\\appcompat-1.0.0-rc01.aar\\c6c78672a44847140ca1088882e1cb30\\res\\drawable-xxxhdpi-v4\\abc_text_select_handle_right_mtrl_light.png"
     },
     {
-        "merged": "C:\\dididi\\HrClientNew0723\\mmm\\HrClientNew\\hrClient\\build\\intermediates\\res\\merged\\debug\\drawable-hdpi_df3.jpg.flat",
-        "source": "C:\\dididi\\HrClientNew0723\\mmm\\HrClientNew\\hrClient\\src\\main\\res\\drawable-hdpi\\df3.jpg"
-    },
-    {
         "merged": "C:\\dididi\\HrClientNew0723\\mmm\\HrClientNew\\hrClient\\build\\intermediates\\res\\merged\\debug\\layout_activity_file_list.xml.flat",
         "source": "C:\\dididi\\HrClientNew0723\\mmm\\HrClientNew\\hrClient\\src\\main\\res\\layout\\activity_file_list.xml"
+    },
+    {
+        "merged": "C:\\dididi\\HrClientNew0723\\mmm\\HrClientNew\\hrClient\\build\\intermediates\\res\\merged\\debug\\drawable-hdpi_df3.jpg.flat",
+        "source": "C:\\dididi\\HrClientNew0723\\mmm\\HrClientNew\\hrClient\\src\\main\\res\\drawable-hdpi\\df3.jpg"
     },
     {
         "merged": "C:\\dididi\\HrClientNew0723\\mmm\\HrClientNew\\hrClient\\build\\intermediates\\res\\merged\\debug\\drawable-mdpi-v4_abc_btn_radio_to_on_mtrl_000.png.flat",
@@ -700,16 +712,16 @@
         "source": "C:\\Users\\Public\\Downloads\\xx\\caches\\transforms-1\\files-1.1\\appcompat-1.0.0-rc01.aar\\c6c78672a44847140ca1088882e1cb30\\res\\drawable-xxhdpi-v4\\abc_ic_star_half_black_36dp.png"
     },
     {
-        "merged": "C:\\dididi\\HrClientNew0723\\mmm\\HrClientNew\\hrClient\\build\\intermediates\\res\\merged\\debug\\drawable-hdpi-v4_notification_bg_low_pressed.9.png.flat",
-        "source": "C:\\Users\\Public\\Downloads\\xx\\caches\\transforms-1\\files-1.1\\core-1.0.0.aar\\7d6773367113b2dfda9ccd4702637d9f\\res\\drawable-hdpi-v4\\notification_bg_low_pressed.9.png"
+        "merged": "C:\\dididi\\HrClientNew0723\\mmm\\HrClientNew\\hrClient\\build\\intermediates\\res\\merged\\debug\\drawable-hdpi-v4_abc_popup_background_mtrl_mult.9.png.flat",
+        "source": "C:\\Users\\Public\\Downloads\\xx\\caches\\transforms-1\\files-1.1\\appcompat-1.0.0-rc01.aar\\c6c78672a44847140ca1088882e1cb30\\res\\drawable-hdpi-v4\\abc_popup_background_mtrl_mult.9.png"
     },
     {
         "merged": "C:\\dididi\\HrClientNew0723\\mmm\\HrClientNew\\hrClient\\build\\intermediates\\res\\merged\\debug\\drawable-xxhdpi-v4_abc_scrubber_control_to_pressed_mtrl_005.png.flat",
         "source": "C:\\Users\\Public\\Downloads\\xx\\caches\\transforms-1\\files-1.1\\appcompat-1.0.0-rc01.aar\\c6c78672a44847140ca1088882e1cb30\\res\\drawable-xxhdpi-v4\\abc_scrubber_control_to_pressed_mtrl_005.png"
     },
     {
-        "merged": "C:\\dididi\\HrClientNew0723\\mmm\\HrClientNew\\hrClient\\build\\intermediates\\res\\merged\\debug\\drawable-hdpi-v4_abc_popup_background_mtrl_mult.9.png.flat",
-        "source": "C:\\Users\\Public\\Downloads\\xx\\caches\\transforms-1\\files-1.1\\appcompat-1.0.0-rc01.aar\\c6c78672a44847140ca1088882e1cb30\\res\\drawable-hdpi-v4\\abc_popup_background_mtrl_mult.9.png"
+        "merged": "C:\\dididi\\HrClientNew0723\\mmm\\HrClientNew\\hrClient\\build\\intermediates\\res\\merged\\debug\\drawable-hdpi-v4_notification_bg_low_pressed.9.png.flat",
+        "source": "C:\\Users\\Public\\Downloads\\xx\\caches\\transforms-1\\files-1.1\\core-1.0.0.aar\\7d6773367113b2dfda9ccd4702637d9f\\res\\drawable-hdpi-v4\\notification_bg_low_pressed.9.png"
     },
     {
         "merged": "C:\\dididi\\HrClientNew0723\\mmm\\HrClientNew\\hrClient\\build\\intermediates\\res\\merged\\debug\\drawable-hdpi_nobody_station.png.flat",
@@ -772,12 +784,12 @@
         "source": "C:\\dididi\\HrClientNew0723\\mmm\\HrClientNew\\hrClient\\src\\main\\res\\layout\\activity_unmaned_stations.xml"
     },
     {
-        "merged": "C:\\dididi\\HrClientNew0723\\mmm\\HrClientNew\\hrClient\\build\\intermediates\\res\\merged\\debug\\drawable-hdpi_welcome.png.flat",
-        "source": "C:\\dididi\\HrClientNew0723\\mmm\\HrClientNew\\hrClient\\src\\main\\res\\drawable-hdpi\\welcome.png"
-    },
-    {
         "merged": "C:\\dididi\\HrClientNew0723\\mmm\\HrClientNew\\hrClient\\build\\intermediates\\res\\merged\\debug\\drawable-xxhdpi-v4_abc_btn_check_to_on_mtrl_000.png.flat",
         "source": "C:\\Users\\Public\\Downloads\\xx\\caches\\transforms-1\\files-1.1\\appcompat-1.0.0-rc01.aar\\c6c78672a44847140ca1088882e1cb30\\res\\drawable-xxhdpi-v4\\abc_btn_check_to_on_mtrl_000.png"
+    },
+    {
+        "merged": "C:\\dididi\\HrClientNew0723\\mmm\\HrClientNew\\hrClient\\build\\intermediates\\res\\merged\\debug\\drawable-hdpi_welcome.png.flat",
+        "source": "C:\\dididi\\HrClientNew0723\\mmm\\HrClientNew\\hrClient\\src\\main\\res\\drawable-hdpi\\welcome.png"
     },
     {
         "merged": "C:\\dididi\\HrClientNew0723\\mmm\\HrClientNew\\hrClient\\build\\intermediates\\res\\merged\\debug\\drawable-mdpi-v4_abc_list_focused_holo.9.png.flat",
@@ -1008,12 +1020,12 @@
         "source": "C:\\dididi\\HrClientNew0723\\mmm\\HrClientNew\\hrClient\\src\\main\\res\\layout\\spinnertextview.xml"
     },
     {
-        "merged": "C:\\dididi\\HrClientNew0723\\mmm\\HrClientNew\\hrClient\\build\\intermediates\\res\\merged\\debug\\color_abc_search_url_text.xml.flat",
-        "source": "C:\\Users\\Public\\Downloads\\xx\\caches\\transforms-1\\files-1.1\\appcompat-1.0.0-rc01.aar\\c6c78672a44847140ca1088882e1cb30\\res\\color\\abc_search_url_text.xml"
-    },
-    {
         "merged": "C:\\dididi\\HrClientNew0723\\mmm\\HrClientNew\\hrClient\\build\\intermediates\\res\\merged\\debug\\drawable-mdpi-v4_abc_btn_switch_to_on_mtrl_00012.9.png.flat",
         "source": "C:\\Users\\Public\\Downloads\\xx\\caches\\transforms-1\\files-1.1\\appcompat-1.0.0-rc01.aar\\c6c78672a44847140ca1088882e1cb30\\res\\drawable-mdpi-v4\\abc_btn_switch_to_on_mtrl_00012.9.png"
+    },
+    {
+        "merged": "C:\\dididi\\HrClientNew0723\\mmm\\HrClientNew\\hrClient\\build\\intermediates\\res\\merged\\debug\\color_abc_search_url_text.xml.flat",
+        "source": "C:\\Users\\Public\\Downloads\\xx\\caches\\transforms-1\\files-1.1\\appcompat-1.0.0-rc01.aar\\c6c78672a44847140ca1088882e1cb30\\res\\color\\abc_search_url_text.xml"
     },
     {
         "merged": "C:\\dididi\\HrClientNew0723\\mmm\\HrClientNew\\hrClient\\build\\intermediates\\res\\merged\\debug\\drawable-hdpi_de.png.flat",
@@ -1032,12 +1044,12 @@
         "source": "C:\\dididi\\HrClientNew0723\\mmm\\HrClientNew\\hrClient\\src\\main\\res\\drawable-hdpi\\back2.png"
     },
     {
-        "merged": "C:\\dididi\\HrClientNew0723\\mmm\\HrClientNew\\hrClient\\build\\intermediates\\res\\merged\\debug\\drawable-xxxhdpi-v4_abc_ic_menu_selectall_mtrl_alpha.png.flat",
-        "source": "C:\\Users\\Public\\Downloads\\xx\\caches\\transforms-1\\files-1.1\\appcompat-1.0.0-rc01.aar\\c6c78672a44847140ca1088882e1cb30\\res\\drawable-xxxhdpi-v4\\abc_ic_menu_selectall_mtrl_alpha.png"
-    },
-    {
         "merged": "C:\\dididi\\HrClientNew0723\\mmm\\HrClientNew\\hrClient\\build\\intermediates\\res\\merged\\debug\\drawable-mdpi-v4_abc_scrubber_control_to_pressed_mtrl_005.png.flat",
         "source": "C:\\Users\\Public\\Downloads\\xx\\caches\\transforms-1\\files-1.1\\appcompat-1.0.0-rc01.aar\\c6c78672a44847140ca1088882e1cb30\\res\\drawable-mdpi-v4\\abc_scrubber_control_to_pressed_mtrl_005.png"
+    },
+    {
+        "merged": "C:\\dididi\\HrClientNew0723\\mmm\\HrClientNew\\hrClient\\build\\intermediates\\res\\merged\\debug\\drawable-xxxhdpi-v4_abc_ic_menu_selectall_mtrl_alpha.png.flat",
+        "source": "C:\\Users\\Public\\Downloads\\xx\\caches\\transforms-1\\files-1.1\\appcompat-1.0.0-rc01.aar\\c6c78672a44847140ca1088882e1cb30\\res\\drawable-xxxhdpi-v4\\abc_ic_menu_selectall_mtrl_alpha.png"
     },
     {
         "merged": "C:\\dididi\\HrClientNew0723\\mmm\\HrClientNew\\hrClient\\build\\intermediates\\res\\merged\\debug\\layout_activity_scheduled_task.xml.flat",
@@ -1052,12 +1064,12 @@
         "source": "C:\\Users\\Public\\Downloads\\xx\\caches\\transforms-1\\files-1.1\\core-1.0.0.aar\\7d6773367113b2dfda9ccd4702637d9f\\res\\layout\\notification_template_icon_group.xml"
     },
     {
-        "merged": "C:\\dididi\\HrClientNew0723\\mmm\\HrClientNew\\hrClient\\build\\intermediates\\res\\merged\\debug\\drawable-xhdpi-v4_abc_textfield_search_default_mtrl_alpha.9.png.flat",
-        "source": "C:\\Users\\Public\\Downloads\\xx\\caches\\transforms-1\\files-1.1\\appcompat-1.0.0-rc01.aar\\c6c78672a44847140ca1088882e1cb30\\res\\drawable-xhdpi-v4\\abc_textfield_search_default_mtrl_alpha.9.png"
-    },
-    {
         "merged": "C:\\dididi\\HrClientNew0723\\mmm\\HrClientNew\\hrClient\\build\\intermediates\\res\\merged\\debug\\drawable-v21_abc_action_bar_item_background_material.xml.flat",
         "source": "C:\\Users\\Public\\Downloads\\xx\\caches\\transforms-1\\files-1.1\\appcompat-1.0.0-rc01.aar\\c6c78672a44847140ca1088882e1cb30\\res\\drawable-v21\\abc_action_bar_item_background_material.xml"
+    },
+    {
+        "merged": "C:\\dididi\\HrClientNew0723\\mmm\\HrClientNew\\hrClient\\build\\intermediates\\res\\merged\\debug\\drawable-xhdpi-v4_abc_textfield_search_default_mtrl_alpha.9.png.flat",
+        "source": "C:\\Users\\Public\\Downloads\\xx\\caches\\transforms-1\\files-1.1\\appcompat-1.0.0-rc01.aar\\c6c78672a44847140ca1088882e1cb30\\res\\drawable-xhdpi-v4\\abc_textfield_search_default_mtrl_alpha.9.png"
     },
     {
         "merged": "C:\\dididi\\HrClientNew0723\\mmm\\HrClientNew\\hrClient\\build\\intermediates\\res\\merged\\debug\\drawable-watch-v20_abc_dialog_material_background.xml.flat",
@@ -1084,12 +1096,12 @@
         "source": "C:\\Users\\Public\\Downloads\\xx\\caches\\transforms-1\\files-1.1\\appcompat-1.0.0-rc01.aar\\c6c78672a44847140ca1088882e1cb30\\res\\drawable-ldrtl-hdpi-v17\\abc_spinner_mtrl_am_alpha.9.png"
     },
     {
-        "merged": "C:\\dididi\\HrClientNew0723\\mmm\\HrClientNew\\hrClient\\build\\intermediates\\res\\merged\\debug\\drawable-hdpi-v4_abc_ic_menu_share_mtrl_alpha.png.flat",
-        "source": "C:\\Users\\Public\\Downloads\\xx\\caches\\transforms-1\\files-1.1\\appcompat-1.0.0-rc01.aar\\c6c78672a44847140ca1088882e1cb30\\res\\drawable-hdpi-v4\\abc_ic_menu_share_mtrl_alpha.png"
-    },
-    {
         "merged": "C:\\dididi\\HrClientNew0723\\mmm\\HrClientNew\\hrClient\\build\\intermediates\\res\\merged\\debug\\drawable_text_bg.xml.flat",
         "source": "C:\\dididi\\HrClientNew0723\\mmm\\HrClientNew\\hrClient\\src\\main\\res\\drawable\\text_bg.xml"
+    },
+    {
+        "merged": "C:\\dididi\\HrClientNew0723\\mmm\\HrClientNew\\hrClient\\build\\intermediates\\res\\merged\\debug\\drawable-hdpi-v4_abc_ic_menu_share_mtrl_alpha.png.flat",
+        "source": "C:\\Users\\Public\\Downloads\\xx\\caches\\transforms-1\\files-1.1\\appcompat-1.0.0-rc01.aar\\c6c78672a44847140ca1088882e1cb30\\res\\drawable-hdpi-v4\\abc_ic_menu_share_mtrl_alpha.png"
     },
     {
         "merged": "C:\\dididi\\HrClientNew0723\\mmm\\HrClientNew\\hrClient\\build\\intermediates\\res\\merged\\debug\\drawable_check_bg_no.xml.flat",
@@ -1140,12 +1152,12 @@
         "source": "C:\\Users\\Public\\Downloads\\xx\\caches\\transforms-1\\files-1.1\\material-1.0.0-rc01.aar\\93435797b916869cac0e5051200f7f84\\res\\layout-sw600dp-v13\\mtrl_layout_snackbar.xml"
     },
     {
-        "merged": "C:\\dididi\\HrClientNew0723\\mmm\\HrClientNew\\hrClient\\build\\intermediates\\res\\merged\\debug\\drawable-hdpi-v4_lv.png.flat",
-        "source": "C:\\dididi\\HrClientNew0723\\mmm\\HrClientNew\\guiCtrl\\build\\intermediates\\packaged_res\\debug\\drawable-hdpi-v4\\lv.png"
-    },
-    {
         "merged": "C:\\dididi\\HrClientNew0723\\mmm\\HrClientNew\\hrClient\\build\\intermediates\\res\\merged\\debug\\menu_station_list.xml.flat",
         "source": "C:\\dididi\\HrClientNew0723\\mmm\\HrClientNew\\hrClient\\src\\main\\res\\menu\\station_list.xml"
+    },
+    {
+        "merged": "C:\\dididi\\HrClientNew0723\\mmm\\HrClientNew\\hrClient\\build\\intermediates\\res\\merged\\debug\\drawable-hdpi-v4_lv.png.flat",
+        "source": "C:\\dididi\\HrClientNew0723\\mmm\\HrClientNew\\guiCtrl\\build\\intermediates\\packaged_res\\debug\\drawable-hdpi-v4\\lv.png"
     },
     {
         "merged": "C:\\dididi\\HrClientNew0723\\mmm\\HrClientNew\\hrClient\\build\\intermediates\\res\\merged\\debug\\drawable-xxxhdpi-v4_abc_ic_star_half_black_36dp.png.flat",
@@ -1176,12 +1188,12 @@
         "source": "C:\\Users\\Public\\Downloads\\xx\\caches\\transforms-1\\files-1.1\\appcompat-1.0.0-rc01.aar\\c6c78672a44847140ca1088882e1cb30\\res\\drawable-xxhdpi-v4\\abc_ic_star_half_black_16dp.png"
     },
     {
-        "merged": "C:\\dididi\\HrClientNew0723\\mmm\\HrClientNew\\hrClient\\build\\intermediates\\res\\merged\\debug\\drawable-xhdpi-v4_design_ic_visibility_off.png.flat",
-        "source": "C:\\Users\\Public\\Downloads\\xx\\caches\\transforms-1\\files-1.1\\material-1.0.0-rc01.aar\\93435797b916869cac0e5051200f7f84\\res\\drawable-xhdpi-v4\\design_ic_visibility_off.png"
-    },
-    {
         "merged": "C:\\dididi\\HrClientNew0723\\mmm\\HrClientNew\\hrClient\\build\\intermediates\\res\\merged\\debug\\drawable_abc_text_cursor_material.xml.flat",
         "source": "C:\\Users\\Public\\Downloads\\xx\\caches\\transforms-1\\files-1.1\\appcompat-1.0.0-rc01.aar\\c6c78672a44847140ca1088882e1cb30\\res\\drawable\\abc_text_cursor_material.xml"
+    },
+    {
+        "merged": "C:\\dididi\\HrClientNew0723\\mmm\\HrClientNew\\hrClient\\build\\intermediates\\res\\merged\\debug\\drawable-xhdpi-v4_design_ic_visibility_off.png.flat",
+        "source": "C:\\Users\\Public\\Downloads\\xx\\caches\\transforms-1\\files-1.1\\material-1.0.0-rc01.aar\\93435797b916869cac0e5051200f7f84\\res\\drawable-xhdpi-v4\\design_ic_visibility_off.png"
     },
     {
         "merged": "C:\\dididi\\HrClientNew0723\\mmm\\HrClientNew\\hrClient\\build\\intermediates\\res\\merged\\debug\\drawable-xxhdpi-v4_abc_switch_track_mtrl_alpha.9.png.flat",
@@ -1194,6 +1206,10 @@
     {
         "merged": "C:\\dididi\\HrClientNew0723\\mmm\\HrClientNew\\hrClient\\build\\intermediates\\res\\merged\\debug\\drawable-xxxhdpi-v4_abc_btn_switch_to_on_mtrl_00001.9.png.flat",
         "source": "C:\\Users\\Public\\Downloads\\xx\\caches\\transforms-1\\files-1.1\\appcompat-1.0.0-rc01.aar\\c6c78672a44847140ca1088882e1cb30\\res\\drawable-xxxhdpi-v4\\abc_btn_switch_to_on_mtrl_00001.9.png"
+    },
+    {
+        "merged": "C:\\dididi\\HrClientNew0723\\mmm\\HrClientNew\\hrClient\\build\\intermediates\\res\\merged\\debug\\anim_pickerview_slide_in_bottom.xml.flat",
+        "source": "C:\\Users\\Public\\Downloads\\xx\\caches\\transforms-1\\files-1.1\\jetified-Android-PickerView-4.1.8.aar\\33eeb7a1c81c5ef234102f0cc90bf0c5\\res\\anim\\pickerview_slide_in_bottom.xml"
     },
     {
         "merged": "C:\\dididi\\HrClientNew0723\\mmm\\HrClientNew\\hrClient\\build\\intermediates\\res\\merged\\debug\\layout_activity_four_test.xml.flat",
@@ -1220,16 +1236,16 @@
         "source": "C:\\Users\\Public\\Downloads\\xx\\caches\\transforms-1\\files-1.1\\appcompat-1.0.0-rc01.aar\\c6c78672a44847140ca1088882e1cb30\\res\\drawable-mdpi-v4\\abc_list_pressed_holo_light.9.png"
     },
     {
-        "merged": "C:\\dididi\\HrClientNew0723\\mmm\\HrClientNew\\hrClient\\build\\intermediates\\res\\merged\\debug\\drawable-ldrtl-xxxhdpi-v17_abc_ic_menu_cut_mtrl_alpha.png.flat",
-        "source": "C:\\Users\\Public\\Downloads\\xx\\caches\\transforms-1\\files-1.1\\appcompat-1.0.0-rc01.aar\\c6c78672a44847140ca1088882e1cb30\\res\\drawable-ldrtl-xxxhdpi-v17\\abc_ic_menu_cut_mtrl_alpha.png"
+        "merged": "C:\\dididi\\HrClientNew0723\\mmm\\HrClientNew\\hrClient\\build\\intermediates\\res\\merged\\debug\\color_mtrl_bottom_nav_item_tint.xml.flat",
+        "source": "C:\\Users\\Public\\Downloads\\xx\\caches\\transforms-1\\files-1.1\\material-1.0.0-rc01.aar\\93435797b916869cac0e5051200f7f84\\res\\color\\mtrl_bottom_nav_item_tint.xml"
     },
     {
         "merged": "C:\\dididi\\HrClientNew0723\\mmm\\HrClientNew\\hrClient\\build\\intermediates\\res\\merged\\debug\\drawable-xhdpi-v4_abc_list_pressed_holo_dark.9.png.flat",
         "source": "C:\\Users\\Public\\Downloads\\xx\\caches\\transforms-1\\files-1.1\\appcompat-1.0.0-rc01.aar\\c6c78672a44847140ca1088882e1cb30\\res\\drawable-xhdpi-v4\\abc_list_pressed_holo_dark.9.png"
     },
     {
-        "merged": "C:\\dididi\\HrClientNew0723\\mmm\\HrClientNew\\hrClient\\build\\intermediates\\res\\merged\\debug\\color_mtrl_bottom_nav_item_tint.xml.flat",
-        "source": "C:\\Users\\Public\\Downloads\\xx\\caches\\transforms-1\\files-1.1\\material-1.0.0-rc01.aar\\93435797b916869cac0e5051200f7f84\\res\\color\\mtrl_bottom_nav_item_tint.xml"
+        "merged": "C:\\dididi\\HrClientNew0723\\mmm\\HrClientNew\\hrClient\\build\\intermediates\\res\\merged\\debug\\drawable-ldrtl-xxxhdpi-v17_abc_ic_menu_cut_mtrl_alpha.png.flat",
+        "source": "C:\\Users\\Public\\Downloads\\xx\\caches\\transforms-1\\files-1.1\\appcompat-1.0.0-rc01.aar\\c6c78672a44847140ca1088882e1cb30\\res\\drawable-ldrtl-xxxhdpi-v17\\abc_ic_menu_cut_mtrl_alpha.png"
     },
     {
         "merged": "C:\\dididi\\HrClientNew0723\\mmm\\HrClientNew\\hrClient\\build\\intermediates\\res\\merged\\debug\\drawable-xhdpi-v4_abc_ic_menu_selectall_mtrl_alpha.png.flat",
@@ -1242,6 +1258,10 @@
     {
         "merged": "C:\\dididi\\HrClientNew0723\\mmm\\HrClientNew\\hrClient\\build\\intermediates\\res\\merged\\debug\\layout_fragment_line.xml.flat",
         "source": "C:\\dididi\\HrClientNew0723\\mmm\\HrClientNew\\hrClient\\src\\main\\res\\layout\\fragment_line.xml"
+    },
+    {
+        "merged": "C:\\dididi\\HrClientNew0723\\mmm\\HrClientNew\\hrClient\\build\\intermediates\\res\\merged\\debug\\layout_include_pickerview_topbar.xml.flat",
+        "source": "C:\\Users\\Public\\Downloads\\xx\\caches\\transforms-1\\files-1.1\\jetified-Android-PickerView-4.1.8.aar\\33eeb7a1c81c5ef234102f0cc90bf0c5\\res\\layout\\include_pickerview_topbar.xml"
     },
     {
         "merged": "C:\\dididi\\HrClientNew0723\\mmm\\HrClientNew\\hrClient\\build\\intermediates\\res\\merged\\debug\\color_abc_primary_text_disable_only_material_dark.xml.flat",
@@ -1484,6 +1504,10 @@
         "source": "C:\\Users\\Public\\Downloads\\xx\\caches\\transforms-1\\files-1.1\\appcompat-1.0.0-rc01.aar\\c6c78672a44847140ca1088882e1cb30\\res\\drawable-mdpi-v4\\abc_menu_hardkey_panel_mtrl_mult.9.png"
     },
     {
+        "merged": "C:\\dididi\\HrClientNew0723\\mmm\\HrClientNew\\hrClient\\build\\intermediates\\res\\merged\\debug\\anim_out.xml.flat",
+        "source": "C:\\dididi\\HrClientNew0723\\mmm\\HrClientNew\\hrClient\\src\\main\\res\\anim\\out.xml"
+    },
+    {
         "merged": "C:\\dididi\\HrClientNew0723\\mmm\\HrClientNew\\hrClient\\build\\intermediates\\res\\merged\\debug\\layout_activity_history_list.xml.flat",
         "source": "C:\\dididi\\HrClientNew0723\\mmm\\HrClientNew\\hrClient\\src\\main\\res\\layout\\activity_history_list.xml"
     },
@@ -1664,6 +1688,10 @@
         "source": "C:\\dididi\\HrClientNew0723\\mmm\\HrClientNew\\hrClient\\src\\main\\res\\layout\\activity_record_show_onew.xml"
     },
     {
+        "merged": "C:\\dididi\\HrClientNew0723\\mmm\\HrClientNew\\hrClient\\build\\intermediates\\res\\merged\\debug\\layout_popwindow_list_item.xml.flat",
+        "source": "C:\\dididi\\HrClientNew0723\\mmm\\HrClientNew\\hrClient\\src\\main\\res\\layout\\popwindow_list_item.xml"
+    },
+    {
         "merged": "C:\\dididi\\HrClientNew0723\\mmm\\HrClientNew\\hrClient\\build\\intermediates\\res\\merged\\debug\\drawable-xxhdpi-v4_abc_scrubber_primary_mtrl_alpha.9.png.flat",
         "source": "C:\\Users\\Public\\Downloads\\xx\\caches\\transforms-1\\files-1.1\\appcompat-1.0.0-rc01.aar\\c6c78672a44847140ca1088882e1cb30\\res\\drawable-xxhdpi-v4\\abc_scrubber_primary_mtrl_alpha.9.png"
     },
@@ -1728,12 +1756,20 @@
         "source": "C:\\Users\\Public\\Downloads\\xx\\caches\\transforms-1\\files-1.1\\appcompat-1.0.0-rc01.aar\\c6c78672a44847140ca1088882e1cb30\\res\\drawable-xxhdpi-v4\\abc_ic_commit_search_api_mtrl_alpha.png"
     },
     {
+        "merged": "C:\\dididi\\HrClientNew0723\\mmm\\HrClientNew\\hrClient\\build\\intermediates\\res\\merged\\debug\\layout_pickerview_time.xml.flat",
+        "source": "C:\\Users\\Public\\Downloads\\xx\\caches\\transforms-1\\files-1.1\\jetified-Android-PickerView-4.1.8.aar\\33eeb7a1c81c5ef234102f0cc90bf0c5\\res\\layout\\pickerview_time.xml"
+    },
+    {
         "merged": "C:\\dididi\\HrClientNew0723\\mmm\\HrClientNew\\hrClient\\build\\intermediates\\res\\merged\\debug\\drawable_abc_textfield_search_material.xml.flat",
         "source": "C:\\Users\\Public\\Downloads\\xx\\caches\\transforms-1\\files-1.1\\appcompat-1.0.0-rc01.aar\\c6c78672a44847140ca1088882e1cb30\\res\\drawable\\abc_textfield_search_material.xml"
     },
     {
         "merged": "C:\\dididi\\HrClientNew0723\\mmm\\HrClientNew\\hrClient\\build\\intermediates\\res\\merged\\debug\\drawable-ldrtl-xxxhdpi-v17_abc_spinner_mtrl_am_alpha.9.png.flat",
         "source": "C:\\Users\\Public\\Downloads\\xx\\caches\\transforms-1\\files-1.1\\appcompat-1.0.0-rc01.aar\\c6c78672a44847140ca1088882e1cb30\\res\\drawable-ldrtl-xxxhdpi-v17\\abc_spinner_mtrl_am_alpha.9.png"
+    },
+    {
+        "merged": "C:\\dididi\\HrClientNew0723\\mmm\\HrClientNew\\hrClient\\build\\intermediates\\res\\merged\\debug\\layout_activity_pop_window.xml.flat",
+        "source": "C:\\dididi\\HrClientNew0723\\mmm\\HrClientNew\\hrClient\\src\\main\\res\\layout\\activity_pop_window.xml"
     },
     {
         "merged": "C:\\dididi\\HrClientNew0723\\mmm\\HrClientNew\\hrClient\\build\\intermediates\\res\\merged\\debug\\layout_activity_main2.xml.flat",
@@ -1810,6 +1846,10 @@
     {
         "merged": "C:\\dididi\\HrClientNew0723\\mmm\\HrClientNew\\hrClient\\build\\intermediates\\res\\merged\\debug\\layout_activity_last.xml.flat",
         "source": "C:\\dididi\\HrClientNew0723\\mmm\\HrClientNew\\guiCtrl\\build\\intermediates\\packaged_res\\debug\\layout\\activity_last.xml"
+    },
+    {
+        "merged": "C:\\dididi\\HrClientNew0723\\mmm\\HrClientNew\\hrClient\\build\\intermediates\\res\\merged\\debug\\drawable-hdpi_login_top_icon.png.flat",
+        "source": "C:\\dididi\\HrClientNew0723\\mmm\\HrClientNew\\hrClient\\src\\main\\res\\drawable-hdpi\\login_top_icon.png"
     },
     {
         "merged": "C:\\dididi\\HrClientNew0723\\mmm\\HrClientNew\\hrClient\\build\\intermediates\\res\\merged\\debug\\drawable-hdpi-v4_hn.png.flat",
@@ -1898,6 +1938,10 @@
     {
         "merged": "C:\\dididi\\HrClientNew0723\\mmm\\HrClientNew\\hrClient\\build\\intermediates\\res\\merged\\debug\\drawable-ldrtl-xhdpi-v17_abc_ic_menu_copy_mtrl_am_alpha.png.flat",
         "source": "C:\\Users\\Public\\Downloads\\xx\\caches\\transforms-1\\files-1.1\\appcompat-1.0.0-rc01.aar\\c6c78672a44847140ca1088882e1cb30\\res\\drawable-ldrtl-xhdpi-v17\\abc_ic_menu_copy_mtrl_am_alpha.png"
+    },
+    {
+        "merged": "C:\\dididi\\HrClientNew0723\\mmm\\HrClientNew\\hrClient\\build\\intermediates\\res\\merged\\debug\\layout_activity_pinduansanmiao_history.xml.flat",
+        "source": "C:\\dididi\\HrClientNew0723\\mmm\\HrClientNew\\hrClient\\src\\main\\res\\layout\\activity_pinduansanmiao_history.xml"
     },
     {
         "merged": "C:\\dididi\\HrClientNew0723\\mmm\\HrClientNew\\hrClient\\build\\intermediates\\res\\merged\\debug\\drawable_abc_btn_colored_material.xml.flat",
@@ -1998,6 +2042,10 @@
     {
         "merged": "C:\\dididi\\HrClientNew0723\\mmm\\HrClientNew\\hrClient\\build\\intermediates\\res\\merged\\debug\\drawable-hdpi-v4_quxiao.xml.flat",
         "source": "C:\\dididi\\HrClientNew0723\\mmm\\HrClientNew\\guiCtrl\\build\\intermediates\\packaged_res\\debug\\drawable-hdpi-v4\\quxiao.xml"
+    },
+    {
+        "merged": "C:\\dididi\\HrClientNew0723\\mmm\\HrClientNew\\hrClient\\build\\intermediates\\res\\merged\\debug\\drawable_station_show_list.xml.flat",
+        "source": "C:\\dididi\\HrClientNew0723\\mmm\\HrClientNew\\hrClient\\src\\main\\res\\drawable\\station_show_list.xml"
     },
     {
         "merged": "C:\\dididi\\HrClientNew0723\\mmm\\HrClientNew\\hrClient\\build\\intermediates\\res\\merged\\debug\\drawable-xxhdpi-v4_abc_btn_radio_to_on_mtrl_015.png.flat",
@@ -2412,6 +2460,10 @@
         "source": "C:\\Users\\Public\\Downloads\\xx\\caches\\transforms-1\\files-1.1\\appcompat-1.0.0-rc01.aar\\c6c78672a44847140ca1088882e1cb30\\res\\drawable\\abc_tab_indicator_material.xml"
     },
     {
+        "merged": "C:\\dididi\\HrClientNew0723\\mmm\\HrClientNew\\hrClient\\build\\intermediates\\res\\merged\\debug\\layout_pop_window_view.xml.flat",
+        "source": "C:\\dididi\\HrClientNew0723\\mmm\\HrClientNew\\hrClient\\src\\main\\res\\layout\\pop_window_view.xml"
+    },
+    {
         "merged": "C:\\dididi\\HrClientNew0723\\mmm\\HrClientNew\\hrClient\\build\\intermediates\\res\\merged\\debug\\drawable-hdpi-v4_bnbackgroud.png.flat",
         "source": "C:\\dididi\\HrClientNew0723\\mmm\\HrClientNew\\guiCtrl\\build\\intermediates\\packaged_res\\debug\\drawable-hdpi-v4\\bnbackgroud.png"
     },
@@ -2434,6 +2486,10 @@
     {
         "merged": "C:\\dididi\\HrClientNew0723\\mmm\\HrClientNew\\hrClient\\build\\intermediates\\res\\merged\\debug\\drawable-hdpi-v4_abc_scrubber_control_to_pressed_mtrl_005.png.flat",
         "source": "C:\\Users\\Public\\Downloads\\xx\\caches\\transforms-1\\files-1.1\\appcompat-1.0.0-rc01.aar\\c6c78672a44847140ca1088882e1cb30\\res\\drawable-hdpi-v4\\abc_scrubber_control_to_pressed_mtrl_005.png"
+    },
+    {
+        "merged": "C:\\dididi\\HrClientNew0723\\mmm\\HrClientNew\\hrClient\\build\\intermediates\\res\\merged\\debug\\anim_in.xml.flat",
+        "source": "C:\\dididi\\HrClientNew0723\\mmm\\HrClientNew\\hrClient\\src\\main\\res\\anim\\in.xml"
     },
     {
         "merged": "C:\\dididi\\HrClientNew0723\\mmm\\HrClientNew\\hrClient\\build\\intermediates\\res\\merged\\debug\\drawable-mdpi-v4_abc_btn_check_to_on_mtrl_000.png.flat",
@@ -2548,6 +2604,10 @@
         "source": "C:\\Users\\Public\\Downloads\\xx\\caches\\transforms-1\\files-1.1\\material-1.0.0-rc01.aar\\93435797b916869cac0e5051200f7f84\\res\\interpolator-v21\\mtrl_fast_out_linear_in.xml"
     },
     {
+        "merged": "C:\\dididi\\HrClientNew0723\\mmm\\HrClientNew\\hrClient\\build\\intermediates\\res\\merged\\debug\\anim_pickerview_dialog_scale_in.xml.flat",
+        "source": "C:\\Users\\Public\\Downloads\\xx\\caches\\transforms-1\\files-1.1\\jetified-Android-PickerView-4.1.8.aar\\33eeb7a1c81c5ef234102f0cc90bf0c5\\res\\anim\\pickerview_dialog_scale_in.xml"
+    },
+    {
         "merged": "C:\\dididi\\HrClientNew0723\\mmm\\HrClientNew\\hrClient\\build\\intermediates\\res\\merged\\debug\\color_mtrl_fab_ripple_color.xml.flat",
         "source": "C:\\Users\\Public\\Downloads\\xx\\caches\\transforms-1\\files-1.1\\material-1.0.0-rc01.aar\\93435797b916869cac0e5051200f7f84\\res\\color\\mtrl_fab_ripple_color.xml"
     },
@@ -2632,6 +2692,10 @@
         "source": "C:\\dididi\\HrClientNew0723\\mmm\\HrClientNew\\hrClient\\src\\main\\res\\drawable-hdpi\\fenxi.png"
     },
     {
+        "merged": "C:\\dididi\\HrClientNew0723\\mmm\\HrClientNew\\hrClient\\build\\intermediates\\res\\merged\\debug\\anim_pickerview_slide_out_bottom.xml.flat",
+        "source": "C:\\Users\\Public\\Downloads\\xx\\caches\\transforms-1\\files-1.1\\jetified-Android-PickerView-4.1.8.aar\\33eeb7a1c81c5ef234102f0cc90bf0c5\\res\\anim\\pickerview_slide_out_bottom.xml"
+    },
+    {
         "merged": "C:\\dididi\\HrClientNew0723\\mmm\\HrClientNew\\hrClient\\build\\intermediates\\res\\merged\\debug\\drawable-hdpi_bz1.png.flat",
         "source": "C:\\dididi\\HrClientNew0723\\mmm\\HrClientNew\\hrClient\\src\\main\\res\\drawable-hdpi\\bz1.png"
     },
@@ -2698,6 +2762,10 @@
     {
         "merged": "C:\\dididi\\HrClientNew0723\\mmm\\HrClientNew\\hrClient\\build\\intermediates\\res\\merged\\debug\\drawable-hdpi-v4_abc_ic_commit_search_api_mtrl_alpha.png.flat",
         "source": "C:\\Users\\Public\\Downloads\\xx\\caches\\transforms-1\\files-1.1\\appcompat-1.0.0-rc01.aar\\c6c78672a44847140ca1088882e1cb30\\res\\drawable-hdpi-v4\\abc_ic_commit_search_api_mtrl_alpha.png"
+    },
+    {
+        "merged": "C:\\dididi\\HrClientNew0723\\mmm\\HrClientNew\\hrClient\\build\\intermediates\\res\\merged\\debug\\anim_pickerview_dialog_scale_out.xml.flat",
+        "source": "C:\\Users\\Public\\Downloads\\xx\\caches\\transforms-1\\files-1.1\\jetified-Android-PickerView-4.1.8.aar\\33eeb7a1c81c5ef234102f0cc90bf0c5\\res\\anim\\pickerview_dialog_scale_out.xml"
     },
     {
         "merged": "C:\\dididi\\HrClientNew0723\\mmm\\HrClientNew\\hrClient\\build\\intermediates\\res\\merged\\debug\\layout_pinpufenximenu.xml.flat",
@@ -2822,6 +2890,10 @@
     {
         "merged": "C:\\dididi\\HrClientNew0723\\mmm\\HrClientNew\\hrClient\\build\\intermediates\\res\\merged\\debug\\layout_select_dialog_multichoice_material.xml.flat",
         "source": "C:\\Users\\Public\\Downloads\\xx\\caches\\transforms-1\\files-1.1\\appcompat-1.0.0-rc01.aar\\c6c78672a44847140ca1088882e1cb30\\res\\layout\\select_dialog_multichoice_material.xml"
+    },
+    {
+        "merged": "C:\\dididi\\HrClientNew0723\\mmm\\HrClientNew\\hrClient\\build\\intermediates\\res\\merged\\debug\\layout_popupwindow.xml.flat",
+        "source": "C:\\dididi\\HrClientNew0723\\mmm\\HrClientNew\\hrClient\\src\\main\\res\\layout\\popupwindow.xml"
     },
     {
         "merged": "C:\\dididi\\HrClientNew0723\\mmm\\HrClientNew\\hrClient\\build\\intermediates\\res\\merged\\debug\\drawable-xhdpi-v4_abc_scrubber_track_mtrl_alpha.9.png.flat",
@@ -3028,6 +3100,10 @@
         "source": "C:\\Users\\Public\\Downloads\\xx\\caches\\transforms-1\\files-1.1\\appcompat-1.0.0-rc01.aar\\c6c78672a44847140ca1088882e1cb30\\res\\drawable-mdpi-v4\\abc_ic_menu_share_mtrl_alpha.png"
     },
     {
+        "merged": "C:\\dididi\\HrClientNew0723\\mmm\\HrClientNew\\hrClient\\build\\intermediates\\res\\merged\\debug\\layout_window_text_item.xml.flat",
+        "source": "C:\\dididi\\HrClientNew0723\\mmm\\HrClientNew\\hrClient\\src\\main\\res\\layout\\window_text_item.xml"
+    },
+    {
         "merged": "C:\\dididi\\HrClientNew0723\\mmm\\HrClientNew\\hrClient\\build\\intermediates\\res\\merged\\debug\\layout_abc_cascading_menu_item_layout.xml.flat",
         "source": "C:\\Users\\Public\\Downloads\\xx\\caches\\transforms-1\\files-1.1\\appcompat-1.0.0-rc01.aar\\c6c78672a44847140ca1088882e1cb30\\res\\layout\\abc_cascading_menu_item_layout.xml"
     },
@@ -3122,6 +3198,10 @@
     {
         "merged": "C:\\dididi\\HrClientNew0723\\mmm\\HrClientNew\\hrClient\\build\\intermediates\\res\\merged\\debug\\drawable-hdpi_bigwurenzhan.png.flat",
         "source": "C:\\dididi\\HrClientNew0723\\mmm\\HrClientNew\\hrClient\\src\\main\\res\\drawable-hdpi\\bigwurenzhan.png"
+    },
+    {
+        "merged": "C:\\dididi\\HrClientNew0723\\mmm\\HrClientNew\\hrClient\\build\\intermediates\\res\\merged\\debug\\layout_pickerview_options.xml.flat",
+        "source": "C:\\Users\\Public\\Downloads\\xx\\caches\\transforms-1\\files-1.1\\jetified-Android-PickerView-4.1.8.aar\\33eeb7a1c81c5ef234102f0cc90bf0c5\\res\\layout\\pickerview_options.xml"
     },
     {
         "merged": "C:\\dididi\\HrClientNew0723\\mmm\\HrClientNew\\hrClient\\build\\intermediates\\res\\merged\\debug\\drawable_check_yes_bg.xml.flat",

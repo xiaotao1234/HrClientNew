@@ -1,7 +1,9 @@
 package com.huari.client;
 
+import android.Manifest;
 import android.app.Activity;
 import android.content.Intent;
+import android.content.pm.PackageManager;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
@@ -24,6 +26,9 @@ import com.baidu.mapapi.map.offline.MKOfflineMapListener;
 
 import java.util.ArrayList;
 
+import androidx.core.app.ActivityCompat;
+import androidx.core.content.ContextCompat;
+
 public class OfflineDownloadActivity extends Activity implements MKOfflineMapListener {
 
     private static final String TAG = "OfflineDownloadActivity";
@@ -39,12 +44,27 @@ public class OfflineDownloadActivity extends Activity implements MKOfflineMapLis
     private ArrayList<MKOLUpdateElement> localMapList = null;
     private LocalMapAdapter lAdapter = null;
 
+    @Override
+    public void onRequestPermissionsResult(int requestCode, String[] permissions, int[] grantResults) {
+        super.onRequestPermissionsResult(requestCode, permissions, grantResults);
+        switch (requestCode){
+            case 1:
+                if(grantResults!=null&&grantResults[0]==PackageManager.PERMISSION_GRANTED){
+                }else {
+                }
+        }
+    }
+
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_offline);
         mOffline = new MKOfflineMap();
         mOffline.init(this);
         initView();
+        if(ContextCompat.checkSelfPermission(this,Manifest.permission.INTERNET)==PackageManager.PERMISSION_GRANTED){
+            ActivityCompat.requestPermissions(this,new String[]{Manifest.permission.INTERNET},1);
+        }else {
+        }
     }
 
     private void initView() {
@@ -105,7 +125,6 @@ public class OfflineDownloadActivity extends Activity implements MKOfflineMapLis
         ListView localMapListView = findViewById(R.id.localmaplist);
         lAdapter = new LocalMapAdapter();
         localMapListView.setAdapter(lAdapter);
-
     }
 
     /**

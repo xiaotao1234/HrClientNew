@@ -75,24 +75,24 @@ public final class R {
 
         public static final int barrier = 0x7f09002b;
         public static final int bottom = 0x7f09003a;
-        public static final int chains = 0x7f090048;
-        public static final int dimensions = 0x7f090085;
-        public static final int direct = 0x7f090086;
-        public static final int end = 0x7f09008d;
-        public static final int gone = 0x7f0900b5;
-        public static final int invisible = 0x7f0900da;
-        public static final int left = 0x7f0900f0;
-        public static final int none = 0x7f09013e;
-        public static final int packed = 0x7f09014e;
-        public static final int parent = 0x7f090150;
-        public static final int percent = 0x7f090155;
-        public static final int right = 0x7f09018c;
-        public static final int spread = 0x7f0901e6;
-        public static final int spread_inside = 0x7f0901e7;
-        public static final int standard = 0x7f0901eb;
-        public static final int start = 0x7f0901ec;
-        public static final int top = 0x7f090227;
-        public static final int wrap = 0x7f09025a;
+        public static final int chains = 0x7f09004b;
+        public static final int dimensions = 0x7f09008a;
+        public static final int direct = 0x7f09008b;
+        public static final int end = 0x7f090092;
+        public static final int gone = 0x7f0900ba;
+        public static final int invisible = 0x7f0900e0;
+        public static final int left = 0x7f0900f6;
+        public static final int none = 0x7f090147;
+        public static final int packed = 0x7f09015c;
+        public static final int parent = 0x7f09015e;
+        public static final int percent = 0x7f090163;
+        public static final int right = 0x7f09019b;
+        public static final int spread = 0x7f0901f7;
+        public static final int spread_inside = 0x7f0901f8;
+        public static final int standard = 0x7f0901fc;
+        public static final int start = 0x7f0901fd;
+        public static final int top = 0x7f09023c;
+        public static final int wrap = 0x7f090270;
     }
     public static final class styleable {
         private styleable() {}

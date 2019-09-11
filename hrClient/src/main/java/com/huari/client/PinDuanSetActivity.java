@@ -213,8 +213,6 @@ public class PinDuanSetActivity extends AppCompatActivity implements
 					gBigList.add(p.displayType);
 				}
 			}
-			;
-
 		}
 
 		for (String s : gBigList) {
@@ -240,9 +238,9 @@ public class PinDuanSetActivity extends AppCompatActivity implements
 						&& p.isAdvanced == 1) {
 					LinearLayout ly = (LinearLayout) getLayoutInflater()
 							.inflate(R.layout.ppfxwithspinner, null);
-					TextView tiew = (TextView) ly
+					TextView tiew = ly
 							.findViewById(R.id.exchilditemttv);
-					final Spinner sp = (Spinner) ly
+					final Spinner sp = ly
 							.findViewById(R.id.exchildsp);
 					Spinner tempsp = sp;
 					if (p.enumValues != null) {
@@ -293,7 +291,7 @@ public class PinDuanSetActivity extends AppCompatActivity implements
 		for (String s : aBigList) {
 			LinearLayout ll = (LinearLayout) getLayoutInflater().inflate(
 					R.layout.big_parameter, null);
-			TextView tv = (TextView) ll.findViewById(R.id.bigparamtertextview);
+			TextView tv = ll.findViewById(R.id.bigparamtertextview);
 			tv.setText("高级设置");
 			advLinearLayout.addView(ll);// 将大类参数显示在界面上，下面开始加载附挂到它下面的子选项
 			for (Parameter p : currentLogic.parameterlist) {
@@ -301,9 +299,9 @@ public class PinDuanSetActivity extends AppCompatActivity implements
 						&& p.isAdvanced == 0) {
 					LinearLayout ly = (LinearLayout) getLayoutInflater()
 							.inflate(R.layout.ppfxchildwithet, null);
-					TextView tiew = (TextView) ly
+					TextView tiew = ly
 							.findViewById(R.id.exchilditemtv);
-					EditText ext = (EditText) ly
+					EditText ext = ly
 							.findViewById(R.id.exchilditemet);
 					ext.addTextChangedListener(new MyTextWatcher(p.name));
 
@@ -313,9 +311,9 @@ public class PinDuanSetActivity extends AppCompatActivity implements
 						&& p.isAdvanced == 0) {
 					LinearLayout ly = (LinearLayout) getLayoutInflater()
 							.inflate(R.layout.ppfxwithspinner, null);
-					TextView tiew = (TextView) ly
+					TextView tiew = ly
 							.findViewById(R.id.exchilditemttv);
-					final Spinner sp = (Spinner) ly
+					final Spinner sp = ly
 							.findViewById(R.id.exchildsp);
 					Spinner tempsp = sp;
 					ArrayAdapter<String> adapter = new ArrayAdapter<String>(

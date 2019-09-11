@@ -155,34 +155,26 @@ public class FromMapActivity extends AppCompatActivity implements
 
 		dialog = new AlertDialog.Builder(FromMapActivity.this)
 				.setTitle("确定要保存参数更改吗？")
-				.setNegativeButton("取消", new DialogInterface.OnClickListener() {
-					
-					@Override
-					public void onClick(DialogInterface arg0, int arg1) {
-						// TODO Auto-generated method stub
-						loadparameters();
-						FromMapActivity.this.finish();
-					}
+				.setNegativeButton("取消", (arg0, arg1) -> {
+					// TODO Auto-generated method stub
+					loadparameters();
+					FromMapActivity.this.finish();
 				})
-				.setPositiveButton("确定", new DialogInterface.OnClickListener() {
-
-					@Override
-					public void onClick(DialogInterface arg0, int arg1) {
-						// TODO Auto-generated method stub
-						refreshParameters();
-						Intent ine = new Intent(FromMapActivity.this,
-								MapActivity.class);
-						GlobalData.stationKey = stationId;
-						GlobalData.deviceName = deviceName;
-						GlobalData.logicId = logicId;
-						Message a = MapActivity.handler.obtainMessage();
-						a.what = MapActivity.HUAXIAN;
-						MapActivity.handler.sendMessage(a);
-						GlobalData.itemTitle = "开始示向";
-						startActivity(ine);
-						// MapActivity.handler.sendEmptyMessage(MapActivity.HUAXIAN);
-						FromMapActivity.this.finish();
-					}
+				.setPositiveButton("确定", (arg0, arg1) -> {
+					// TODO Auto-generated method stub
+					refreshParameters();
+					Intent ine = new Intent(FromMapActivity.this,
+							MapActivity.class);
+					GlobalData.stationKey = stationId;
+					GlobalData.deviceName = deviceName;
+					GlobalData.logicId = logicId;
+					Message a = MapActivity.handler.obtainMessage();
+					a.what = MapActivity.HUAXIAN;
+					MapActivity.handler.sendMessage(a);
+					GlobalData.itemTitle = "开始示向";
+					startActivity(ine);
+					// MapActivity.handler.sendEmptyMessage(MapActivity.HUAXIAN);
+					FromMapActivity.this.finish();
 				}).create();
 	}
 

@@ -1,34 +1,48 @@
 package com.huari.adapter;
 
-import android.app.Activity;
-import android.app.ActivityOptions;
 import android.content.Context;
 import android.content.Intent;
-import android.os.Bundle;
+
+
 import androidx.recyclerview.widget.RecyclerView;
-import android.util.Log;
+
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
+import com.huari.client.HistoryAnalysisActivity;
+import com.huari.client.HistoryDFActivity;
+import com.huari.client.HistoryPinDuanActivity;
+import com.huari.dataentry.recentContent;
 import com.huari.client.R;
-import com.huari.client.RecordListActivity;
-import com.huari.client.RecordShowOnewActivity;
 
-import java.util.ArrayList;
+
+import java.io.File;
+import java.util.List;
 
 /**
  * Created by Li on 2017/2/27.
  */
 
 public class SimpleTestAdapter extends RecyclerView.Adapter<SimpleTestAdapter.TextViewHolder> {
-
-    private String TAG = SimpleTestAdapter.class.getSimpleName();
+    private List<recentContent> recentContent;
     Context context;
+
+    public void setContext(Context context) {
+        this.context = context;
+    }
+
+    public void setRecentContent(List<recentContent> recentContent) {
+        this.recentContent = recentContent;
+    }
+
     public SimpleTestAdapter(Context context) {
         this.context = context;
+    }
+
+    public SimpleTestAdapter() {
     }
 
     @Override
@@ -39,29 +53,75 @@ public class SimpleTestAdapter extends RecyclerView.Adapter<SimpleTestAdapter.Te
 
     @Override
     public void onBindViewHolder(final TextViewHolder holder, int position) {
-        holder.textView.setText("2019-8-" + position);
+        holder.textView.setText(getName(position));
+        holder.titleTextView.setText(getTypename(position));
         holder.linearLayout.setOnClickListener(v -> {
-            Intent intent = new Intent(context,
-                    RecordShowOnewActivity.class);
+            Intent intent;
+            switch (getTypename(position)) {
+                case "单频测量":
+                    intent = new Intent(context, HistoryDFActivity.class);
+                    break;
+                case "频谱分析":
+                    intent = new Intent(context, HistoryAnalysisActivity.class);
+                    break;
+                case "频段扫描":
+                    intent = new Intent(context, HistoryPinDuanActivity.class);
+                    break;
+                default:
+                    intent = new Intent(context, HistoryDFActivity.class);
+                    break;
+            }
+//            Bundle bundle = new Bundle();
+            intent.putExtra("filename", new File(recentContent.get(position).getFile()).getName());
+            intent.putExtra("from", "history");
             context.startActivity(intent);
         });
+    }
+
+    private String getName(int position) {
+        String filename = recentContent.get(position).getFilename();
+        if (filename != null) {
+            return filename.substring(9, 19);
+        } else {
+            return null;
+        }
+    }
+
+    private String getTypename(int position) {
+        String name;
+        switch (recentContent.get(position).getType()) {
+            case 1:
+                name = "单频测量";
+                break;
+            case 2:
+                name = "频谱分析";
+                break;
+            case 3:
+                name = "频段扫描";
+                break;
+            default:
+                name = "";
+                break;
+        }
+        return name;
     }
 
 
     @Override
     public int getItemCount() {
-        return 100;
+        return recentContent.size();
     }
-
 
     public static class TextViewHolder extends RecyclerView.ViewHolder {
         TextView textView;
+        TextView titleTextView;
         LinearLayout linearLayout;
+
         public TextViewHolder(View itemView) {
             super(itemView);
-            textView = itemView.findViewById(R.id.title);
+            titleTextView = itemView.findViewById(R.id.title);
+            textView = itemView.findViewById(R.id.time);
             linearLayout = itemView.findViewById(R.id.recorder_item);
         }
     }
-
 }

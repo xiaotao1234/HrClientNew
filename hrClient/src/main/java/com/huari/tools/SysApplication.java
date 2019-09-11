@@ -67,7 +67,7 @@ public class SysApplication extends Application {
                 }
             }
         });
-        BmobPush.startWork(getApplicationContext());
+//        BmobPush.startWork(getApplicationContext());
 
         createNotificationChannel();
 

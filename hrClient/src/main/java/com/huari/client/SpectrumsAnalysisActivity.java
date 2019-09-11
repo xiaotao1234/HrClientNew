@@ -66,7 +66,7 @@ import com.huari.dataentry.Type;
 import com.huari.tools.ByteFileIoUtils;
 import com.huari.tools.MyTools;
 import com.huari.tools.Parse;
-import com.huari.tools.RealTimeSaveStore;
+import com.huari.tools.RealTimeSaveAndGetStore;
 import com.huari.tools.SysApplication;
 import com.huari.ui.ShowWaveView;
 
@@ -152,6 +152,7 @@ public class SpectrumsAnalysisActivity extends AnalysisBase {
 	// 解析声音相关的东西
 	private String fileName;
 	private static String fileBasePath;
+	private Station stationF;
 
 	//public static PlayAudioThread playAudioThread;
 
@@ -325,7 +326,7 @@ public class SpectrumsAnalysisActivity extends AnalysisBase {
 								savePrepare();
 								flag++;
 							}
-							time = RealTimeSaveStore.SaveAtTime(available, info, time, 2);//给数据加一个时间的包头后递交到缓存队列中
+							time = RealTimeSaveAndGetStore.SaveAtTime(available, info, time, 2);//给数据加一个时间的包头后递交到缓存队列中
 						}
 						available = 0;
 					}
@@ -350,6 +351,7 @@ public class SpectrumsAnalysisActivity extends AnalysisBase {
 		shareEditor.commit();  //以文件名作为key来将台站信息存入shareReferences
 		Log.d("xiaoxiao", String.valueOf(fileName.length()));
 		SysApplication.byteFileIoUtils.writeBytesToFile(fileName, 2); //开始保存数据前的初始化
+		RealTimeSaveAndGetStore.serializeFlyPig(stationF,fileName,2);//在消费者线程开启后，开始Statio的序列化并放入队列缓冲区中等待消费者线程遍历之
 	}
 
 	@SuppressLint("InvalidWakeLockTag")
@@ -435,7 +437,7 @@ public class SpectrumsAnalysisActivity extends AnalysisBase {
 
 		// 开始设置waveview的相关参数。参数从GlobalData中读取。
 		waveview = (ShowWaveView) findViewById(R.id.buildshowwaveview);
-		Station stationF = GlobalData.stationHashMap.get(stationKey);
+		stationF = GlobalData.stationHashMap.get(stationKey);
 		ArrayList<MyDevice> am = stationF.devicelist;
 		HashMap<String, LogicParameter> hsl = null;
 		for (MyDevice md : am) {
@@ -565,34 +567,6 @@ public class SpectrumsAnalysisActivity extends AnalysisBase {
 
 	}
 
-//	@Override
-//	public boolean onKeyDown(int keyCode, KeyEvent event) {
-//		if (keyCode == KeyEvent.KEYCODE_BACK) {
-//			AlertDialog.Builder builder = new AlertDialog.Builder(
-//					SpectrumsAnalysisActivity.this);
-//			builder.setTitle("警告!");
-//			builder.setMessage("确定要退出该功能吗？");
-//			builder.setPositiveButton("确定",
-//					new DialogInterface.OnClickListener() {
-//
-//						@Override
-//						public void onClick(DialogInterface dialog, int which) {
-//							// TODO Auto-generated method stub
-//							willExit();
-//							Intent intent = new Intent(
-//									SpectrumsAnalysisActivity.this,
-//									MainActivity.class);//CircleActivity.class);
-//							startActivity(intent);
-//							finish();
-//						}
-//					});
-//			builder.setNegativeButton("取消", null);
-//			builder.create();
-//			builder.show();
-//		}
-//		return super.onKeyDown(keyCode, event);
-//	}
-
 	@Override
 	public boolean onCreateOptionsMenu(Menu menu) {
 		getMenuInflater().inflate(R.menu.pinpufenxiitem, menu);
@@ -685,50 +659,46 @@ public class SpectrumsAnalysisActivity extends AnalysisBase {
 				ab.setTitle("警告！");
 				ab.setMessage("功能运行期间不可更改设置，确定要停止功能进行设置吗？");
 				ab.setPositiveButton("确定",
-						new DialogInterface.OnClickListener() {
-							@Override
-							public void onClick(DialogInterface dialog,
-									int which) {
-								// TODO Auto-generated method stub
-								partispause = true;
-								fullispause = true;
-								findViewById(R.id.zanting1);
-								mitem.setTitle("开始测量");
+						(dialog, which) -> {
+							// TODO Auto-generated method stub
+							partispause = true;
+							fullispause = true;
+							findViewById(R.id.zanting1);
+							mitem.setTitle("开始测量");
 
-								mythread.sendEndCmd();
+							mythread.sendEndCmd();
 
-								if (mythread != null) {
-									try {
-										mythread.setEnd(true);
-									} catch (Exception e) {
+							if (mythread != null) {
+								try {
+									mythread.setEnd(true);
+								} catch (Exception e) {
 
-									}
 								}
-								mythread = null;
-								if (inithread != null) {
-									try {
-										inithread.destroy();
-									} catch (Exception e) {
-
-									}
-									inithread = null;
-								}
-								GlobalData.Spectrumpinpu = null;
-								GlobalData.oldcount = 0;
-								GlobalData.haveCount = 0;
-								System.gc();
-
-								Intent intent = new Intent(
-										SpectrumsAnalysisActivity.this,
-										PPFXsetActivity.class);
-								Bundle bundle = new Bundle();
-								bundle.putString("sname", stationname);
-								bundle.putString("dname", devicename);
-								bundle.putString("stakey", stationKey);
-								bundle.putString("lids", logicId);
-								intent.putExtras(bundle);
-								startActivityForResult(intent, 0);
 							}
+							mythread = null;
+							if (inithread != null) {
+								try {
+									inithread.destroy();
+								} catch (Exception e) {
+
+								}
+								inithread = null;
+							}
+							GlobalData.Spectrumpinpu = null;
+							GlobalData.oldcount = 0;
+							GlobalData.haveCount = 0;
+							System.gc();
+
+							Intent intent = new Intent(
+									SpectrumsAnalysisActivity.this,
+									PPFXsetActivity.class);
+							Bundle bundle = new Bundle();
+							bundle.putString("sname", stationname);
+							bundle.putString("dname", devicename);
+							bundle.putString("stakey", stationKey);
+							bundle.putString("lids", logicId);
+							intent.putExtras(bundle);
+							startActivityForResult(intent, 0);
 						});
 				ab.setNegativeButton("取消", null);
 				ab.create();
@@ -939,15 +909,6 @@ public class SpectrumsAnalysisActivity extends AnalysisBase {
 			}
 			inithread = null;
 		}
-//		if (playAudioThread != null) {
-//			try {
-//				playAudioThread.setRunPlayAudio(false);
-//				playAudioThread.join();
-//				playAudioThread = null;
-//			} catch (Exception e) {
-//
-//			}
-//		}
 		try {
 			GlobalData.Spectrumpinpu = null;
 			GlobalData.oldcount = 0;
@@ -976,7 +937,7 @@ public class SpectrumsAnalysisActivity extends AnalysisBase {
 		fullispause = false;
 		partispause = false;
 		startWindow();
-//		RealTimeSaveStore.ParseLocalDdfData("nba",2,30);
+//		RealTimeSaveAndGetStore.ParseLocalDdfData("nba",2,30);
 		super.onResume();
 	}
 
@@ -1011,6 +972,7 @@ public class SpectrumsAnalysisActivity extends AnalysisBase {
 		wl.release();
 		super.onPause();
 		ByteFileIoUtils.runFlag = false;
+		WindowHelper.instance.stopWindowService(this);
 		willExit();
 	}
 
@@ -1048,7 +1010,7 @@ public class SpectrumsAnalysisActivity extends AnalysisBase {
 			SimpleDateFormat df = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
 			String fileName = "REC|"+df.format(new Date()).replaceAll(" ", "|")+".wav";
             mAudioWavPath = fileBasePath + File.separator + "Voice" +File.separator+ fileName;
-            if (!(new File(mAudioWavPath).exists())){
+            if (!((new File(mAudioWavPath)).getParentFile().exists())){
 				new File(mAudioWavPath).mkdirs();
 			}
         }

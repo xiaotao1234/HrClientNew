@@ -97,12 +97,12 @@ public class MainService extends Service {
                 socket.setSoTimeout(5000);
                 ops = socket.getOutputStream();
                 //MainActivity.handler.sendEmptyMessage(MainActivity.LINKSUCCESS);
-//                LineFragment.handler.sendEmptyMessage(LineFragment.LINKSUCCESS);
-                Login2Activity.handler.sendEmptyMessage(Login2Activity.LINKSUCCESS);
+                LineFragment.handler.sendEmptyMessage(LineFragment.LINKSUCCESS);
+//                Login2Activity.handler.sendEmptyMessage(Login2Activity.LINKSUCCESS);
             } catch (Exception e) {
                 //MainActivity.handler.sendEmptyMessage(MainActivity.LINKFAILED);
-//                LineFragment.handler.sendEmptyMessage(LineFragment.LINKFAILED);
-                Login2Activity.handler.sendEmptyMessage(Login2Activity.LINKFAILED);
+                LineFragment.handler.sendEmptyMessage(LineFragment.LINKFAILED);
+//                Login2Activity.handler.sendEmptyMessage(Login2Activity.LINKFAILED);
                 try {
                     Thread.sleep(3000);
                 } catch (InterruptedException e1) {

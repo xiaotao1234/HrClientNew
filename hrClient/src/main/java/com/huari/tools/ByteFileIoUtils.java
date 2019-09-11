@@ -36,7 +36,6 @@ import java.util.concurrent.LinkedBlockingDeque;
  *
  */
 public class ByteFileIoUtils {
-
     static ByteFileIoUtils byteFileIoUtils;
     public Thread thread;
     private byte[] result;
@@ -48,6 +47,7 @@ public class ByteFileIoUtils {
     ExecutorService executorService;
     public static boolean runFlag = false;  //写线程的标志位
     private InputStream inputStream;
+    public static Object object = new Object();
 
     public static ByteFileIoUtils getInstance() {
         if (byteFileIoUtils == null) {
@@ -175,7 +175,7 @@ public class ByteFileIoUtils {
             fc = null;
             try {
                 File file = new File(SysApplication.fileOs.forSaveFloder + File.separator + filename);
-                SysApplication.fileOs.addRecentFile(file.getAbsolutePath(), 1);
+//                SysApplication.fileOs.addRecentFile(file.getAbsolutePath(),file.getName(), 1);
                 fc = new RandomAccessFile(file, "r").getChannel();
                 byteBuffer = fc.map(FileChannel.MapMode.READ_ONLY, 0, fc.size()).load();
                 result = new byte[everyTimeRead];
@@ -223,8 +223,15 @@ public class ByteFileIoUtils {
                 Log.d("xiao", String.valueOf(filename.length()));
                 randomFile = new RandomAccessFile(file.getAbsolutePath() + File.separator + filename, "rw");
                 byte[] bytes;
-                serializestationForSave(filename);
                 while (runFlag) {
+                    synchronized (object){
+                        if (randomFile.length()==0&&RealTimeSaveAndGetStore.serializeThread.isAlive()){
+                            object.wait();
+                        }
+                    }
+                    if(randomFile.length()==0){
+                        randomFile.write(RealTimeSaveAndGetStore.bytesForSave);
+                    }
                     synchronized (queue) {
                         bytes = queue.peek();
                     }
@@ -239,7 +246,7 @@ public class ByteFileIoUtils {
                     Log.d("xiao", String.valueOf(queue.peek()));
                     randomFile.write(queue.poll());
                 }
-                SysApplication.fileOs.addRecentFile(SysApplication.fileOs.forSaveFloder + File.separator + filename, 1);
+                SysApplication.fileOs.save(SysApplication.fileOs.forSaveFloder + File.separator + filename,filename, type);
                 randomFile.close();
             } catch (Exception e) {
                 e.printStackTrace();
@@ -294,6 +301,7 @@ public class ByteFileIoUtils {
             e.printStackTrace();
             Log.d("xiao", "file is not find");
         }
+        SysApplication.fileOs.save(SysApplication.fileOs.forSaveFloder + File.separator + fileName,fileName, RealTimeSaveAndGetStore.type);
         return inputStream;
     }
 

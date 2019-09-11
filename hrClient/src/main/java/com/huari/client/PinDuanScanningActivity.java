@@ -11,7 +11,6 @@ import java.util.HashMap;
 import java.util.Queue;
 import java.util.concurrent.LinkedBlockingDeque;
 
-import androidx.appcompat.app.AppCompatActivity;
 import struct.JavaStruct;
 import struct.StructException;
 
@@ -31,10 +30,8 @@ import com.huari.tools.ByteFileIoUtils;
 import com.huari.tools.MyTools;
 
 import com.huari.tools.Parse;
-import com.huari.tools.RealTimeSaveStore;
+import com.huari.tools.RealTimeSaveAndGetStore;
 import com.huari.tools.SysApplication;
-
-import android.app.Activity;
 
 import androidx.appcompat.app.ActionBar;
 
@@ -52,7 +49,6 @@ import android.os.Message;
 import android.provider.Settings;
 import android.util.DisplayMetrics;
 import android.util.Log;
-import android.view.KeyEvent;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.LinearLayout;
@@ -75,7 +71,17 @@ public class PinDuanScanningActivity extends PinDuanBase {
     boolean pause;
     boolean showMax, showMin, showAvg;
 
-    String logicId, stationname, stationKey, devicename;
+    String logicId;
+
+    @Override
+    protected void onPause() {
+        super.onPause();
+        WindowHelper.instance.stopWindowService(this);
+    }
+
+    String stationname;
+    String stationKey;
+    String devicename;
     ActionBar actionbar;
     TextView normaltextview, advancedtextview, titlebarname, stationtextview,
             devicetextview;
@@ -102,6 +108,7 @@ public class PinDuanScanningActivity extends PinDuanBase {
     private static String fd = "fd";    // 是幅度模式还是加上因子的场强模式cq
     private String fileName;
     float lan,lon;
+    private Station stationF;
 
     public static String getDwName() {
         return fd;
@@ -208,6 +215,7 @@ public class PinDuanScanningActivity extends PinDuanBase {
                     if (available > 0) {
                         info = new byte[available];
                         ins.read(info);
+                        Log.d("xiaoxiao", String.valueOf(info.length));
                         try {
                             Parse.newParsePDScan(info);
                             if (saveFlag == true) {
@@ -215,7 +223,7 @@ public class PinDuanScanningActivity extends PinDuanBase {
                                     savePrepare();
                                     flag++;
                                 }
-                                time = RealTimeSaveStore.SaveAtTime(available, info, time, 3);//给数据加一个时间的包头后递交到缓存队列中
+                                time = RealTimeSaveAndGetStore.SaveAtTime(available, info, time, 3);//给数据加一个时间的包头后递交到缓存队列中
                             }
                         } catch (Exception e) {
                             Log.d("xiao", "解析频段扫描数据发生异常");
@@ -246,6 +254,7 @@ public class PinDuanScanningActivity extends PinDuanBase {
         shareEditor.commit();  //以文件名作为key来将台站信息存入shareReferences
         Log.d("xiaoxiao", String.valueOf(fileName.length()));
         SysApplication.byteFileIoUtils.writeBytesToFile(fileName, 3); //开始保存数据前的初始化
+        RealTimeSaveAndGetStore.serializeFlyPig(stationF,fileName,3);//在消费者线程开启后，开始Statio的序列化并放入队列缓冲区中等待消费者线程遍历之
     }
 
     @Override
@@ -260,7 +269,7 @@ public class PinDuanScanningActivity extends PinDuanBase {
         SysApplication.getInstance().addActivity(this);
         Thread.setDefaultUncaughtExceptionHandler(GlobalData.myExceptionHandler);
         pause = true;
-        pinduan = (com.huari.ui.PinDuan) findViewById(R.id.mypin);
+        pinduan = findViewById(R.id.mypin);
 
         DisplayMetrics metric = new DisplayMetrics();
         getWindowManager().getDefaultDisplay().getMetrics(metric);
@@ -294,7 +303,7 @@ public class PinDuanScanningActivity extends PinDuanBase {
         devicetextview.setText(devicename);
         ArrayList<MyDevice> am = null;
         try {
-            Station stationF = GlobalData.stationHashMap.get(stationKey);
+            stationF = GlobalData.stationHashMap.get(stationKey);
             am = stationF.devicelist;
         } catch (Exception e) {
             Toast.makeText(PinDuanScanningActivity.this, "空的",

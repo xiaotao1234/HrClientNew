@@ -80,13 +80,6 @@ public class OfflineFragment extends Fragment {
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.main22, container, false);
-        if (Build.VERSION.SDK_INT >= 21) {
-            View decorView = activity.getWindow().getDecorView();
-            int option = View.SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN
-                    | View.SYSTEM_UI_FLAG_LAYOUT_STABLE;
-            decorView.setSystemUiVisibility(option);
-            activity.getWindow().setStatusBarColor(Color.TRANSPARENT);
-        }
         serviceIntent = new Intent();
         serviceIntent.setAction("com.huari.service.mainservice");
         serviceIntent.setPackage(context.getPackageName());

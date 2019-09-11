@@ -25,9 +25,7 @@ public abstract class RecordAllBaseAdapter<C extends RecyclerView.ViewHolder, S 
      * @return
      */
     private boolean isHeaderView(int position) {
-
         return mHeaderIndex.contains(new Integer(position));
-
     }
 
     @Override
@@ -43,11 +41,13 @@ public abstract class RecordAllBaseAdapter<C extends RecyclerView.ViewHolder, S 
 
     @Override
     public void onBindViewHolder(RecyclerView.ViewHolder holder, int position) {
-
+        Log.d("xiaoxiao", String.valueOf(position));
         //如果是head布局
+        getItemCount();
         if (isHeaderView(position)) {     //班级header布局填充
             onBindHeaderViewHolder((C) holder, getHeadRealCount(position));
         } else {      //学生信息填充
+            Log.d("xiaoxiao","comecome");
             //根据position获取position对应的学生所在班级
             int classId = getStudentOfClass(position);
             //获取改班级head所在的position位置
@@ -78,12 +78,14 @@ public abstract class RecordAllBaseAdapter<C extends RecyclerView.ViewHolder, S 
         mHeaderIndex.clear();
         int count = 0;
         int headSize = getHeadersCount();
+        Log.d("xiao","getitemcount");
         for (int i = 0; i < headSize; i++) {
             if (i != 0) {
                 count++;
             }
+            Log.d("xiao","getitemcount"+mHeaderIndex.toString());
             mHeaderIndex.add(new Integer(count));
-
+            Log.d("xiaoxiao", String.valueOf(count));
             count += getContentCountForHeader(i);
         }
         Log.e("fan", "--getItemCount:" + count + "--headSize" + headSize);

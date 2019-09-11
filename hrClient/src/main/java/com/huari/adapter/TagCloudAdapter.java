@@ -9,6 +9,7 @@ import android.view.ViewGroup;
 import android.widget.TextView;
 
 import com.huari.client.R;
+import com.huari.dataentry.recentContent;
 import com.huari.ui.TagsAdapter;
 
 import java.util.ArrayList;
@@ -23,11 +24,20 @@ import java.util.List;
  */
 public class TagCloudAdapter extends TagsAdapter {
     private List<String> mList = new ArrayList<String>();
+    List<recentContent> list;
     RecyclerView recyclerView;
-    public TagCloudAdapter(String[] list,RecyclerView recyclerView) {
+    public TagCloudAdapter(List<recentContent> list, RecyclerView recyclerView) {
         mList.clear();
         this.recyclerView = recyclerView;
-        Collections.addAll(mList, list);
+        this.list = list;
+        for (recentContent recentContent1:list){
+            String filename = recentContent1.getFilename();
+            if (filename != null) {
+                mList.add(filename.substring(14, 19));
+            } else {
+                mList.add(null);
+            }
+        }
     }
 
     //返回Tag数量
@@ -47,11 +57,11 @@ public class TagCloudAdapter extends TagsAdapter {
         final TextView tv = new TextView(context);
         ViewGroup.MarginLayoutParams lp = new ViewGroup.MarginLayoutParams(100, 100);
         tv.setLayoutParams(lp);
-        tv.setText("8." + position);
+        tv.setText(mList.get(position));
         tv.setGravity(Gravity.CENTER);
         tv.setOnClickListener(v -> smoothMoveToPosition(recyclerView,position));
         tv.setClickable(false);
-        tv.setBackgroundResource(R.drawable.circle_bg);
+//        tv.setBackgroundResource(R.drawable.circle_bg);
         return tv;
     }
 

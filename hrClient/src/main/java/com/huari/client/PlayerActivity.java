@@ -92,7 +92,7 @@ public class PlayerActivity extends AppCompatActivity {
     @Subscribe(threadMode = ThreadMode.MAIN, sticky = true)
     public void onMoonEvent(MessageEvent messageEvent) {
         fileName = messageEvent.getMessageString();
-        SysApplication.fileOs.addRecentFile(fileName,0);
+//        SysApplication.fileOs.addRecentFile(fileName,0);
         filePosition = messageEvent.getFilePosition();
     }
 

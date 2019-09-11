@@ -3,25 +3,41 @@ package com.huari.tools;
 import android.content.Context;
 import android.content.SharedPreferences;
 import android.os.Environment;
+import android.os.Handler;
+import android.os.Message;
 import android.util.Log;
+
+import com.huari.client.Main3Activity;
 import com.huari.dataentry.FileSearchData;
 import com.huari.dataentry.FileSearchMassage;
+import com.huari.dataentry.Station;
+import com.huari.dataentry.recentContent;
 
 import org.greenrobot.eventbus.EventBus;
 
+import java.io.ByteArrayInputStream;
 import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
+import java.io.InputStream;
+import java.io.ObjectInputStream;
+import java.io.ObjectOutputStream;
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Stack;
 
+import static android.content.Context.MODE_PRIVATE;
+
 /**
  *
  */
 /*
-*create by xiao tao
-* 2019/7/19/13:37
-*/
+ *create by xiao tao
+ * 2019/7/19/13:37
+ */
 public class FileOsImpl {
     List<File> files = new ArrayList<>();//列表内文件
     List<String> filesName = new ArrayList<>();//列表内文件名
@@ -29,62 +45,209 @@ public class FileOsImpl {
     public Stack<File> fileStack = new Stack<>();//文件的遍历栈
     List<File> willDeleteFiles = new ArrayList<>();//将要删除的文件列表
     List<File> selectedFiles = new ArrayList<>();//被勾选的文件列表
-    List<File> searchResults = new ArrayList<>();//搜索结果列表
-    List<recentContent> recentUseFiles = new LinkedList<>();//最近有对其进行操作的文件列表
+    public static List<recentContent> recentUseFiles = new ArrayList<>();//最近有对其进行操作的文件列表
     File currentFloder;//当前所在目录
     File currentFile;//当前正在使用的文件
     private static FileOsImpl fileOsImpl;
-        public static String forSaveFloder = Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DCIM).getAbsolutePath();
+    public static String forSaveFloder = Environment.getExternalStorageDirectory().getAbsolutePath();
     private Thread thread;
-    public int MUSIC = 0,WORD = 1,EXCEL = 2;
+    public int MUSIC = 0, WORD = 1, EXCEL = 2;
+    private static List<recentContent> list;
 
     public FileOsImpl() {
     }
 
-    class recentContent{
-        String file;
-        int type;
+//    public class recentContent implements Serializable {
+//        private String file;
+//        private String filename;
+//        private int type;
+//
+//        public String getFilename() {
+//            return filename;
+//        }
+//
+//        public void setFilename(String filename) {
+//            this.filename = filename;
+//        }
+//
+//        public recentContent(String file, String filename, int type) {
+//            this.file = file;
+//            this.type = type;
+//            this.filename = filename;
+//        }
+//
+//        public void setFile(String file) {
+//            this.file = file;
+//        }
+//
+//        public void setType(int type) {
+//            this.type = type;
+//        }
+//
+//        public String getFile() {
+//
+//            return file;
+//        }
+//
+//        public int getType() {
+//            return type;
+//        }
+//
+//        @Override
+//        public int hashCode() {
+//            return file.hashCode();
+//        }
+//
+//        @Override
+//        public boolean equals(Object obj) {
+//            if (obj instanceof recentContent) {
+//                String a = ((recentContent) obj).getFile();
+//
+//                return file == ((recentContent) obj).getFile();
+//            }
+//            return false;
+//        }
+//
+//        @Override
+//        public String toString() {
+//            return file + filename + type;
+//        }
+//    }
 
-        public recentContent(String file, int type) {
-            this.file = file;
-            this.type = type;
-        }
-
-        public void setFile(String file) {
-            this.file = file;
-        }
-
-        public void setType(int type) {
-            this.type = type;
-        }
-
-        public String getFile() {
-
-            return file;
-        }
-
-        public int getType() {
-            return type;
+    public static List<recentContent> setRecentUseFiles(List<recentContent> recentUseFiles) {
+        if (recentUseFiles == null) {
+            File file1 = new File(forSaveFloder + File.separator + "data" + File.separator + "forsave");
+            try {
+                InputStream inputStream = new FileInputStream(file1);
+                ObjectInputStream ois = new ObjectInputStream(inputStream);
+                list = (List<recentContent>) ois.readObject();
+                FileOsImpl.recentUseFiles = list;
+            } catch (Exception e) {
+                e.printStackTrace();
+                Log.d("xiaoxiaolai", "1");
+            }
+            Message message = Message.obtain();
+            message.obj = list;
+//            Main3Activity.handler.sendMessage(message);
+            return list;
+        } else {
+            FileOsImpl.recentUseFiles = recentUseFiles;
+            return recentUseFiles;
         }
     }
 
+    public static void SaveRecentUseFiles() {
+        File filesave = new File(forSaveFloder + File.separator + "data" + File.separator + "forsave");
+        if (!filesave.getParentFile().exists()) {
+            filesave.getParentFile().mkdirs();
+        }
+        try {
+            FileOutputStream fileOutputStream = new FileOutputStream(filesave);
+            ObjectOutputStream objectOutputStream = new ObjectOutputStream(fileOutputStream);
+            objectOutputStream.writeObject(recentUseFiles);
+            objectOutputStream.close();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
 
     /**
      * @param filename
      * @param type
      */
-    public void addRecentFile(String filename,int type){
-        if(recentUseFiles.size()>500){
-            recentUseFiles.remove(0);//Retrieves and removes the head (first element) of this list.
-            recentUseFiles.add(new recentContent(filename,type));
+    public void addRecentFile(String filename, String fileOnlyName, int type) {
+//        if (!recentUseFiles.contains(new recentContent(filename, fileOnlyName, type))){
+//            if (recentUseFiles.size() > 100) {
+        recentUseFiles.add(0, new recentContent(filename, fileOnlyName, type));//Retrieves and removes the head (first element) of this list.
+//                recentUseFiles.remove(100);
+//            } else {
+//                recentUseFiles.add(new recentContent(filename, fileOnlyName, type));
+//            }
+//        }else {
+//            int i = recentUseFiles.indexOf(new recentContent(filename,fileOnlyName,type));
+//            recentContent recentContent = recentUseFiles.remove(i);
+//            recentUseFiles.add(0,recentContent);
+//        }
+        recentUseFiles.add(new recentContent(filename, fileOnlyName, type));
+        SaveRecentUseFiles();
+    }
+
+    public void save(String filename, String fileOnlyName, int type) {
+        GetTheRecentFirst();
+        recentContent recentContent = new recentContent(filename,fileOnlyName,type);
+        if (!recentUseFiles.contains(recentContent)) {
+            recentUseFiles.add(0, new recentContent(filename, fileOnlyName, type));
+            if (recentUseFiles.size() > 100) {
+                recentUseFiles.remove(100);
+            }
+        } else {
+            int i = recentUseFiles.indexOf(new recentContent(filename, fileOnlyName, type));
+            recentUseFiles.add(0, recentUseFiles.remove(i));
+        }
+        File file1 = new File(forSaveFloder + File.separator + "data" + File.separator + "mimi");
+        file1.delete();
+        if (!file1.getParentFile().exists()) {
+            file1.getParentFile().mkdirs();
+        }
+        try {
+            FileOutputStream fileOutputStream = new FileOutputStream(file1);
+            ObjectOutputStream objectOutputStream = new ObjectOutputStream(fileOutputStream);
+            objectOutputStream.writeObject(recentUseFiles);
+            objectOutputStream.close();
+        } catch (Exception e) {
+            e.printStackTrace();
         }
     }
+
+    private void GetTheRecentFirst() { //从文件中反序列化出最近数据
+        if (recentUseFiles.size() == 0) {
+            try {
+                File file1 = new File(forSaveFloder + File.separator + "data" + File.separator + "mimi");
+                FileInputStream fileInputStream = new FileInputStream(file1);
+                ObjectInputStream objectInputStream = new ObjectInputStream(fileInputStream);
+                recentUseFiles.clear();
+                recentUseFiles = (List<recentContent>) objectInputStream.readObject();
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+        }
+    }
+
+    public static void getRecentList(Handler handler){
+        if(recentUseFiles.size()!=0){
+            Message message = Message.obtain();
+            message.obj = recentUseFiles;
+            handler.sendMessage(message);
+        }
+        getRecentFromFile(handler);
+    }
+
+    public static void getRecentFromFile(Handler handler) {
+        try {
+            File file1 = new File(forSaveFloder + File.separator + "data" + File.separator + "mimi");
+            FileInputStream fileInputStream = new FileInputStream(file1);
+            ObjectInputStream objectInputStream = new ObjectInputStream(fileInputStream);
+            recentUseFiles.clear();
+            recentUseFiles = (List<recentContent>) objectInputStream.readObject();
+            Message message = Message.obtain();
+            message.obj = recentUseFiles;
+            handler.sendMessage(message);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
 
     /**
      * @return这个方法返回的是至头节点到尾节点时间依次由远到近
      */
-    public List<recentContent> getRecentUseFiles(){
-        return recentUseFiles;
+    public static void getRecentUseFiles() {
+        Thread thread = new Thread(() -> {
+            if (recentUseFiles.size() == 0) {
+                FileOsImpl.setRecentUseFiles(null);
+            }
+        });
+        thread.start();
     }
 
     public static FileOsImpl getInstance() { //单例获取实例
@@ -112,8 +275,8 @@ public class FileOsImpl {
 
 
     public File getOsDicteoryPath(Context context) {  //获得初始根目录地址
-        SharedPreferences sharedPreferences = context.getSharedPreferences("User",Context.MODE_PRIVATE);
-        String filepatc = sharedPreferences.getString("RootDirectory",Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DCIM).getAbsolutePath());
+        SharedPreferences sharedPreferences = context.getSharedPreferences("User", MODE_PRIVATE);
+        String filepatc = sharedPreferences.getString("RootDirectory", Environment.getExternalStorageDirectory().getAbsolutePath());
         OsDicteoryPath = new File(filepatc);
         if (!OsDicteoryPath.mkdirs()) {
             Log.d("xiao", "file has exist");
@@ -205,7 +368,7 @@ public class FileOsImpl {
         Runnable runnable = () -> {
             long time = System.currentTimeMillis();
             FileSearchMassage fileSearchResult = new FileSearchMassage(searchInThisFloder(file, key));
-            long timeafter = System.currentTimeMillis()-time;
+            long timeafter = System.currentTimeMillis() - time;
             Log.d("xiaotaoni", String.valueOf(timeafter));
             EventBus.getDefault().post(fileSearchResult);
         };
@@ -217,14 +380,14 @@ public class FileOsImpl {
         List<FileSearchData> thisPartResult = new ArrayList<>();
         if (file.isDirectory()) {
             for (File file1 : file.listFiles()) {
-                if (file1.getName().toLowerCase().contains(key)&&file1.isDirectory()){
-                    thisPartResult.add(new FileSearchData(file1,file1.getName().toLowerCase().indexOf(key)));
+                if (file1.getName().toLowerCase().contains(key) && file1.isDirectory()) {
+                    thisPartResult.add(new FileSearchData(file1, file1.getName().toLowerCase().indexOf(key)));
                 }
                 thisPartResult.addAll(searchInThisFloder(file1, key));
             }
         } else {
-            if (file.getName().toLowerCase().contains(key)){
-                thisPartResult.add(new FileSearchData(file,file.getName().toLowerCase().indexOf(key)));
+            if (file.getName().toLowerCase().contains(key)) {
+                thisPartResult.add(new FileSearchData(file, file.getName().toLowerCase().indexOf(key)));
             }
         }
         Log.d("xiaoxiao", String.valueOf(thisPartResult.size()));

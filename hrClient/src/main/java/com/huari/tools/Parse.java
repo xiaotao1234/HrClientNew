@@ -9,10 +9,12 @@ import java.util.HashMap;
 import android.media.AudioTrack;
 
 import android.os.Handler;
+import android.os.Message;
 import android.util.Log;
 
 import com.huari.Base.AnalysisBase;
 import com.huari.Base.PinDuanBase;
+import com.huari.Fragment.StationShowFragment;
 import com.huari.client.MapActivity;
 import com.huari.client.PinDuanScanningActivity;
 import com.huari.client.SinglefrequencyDFActivity;
@@ -312,8 +314,10 @@ public class Parse {
             station.devicelist = devicelist;
             station.showdevicelist = showdevicelist;
             GlobalData.stationHashMap.put(currentStationId, station);
+            Message message = Message.obtain();
+            message.what = 0;
+            StationShowFragment.handler.sendMessage(message);
             temp = currentStationLength + temp;
-
         }// 最大的while截止。解析台站。
         // if(GlobalData.stationHashMap!=null)
         // {
@@ -1374,7 +1378,6 @@ public class Parse {
                             } catch (Exception e) {
                                 e.printStackTrace();
                             }
-
                             break;
                     }
                     index = index + fullframelength;
@@ -1589,9 +1592,10 @@ public class Parse {
         }
         return dest;
     }
+
     public static Handler handlerm = null;
 
-    public static void setHandler(Handler handler){
+    public static void setHandler(Handler handler) {
         handlerm = handler;
     }
 
@@ -1614,7 +1618,7 @@ public class Parse {
                         byte[] temp = new byte[]{b[23 + index], b[22 + index]};
                         GlobalData.DDFdianping = (short) (Parse
                                 .twoBytesToShort(temp) / 10);
-                        (handlerm==null?SinglefrequencyDFActivity.handler:handlerm)
+                        (handlerm == null ? SinglefrequencyDFActivity.handler : handlerm)
                                 .sendEmptyMessage(SinglefrequencyDFActivity.PARTFRESH);
                         Log.d("xiaochixu", "电平");
                         break;
@@ -1629,7 +1633,7 @@ public class Parse {
                         double centerFreq = MyTools.byteToDouble(MyTools
                                 .getPartByteArray(b, index + 20, index + 27));
                         if (SinglefrequencyDFActivity.handler != null)
-                            (handlerm==null?SinglefrequencyDFActivity.handler:handlerm)
+                            (handlerm == null ? SinglefrequencyDFActivity.handler : handlerm)
                                     .sendEmptyMessage(SinglefrequencyDFActivity.PARTFRESH);
                         if (MapActivity.handler != null) {
                             MapActivity.handler
@@ -1654,7 +1658,7 @@ public class Parse {
                             n++;
                         }
                         GlobalData.pinpu = save;
-                        (handlerm==null?SinglefrequencyDFActivity.handler:handlerm)
+                        (handlerm == null ? SinglefrequencyDFActivity.handler : handlerm)
                                 .sendEmptyMessage(SinglefrequencyDFActivity.NETREFRESH);
                         Log.d("xiaochixu", "频谱");
                         break;

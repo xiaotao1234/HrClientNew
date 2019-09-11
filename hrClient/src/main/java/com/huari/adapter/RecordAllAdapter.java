@@ -11,6 +11,8 @@ import android.widget.TextView;
 
 import com.huari.client.R;
 import com.huari.dataentry.ClassBean;
+import com.huari.dataentry.MyDevice;
+import com.huari.dataentry.Station;
 
 import java.util.List;
 
@@ -22,11 +24,11 @@ import java.util.List;
 public class RecordAllAdapter extends RecordAllBaseAdapter<RecordAllAdapter.ClassHolder, RecordAllAdapter.StudentHolder> {
 
     private Context context;
-    private List<ClassBean> mContent;
+    private List<Station> mContent;
 
     private LayoutInflater mInflater;
 
-    //用于记录当前班级是隐藏还是显示
+    //用于记录当前是隐藏还是显示
     private SparseBooleanArray mBooleanMap;
 
     public RecordAllAdapter(Context context, List mContent,StationFunctionListener stationFunctionListener) {
@@ -38,7 +40,7 @@ public class RecordAllAdapter extends RecordAllBaseAdapter<RecordAllAdapter.Clas
     }
 
     public interface StationFunctionListener{
-        void callback();
+        void callback(MyDevice device,Station station);
     }
 
     StationFunctionListener stationFunctionListener;
@@ -51,7 +53,7 @@ public class RecordAllAdapter extends RecordAllBaseAdapter<RecordAllAdapter.Clas
     @Override
     public int getContentCountForHeader(int headerPosition) {
 
-        int count = mContent.get(headerPosition).classStudents.size();
+        int count = mContent.get(headerPosition).getShowdevicelist().size();
 
         if (!mBooleanMap.get(headerPosition)) {
             count = 0;
@@ -84,7 +86,7 @@ public class RecordAllAdapter extends RecordAllBaseAdapter<RecordAllAdapter.Clas
     @Override
     public void onBindHeaderViewHolder(ClassHolder holder, int position) {
         holder.linearLayout.setOnClickListener(null);
-        holder.tvClassName.setText(mContent.get(position).className);
+        holder.tvClassName.setText(mContent.get(position).getName());
 
         holder.linearLayout.setTag(position);
         holder.linearLayout.setOnClickListener(v -> {
@@ -99,8 +101,9 @@ public class RecordAllAdapter extends RecordAllBaseAdapter<RecordAllAdapter.Clas
 
     @Override
     public void onBindContentViewHolder(StudentHolder holder, int HeaderPosition, int ContentPositionForHeader) {
-        holder.tvName.setText(mContent.get(HeaderPosition).classStudents.get(ContentPositionForHeader));
-        holder.linearLayout.setOnClickListener(v -> stationFunctionListener.callback());
+        holder.tvName.setText(mContent.get(HeaderPosition).getShowdevicelist().get(ContentPositionForHeader).getName());
+        holder.linearLayout.setOnClickListener(v -> stationFunctionListener.callback(mContent.get(HeaderPosition).getShowdevicelist().get(ContentPositionForHeader),
+                mContent.get(HeaderPosition)));
     }
 
 

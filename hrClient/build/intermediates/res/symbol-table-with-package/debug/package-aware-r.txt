@@ -15,6 +15,12 @@ anim design_bottom_sheet_slide_in
 anim design_bottom_sheet_slide_out
 anim design_snackbar_in
 anim design_snackbar_out
+anim in
+anim out
+anim pickerview_dialog_scale_in
+anim pickerview_dialog_scale_out
+anim pickerview_slide_in_bottom
+anim pickerview_slide_out_bottom
 animator design_appbar_state_list_animator
 animator design_fab_hide_motion_spec
 animator design_fab_show_motion_spec
@@ -610,6 +616,12 @@ attr useCompatPadding
 attr viewInflaterClass
 attr voiceIcon
 attr wh
+attr wheelview_dividerColor
+attr wheelview_gravity
+attr wheelview_lineSpacingMultiplier
+attr wheelview_textColorCenter
+attr wheelview_textColorOut
+attr wheelview_textSize
 attr windowActionBar
 attr windowActionBarOverlay
 attr windowActionModeOverlay
@@ -749,6 +761,15 @@ color nomanimagecolor
 color notification_action_color_filter
 color notification_icon_bg_color
 color notification_material_background_media_default_color
+color pickerview_bgColor_default
+color pickerview_bgColor_overlay
+color pickerview_bg_topbar
+color pickerview_timebtn_nor
+color pickerview_timebtn_pre
+color pickerview_topbar_title
+color pickerview_wheelview_textcolor_center
+color pickerview_wheelview_textcolor_divider
+color pickerview_wheelview_textcolor_out
 color pinduanfudutable
 color pinpufenxishezhicgchildbg
 color pinpufenxishezhicgtext
@@ -993,6 +1014,11 @@ dimen notification_small_icon_size_as_large
 dimen notification_subtext_size
 dimen notification_top_pad
 dimen notification_top_pad_large_text
+dimen pickerview_textsize
+dimen pickerview_topbar_btn_textsize
+dimen pickerview_topbar_height
+dimen pickerview_topbar_padding
+dimen pickerview_topbar_title_textsize
 dimen subtitle_corner_radius
 dimen subtitle_outline_width
 dimen subtitle_shadow_offset
@@ -1146,6 +1172,7 @@ drawable boxing
 drawable btn_search_bg_nor
 drawable btn_selector
 drawable button_bg
+drawable button_bg_write
 drawable button_line_bg
 drawable buttton_change_bg
 drawable bz1
@@ -1229,6 +1256,7 @@ drawable lltask
 drawable llwurenzhan
 drawable login
 drawable login_animotor_bg
+drawable login_top_icon
 drawable lv
 drawable lvn
 drawable lvnew
@@ -1284,6 +1312,7 @@ drawable saomiao
 drawable scan_icon
 drawable search
 drawable search_data
+drawable selector_pickerview_btn
 drawable server_manager_icon
 drawable set_icon
 drawable setback
@@ -1294,6 +1323,7 @@ drawable sg3
 drawable sg4
 drawable splash
 drawable splashscreen
+drawable station_show_list
 drawable stationmarker
 drawable stop_icon
 drawable target
@@ -1384,6 +1414,9 @@ id bmob_update_id_ok
 id bmob_update_wifi_indicator
 id bomb
 id bottom
+id btnCancel
+id btnPopup
+id btnSubmit
 id buildcusli
 id builddisk
 id buildshowwaveview
@@ -1422,6 +1455,7 @@ id contact_edit_linearlayout
 id container
 id content
 id contentPanel
+id content_container
 id coor
 id coordinator
 id coordinatorlayout
@@ -1441,6 +1475,7 @@ id decelerate
 id decor_content_parent
 id default_activity_button
 id del
+id delete
 id deletebu
 id design_bottom_sheet
 id design_menu_item_action_area
@@ -1522,6 +1557,7 @@ id history_list
 id home
 id homeAsUp
 id hotcitylist
+id hour
 id hourset
 id humidity
 id icon
@@ -1584,6 +1620,7 @@ id localmap_layout
 id localmaplist
 id login_animtion
 id login_button
+id lsvMore
 id main_back
 id main_btn_login
 id main_group
@@ -1607,6 +1644,7 @@ id menubar
 id menusavedata
 id message
 id middle
+id min
 id mini
 id minshow
 id minuteset
@@ -1639,6 +1677,7 @@ id navigation_header_container
 id never
 id next
 id next_button
+id next_button_bn
 id nomanSwitch
 id nomanexpandedview
 id nomaninfo
@@ -1651,7 +1690,12 @@ id notification_main_column
 id notification_main_column_container
 id nsv
 id num
+id options1
+id options2
+id options3
+id optionspicker
 id outline
+id outmost_container
 id p
 id p1
 id p11
@@ -1704,6 +1748,7 @@ id ppfxshowmin
 id ppfxttb
 id ppu
 id previous_button
+id previous_button_bn
 id progressBar_download
 id progress_circular
 id progress_horizontal
@@ -1728,6 +1773,7 @@ id rl_tbsView
 id runetime
 id rv
 id rvShow
+id rv_topbar
 id save_data
 id save_file
 id save_image_matrix
@@ -1762,6 +1808,7 @@ id search_plate
 id search_src_text
 id search_voice_btn
 id searh_file
+id second
 id second2
 id secondguidebn
 id secondguidepicture
@@ -1821,6 +1868,7 @@ id start
 id state
 id station
 id station1
+id station_button
 id station_device
 id station_fuction_view
 id station_function_list
@@ -1854,11 +1902,13 @@ id tasktitle
 id tempera
 id temperature
 id text
+id text1
 id text2
 id textSpacerNoButtons
 id textSpacerNoTitle
 id textStart
 id text_input_password_toggle
+id text_item
 id textinput_counter
 id textinput_error
 id textinput_helper_text
@@ -1867,6 +1917,7 @@ id thirdguidebn
 id thirdguidepicture
 id tiaozheng
 id time
+id timepicker
 id title
 id titleDividerNoCustom
 id title_template
@@ -1890,6 +1941,7 @@ id tv1
 id tv2
 id tvInfo
 id tvInfo_day
+id tvTitle
 id tv_download
 id twomode
 id type_icon
@@ -1938,6 +1990,7 @@ id zhiliang
 id zhuanxiang
 integer abc_config_activityDefaultDur
 integer abc_config_activityShortDur
+integer animation_default_duration
 integer app_bar_elevation_anim_duration
 integer bottom_sheet_slide_duration
 integer cancel_button_image_alpha
@@ -2014,8 +2067,10 @@ layout activity_music_list
 layout activity_offline
 layout activity_ok
 layout activity_pinduansanmiao
+layout activity_pinduansanmiao_history
 layout activity_pinpfxset
 layout activity_player
+layout activity_pop_window
 layout activity_prepare
 layout activity_record_list
 layout activity_record_show_onew
@@ -2069,8 +2124,10 @@ layout guidethreeview
 layout guidetwoview
 layout headlinearlayout
 layout history_df
+layout include_pickerview_topbar
 layout ipsetdialog
 layout itemlayoutwithspinner
+layout layout_basepickerview
 layout layout_bottom_item_item
 layout listviews
 layout listviewwithitu
@@ -2109,6 +2166,8 @@ layout notification_template_part_time
 layout offline_localmap_list
 layout pagerthreetext
 layout partwave
+layout pickerview_options
+layout pickerview_time
 layout pinduanlistview
 layout pinduanlistviewdata
 layout pinduansetactivity
@@ -2117,7 +2176,10 @@ layout pinpufenximenu
 layout pinpufenxititlebar
 layout pinpumenutitlebar
 layout plan
+layout pop_window_view
+layout popupwindow
 layout popwindow_item
+layout popwindow_list_item
 layout ppfxchildwithet
 layout ppfxgrouplinear
 layout ppfxwithspinner
@@ -2144,6 +2206,7 @@ layout warn
 layout webview
 layout window_bottom
 layout window_bottom_item
+layout window_text_item
 layout window_top
 menu baidumap
 menu disk
@@ -2271,6 +2334,14 @@ string path_password_eye
 string path_password_eye_mask_strike_through
 string path_password_eye_mask_visible
 string path_password_strike_through
+string pickerview_cancel
+string pickerview_day
+string pickerview_hours
+string pickerview_minutes
+string pickerview_month
+string pickerview_seconds
+string pickerview_submit
+string pickerview_year
 string pinduansaomiao
 string pinlvbujin
 string pinpufenxi1
@@ -2817,7 +2888,11 @@ style Widget_MaterialComponents_TextInputLayout_OutlinedBox
 style Widget_MaterialComponents_TextInputLayout_OutlinedBox_Dense
 style Widget_MaterialComponents_Toolbar
 style Widget_Support_CoordinatorLayout
+style custom_dialog2
+style picker_view_scale_anim
+style picker_view_slide_anim
 style pinpumenutitlebarstyle
+style popup_window_anim
 style spinnertextcolor
 style test
 styleable AVLoadingIndicatorView indicatorColor indicatorName maxHeight maxWidth minHeight minWidth
@@ -2906,4 +2981,5 @@ styleable UseImageView ratio_wh wh
 styleable View android_theme android_focusable paddingEnd paddingStart theme
 styleable ViewBackgroundHelper android_background backgroundTint backgroundTintMode
 styleable ViewStubCompat android_id android_layout android_inflatedId
+styleable pickerview wheelview_dividerColor wheelview_gravity wheelview_lineSpacingMultiplier wheelview_textColorCenter wheelview_textColorOut wheelview_textSize
 xml network_security_config

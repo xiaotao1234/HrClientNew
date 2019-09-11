@@ -36,6 +36,7 @@ public class ReceiveData extends Thread {
 		InputStream inputstream = null;
 		while (true) {
 			try {
+				Thread.sleep(2);
 				if (s == null) {
 					System.out.println("Socket为空");
 				} else if (s != null) {

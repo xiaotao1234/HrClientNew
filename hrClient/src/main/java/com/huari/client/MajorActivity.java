@@ -12,9 +12,11 @@ import android.util.Log;
 import com.google.android.material.tabs.TabLayout;
 import com.huari.Fragment.LineFragment;
 import com.huari.Fragment.OfflineFragment;
+import com.huari.Fragment.StationShowFragment;
 import com.huari.adapter.DzPagerAdapter;
 
 import java.util.ArrayList;
+import java.util.LinkedList;
 import java.util.List;
 
 public class MajorActivity extends AppCompatActivity {
@@ -39,6 +41,20 @@ public class MajorActivity extends AppCompatActivity {
         tabLayout.getTabAt(0).setText("在线");
         tabLayout.getTabAt(1).setText("离线");
         Log.d("xiao", String.valueOf(viewPager.getCurrentItem()));
+    }
+
+    public void setFragment(){
+        fragments.clear();
+        fragments.add(new StationShowFragment(this));
+        fragments.add(new OfflineFragment(this,this));
+        DzPagerAdapter dzPagerAdapter = new DzPagerAdapter(getSupportFragmentManager(),fragments);
+        viewPager.removeAllViews();
+        viewPager.removeAllViewsInLayout();
+        viewPager.setAdapter(dzPagerAdapter);
+        tabLayout.clearOnTabSelectedListeners();
+        tabLayout.setupWithViewPager(viewPager);
+        tabLayout.getTabAt(0).setText("在线");
+        tabLayout.getTabAt(1).setText("离线");
     }
 
     @Override

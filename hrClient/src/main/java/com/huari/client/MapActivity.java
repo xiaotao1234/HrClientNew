@@ -6,6 +6,7 @@ import java.io.OutputStream;
 import java.net.Socket;
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 
 import struct.JavaStruct;
 import struct.StructException;
@@ -14,6 +15,7 @@ import com.baidu.location.BDLocation;
 import com.baidu.location.BDLocationListener;
 import com.baidu.location.LocationClient;
 import com.baidu.location.LocationClientOption;
+import com.baidu.mapapi.map.MapStatus;
 import com.baidu.mapapi.map.offline.MKOLSearchRecord;
 import com.baidu.mapapi.map.offline.MKOfflineMap;
 import com.baidu.mapapi.SDKInitializer;
@@ -34,6 +36,7 @@ import com.baidu.mapapi.map.offline.MKOLUpdateElement;
 import com.baidu.mapapi.map.offline.MKOfflineMapListener;
 import com.baidu.mapapi.map.OverlayOptions;
 import com.baidu.mapapi.model.LatLng;
+import com.baidu.mapapi.utils.CoordinateConverter;
 import com.huari.commandstruct.PPFXRequest;
 import com.huari.commandstruct.PinPuParameter;
 import com.huari.commandstruct.StopTaskFrame;
@@ -47,6 +50,7 @@ import com.huari.tools.Parse;
 import com.huari.tools.SysApplication;
 
 import androidx.appcompat.app.ActionBar;
+
 import android.app.AlertDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
@@ -56,8 +60,11 @@ import android.graphics.Point;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
+
 import androidx.appcompat.app.AppCompatActivity;
+
 import android.util.DisplayMetrics;
+import android.util.Log;
 import android.view.Gravity;
 import android.view.KeyEvent;
 import android.view.LayoutInflater;
@@ -158,6 +165,7 @@ public class MapActivity extends AppCompatActivity {
     OutputStream os;
     private int cityId;
     private MapStatusUpdate u;
+    private boolean flag = false;
 
     class IniThread extends Thread {
         public void run() {
@@ -198,73 +206,60 @@ public class MapActivity extends AppCompatActivity {
             final int index = position;
             LinearLayout linear;
             linear = (LinearLayout) inflater.inflate(R.layout.mapstationitem, null);
-            CheckBox checkbox = (CheckBox) linear
+            CheckBox checkbox = linear
                     .findViewById(R.id.mapstationname);
-            Button bn = (Button) linear.findViewById(R.id.mapcancle);
+            Button bn = linear.findViewById(R.id.mapcancle);
             final String[] strings = shixiangList.get(position);// 前缀（Key）、站名、纬度、经度、正北、相对、是否被选中、时间
             checkbox.setText(strings[1] + "(Lat:" + strings[2] + ",Lng:"
                     + strings[3] + ")");
             checkbox.setChecked(strings[6].equals("true"));
 
-            checkbox.setOnCheckedChangeListener(new OnCheckedChangeListener() {
-                @Override
-                public void onCheckedChanged(CompoundButton arg0, boolean arg1) {
-                    if (arg1) {
-                        LatLng locationLatLng = new LatLng(Double
-                                .parseDouble(strings[2]), Double
-                                .parseDouble(strings[3]));
-                        OverlayOptions ooarrow = new MarkerOptions()
-                                .position(locationLatLng)
-                                .icon(arrowMapDescriptor).zIndex(9);
-                        Marker markerarrow = (Marker) (mBaiduMap
-                                .addOverlay(ooarrow));
-                        markerarrow.setRotate(-Float.parseFloat(strings[4]));
-                        shixiangMarkerMap.put(strings[0], markerarrow);
-                    } else {
-                        Marker tempMarker = shixiangMarkerMap.get(strings[0]);
-                        if (tempMarker != null) {
-                            tempMarker.remove();
-                            shixiangMarkerMap.remove(strings[0]);
-                        }
+            checkbox.setOnCheckedChangeListener((arg0, arg113) -> {
+                if (arg113) {
+                    LatLng locationLatLng = new LatLng(Double
+                            .parseDouble(strings[2]), Double
+                            .parseDouble(strings[3]));
+                    OverlayOptions ooarrow = new MarkerOptions()
+                            .position(locationLatLng)
+                            .icon(arrowMapDescriptor).zIndex(9);
+                    Marker markerarrow = (Marker) (mBaiduMap
+                            .addOverlay(ooarrow));
+                    markerarrow.setRotate(-Float.parseFloat(strings[4]));
+                    shixiangMarkerMap.put(strings[0], markerarrow);
+                } else {
+                    Marker tempMarker = shixiangMarkerMap.get(strings[0]);
+                    if (tempMarker != null) {
+                        tempMarker.remove();
+                        shixiangMarkerMap.remove(strings[0]);
                     }
-                    strings[6] = Boolean.toString(arg1);
                 }
+                strings[6] = Boolean.toString(arg113);
             });
 
-            bn.setOnClickListener(new OnClickListener() {
-                @Override
-                public void onClick(View arg0) {
-                    AlertDialog.Builder builder = new AlertDialog.Builder(
-                            MapActivity.this);
-                    builder.setTitle("确定要删除吗？");
-                    builder.setPositiveButton("确定",
-                            new DialogInterface.OnClickListener() {
-                                @Override
-                                public void onClick(DialogInterface arg0,
-                                                    int arg1) {
-                                    shareEdit.remove(strings[0]);
-                                    shareEdit.commit();
-                                    shixiangList.remove(index);
-                                    MapStationAdapter.this
-                                            .notifyDataSetChanged();
-                                    Marker tempMarker = shixiangMarkerMap
-                                            .get(strings[0]);
-                                    if (tempMarker != null) {
-                                        tempMarker.remove();
-                                        shixiangMarkerMap.remove(strings[0]);
-                                    }
-                                }
-                            });
-                    builder.setNegativeButton("取消",
-                            new DialogInterface.OnClickListener() {
-                                @Override
-                                public void onClick(DialogInterface arg0, int arg1) {
+            bn.setOnClickListener(arg0 -> {
+                AlertDialog.Builder builder = new AlertDialog.Builder(
+                        MapActivity.this);
+                builder.setTitle("确定要删除吗？");
+                builder.setPositiveButton("确定",
+                        (arg012, arg112) -> {
+                            shareEdit.remove(strings[0]);
+                            shareEdit.commit();
+                            shixiangList.remove(index);
+                            MapStationAdapter.this
+                                    .notifyDataSetChanged();
+                            Marker tempMarker = shixiangMarkerMap
+                                    .get(strings[0]);
+                            if (tempMarker != null) {
+                                tempMarker.remove();
+                                shixiangMarkerMap.remove(strings[0]);
+                            }
+                        });
+                builder.setNegativeButton("取消",
+                        (arg01, arg11) -> {
 
-                                }
-                            });
-                    builder.create();
-                    builder.show();
-                }
+                        });
+                builder.create();
+                builder.show();
             });
 
             return linear;
@@ -272,7 +267,79 @@ public class MapActivity extends AppCompatActivity {
 
     }
 
-    class MyLocationListener implements BDLocationListener {
+    public static LatLng GPStoBD09LL(LatLng sourceLatLng) {
+        CoordinateConverter converter = new CoordinateConverter();
+        converter.from(CoordinateConverter.CoordType.GPS);
+        converter.coord(sourceLatLng);
+        return converter.convert();
+    }
+
+    public static LatLng GetLatLon(LatLng a, double distance, double angle)
+    {
+        double dx = distance * 10 * Math.sin(angle * Math.PI / 180);
+        double dy = distance * 10 * Math.cos(angle * Math.PI / 180);
+
+        double lon = (dx / Ed(a.latitude) + RadLon(a.longitude)) * 180 / Math.PI;
+        double lat = (dy / Ec(a.latitude) + RadLat(a.latitude)) * 180 / Math.PI;
+
+        LatLng b = new LatLng(lat,lon);
+        return b;
+    }
+
+    public static double RadLon(double lon) {
+        return lon * Math.PI / 180;
+    }
+
+    public static double RadLat(double lat) {
+        return lat * Math.PI / 180;
+    }
+
+    /// <summary>
+    /// 赤道半径 earth radius
+    /// </summary>
+    public  static double EARTH_RADIUS = 6378137;
+    /// <summary>
+    /// 极半径 polar radius
+    /// </summary>
+    public static double POLAR_RADIUS = 6356725;
+
+    public static double Ec(double lat) {
+        return POLAR_RADIUS + (EARTH_RADIUS - POLAR_RADIUS) * (90 - lat) / 90;
+    }
+
+    public static double Ed(double lat) {
+        return Ec(lat) * Math.cos(RadLat(lat));
+    }
+    Overlay mPolyline = null;
+    Handler handlersx = new Handler(){
+        @Override
+        public void handleMessage(Message msg) {
+            super.handleMessage(msg);
+            if(mPolyline!=null){
+                mPolyline.remove();
+            }
+            LatLng ll = new LatLng(30.6342387, 103.9749870);
+            ll = GPStoBD09LL(ll);
+            u = MapStatusUpdateFactory.newLatLng(ll);
+            MapStatus.Builder builder = new MapStatus.Builder();
+            builder.zoom(18.0f);
+            mBaiduMap.setMapStatus(MapStatusUpdateFactory.newMapStatus(builder.build()));
+            mBaiduMap.animateMapStatus(u);
+            LatLng l2 =  GetLatLon(ll,100,GlobalData.xiangdui);
+            Log.d("xiaomap", String.valueOf(GlobalData.xiangdui));
+            List<LatLng> points = new ArrayList<>();
+            points.add(ll);
+            points.add(l2);
+            OverlayOptions mOverlayOptions = new PolylineOptions()
+                    .width(10)
+                    .color(0xAAFF0000)
+                    .points(points);
+//在地图上绘制折线
+//mPloyline 折线对象
+            mPolyline = mBaiduMap.addOverlay(mOverlayOptions);
+        }
+    };
+    class MyLocationListener implements BDLocationListener {  //定位成功的数据回调
 
         @Override
         public void onReceiveLocation(BDLocation location) {
@@ -281,29 +348,28 @@ public class MapActivity extends AppCompatActivity {
                 return;
             double lat = location.getLatitude();
             double lon = location.getLongitude();
-            MyLocationData data = new MyLocationData.Builder()
-                    .accuracy(location.getRadius()).latitude(lat)
-                    .longitude(lon).build();
-            mBaiduMap.setMyLocationData(data);
-
-            if (isFirst) {
-                isFirst = false;
-                LatLng ll = new LatLng(30.635775674637888, 103.98132518862987);
-                u = MapStatusUpdateFactory.newLatLng(ll);
-                Handler handler = new Handler(getMainLooper());
-                handler.post(new Runnable() {
-                    @Override
-                    public void run() {
-                        try {
-                            Thread.sleep(3000);
-                        } catch (InterruptedException e) {
-                            e.printStackTrace();
-                        }
-                        mBaiduMap.animateMapStatus(u);
-                    }
-                });
-
-            }
+//            MyLocationData data = new MyLocationData.Builder()
+//                    .accuracy(location.getRadius()).latitude(lat)
+//                    .longitude(lon).build();
+//            mBaiduMap.setMyLocationData(data);
+//            LatLng ll = new LatLng(30.6342387, 103.9749870);
+//            ll = GPStoBD09LL(ll);
+//            u = MapStatusUpdateFactory.newLatLng(ll);
+//            MapStatus.Builder builder = new MapStatus.Builder();
+//            builder.zoom(18.0f);
+//            mBaiduMap.setMapStatus(MapStatusUpdateFactory.newMapStatus(builder.build()));
+//            mBaiduMap.animateMapStatus(u);
+//            LatLng l2 =  GetLatLon(ll,100,GlobalData.xiangdui);
+//            List<LatLng> points = new ArrayList<>();
+//            points.add(ll);
+//            points.add(l2);
+//            OverlayOptions mOverlayOptions = new PolylineOptions()
+//                    .width(10)
+//                    .color(0xAAFF0000)
+//                    .points(points);
+////在地图上绘制折线
+////mPloyline 折线对象
+//            Overlay mPolyline = mBaiduMap.addOverlay(mOverlayOptions);
 
             if (follow) {
                 LatLng point = new LatLng(lat, lon);
@@ -344,7 +410,7 @@ public class MapActivity extends AppCompatActivity {
                 }
                 markerInfoMap.clear();
             } else {
-                markerInfoMap = new HashMap<Marker, String[]>();
+                markerInfoMap = new HashMap<>();
             }
             bitMapDescriptor = BitmapDescriptorFactory
                     .fromResource(R.drawable.stationmarker);
@@ -619,28 +685,26 @@ public class MapActivity extends AppCompatActivity {
                 LinearLayout.LayoutParams.WRAP_CONTENT);
         pw.setOutsideTouchable(true);
 
-        maplistview.setOnKeyListener(new OnKeyListener() {
-            @Override
-            public boolean onKey(View arg0, int arg1, KeyEvent arg2) {
-                if (arg1 == KeyEvent.KEYCODE_BACK) {
-                    pw.dismiss();
-                    pw = null;
-                    return true;
-                }
-                return false;
+        maplistview.setOnKeyListener((arg0, arg1, arg2) -> {
+            if (arg1 == KeyEvent.KEYCODE_BACK) {
+                pw.dismiss();
+                pw = null;
+                return true;
             }
+            return false;
         });
 
-        templist = new ArrayList<LatLng>();
-        rootlist = new ArrayList<ArrayList<LatLng>>();
+        templist = new ArrayList<>();
+        rootlist = new ArrayList<>();
         rootlist.add(templist);
-        oldoverlayList = new ArrayList<Overlay>();
+        oldoverlayList = new ArrayList<>();
 
-        mMapView = (MapView) findViewById(R.id.bmapsView);
+        mMapView = findViewById(R.id.bmapsView);
         mBaiduMap = mMapView.getMap();
 
         mBaiduMap.setMyLocationEnabled(true);
-        lcient = new LocationClient(MapActivity.this);
+
+        lcient = new LocationClient(MapActivity.this);   //发起定位
         lcient.registerLocationListener(listener);
         LocationClientOption op = new LocationClientOption();
         op.setOpenGps(true);        // 打开gps
@@ -648,8 +712,7 @@ public class MapActivity extends AppCompatActivity {
         op.setScanSpan(1000);
         lcient.setLocOption(op);
         lcient.start();
-
-        markerIsShow = new HashMap<String, String>();
+        markerIsShow = new HashMap<>();
         iniStationInfo();
 
         SysApplication.getInstance().addActivity(this);
@@ -667,68 +730,65 @@ public class MapActivity extends AppCompatActivity {
             setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_USER_PORTRAIT);
         }
 
-        mBaiduMap.setOnMarkerClickListener(new OnMarkerClickListener() {
-            @Override
-            public boolean onMarkerClick(Marker marker) {
-                try {
-                    String[] t = markerInfoMap.get(marker);
-                    if (t[0].equals("false")) {
-                        View view = getLayoutInflater().inflate(
-                                R.layout.detailstationinfo, null);
-                        TextView name = (TextView) view
-                                .findViewById(R.id.stationname);
-                        TextView jingdu = (TextView) view
-                                .findViewById(R.id.jingdu);
-                        TextView weidu = (TextView) view
-                                .findViewById(R.id.weidu);
-                        TextView moreinfo = (TextView) view
-                                .findViewById(R.id.moreinfo);
-                        TextView shebeiname = (TextView) view
-                                .findViewById(R.id.ditushebei);
-                        TextView shixiangdu = (TextView) view
-                                .findViewById(R.id.shebeishixiangdu);
-                        TextView dianping = (TextView) view
-                                .findViewById(R.id.shebeidianping);
-                        try {
-                            dianping.setText("电平：" + GlobalData.DDFdianping
-                                    + "");
-                            shixiangdu.setText("示向度：" + GlobalData.xiangdui);
-                            shebeiname.setText("设备（" + GlobalData.deviceName
-                                    + ")");
-                        } catch (Exception e) {
+        mBaiduMap.setOnMarkerClickListener(marker -> {
+            try {
+                String[] t = markerInfoMap.get(marker);
+                if (t[0].equals("false")) {
+                    View view = getLayoutInflater().inflate(
+                            R.layout.detailstationinfo, null);
+                    TextView name = view
+                            .findViewById(R.id.stationname);
+                    TextView jingdu = view
+                            .findViewById(R.id.jingdu);
+                    TextView weidu = (TextView) view
+                            .findViewById(R.id.weidu);
+                    TextView moreinfo = (TextView) view
+                            .findViewById(R.id.moreinfo);
+                    TextView shebeiname = (TextView) view
+                            .findViewById(R.id.ditushebei);
+                    TextView shixiangdu = (TextView) view
+                            .findViewById(R.id.shebeishixiangdu);
+                    TextView dianping = (TextView) view
+                            .findViewById(R.id.shebeidianping);
+                    try {
+                        dianping.setText("电平：" + GlobalData.DDFdianping
+                                + "");
+                        shixiangdu.setText("示向度：" + GlobalData.xiangdui);
+                        shebeiname.setText("设备（" + GlobalData.deviceName
+                                + ")");
+                    } catch (Exception e) {
 
-                        }
-                        name.setText(t[1]);
-                        jingdu.setText("经度：" + t[2]);
-                        weidu.setText("纬度：" + t[3]);
-                        if (t[4].equals("true")) {
-                            moreinfo.setText("正在使用");
-                        } else {
-                            moreinfo.setText("空闲");
-                        }
-                        Point p = mBaiduMap.getProjection().toScreenLocation(
-                                marker.getPosition());
-                        p.y -= 47;
-                        LatLng llInfo = mBaiduMap.getProjection()
-                                .fromScreenLocation(p);
-                        InfoWindow infowindow = new InfoWindow(view, llInfo, 0);
-
-                        mBaiduMap.showInfoWindow(infowindow);
-
-                        t[0] = "true";
-                        markerIsShow.put(t[5], "true");
-                    } else {
-                        t[0] = "false";
-                        mBaiduMap.hideInfoWindow();
-                        markerIsShow.put(t[5], "false");
                     }
-                }
-                // }
-                catch (Exception e) {
+                    name.setText(t[1]);
+                    jingdu.setText("经度：" + t[2]);
+                    weidu.setText("纬度：" + t[3]);
+                    if (t[4].equals("true")) {
+                        moreinfo.setText("正在使用");
+                    } else {
+                        moreinfo.setText("空闲");
+                    }
+                    Point p = mBaiduMap.getProjection().toScreenLocation(
+                            marker.getPosition());
+                    p.y -= 47;
+                    LatLng llInfo = mBaiduMap.getProjection()
+                            .fromScreenLocation(p);
+                    InfoWindow infowindow = new InfoWindow(view, llInfo, 0);
 
+                    mBaiduMap.showInfoWindow(infowindow);
+
+                    t[0] = "true";
+                    markerIsShow.put(t[5], "true");
+                } else {
+                    t[0] = "false";
+                    mBaiduMap.hideInfoWindow();
+                    markerIsShow.put(t[5], "false");
                 }
-                return true;
             }
+            // }
+            catch (Exception e) {
+
+            }
+            return true;
         });
 
         try {
@@ -775,6 +835,21 @@ public class MapActivity extends AppCompatActivity {
                 }
             }
         };
+        flag = true;
+        Thread thread = new Thread(() -> {
+            while (flag){
+//                Message message = Message.obtain();
+//                int m = (int) (Math.random()*360);
+//                message.obj = m;
+                handlersx.sendEmptyMessage(1);
+                try {
+                    Thread.sleep(1000);
+                } catch (InterruptedException e) {
+                    e.printStackTrace();
+                }
+            }
+        });
+        thread.start();
     }
 
     @Override
@@ -848,6 +923,7 @@ public class MapActivity extends AppCompatActivity {
     @Override
     protected void onPause() {
         mMapView.onPause();
+        flag = false;
         super.onPause();
     }
 
@@ -890,49 +966,46 @@ public class MapActivity extends AppCompatActivity {
         }
     }
 
-    @Override
-    public boolean onKeyDown(int keyCode, KeyEvent event) {
-        if (keyCode == KeyEvent.KEYCODE_BACK && pw.isShowing()) {
-            pw.dismiss();
-            show = false;
-        } else if (keyCode == KeyEvent.KEYCODE_BACK
-                && (GlobalData.itemTitle.equals("停止示向")
-                || GlobalData.itemTitle.equals("开始示向") || GlobalData.itemTitle
-                .equals("实时示向"))) {
-            AlertDialog.Builder builder = new AlertDialog.Builder(
-                    MapActivity.this);
-            builder.setTitle("警告!");
-            builder.setMessage("确定要退出该功能吗？");
-            builder.setPositiveButton("确定",
-                    new DialogInterface.OnClickListener() {
-                        @Override
-                        public void onClick(DialogInterface dialog, int which) {
-                            GlobalData.itemTitle = "实时示向";
-
-                            try {
-                                sendClose();
-                                Thread.sleep(50);
-                                s.close();
-                                if (my != null) {
-                                    runmyThread = false;
-                                    my.join();
-                                    my = null;
-                                }
-                                System.gc();
-                            } catch (Exception e) {
-                                e.printStackTrace();
-                            }
-                            Intent intent = new Intent(MapActivity.this,
-                                    MainActivity.class);//CircleActivity.class);
-                            startActivity(intent);
-                        }
-                    });
-            builder.setNegativeButton("取消", null);
-            builder.create();
-            builder.show();
-        } else {
-            super.onKeyDown(keyCode, event);
-        }
-        return true;
-    }
+//    @Override
+//    public boolean onKeyDown(int keyCode, KeyEvent event) {
+//        if (keyCode == KeyEvent.KEYCODE_BACK && pw.isShowing()) {
+//            pw.dismiss();
+//            show = false;
+//        } else if (keyCode == KeyEvent.KEYCODE_BACK
+//                && (GlobalData.itemTitle.equals("停止示向")
+//                || GlobalData.itemTitle.equals("开始示向") || GlobalData.itemTitle
+//                .equals("实时示向"))) {
+//            AlertDialog.Builder builder = new AlertDialog.Builder(
+//                    MapActivity.this);
+//            builder.setTitle("警告!");
+//            builder.setMessage("确定要退出该功能吗？");
+//            builder.setPositiveButton("确定",
+//                    (dialog, which) -> {
+//                        GlobalData.itemTitle = "实时示向";
+//
+//                        try {
+//                            sendClose();
+//                            Thread.sleep(50);
+//                            s.close();
+//                            if (my != null) {
+//                                runmyThread = false;
+//                                my.join();
+//                                my = null;
+//                            }
+//                            System.gc();
+//                        } catch (Exception e) {
+//                            e.printStackTrace();
+//                        }
+//                        Intent intent = new Intent(MapActivity.this,
+//                                MainActivity.class);//CircleActivity.class);
+//                        startActivity(intent);
+//                    });
+//            builder.setNegativeButton("取消", null);
+//            builder.create();
+//            builder.show();
+//        } else {
+//            super.onKeyDown(keyCode, event);
+//        }
+//        return true;
+//    }
 }

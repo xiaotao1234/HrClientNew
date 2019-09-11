@@ -23,10 +23,18 @@ import android.widget.Toast;
 import com.google.android.material.textfield.TextInputLayout;
 import com.huari.client.AllRecordQueryActivity;
 import com.huari.client.Main2Activity;
+import com.huari.client.MajorActivity;
 import com.huari.client.R;
 import com.huari.dataentry.GlobalData;
+import com.huari.dataentry.Station;
 import com.huari.service.MainService;
+import com.huari.tools.FileOsImpl;
 import com.wang.avi.AVLoadingIndicatorView;
+
+import org.greenrobot.eventbus.EventBus;
+
+import java.util.ArrayList;
+import java.util.List;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -61,9 +69,54 @@ public class LineFragment extends Fragment {
 
     }
 
+    @Override
+    public void onStart() {
+        super.onStart();
+    }
+
+    @Override
+    public void onDestroy() {
+        super.onDestroy();
+    }
+
     @SuppressLint("ValidFragment")
     public LineFragment(Context context) {
         this.context = context;
+    }
+
+    @Override
+    public void onCreate(@Nullable Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        preferences = context.getSharedPreferences("myclient", Context.MODE_PRIVATE);
+        seditor = preferences.edit();
+        ip = preferences.getString("ip", "192.168.1.249");
+        port1 = preferences.getInt("port1", 5000);
+        port2 = preferences.getInt("port2", 5012);
+        editTextIp.setText(ip);
+        editTextPort1.setText(port1 + "");
+        editTextPort2.setText(port2 + "");
+        handler = new Handler() {
+            public void handleMessage(android.os.Message msg) {
+                if (msg.what == LINKFAILED) {
+                    Toast.makeText(context, "连接服务器失败",
+                            Toast.LENGTH_SHORT).show();
+                    GlobalData.mainTitle = "未登录";
+                } else if (msg.what == LINKSUCCESS) {
+                    Toast.makeText(context, "连接服务器成功",
+                            Toast.LENGTH_SHORT).show();
+                    GlobalData.mainTitle = "已登录";
+                    avLoadingIndicatorView.setVisibility(View.GONE);
+//                    startActivity(new Intent(context, AllRecordQueryActivity.class));
+                    MajorActivity majorActivity = (MajorActivity)getActivity();
+                    majorActivity.setFragment();
+                }
+            }
+        };
     }
 
     @Nullable
@@ -131,29 +184,6 @@ public class LineFragment extends Fragment {
                 GlobalData.port2 = port2;
             }
         });
-        preferences = context.getSharedPreferences("myclient", Context.MODE_PRIVATE);
-        seditor = preferences.edit();
-        ip = preferences.getString("ip", "192.168.1.249");
-        port1 = preferences.getInt("port1", 5000);
-        port2 = preferences.getInt("port2", 5012);
-        editTextIp.setText(ip);
-        editTextPort1.setText(port1 + "");
-        editTextPort2.setText(port2 + "");
-        handler = new Handler() {
-            public void handleMessage(android.os.Message msg) {
-                if (msg.what == LINKFAILED) {
-                    Toast.makeText(context, "连接服务器失败",
-                            Toast.LENGTH_SHORT).show();
-                    GlobalData.mainTitle = "未登录";
-                } else if (msg.what == LINKSUCCESS) {
-                    Toast.makeText(context, "连接服务器成功",
-                            Toast.LENGTH_SHORT).show();
-                    GlobalData.mainTitle = "已登录";
-                    avLoadingIndicatorView.setVisibility(View.INVISIBLE);
-                    startActivity(new Intent(context, AllRecordQueryActivity.class));
-                }
-            }
-        };
         return view;
     }
 
@@ -188,5 +218,17 @@ public class LineFragment extends Fragment {
             }
         });
 
+    }
+
+    @Override
+    public void onPause() {
+        super.onPause();
+        AnimatorSet set = new AnimatorSet();
+        ObjectAnimator animator2 = ObjectAnimator.ofFloat(linearLayout,
+                "scaleX", 0f, 1f);
+        set.setDuration(1);
+        set.setInterpolator(new AccelerateDecelerateInterpolator());
+        set.playTogether(animator2);
+        set.start();
     }
 }

@@ -1,7 +1,8 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:background="@android:color/black"
     android:orientation="vertical">
 
@@ -42,6 +43,7 @@
         android:layout_height="0dp"
         android:layout_weight="1"
         android:background="@android:color/black" />
+
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -54,6 +56,7 @@
             android:layout_height="wrap_content"
             android:layout_marginEnd="10dp"
             android:layout_weight="1"
+            android:textColor="#FFFFFF"
             android:gravity="center_vertical|end"
             android:hint="进度：" />
 
@@ -73,55 +76,74 @@
             android:layout_height="wrap_content"
             android:layout_marginStart="10dp"
             android:layout_weight="1"
+            android:textColor="#FFFFFF"
             android:gravity="center_vertical"
             android:hint="大小：" />
 
     </LinearLayout>
 
+
     <LinearLayout
         android:layout_width="match_parent"
+        android:layout_marginBottom="10sp"
         android:layout_height="wrap_content"
-        android:layout_marginBottom="10dp"
-        android:orientation="vertical">
+        android:orientation="horizontal">
 
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="horizontal">
-            <View
-                android:layout_width="0dp"
-                android:layout_height="1dp"
-                android:layout_weight="1"/>
-            <ImageView
-                android:id="@+id/previous_button"
-                android:layout_width="30dp"
-                android:layout_height="20dp"
-                android:src="@drawable/previous"
-                android:layout_gravity="center"/>
-            <View
-                android:layout_width="0dp"
-                android:layout_height="1dp"
-                android:layout_weight="1"/>
-            <ImageView
-                android:id="@+id/play_control"
-                android:layout_width="30dp"
-                android:layout_height="30dp"
-                android:src="@drawable/play_icon" />
-            <View
-                android:layout_width="0dp"
-                android:layout_height="1dp"
-                android:layout_weight="1"/>
-            <ImageView
-                android:id="@+id/next_button"
-                android:layout_width="30dp"
-                android:layout_height="20dp"
-                android:src="@drawable/next_icon"
-                android:layout_gravity="center"/>
-            <View
-                android:layout_width="0dp"
-                android:layout_height="1dp"
-                android:layout_weight="1"/>
-        </LinearLayout>
+        <TextView
+            android:id="@+id/station_button"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_margin="8sp"
+            android:layout_marginLeft="10sp"
+            android:layout_weight="1"
+            android:background="@drawable/button_bg"
+            android:gravity="center"
+            android:text="Station"
+            android:textColor="#FFFFFF" />
+
+        <View
+            android:layout_width="0dp"
+            android:layout_height="1dp"
+            android:layout_weight="1" />
+
+        <ImageView
+            android:id="@+id/previous_button_bn"
+            android:layout_width="50dp"
+            android:layout_height="40dp"
+            android:layout_gravity="center"
+            android:background="@drawable/button_bg_write"
+            android:padding="10sp"
+            android:src="@drawable/previous" />
+
+        <View
+            android:layout_width="0dp"
+            android:layout_height="1dp"
+            android:layout_weight="1" />
+
+        <ImageView
+            android:id="@+id/play_control"
+            android:layout_width="40sp"
+            android:layout_height="40sp"
+            android:layout_gravity="center_vertical"
+            android:src="@drawable/play_icon" />
+
+        <View
+            android:layout_width="0dp"
+            android:layout_height="1dp"
+            android:layout_weight="1" />
+
+        <ImageView
+            android:id="@+id/next_button_bn"
+            android:layout_width="50dp"
+            android:layout_height="40dp"
+            android:layout_gravity="center"
+            android:background="@drawable/button_bg_write"
+            android:padding="10sp"
+            android:src="@drawable/next_icon" />
+
+        <View
+            android:layout_width="0dp"
+            android:layout_height="1dp"
+            android:layout_weight="1" />
     </LinearLayout>
-
 </LinearLayout>

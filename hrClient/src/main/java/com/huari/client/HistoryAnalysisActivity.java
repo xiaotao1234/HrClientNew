@@ -25,6 +25,7 @@ import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.TextView;
@@ -44,7 +45,7 @@ import com.huari.dataentry.Station;
 import com.huari.tools.ByteFileIoUtils;
 import com.huari.tools.MyTools;
 import com.huari.tools.Parse;
-import com.huari.tools.RealTimeSaveStore;
+import com.huari.tools.RealTimeSaveAndGetStore;
 import com.huari.tools.SysApplication;
 import com.huari.ui.CustomProgress;
 import com.huari.ui.ShowWaveView;
@@ -133,7 +134,6 @@ public class HistoryAnalysisActivity extends AnalysisBase {
     Socket socket;// 用来接收数据
     OutputStream outs;
     InputStream ins;
-    HistoryAnalysisActivity.MyThread mythread;
     HistoryAnalysisActivity.IniThread inithread;
 
     static Parameter centerParameter;
@@ -147,6 +147,9 @@ public class HistoryAnalysisActivity extends AnalysisBase {
     private SharedPreferences sharepre;
     private SharedPreferences.Editor shareEditor;
     private CustomProgress customProgress;
+    private ImageView contorl;
+    ImageView previousButton;
+    ImageView nextButton;
 
     //public static PlayAudioThread playAudioThread;
 
@@ -240,97 +243,6 @@ public class HistoryAnalysisActivity extends AnalysisBase {
         thread.start();
     }
 
-    class MyThread extends Thread {
-        boolean end = false;
-
-        private void setEnd(boolean b) {
-            end = b;
-        }
-
-        private void sendStartCmd() {
-            savePrepare();
-            Thread thread = new Thread(() -> {
-                try {
-                    byte[] bbb = iRequestInfo();
-
-                    GlobalData.clearSpectrums();
-                    if (filterSpanParameter != null) {
-                        halfSpectrumsWide = Float
-                                .parseFloat(filterSpanParameter.defaultValue) / 2000f;
-                    }
-                    if (spectrumParameter != null) {
-                        halfSpectrumsWide = Float
-                                .parseFloat(spectrumParameter.defaultValue) / 2000f;
-                    }
-                    startFreq = (float) (Math.floor(Float
-                            .parseFloat(centerParameter.defaultValue)
-                            * 1000f
-                            - halfSpectrumsWide * 1000)) / 1000;
-                    endFreq = (Float.parseFloat(centerParameter.defaultValue) * 1000f + halfSpectrumsWide * 1000) / 1000;
-                    waveview.setF(startFreq, endFreq, pStepFreq);
-                    outs.write(bbb);
-                    outs.flush();
-
-                } catch (NullPointerException e) {
-                    System.out.println("异常");
-                    sendStartCmd();
-                } catch (Exception e) {
-                    System.out.println("84854959异常");
-                }
-            });
-            thread.start();
-        }
-
-        private void savePrepare() {
-            ByteFileIoUtils.runFlag = true;
-            queue = new LinkedBlockingDeque<>();
-            SimpleDateFormat df = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
-            String fileName = "AN|" + df.format(new Date()).replaceAll(" ", "|");
-            SysApplication.byteFileIoUtils.writeBytesToFile(fileName, 2); //开始保存数据前的初始化
-        }
-
-        private void sendEndCmd() {
-            ByteFileIoUtils.runFlag = false;
-            Thread thread = new Thread(() -> {
-                StopTaskFrame st = new StopTaskFrame();
-                st.functionNum = 16;
-                st.length = 2;
-                byte[] b;
-                try {
-                    b = JavaStruct.pack(st);
-                    outs.write(b);
-                    outs.flush();
-
-                } catch (Exception e) {
-                    e.printStackTrace();
-                }
-            });
-            thread.start();
-        }
-
-        public void run() {
-            try {
-                Process.setThreadPriority(Process.THREAD_PRIORITY_URGENT_AUDIO);
-                int available = 0;
-                long time = 0;
-                byte[] info;
-
-                while (available == 0 && end == false) {
-                    available = ins.available();
-                    if (available > 0) {
-                        info = new byte[available];
-                        ins.read(info);
-                        time = RealTimeSaveStore.SaveAtTime(available, info, time, 2);
-                        Parse.newParseSpectrumsAnalysis(info);
-                        available = 0;
-                    }
-                }
-
-            } catch (Exception e) {
-                e.printStackTrace();
-            }
-        }
-    }
 
     @SuppressLint("InvalidWakeLockTag")
     @Override
@@ -342,32 +254,23 @@ public class HistoryAnalysisActivity extends AnalysisBase {
         shareEditor = sharepre.edit();
         inithread = new HistoryAnalysisActivity.IniThread();
         inithread.start();
-        // playAudioThread=new PlayAudioThread();
-        // playAudioThread.start();
-        // audioBuffer=playAudioThread.getAudioBuffer();
         SysApplication.getInstance().addActivity(this);
-
         GlobalData.willplay = false;
-
         Thread.setDefaultUncaughtExceptionHandler(GlobalData.myExceptionHandler);
-
         pm = (PowerManager) getSystemService(getApplicationContext().POWER_SERVICE);
         wl = pm.newWakeLock(PowerManager.SCREEN_DIM_WAKE_LOCK, "MyTag");
-
         ituLinearLayout = (LinearLayout) getLayoutInflater().inflate(
                 R.layout.listviewwithitu, null);
-        itulistview = (ListView) ituLinearLayout.findViewById(R.id.itulistview);
-        viewlist = new ArrayList<View>();
-
+        itulistview = ituLinearLayout.findViewById(R.id.itulistview);
+        viewlist = new ArrayList<>();
         spectrumAdapter = new PagerAdapterOfSpectrum(viewlist);
         if (GlobalData.ituHashMap == null) {
-            GlobalData.ituHashMap = new HashMap<String, String>();
+            GlobalData.ituHashMap = new HashMap<>();
         }
         listAdapter = new ItuAdapterOfListView(HistoryAnalysisActivity.this,
                 GlobalData.ituHashMap);
-        viewpager = (ViewPager) findViewById(R.id.firstviewpager);
+        viewpager = findViewById(R.id.firstviewpager);
         itulistview.setAdapter(listAdapter);
-
         DisplayMetrics metric = new DisplayMetrics();
         getWindowManager().getDefaultDisplay().getMetrics(metric);
         int twidth = metric.widthPixels;
@@ -376,104 +279,53 @@ public class HistoryAnalysisActivity extends AnalysisBase {
         int densityDpi = metric.densityDpi;
         double dui = Math.sqrt(twidth * twidth + theight * theight);
         double x = dui / densityDpi;
-
         if (x >= 6.5) {
             setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_USER_LANDSCAPE);
         } else {
             setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_USER_PORTRAIT);
         }
-
-//        Intent intent = getIntent();
-//        Bundle bundle = intent.getExtras();
-//        stationname = bundle.getString("stationname");
-//        devicename = bundle.getString("devicename");
-//        //mydevicename = devicename;
-//        stationKey = bundle.getString("stationKey");
-//        logicId = bundle.getString("lid");
-
         Intent intent = getIntent();
         filename = intent.getStringExtra("filename");
         String mm = sharepre.getString(filename, null);
-
         stationname = mm.substring(0, mm.indexOf("|"));
         devicename = mm.substring(mm.indexOf("|") + 1, mm.indexOf("||"));
         stationKey = mm.substring(mm.indexOf("||") + 2, mm.indexOf("|||"));
         mm.substring(mm.indexOf("|||") + 3, mm.indexOf("||||"));
         mm.substring(mm.indexOf("||||") + 4, mm.indexOf("|||||"));
         logicId = mm.substring(mm.indexOf("|||||") + 5, mm.length());
-
         LinearLayout titlebar = (LinearLayout) getLayoutInflater().inflate(
                 R.layout.actionbarview, null);
         stationtextview = (TextView) titlebar.findViewById(R.id.name1);
         devicetextview = (TextView) titlebar.findViewById(R.id.name2);
         // Button bn=(Button)titlebar.findViewById(R.id.zhuanxiang);
-
         customProgress.setProgress(0);
         customProgress.setProgressListener(progress -> {
             Log.d("xiaotao", String.valueOf(progress));
-            RealTimeSaveStore.progressFlg = true;
-            RealTimeSaveStore.progress = (int) progress;
+            if (RealTimeSaveAndGetStore.thread.isAlive()) {
+                RealTimeSaveAndGetStore.progressFlg = true;
+                RealTimeSaveAndGetStore.progress = (int) progress;
+            } else {
+                RealTimeSaveAndGetStore.ParseLocalWrap(filename, 2, handle);
+                RealTimeSaveAndGetStore.progressFlg = true;
+                RealTimeSaveAndGetStore.progress = (int) progress;
+            }
         });
-
+        contorl = findViewById(R.id.play_control);
+        previousButton = findViewById(R.id.previous_button);
+        nextButton = findViewById(R.id.next_button);
+        previousButton.setOnClickListener(v -> RealTimeSaveAndGetStore.previousFrame(HistoryAnalysisActivity.this));
+        nextButton.setOnClickListener(v -> RealTimeSaveAndGetStore.nextFrame(HistoryAnalysisActivity.this));
+        contorl.setOnClickListener(v -> RealTimeSaveAndGetStore.pauseOrResume());
         stationtextview.setText(stationname);
         devicetextview.setText(devicename);
-
-//		actionbar = getSupportActionBar();
-//		actionbar.setDisplayShowHomeEnabled(false);
-//		actionbar.setDisplayHomeAsUpEnabled(false);
-//		actionbar.setDisplayShowCustomEnabled(true);
-//		actionbar.setDisplayShowTitleEnabled(true);
-//		actionbar.setCustomView(titlebar);
-
         showwave = (com.huari.ui.PartWaveShowView) getLayoutInflater().inflate(
                 R.layout.a, null);
-        // (com.huari.ui.PartWaveShowView) findViewById(R.id.buildpartwaveshow);
         viewlist.add(showwave);
         viewlist.add(ituLinearLayout);
         viewpager.setAdapter(spectrumAdapter);
         parentview = getLayoutInflater().inflate(
                 R.layout.activity_spectrums_analysis, null);
-
-        // 开始设置waveview的相关参数。参数从GlobalData中读取。
         waveview = findViewById(R.id.buildshowwaveview);
-        Station stationF = GlobalData.stationHashMap.get(stationKey);
-        ArrayList<MyDevice> am = stationF.devicelist;
-        HashMap<String, LogicParameter> hsl = null;
-        for (MyDevice md : am) {
-            if (md.name.equals(devicename)) {
-                hsl = md.logic;
-            }
-        }
-        LogicParameter currentLP = hsl.get(logicId);// 获取频谱分析相关的数据，以便画出初始界面
-        ap = currentLP.parameterlist;
-
-        for (Parameter p : ap) {
-            if (p.name.equals("DemodulationSpan")) {
-                daikuan = Float.parseFloat(p.defaultValue);
-            } else if (p.name.equals("StepFreq")) {
-                pStepFreq = Float.parseFloat(p.defaultValue);
-            } else if (p.name.equals("CenterFreq")) {
-                centerFreq = Float.parseFloat(p.defaultValue);
-                centerParameter = p;
-            } else if (p.name.equals("AntennaSelect")) {
-                txname = p.defaultValue;
-            }
-            ;
-
-            if (p.name.equals("FilterSpan")) {
-                halfSpectrumsWide = Float.parseFloat(p.defaultValue) / 2000f;
-                filterSpanParameter = p;
-            }
-            if (p.name.equals("SpectrumSpan")) {
-                halfSpectrumsWide = Float.parseFloat(p.defaultValue) / 2000f;
-                spectrumParameter = p;
-            }
-        }
-        startFreq = (float) (Math.floor(centerFreq * 1000f - halfSpectrumsWide
-                * 1000)) / 1000;
-        endFreq = (centerFreq * 1000f + halfSpectrumsWide * 1000) / 1000;
-        waveview.setF(startFreq, endFreq, pStepFreq);
-
         handle = new Handler() {
             @Override
             public void handleMessage(Message msg) {
@@ -538,9 +390,6 @@ public class HistoryAnalysisActivity extends AnalysisBase {
                     } else if (msg.what == AUDIODATA)  //=0x5   声音
                     {
                         synchronized (synObject) {
-                            // if(GlobalData.willplay)
-                            // {
-                            //at.flush();
                             at.write(audioBuffer, 0, audioBuffer.length);
                             at.flush();
                             at.play();
@@ -549,275 +398,60 @@ public class HistoryAnalysisActivity extends AnalysisBase {
                                 Thread.sleep(1);
                             }
                             audioindex = 0;
-                            // GlobalData.willplay=false;
-                            // }
                         }
                     } else if (msg.what == ITUDATA) {
                         listAdapter.notifyDataSetChanged();
-                    }else if(msg.what == 121){
+                    } else if (msg.what == 121) {
                         customProgress.setProgress((Integer) msg.obj);
+                    }else if(msg.what ==34){
+                        AfterGetStation((Station) msg.obj);
                     }
                 } catch (Exception e) {
 
                 }
+
+
             }
         };
-
+        RealTimeSaveAndGetStore.deserializeFlyPig(filename,handle);
     }
 
-//	@Override
-//	public boolean onKeyDown(int keyCode, KeyEvent event) {
-//		if (keyCode == KeyEvent.KEYCODE_BACK) {
-//			AlertDialog.Builder builder = new AlertDialog.Builder(
-//					SpectrumsAnalysisActivity.this);
-//			builder.setTitle("警告!");
-//			builder.setMessage("确定要退出该功能吗？");
-//			builder.setPositiveButton("确定",
-//					new DialogInterface.OnClickListener() {
-//
-//						@Override
-//						public void onClick(DialogInterface dialog, int which) {
-//							// TODO Auto-generated method stub
-//							willExit();
-//							Intent intent = new Intent(
-//									SpectrumsAnalysisActivity.this,
-//									MainActivity.class);//CircleActivity.class);
-//							startActivity(intent);
-//							finish();
-//						}
-//					});
-//			builder.setNegativeButton("取消", null);
-//			builder.create();
-//			builder.show();
-//		}
-//		return super.onKeyDown(keyCode, event);
-//	}
-
-    @Override
-    public boolean onCreateOptionsMenu(Menu menu) {
-        getMenuInflater().inflate(R.menu.pinpufenxiitem, menu);
-        MenuItem mi = (MenuItem) menu.findItem(R.id.zanting1);
-        if (mi.getTitle().equals("开始测量")) {
-            fullispause = true;
-            partispause = true;
-        } else {
-            fullispause = false;
-            partispause = false;
-        }
-        if (menu.findItem(R.id.ppfxshowmin).getTitle().equals("不显示最小值")) {
-            showMin = true;
-        } else {
-            showMin = false;
-        }
-        if (menu.findItem(R.id.ppfxshowmax).getTitle().equals("不显示最大值")) {
-            showMax = true;
-        } else {
-            showMax = false;
-        }
-        if (menu.findItem(R.id.ppfxshowavg).getTitle().equals("不显示平均值")) {
-            showAvg = true;
-        } else {
-            showAvg = false;
-        }
-        return super.onCreateOptionsMenu(menu);
-    }
-
-    @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
-        final MenuItem i = item;
-        if (item.getItemId() == R.id.zanting1) {
-            mitem = item;
-            if (item.getTitle().equals("停止测量")) {
-                partispause = true;
-                fullispause = true;
-                mythread.sendEndCmd();
-                GlobalData.Spectrumpinpu = null;
-                GlobalData.oldcount = 0;
-                GlobalData.haveCount = 0;
-                item.setTitle("开始测量");
-
-                if (isRecording) {
-                    Menu menu = null;
-                    getMenuInflater().inflate(R.menu.pinpufenxiitem, menu);
-                    MenuItem itm;
-                    itm = menu.findItem(R.id.recorder);
-                    itm.setTitle("录音");
-                    isRecording = false;
-                    try {
-                        if (fos != null)
-                            fos.close();// 关闭写入流
-                    } catch (IOException e) {
-                        e.printStackTrace();
-                    }
-
-                    copyWaveFile(AudioName, NewAudioName);//给裸数据加上头文件
-                }
-
-            } else {
-                partispause = false;
-                fullispause = false;
-                item.setTitle("停止测量");
-                if (mythread == null) {
-                    mythread = new HistoryAnalysisActivity.MyThread();
-                }
-                mythread.sendStartCmd();
-                try {
-                    mythread.start();
-                } catch (Exception e) {
-
-                }
-            }
-        } else if (item.getItemId() == R.id.custompinpuset) {
-            if (fullispause == true) {
-                Intent intent = new Intent(HistoryAnalysisActivity.this,
-                        PPFXsetActivity.class);
-                Bundle bundle = new Bundle();
-                bundle.putString("sname", stationname);
-                bundle.putString("dname", devicename);
-                bundle.putString("stakey", stationKey);
-                bundle.putString("lids", logicId);
-                intent.putExtras(bundle);
-                startActivityForResult(intent, 0);
-            } else {
-                AlertDialog.Builder ab = new AlertDialog.Builder(
-                        HistoryAnalysisActivity.this);
-                ab.setTitle("警告！");
-                ab.setMessage("功能运行期间不可更改设置，确定要停止功能进行设置吗？");
-                ab.setPositiveButton("确定",
-                        new DialogInterface.OnClickListener() {
-                            @Override
-                            public void onClick(DialogInterface dialog,
-                                                int which) {
-                                // TODO Auto-generated method stub
-                                partispause = true;
-                                fullispause = true;
-                                findViewById(R.id.zanting1);
-                                mitem.setTitle("开始测量");
-
-                                mythread.sendEndCmd();
-
-                                if (mythread != null) {
-                                    try {
-                                        mythread.setEnd(true);
-                                    } catch (Exception e) {
-
-                                    }
-                                }
-                                mythread = null;
-                                if (inithread != null) {
-                                    try {
-                                        inithread.destroy();
-                                    } catch (Exception e) {
-
-                                    }
-                                    inithread = null;
-                                }
-                                GlobalData.Spectrumpinpu = null;
-                                GlobalData.oldcount = 0;
-                                GlobalData.haveCount = 0;
-                                System.gc();
-
-                                Intent intent = new Intent(
-                                        HistoryAnalysisActivity.this,
-                                        PPFXsetActivity.class);
-                                Bundle bundle = new Bundle();
-                                bundle.putString("sname", stationname);
-                                bundle.putString("dname", devicename);
-                                bundle.putString("stakey", stationKey);
-                                bundle.putString("lids", logicId);
-                                intent.putExtras(bundle);
-                                startActivityForResult(intent, 0);
-                            }
-                        });
-                ab.setNegativeButton("取消", null);
-                ab.create();
-                ab.show();
-            }
-
-        } else if (item.getItemId() == R.id.changqiang) {
-            if (item.getTitle().equals("场强")) {
-                if (partispause) {
-                    cq = true;
-                    item.setTitle("电平");
-                    showwave.setDanwei("场强dBuV/m");
-                } else {
-                    Toast.makeText(HistoryAnalysisActivity.this,
-                            "任务运行期间，不可切换", Toast.LENGTH_SHORT).show();
-                }
-            } else if (item.getTitle().equals("电平")) {
-                if (partispause) {
-                    cq = false;
-                    item.setTitle("场强");
-                    showwave.setDanwei("电平dBuV");
-                } else {
-                    Toast.makeText(HistoryAnalysisActivity.this,
-                            "任务运行期间，不可切换", Toast.LENGTH_SHORT).show();
-                }
-            }
-        } else if (item.getItemId() == R.id.ppfxshowmax) {
-            if (item.getTitle().equals("不显示最大值")) {
-                item.setTitle("显示最大值");
-                showMax = false;
-            } else if (item.getTitle().equals("显示最大值")) {
-                item.setTitle("不显示最大值");
-                showMax = true;
-            }
-        } else if (item.getItemId() == R.id.ppfxshowmin) {
-            if (item.getTitle().equals("不显示最小值")) {
-                item.setTitle("显示最小值");
-                showMin = false;
-            } else if (item.getTitle().equals("显示最小值")) {
-                item.setTitle("不显示最小值");
-                showMin = true;
-            }
-        } else if (item.getItemId() == R.id.ppfxshowavg) {
-            if (item.getTitle().equals("不显示平均值")) {
-                item.setTitle("显示平均值");
-                showAvg = false;
-            } else if (item.getTitle().equals("显示平均值")) {
-                item.setTitle("不显示平均值");
-                showAvg = true;
-            }
-        } else if (item.getItemId() == R.id.capture) {
-            if (item.getTitle().equals("截图")) {
-
-            }
-
-        } else if (item.getItemId() == R.id.recorder) {
-            if (item.getTitle().equals("录音")) {
-                item.setTitle("停止录音");
-
-                AudioName = getRawFilePath();
-                NewAudioName = getWavFilePath();
-
-                try {
-                    recordFile = new File(AudioName);
-                    if (recordFile.exists()) {
-                        recordFile.delete();
-                    }
-                    fos = new FileOutputStream(recordFile);// 建立一个可存取字节的文件
-                } catch (Exception e) {
-                    e.printStackTrace();
-                }
-
-                isRecording = true;
-            } else {
-                item.setTitle("录音");
-                if (isRecording) {
-                    isRecording = false;
-                    try {
-                        if (fos != null)
-                            fos.close();   // 关闭写入流
-                    } catch (IOException e) {
-                        e.printStackTrace();
-                    }
-
-                    copyWaveFile(AudioName, NewAudioName);   //给裸数据加上头文件
-                }
+    private void AfterGetStation(Station stationF) {
+        ArrayList<MyDevice> am = stationF.devicelist;
+        HashMap<String, LogicParameter> hsl = null;
+        for (MyDevice md : am) {
+            if (md.name.equals(devicename)) {
+                hsl = md.logic;
             }
         }
+        LogicParameter currentLP = hsl.get(logicId);// 获取频谱分析相关的数据，以便画出初始界面
+        ap = currentLP.parameterlist;
 
-        return true;
+        for (Parameter p : ap) {
+            if (p.name.equals("DemodulationSpan")) {
+                daikuan = Float.parseFloat(p.defaultValue);
+            } else if (p.name.equals("StepFreq")) {
+                pStepFreq = Float.parseFloat(p.defaultValue);
+            } else if (p.name.equals("CenterFreq")) {
+                centerFreq = Float.parseFloat(p.defaultValue);
+                centerParameter = p;
+            } else if (p.name.equals("AntennaSelect")) {
+                txname = p.defaultValue;
+            }
+
+            if (p.name.equals("FilterSpan")) {
+                halfSpectrumsWide = Float.parseFloat(p.defaultValue) / 2000f;
+                filterSpanParameter = p;
+            }
+            if (p.name.equals("SpectrumSpan")) {
+                halfSpectrumsWide = Float.parseFloat(p.defaultValue) / 2000f;
+                spectrumParameter = p;
+            }
+        }
+        startFreq = (float) (Math.floor(centerFreq * 1000f - halfSpectrumsWide
+                * 1000)) / 1000;
+        endFreq = (centerFreq * 1000f + halfSpectrumsWide * 1000) / 1000;
+        waveview.setF(startFreq, endFreq, pStepFreq);
     }
 
     @Override
@@ -829,142 +463,11 @@ public class HistoryAnalysisActivity extends AnalysisBase {
         }
     }
 
-    private byte[] iRequestInfo() {
-        byte[] request = null;
-        boolean havetianxian = false;
-        PPFXRequest pr = new PPFXRequest();
-        for (Parameter para : ap) {
-            if ((para.name.contains("Anten"))) {
-                havetianxian = true;
-                break;
-            }
-        }
-
-        // 帧体长度暂时跳过
-        pr.functionNum = 16;
-        pr.stationid = MyTools.toCountString(stationKey, 76).getBytes();
-        pr.logicid = MyTools.toCountString(logicId, 76).getBytes();
-        pr.devicename = MyTools.toCountString(devicename, 36).getBytes();
-        pr.pinduancount = 0;
-
-        pr.logictype = MyTools.toCountString("level", 16).getBytes();
-        PinPuParameter[] parray = null;
-        if (havetianxian) {
-            parray = new PinPuParameter[ap.size() - 1];
-        } else {
-            parray = new PinPuParameter[ap.size()];
-        }
-
-        int z = 0;
-        for (Parameter para : ap) {
-            PinPuParameter pin = new PinPuParameter();
-            pr.tianxianname = MyTools.toCountString("NULL", 36).getBytes();
-            if (!(para.name.contains("Anten"))) {
-                pin.name = MyTools.toCountString(para.name, 36).getBytes();
-                pin.value = MyTools.toCountString(para.defaultValue, 36)
-                        .getBytes();
-                parray[z] = pin;
-                z++;
-            } else {
-                pr.tianxianname = MyTools.toCountString(para.defaultValue, 36)
-                        .getBytes();
-            }
-
-        }
-        if (havetianxian) {
-            pr.parameterslength = 72 * (ap.size() - 1);
-        } else {
-            pr.parameterslength = 72 * ap.size();
-        }
-        pr.length = pr.parameterslength + 247;
-        pr.p = parray;
-        try {
-            request = JavaStruct.pack(pr);
-        } catch (StructException e) {
-            e.printStackTrace();
-        }
-        return request;
-    }
-
-    private int[] stringtoarray(String k, String b) {
-        String[] v = k.split(b);
-        int[] x = new int[v.length];
-        for (int z = 0; z < v.length; z++) {
-            x[z] = Integer.parseInt(v[z]);
-        }
-        return x;
-    }
-
-    private void willExit() {
-        try {
-            GlobalData.isFirstAudio = true;
-            GlobalData.willplay = false;
-            sendClose();
-            Thread.sleep(50);
-        } catch (Exception e1) {
-            e1.printStackTrace();
-        } finally {
-            try {
-                socket.shutdownInput();
-                socket.shutdownOutput();
-                socket.getInputStream().close();
-                socket.getOutputStream().close();
-                socket.close();
-                socket.setSoTimeout(5000);
-
-            } catch (IOException e) {
-                // TODO Auto-generated catch block
-                e.printStackTrace();
-            }
-        }
-        if (mythread != null) {
-            try {
-                mythread.setEnd(true);
-                mythread.join();
-                mythread = null;
-            } catch (Exception e) {
-
-            }
-        }
-        mythread = null;
-        if (inithread != null) {
-            try {
-                inithread.destroy();
-            } catch (Exception e) {
-                e.printStackTrace();
-            }
-            inithread = null;
-        }
-//		if (playAudioThread != null) {
-//			try {
-//				playAudioThread.setRunPlayAudio(false);
-//				playAudioThread.join();
-//				playAudioThread = null;
-//			} catch (Exception e) {
-//
-//			}
-//		}
-        try {
-            GlobalData.Spectrumpinpu = null;
-            GlobalData.oldcount = 0;
-            GlobalData.haveCount = 0;
-            releaseAudioResource();
-            System.gc();
-        } catch (Exception e) {
-
-        }
-    }
-
     @Override
     protected void onDestroy() {
-        willExit();
         super.onDestroy();
     }
 
-    private void releaseAudioResource() {
-        at.stop();
-        at.release();
-    }
 
     @Override
     protected void onResume() {
@@ -972,7 +475,7 @@ public class HistoryAnalysisActivity extends AnalysisBase {
 //        cq = true;
         fullispause = false;
         partispause = false;
-        RealTimeSaveStore.ParseLocalWrap(filename, 2, handle);
+        RealTimeSaveAndGetStore.ParseLocalWrap(filename, 2, handle);
         super.onResume();
     }
 
@@ -981,7 +484,6 @@ public class HistoryAnalysisActivity extends AnalysisBase {
         wl.release();
         super.onPause();
         ByteFileIoUtils.runFlag = false;
-        willExit();
     }
 
     /**
@@ -1031,84 +533,4 @@ public class HistoryAnalysisActivity extends AnalysisBase {
      * 音频的文件，可以发现前面的头文件可以说基本一样哦。每种格式的文件都有
      * 自己特有的头文件。
      */
-    private void WriteWaveFileHeader(FileOutputStream out, long totalAudioLen,
-                                     long totalDataLen, long longSampleRate, int channels, long byteRate)
-            throws IOException {
-        byte[] header = new byte[44];
-        header[0] = 'R'; // RIFF/WAVE header
-        header[1] = 'I';
-        header[2] = 'F';
-        header[3] = 'F';
-        header[4] = (byte) (totalDataLen & 0xff);
-        header[5] = (byte) ((totalDataLen >> 8) & 0xff);
-        header[6] = (byte) ((totalDataLen >> 16) & 0xff);
-        header[7] = (byte) ((totalDataLen >> 24) & 0xff);
-        header[8] = 'W';
-        header[9] = 'A';
-        header[10] = 'V';
-        header[11] = 'E';
-        header[12] = 'f'; // 'fmt ' chunk
-        header[13] = 'm';
-        header[14] = 't';
-        header[15] = ' ';
-        header[16] = 16; // 4 bytes: size of 'fmt ' chunk
-        header[17] = 0;
-        header[18] = 0;
-        header[19] = 0;
-        header[20] = 1; // format = 1
-        header[21] = 0;
-        header[22] = (byte) channels;
-        header[23] = 0;
-        header[24] = (byte) (longSampleRate & 0xff);
-        header[25] = (byte) ((longSampleRate >> 8) & 0xff);
-        header[26] = (byte) ((longSampleRate >> 16) & 0xff);
-        header[27] = (byte) ((longSampleRate >> 24) & 0xff);
-        header[28] = (byte) (byteRate & 0xff);
-        header[29] = (byte) ((byteRate >> 8) & 0xff);
-        header[30] = (byte) ((byteRate >> 16) & 0xff);
-        header[31] = (byte) ((byteRate >> 24) & 0xff);
-        header[32] = (byte) (2 * 16 / 8); // block align
-        header[33] = 0;
-        header[34] = 16; // bits per sample
-        header[35] = 0;
-        header[36] = 'd';
-        header[37] = 'a';
-        header[38] = 't';
-        header[39] = 'a';
-        header[40] = (byte) (totalAudioLen & 0xff);
-        header[41] = (byte) ((totalAudioLen >> 8) & 0xff);
-        header[42] = (byte) ((totalAudioLen >> 16) & 0xff);
-        header[43] = (byte) ((totalAudioLen >> 24) & 0xff);
-        out.write(header, 0, 44);
-    }
-
-    // 这里得到可播放的音频文件
-    private void copyWaveFile(String inFilename, String outFilename) {
-        FileInputStream in = null;
-        FileOutputStream out = null;
-        long totalAudioLen = 0;
-        long totalDataLen = totalAudioLen + 36;
-        long longSampleRate = AUDIO_SAMPLE_RATE;
-        int channels = AUDIO_CHANNL;
-        long byteRate = 16 * AUDIO_SAMPLE_RATE * channels / 8;
-        byte[] data = new byte[audioBuffersize];
-
-        try {
-            in = new FileInputStream(inFilename);
-            out = new FileOutputStream(outFilename);
-            totalAudioLen = in.getChannel().size();
-            totalDataLen = totalAudioLen + 36;
-            WriteWaveFileHeader(out, totalAudioLen, totalDataLen,
-                    longSampleRate, channels, byteRate);
-            while (in.read(data) != -1) {
-                out.write(data);
-            }
-            in.close();
-            out.close();
-        } catch (FileNotFoundException e) {
-            e.printStackTrace();
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-    }
 }

@@ -2,31 +2,28 @@ package com.huari.adapter;
 
 import android.content.Context;
 import android.content.Intent;
-import android.os.Bundle;
+
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.huari.client.HistoryAnalysisActivity;
 import com.huari.client.HistoryDFActivity;
-import com.huari.client.HistoryListActivity;
 import com.huari.client.HistoryPinDuanActivity;
-import com.huari.client.PinDuanScanningActivity;
 import com.huari.client.PlayerActivity;
 import com.huari.client.R;
-import com.huari.client.SinglefrequencyDFActivity;
-import com.huari.client.SpectrumsAnalysisActivity;
-import com.huari.dataentry.HistoryDataDescripe;
-import com.huari.dataentry.MessageEvent;
 
-import org.greenrobot.eventbus.EventBus;
+import com.huari.dataentry.HistoryDataDescripe;
+
 
 import java.io.File;
 import java.text.DecimalFormat;
 import java.text.Format;
+import java.util.Date;
 import java.util.List;
 
 import androidx.annotation.NonNull;
@@ -102,12 +99,32 @@ public class MusicListAdapter extends RecyclerView.Adapter<MusicListAdapter.view
     public void onBindViewHolder(@NonNull viewholder holder, int position) {
         holder.musicCheck.setVisibility(View.GONE);
         holder.musicName.setText(files.get(position).getName());
+//        holder.relativeLayout.setVisibility(View.GONE);
         holder.musicSize.setText(getSize(files.get(position).getSize()));
-        holder.musicTime.setText(String.valueOf((int) files.get(position).getLastModifne()));
-        holder.linearLayout.setOnClickListener(v -> {
-            context.startActivity(new Intent(context, PlayerActivity.class));
-            EventBus.getDefault().postSticky(new MessageEvent(files.
-                    get(position).getAbslitPath(), position));
+        Date date = new Date(files.get(position).getLastModifne());
+        holder.musicTime.setText(date.toString());
+//        holder.linearLayout.setOnClickListener(v -> {
+//            context.startActivity(new Intent(context, PlayerActivity.class));
+//            EventBus.getDefault().postSticky(new MessageEvent(files.
+//                    get(position).getAbslitPath(), position));
+//        });
+//        holder.linearLayout.setLeftTouchListener(i -> {
+//            Log.d("xiaoleft","come");
+//            if(i == leftSlideView.LEFT&&holder.relativeLayout.getVisibility()==View.GONE){
+//                holder.relativeLayout.setVisibility(View.VISIBLE);
+//                notifyDataSetChanged();
+//            }else if(i == leftSlideView.RIGHT&&holder.relativeLayout.getVisibility()==View.VISIBLE){
+//                holder.relativeLayout.setVisibility(View.GONE);
+//                notifyDataSetChanged();
+//            }
+//        });
+        holder.relativeLayout.setOnClickListener(v -> {
+            File file1 = new File(files.get(position).getAbslitPath());
+            if (file1.delete()) {
+                files.remove(position);
+                holder.relativeLayout.setVisibility(View.GONE);
+                notifyDataSetChanged();
+            }
         });
         holder.linearLayout.setOnClickListener(v -> {
             Intent intent;
@@ -130,6 +147,16 @@ public class MusicListAdapter extends RecyclerView.Adapter<MusicListAdapter.view
             intent.putExtra("from", "history");
             context.startActivity(intent);
         });
+        holder.linearLayout.setOnLongClickListener(v -> {
+            if (holder.relativeLayout.getVisibility() == View.GONE) {
+                holder.relativeLayout.setVisibility(View.VISIBLE);
+                notifyDataSetChanged();
+            } else if (holder.relativeLayout.getVisibility() == View.VISIBLE) {
+                holder.relativeLayout.setVisibility(View.GONE);
+                notifyDataSetChanged();
+            }
+            return true;
+        });
     }
 
     @Override
@@ -144,9 +171,11 @@ public class MusicListAdapter extends RecyclerView.Adapter<MusicListAdapter.view
         TextView musicTime;
         TextView musicSize;
         LinearLayout linearLayout;
+        RelativeLayout relativeLayout;
 
         public viewholder(@NonNull View itemView) {
             super(itemView);
+            relativeLayout = itemView.findViewById(R.id.delete);
             musicCheck = itemView.findViewById(R.id.check_music);
             musicName = itemView.findViewById(R.id.music_item_name);
             musicTime = itemView.findViewById(R.id.music_item_time);
