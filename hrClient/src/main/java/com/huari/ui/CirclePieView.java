@@ -224,7 +224,7 @@ public class CirclePieView extends View {
             Log.d("xiao", "in");
             if (needDrawAngle < minAngle) { //如果小于某个度数,就把文字画在饼状图外面
                 mCanvas.drawLine((float) (redius * 0.75 * Math.cos(Math.toRadians(textAngle + needDrawAngle / 2))) + mWidth / 2, (float) (redius * 0.75 * Math.sin(Math.toRadians(textAngle + needDrawAngle / 2))) + mheight / 2,
-                        (float) (float) (redius * Math.cos(Math.toRadians(textAngle + needDrawAngle / 2))) + mWidth / 2, (float) (redius * Math.sin(Math.toRadians(textAngle + needDrawAngle / 2))) + mheight / 2, linePaint);
+                        (float) (redius * Math.cos(Math.toRadians(textAngle + needDrawAngle / 2))) + mWidth / 2, (float) (redius * Math.sin(Math.toRadians(textAngle + needDrawAngle / 2))) + mheight / 2, linePaint);
                 mCanvas.drawLine((float) (redius * Math.cos(Math.toRadians(textAngle + needDrawAngle / 2))) + mWidth / 2, (float) (redius * Math.sin(Math.toRadians(textAngle + needDrawAngle / 2))) + mheight / 2,
                         (float) (redius * 1.2 * Math.cos(Math.toRadians(textAngle + needDrawAngle / 2))) + mWidth / 2, (float) (redius * Math.sin(Math.toRadians(textAngle + needDrawAngle / 2))) + mheight / 2, linePaint);
 
@@ -258,12 +258,9 @@ public class CirclePieView extends View {
     public void initAnimator() {
         ValueAnimator valueAnimator = ValueAnimator.ofFloat(0, 360);
         valueAnimator.setDuration(3000);
-        valueAnimator.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() {
-            @Override
-            public void onAnimationUpdate(ValueAnimator animation) {
-                value = (float) animation.getAnimatedValue();
-                invalidate();
-            }
+        valueAnimator.addUpdateListener(animation -> {
+            value = (float) animation.getAnimatedValue();
+            invalidate();
         });
         valueAnimator.start();
     }

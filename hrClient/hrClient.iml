@@ -49,13 +49,6 @@
       <sourceFolder url="file://$MODULE_DIR$/src/debug/java" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/src/debug/rs" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/src/debug/shaders" isTestSource="false" />
-      <sourceFolder url="file://$MODULE_DIR$/src/testDebug/res" type="java-test-resource" />
-      <sourceFolder url="file://$MODULE_DIR$/src/testDebug/resources" type="java-test-resource" />
-      <sourceFolder url="file://$MODULE_DIR$/src/testDebug/assets" type="java-test-resource" />
-      <sourceFolder url="file://$MODULE_DIR$/src/testDebug/aidl" isTestSource="true" />
-      <sourceFolder url="file://$MODULE_DIR$/src/testDebug/java" isTestSource="true" />
-      <sourceFolder url="file://$MODULE_DIR$/src/testDebug/rs" isTestSource="true" />
-      <sourceFolder url="file://$MODULE_DIR$/src/testDebug/shaders" isTestSource="true" />
       <sourceFolder url="file://$MODULE_DIR$/src/androidTestDebug/res" type="java-test-resource" />
       <sourceFolder url="file://$MODULE_DIR$/src/androidTestDebug/resources" type="java-test-resource" />
       <sourceFolder url="file://$MODULE_DIR$/src/androidTestDebug/assets" type="java-test-resource" />
@@ -63,6 +56,13 @@
       <sourceFolder url="file://$MODULE_DIR$/src/androidTestDebug/java" isTestSource="true" />
       <sourceFolder url="file://$MODULE_DIR$/src/androidTestDebug/rs" isTestSource="true" />
       <sourceFolder url="file://$MODULE_DIR$/src/androidTestDebug/shaders" isTestSource="true" />
+      <sourceFolder url="file://$MODULE_DIR$/src/testDebug/res" type="java-test-resource" />
+      <sourceFolder url="file://$MODULE_DIR$/src/testDebug/resources" type="java-test-resource" />
+      <sourceFolder url="file://$MODULE_DIR$/src/testDebug/assets" type="java-test-resource" />
+      <sourceFolder url="file://$MODULE_DIR$/src/testDebug/aidl" isTestSource="true" />
+      <sourceFolder url="file://$MODULE_DIR$/src/testDebug/java" isTestSource="true" />
+      <sourceFolder url="file://$MODULE_DIR$/src/testDebug/rs" isTestSource="true" />
+      <sourceFolder url="file://$MODULE_DIR$/src/testDebug/shaders" isTestSource="true" />
       <sourceFolder url="file://$MODULE_DIR$/src/main/res" type="java-resource" />
       <sourceFolder url="file://$MODULE_DIR$/src/main/resources" type="java-resource" />
       <sourceFolder url="file://$MODULE_DIR$/src/main/assets" type="java-resource" />
@@ -112,16 +112,15 @@
     </content>
     <orderEntry type="jdk" jdkName="Android API 28 Platform" jdkType="Android SDK" />
     <orderEntry type="sourceFolder" forTests="false" />
-    <orderEntry type="library" name="Gradle: __local_aars__:C.\dididi\HrClientNew0723\mmm\HrClientNew\hrClient\libs\BaiduLBS_Android.jar:unspecified@jar" level="project" />
     <orderEntry type="library" name="Gradle: androidx.print:print-1.0.0-rc01" level="project" />
     <orderEntry type="library" name="Gradle: androidx.vectordrawable:vectordrawable-1.0.0-rc01" level="project" />
-    <orderEntry type="library" name="Gradle: __local_aars__:C.\dididi\HrClientNew0723\mmm\HrClientNew\hrClient\libs\javastruct-0.1.jar:unspecified@jar" level="project" />
     <orderEntry type="library" name="Gradle: androidx.legacy:legacy-support-core-utils-1.0.0-rc01" level="project" />
     <orderEntry type="library" name="Gradle: cn.bmob.android:bmob-push-1.0.3" level="project" />
     <orderEntry type="library" name="Gradle: androidx.coordinatorlayout:coordinatorlayout-1.0.0-rc01" level="project" />
     <orderEntry type="library" scope="TEST" name="Gradle: com.squareup:javawriter:2.1.1@jar" level="project" />
     <orderEntry type="library" name="Gradle: androidx.vectordrawable:vectordrawable-animated-1.0.0-rc01" level="project" />
     <orderEntry type="library" name="Gradle: androidx.versionedparcelable:versionedparcelable-1.0.0" level="project" />
+    <orderEntry type="library" name="Gradle: __local_aars__:C.\dididi\HrClientNew0723\lll\HrClientNew\hrClient\libs\javastruct-0.1.jar:unspecified@jar" level="project" />
     <orderEntry type="library" name="Gradle: androidx.swiperefreshlayout:swiperefreshlayout-1.0.0-rc01" level="project" />
     <orderEntry type="library" name="Gradle: org.jetbrains:annotations:13.0@jar" level="project" />
     <orderEntry type="library" name="Gradle: androidx.recyclerview:recyclerview-1.0.0-rc01" level="project" />
@@ -132,6 +131,7 @@
     <orderEntry type="library" name="Gradle: com.contrarywind:Android-PickerView-4.1.8" level="project" />
     <orderEntry type="library" name="Gradle: androidx.viewpager:viewpager-1.0.0-rc01" level="project" />
     <orderEntry type="library" name="Gradle: org.jetbrains.kotlin:kotlin-stdlib:1.2.60@jar" level="project" />
+    <orderEntry type="library" name="Gradle: __local_aars__:C.\dididi\HrClientNew0723\lll\HrClientNew\hrClient\libs\tbs_sdk_thirdapp_v3.6.0.1249_43610_sharewithdownload_withoutGame_obfs_20180608_114954.jar:unspecified@jar" level="project" />
     <orderEntry type="library" name="Gradle: androidx.legacy:legacy-support-core-ui-1.0.0-rc01" level="project" />
     <orderEntry type="library" name="Gradle: androidx.loader:loader-1.0.0-rc01" level="project" />
     <orderEntry type="library" name="Gradle: com.squareup.okhttp3:okhttp:3.12.0@jar" level="project" />
@@ -153,6 +153,7 @@
     <orderEntry type="library" name="Gradle: org.reactivestreams:reactive-streams:1.0.2@jar" level="project" />
     <orderEntry type="library" name="Gradle: androidx.drawerlayout:drawerlayout-1.0.0-rc01" level="project" />
     <orderEntry type="library" name="Gradle: androidx.media:media-1.0.0-rc01" level="project" />
+    <orderEntry type="library" name="Gradle: __local_aars__:C.\dididi\HrClientNew0723\lll\HrClientNew\hrClient\libs\BaiduLBS_Android.jar:unspecified@jar" level="project" />
     <orderEntry type="library" name="Gradle: com.contrarywind:wheelview-4.0.9" level="project" />
     <orderEntry type="library" name="Gradle: androidx.documentfile:documentfile-1.0.0-rc01" level="project" />
     <orderEntry type="library" name="Gradle: androidx.lifecycle:lifecycle-common:2.0.0@jar" level="project" />
@@ -161,7 +162,6 @@
     <orderEntry type="library" scope="TEST" name="Gradle: com.google.code.findbugs:jsr305:2.0.1@jar" level="project" />
     <orderEntry type="library" name="Gradle: androidx.transition:transition-1.0.0-rc01" level="project" />
     <orderEntry type="library" name="Gradle: androidx.constraintlayout:constraintlayout-1.1.2" level="project" />
-    <orderEntry type="library" name="Gradle: __local_aars__:C.\dididi\HrClientNew0723\mmm\HrClientNew\hrClient\libs\tbs_sdk_thirdapp_v3.6.0.1249_43610_sharewithdownload_withoutGame_obfs_20180608_114954.jar:unspecified@jar" level="project" />
     <orderEntry type="library" name="Gradle: cn.bmob.android:bmob-sdk-3.6.9-rc2" level="project" />
     <orderEntry type="library" name="Gradle: androidx.arch.core:core-common:2.0.0@jar" level="project" />
     <orderEntry type="library" name="Gradle: androidx.slidingpanelayout:slidingpanelayout-1.0.0-rc01" level="project" />
@@ -179,7 +179,7 @@
     <orderEntry type="library" name="Gradle: org.jetbrains.kotlin:kotlin-stdlib-common:1.2.60@jar" level="project" />
     <orderEntry type="library" name="Gradle: androidx.cardview:cardview-1.0.0-rc01" level="project" />
     <orderEntry type="library" name="Gradle: androidx.collection:collection:1.0.0@jar" level="project" />
-    <orderEntry type="module" module-name="guiCtrl" />
     <orderEntry type="module" module-name="library_zhy_CircleMenu" />
+    <orderEntry type="module" module-name="guiCtrl" />
   </component>
 </module>

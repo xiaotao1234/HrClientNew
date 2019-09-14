@@ -309,6 +309,7 @@ public class HistoryDFActivity extends AppCompatActivity {
     @Override
     protected void onPause() {
         super.onPause();
+        RealTimeSaveAndGetStore.StopFlag = false;
         Parse.setHandler(null);
     }
 
@@ -448,8 +449,8 @@ public class HistoryDFActivity extends AppCompatActivity {
                                 first = false;
                                 alllength.setText(String.valueOf(RealTimeSaveAndGetStore.allLength));
                             }
-                            customProgress.setProgress((Integer) msg.obj);
                             readnow.setText(String.valueOf(RealTimeSaveAndGetStore.allLength-RealTimeSaveAndGetStore.available));
+                            customProgress.setProgress((Integer) msg.obj);
                             break;
                         case 34:
                             if (StationForViewDo((Station) msg.obj)) return;

@@ -262,12 +262,12 @@ public class RealTimeSaveAndGetStore {
                 int haveRead = allLength - available - frameLength - 12;
                 //起点位置应该为排除站点序列化信息头后的总长
                 // -上次剩余数据长度
-                // -上一个数据帧长
+                // -上一个数据帧长[
                 // -上一个数据帧的包头长度
-                Log.d("xiaohave", String.valueOf(haveRead));
-                Log.d("xiaohave", String.valueOf(allLength));
-                Log.d("xiaohave", String.valueOf(available));
-                Log.d("xiaohave", String.valueOf(frameLength));
+//                Log.d("xiaohave", String.valueOf(haveRead));
+//                Log.d("xiaohave", String.valueOf(allLength));
+//                Log.d("xiaohave", String.valueOf(available));
+//                Log.d("xiaohave", String.valueOf(frameLength));
                 if (haveRead > (j + 1) * 200) {
                     inputStream.skip(haveRead - (j + 1) * 200);//由于skip一段后，后面的数据不一定是一个完整的
                 }
@@ -438,26 +438,6 @@ public class RealTimeSaveAndGetStore {
                 synchronized (ByteFileIoUtils.object) {
                     ByteFileIoUtils.object.notify();
                 }
-//                switch (type) {
-//                    case 1:
-//                        synchronized (SinglefrequencyDFActivity.queue) {
-//                            SinglefrequencyDFActivity.queue.offer(bytesForSave);
-//                            Log.d("xiaotaonihao","station包头来了");
-//                        }
-//                        break;
-//                    case 2:
-//                        synchronized (SpectrumsAnalysisActivity.queue) {
-//                            SpectrumsAnalysisActivity.queue.offer(bytesForSave);
-//                        }
-//                        break;
-//                    case 3:
-//                        synchronized (PinDuanScanningActivity.queue) {
-//                            PinDuanScanningActivity.queue.offer(bytesForSave);
-//                        }
-//                        break;
-//                    default:
-//                        break;
-//                }
                 fileInputStream.close();
                 filebase.delete();
             } catch (Exception e) {

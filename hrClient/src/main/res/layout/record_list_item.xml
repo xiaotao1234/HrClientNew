@@ -14,11 +14,12 @@
             android:id="@+id/title"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_centerInParent="true"
+            android:layout_alignParentRight="true"
+            android:layout_centerVertical="true"
             android:layout_gravity="center"
             android:text="2019-8-8"
-            android:textSize="14sp"
-            android:textColor="#000000"
+            android:textSize="10sp"
+            android:textColor="#FFFFFF"
             android:transitionName="shareimage" />
 
     </RelativeLayout>
@@ -28,16 +29,16 @@
 
         <ImageView
             android:id="@+id/icon"
-            android:layout_width="20sp"
-            android:layout_height="20sp"
+            android:layout_width="14sp"
+            android:layout_height="14sp"
             android:layout_gravity="center|bottom"
             android:src="@drawable/circle_bg" />
 
         <View
-            android:layout_width="3dp"
+            android:layout_width="1dp"
             android:layout_height="match_parent"
             android:layout_gravity="center"
-            android:background="#88408080" />
+            android:background="#44FFFFFF" />
     </FrameLayout>
 
     <RelativeLayout
@@ -49,17 +50,18 @@
             android:id="@+id/time"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_centerInParent="true"
+            android:layout_alignParentLeft="true"
+            android:layout_centerVertical="true"
             android:layout_gravity="center"
             android:text="2019-8-8"
-            android:textSize="14sp"
-            android:textColor="#000000"
+            android:textSize="10sp"
+            android:textColor="#FFFFFF"
             android:transitionName="shareimage" />
 
-        <View
-            android:layout_width="match_parent"
-            android:layout_height="1dp"
-            android:layout_alignParentBottom="true"
-            android:background="#22000000" />
+        <!--<View-->
+            <!--android:layout_width="match_parent"-->
+            <!--android:layout_height="1dp"-->
+            <!--android:layout_alignParentBottom="true"-->
+            <!--android:background="#44FFFFFF" />-->
     </RelativeLayout>
 </LinearLayout>

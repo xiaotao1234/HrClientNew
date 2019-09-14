@@ -54,8 +54,18 @@ public class HistoryPinDuanActivity extends PinDuanBase {
     public static Queue<byte[]> queue;
 
     com.huari.ui.PinDuan pinduan;
+    TextView alllength;
+    TextView readnow;
+    boolean first = true;
     boolean pause;
     boolean showMax, showMin, showAvg;
+
+    @Override
+    protected void onPause() {
+        super.onPause();
+        RealTimeSaveAndGetStore.StopFlag = false;
+    }
+
     ImageView contorl;
     ImageView previousButton;
     ImageView nextButton;
@@ -229,6 +239,8 @@ public class HistoryPinDuanActivity extends PinDuanBase {
         SysApplication.getInstance().addActivity(this);
         Thread.setDefaultUncaughtExceptionHandler(GlobalData.myExceptionHandler);
         pause = false;
+        alllength = findViewById(R.id.music_length);
+        readnow = findViewById(R.id.play_plan);
         pinduan = findViewById(R.id.mypin);
         pinduan.setSystemUiVisibility(View.INVISIBLE);
         DisplayMetrics metric = new DisplayMetrics();
@@ -432,6 +444,11 @@ public class HistoryPinDuanActivity extends PinDuanBase {
                         }
                     }
                 } else if (msg.what == 121) {
+                    if(first == true){
+                        first = false;
+                        alllength.setText(String.valueOf(RealTimeSaveAndGetStore.allLength));
+                    }
+                    readnow.setText(String.valueOf(RealTimeSaveAndGetStore.allLength-RealTimeSaveAndGetStore.available));
                     customProgress.setProgress((Integer) msg.obj);
                 } else if (msg.what == 34) {
                     afterGetStation((Station) msg.obj);

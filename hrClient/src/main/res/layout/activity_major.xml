@@ -10,7 +10,7 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"/>
     <com.google.android.material.tabs.TabLayout
-        android:background="#33161818"
+        android:background="#000000"
         android:id="@+id/tl_tabs"
         android:layout_width="match_parent"
         app:tabTextColor="#BBFFFFFF"

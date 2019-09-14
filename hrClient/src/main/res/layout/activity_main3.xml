@@ -7,40 +7,37 @@
     android:background="@drawable/bz1"
     android:orientation="vertical">
 
-    <com.huari.ui.TagCloudView
-        android:id="@+id/tag_cloud"
+    <FrameLayout
         android:layout_width="match_parent"
         android:layout_height="0dp"
-        android:layout_weight="2"
-        app:autoScrollMode="uniform"
-        app:darkColor="#ffffffff"
-        app:lightColor="#FF0000"
-        app:radiusPercent="0.8"
-        app:scrollSpeed="3" />
+        android:layout_weight="2">
+
+        <com.huari.ui.TagCloudView
+            android:id="@+id/tag_cloud"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:background="#00000000"
+            app:autoScrollMode="uniform"
+            app:darkColor="#ffffffff"
+            app:lightColor="#FF0000"
+            app:radiusPercent="0.8"
+            app:scrollSpeed="3" />
+    </FrameLayout>
 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="0dp"
         android:layout_weight="3"
-        android:background="#FFFFFF"
-        android:orientation="horizontal">
-
-        <androidx.recyclerview.widget.RecyclerView
-            android:id="@+id/rv"
-            android:layout_width="0dp"
-            android:background="@drawable/redius_back"
-            android:layout_height="match_parent"
-            android:layout_weight="2" />
-
+        android:orientation="vertical">
         <!--<View-->
-            <!--android:layout_width="1dp"-->
-            <!--android:layout_height="match_parent"-->
-            <!--android:background="#55FFFFFF" />-->
+        <!--android:layout_width="1dp"-->
+        <!--android:layout_height="match_parent"-->
+        <!--android:background="#55FFFFFF" />-->
 
         <ScrollView
-            android:layout_width="0dp"
-            android:layout_height="match_parent"
-            android:background="@drawable/redius_back"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_margin="30sp"
             android:layout_weight="3">
 
             <LinearLayout
@@ -54,155 +51,202 @@
                     android:layout_weight="1" />
 
                 <LinearLayout
+                    android:id="@+id/file"
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="40sp"
+                    android:layout_height="80sp"
+                    android:layout_marginTop="10sp"
+                    android:background="@drawable/redius_back"
                     android:orientation="horizontal">
 
-                    <View
-                        android:layout_width="0sp"
-                        android:layout_height="1sp"
-                        android:layout_weight="1" />
-
-                    <LinearLayout
-                        android:id="@+id/pp"
-                        android:layout_width="100sp"
-                        android:layout_height="100sp"
-                        android:layout_marginLeft="0sp"
-                        android:layout_marginTop="0sp"
-                        android:layout_marginBottom="7sp"
-                        android:orientation="vertical"
-                        card_view:cardCornerRadius="4sp"
-                        card_view:cardElevation="6sp">
-
-                        <com.huari.ui.CircleView
-                            android:layout_width="70sp"
-                            android:layout_height="70sp"
-                            android:layout_gravity="center"
-                            android:src="@drawable/scan_icon" />
-
-                        <TextView
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:layout_gravity="center_horizontal|bottom"
-                            android:padding="5sp"
-                            android:text="频段扫描"
-                            android:textColor="#000000"
-                            android:textSize="15sp" />
-                    </LinearLayout>
-
-                    <View
-                        android:layout_width="0sp"
-                        android:layout_height="1sp"
-                        android:layout_weight="1" />
-
-                    <LinearLayout
-                        android:id="@+id/danpin"
-                        android:layout_width="100sp"
-                        android:layout_height="100sp"
-                        android:layout_marginTop="0sp"
-                        android:layout_marginRight="0sp"
-                        android:layout_marginBottom="7sp"
-                        android:orientation="vertical">
-
                         <ImageView
-                            android:layout_width="70sp"
-                            android:layout_height="70sp"
+                            android:layout_width="50sp"
+                            android:layout_height="50sp"
+                            android:layout_marginLeft="20sp"
                             android:layout_gravity="center"
                             android:src="@drawable/orientation_cion" />
-
+                        <LinearLayout
+                            android:layout_width="wrap_content"
+                            android:layout_gravity="center_vertical"
+                            android:layout_height="wrap_content"
+                            android:orientation="vertical">
+                            <TextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_gravity="center_vertical"
+                                android:padding="5sp"
+                                android:text="单频测向"
+                                android:textColor="#FFFFFF"
+                                android:textSize="15sp" />
+                            <TextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_gravity="center_vertical"
+                                android:padding="5sp"
+                                android:text="单频测向"
+                                android:textColor="#AAFFFFFF"
+                                android:textSize="12sp" />
+                        </LinearLayout>
+                    <View
+                        android:layout_width="0sp"
+                        android:layout_height="1sp"
+                        android:layout_weight="0.5" />
+                    <LinearLayout
+                        android:layout_width="wrap_content"
+                        android:layout_gravity="center_vertical"
+                        android:layout_height="wrap_content"
+                        android:orientation="vertical">
                         <TextView
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:layout_gravity="center_horizontal|bottom"
+                            android:layout_gravity="center_vertical"
                             android:padding="5sp"
                             android:text="单频测向"
-                            android:textColor="#000000"
+                            android:textColor="#FFFFFF"
                             android:textSize="15sp" />
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_gravity="center_vertical"
+                            android:padding="5sp"
+                            android:text="单频测向"
+                            android:textColor="#AAFFFFFF"
+                            android:textSize="12sp" />
                     </LinearLayout>
-
                     <View
                         android:layout_width="0sp"
                         android:layout_height="1sp"
                         android:layout_weight="1" />
                 </LinearLayout>
 
-                <View
-                    android:layout_width="1sp"
-                    android:layout_height="0sp"
-                    android:layout_weight="1" />
-
                 <LinearLayout
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="40dp"
-                    android:layout_marginBottom="40sp"
+                    android:layout_height="80sp"
+                    android:layout_marginTop="10sp"
+                    android:background="@drawable/redius_back"
                     android:orientation="horizontal">
 
+                    <ImageView
+                        android:layout_width="50sp"
+                        android:layout_height="50sp"
+                        android:layout_marginLeft="20sp"
+                        android:layout_gravity="center"
+                        android:src="@drawable/orientation_cion" />
+                    <LinearLayout
+                        android:layout_width="wrap_content"
+                        android:layout_gravity="center_vertical"
+                        android:layout_height="wrap_content"
+                        android:orientation="vertical">
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_gravity="center_vertical"
+                            android:padding="5sp"
+                            android:text="单频测向"
+                            android:textColor="#FFFFFF"
+                            android:textSize="15sp" />
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_gravity="center_vertical"
+                            android:padding="5sp"
+                            android:text="单频测向"
+                            android:textColor="#AAFFFFFF"
+                            android:textSize="12sp" />
+                    </LinearLayout>
+                    <View
+                        android:layout_width="0sp"
+                        android:layout_height="1sp"
+                        android:layout_weight="0.5" />
+                    <LinearLayout
+                        android:layout_width="wrap_content"
+                        android:layout_gravity="center_vertical"
+                        android:layout_height="wrap_content"
+                        android:orientation="vertical">
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_gravity="center_vertical"
+                            android:padding="5sp"
+                            android:text="单频测向"
+                            android:textColor="#FFFFFF"
+                            android:textSize="15sp" />
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_gravity="center_vertical"
+                            android:padding="5sp"
+                            android:text="单频测向"
+                            android:textColor="#AAFFFFFF"
+                            android:textSize="12sp" />
+                    </LinearLayout>
                     <View
                         android:layout_width="0sp"
                         android:layout_height="1sp"
                         android:layout_weight="1" />
+                </LinearLayout>
 
+                <LinearLayout
+                    android:id="@+id/history"
+                    android:layout_width="match_parent"
+                    android:layout_height="80sp"
+                    android:layout_marginTop="10sp"
+                    android:background="@drawable/redius_back"
+                    android:orientation="horizontal">
+
+                    <ImageView
+                        android:layout_width="50sp"
+                        android:layout_height="50sp"
+                        android:layout_marginLeft="20sp"
+                        android:layout_gravity="center"
+                        android:src="@drawable/orientation_cion" />
                     <LinearLayout
-                        android:id="@+id/file"
-                        android:layout_width="100sp"
-                        android:layout_height="100sp"
-                        android:layout_marginLeft="0sp"
-                        android:layout_marginTop="0sp"
-                        android:layout_marginBottom="7sp"
-                        android:orientation="vertical"
-                        card_view:cardCornerRadius="4sp"
-                        card_view:cardElevation="6sp">
-
-                        <com.huari.ui.CircleView
-                            android:layout_width="70sp"
-                            android:layout_height="70sp"
-                            android:layout_gravity="center"
-                            android:src="@drawable/file_manager_icon" />
-
+                        android:layout_width="wrap_content"
+                        android:layout_gravity="center_vertical"
+                        android:layout_height="wrap_content"
+                        android:orientation="vertical">
                         <TextView
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:layout_gravity="center_horizontal|bottom"
+                            android:layout_gravity="center_vertical"
                             android:padding="5sp"
-                            android:text="检测站列表"
-                            android:textColor="#000000"
+                            android:text="单频测向"
+                            android:textColor="#FFFFFF"
                             android:textSize="15sp" />
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_gravity="center_vertical"
+                            android:padding="5sp"
+                            android:text="单频测向"
+                            android:textColor="#AAFFFFFF"
+                            android:textSize="12sp" />
                     </LinearLayout>
-
                     <View
                         android:layout_width="0sp"
                         android:layout_height="1sp"
-                        android:layout_weight="1" />
-
+                        android:layout_weight="0.5" />
                     <LinearLayout
-                        android:id="@+id/file_b"
-                        android:layout_width="100sp"
-                        android:layout_height="100sp"
-                        android:layout_marginTop="0sp"
-                        android:layout_marginRight="0sp"
-                        android:layout_marginBottom="7sp"
-                        android:orientation="vertical"
-                        card_view:cardCornerRadius="4sp"
-                        card_view:cardElevation="6sp">
-
-                        <com.huari.ui.CircleView
-                            android:layout_width="70sp"
-                            android:layout_height="70sp"
-                            android:layout_gravity="center"
-                            android:src="@drawable/file_manager_icon" />
-
+                        android:layout_width="wrap_content"
+                        android:layout_gravity="center_vertical"
+                        android:layout_height="wrap_content"
+                        android:orientation="vertical">
                         <TextView
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:layout_gravity="center_horizontal|bottom"
+                            android:layout_gravity="center_vertical"
                             android:padding="5sp"
-                            android:text="动环模块"
-                            android:textColor="#000000"
+                            android:text="单频测向"
+                            android:textColor="#FFFFFF"
                             android:textSize="15sp" />
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_gravity="center_vertical"
+                            android:padding="5sp"
+                            android:text="单频测向"
+                            android:textColor="#AAFFFFFF"
+                            android:textSize="12sp" />
                     </LinearLayout>
-
                     <View
                         android:layout_width="0sp"
                         android:layout_height="1sp"
@@ -211,7 +255,13 @@
 
                 <View
                     android:layout_width="1dp"
-                    android:layout_height="90sp" />
+                    android:layout_height="20sp" />
+
+                <androidx.recyclerview.widget.RecyclerView
+                    android:id="@+id/rv"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:background="@drawable/redius_back" />
             </LinearLayout>
         </ScrollView>
     </LinearLayout>

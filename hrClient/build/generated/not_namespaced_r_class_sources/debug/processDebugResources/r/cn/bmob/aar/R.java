@@ -47,7 +47,7 @@ public final class R {
     public static final class layout {
         private layout() {}
 
-        public static final int bmob_update_dialog = 0x7f0c004e;
+        public static final int bmob_update_dialog = 0x7f0c004f;
     }
     public static final class string {
         private string() {}

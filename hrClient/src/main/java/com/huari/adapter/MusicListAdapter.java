@@ -18,7 +18,11 @@ import com.huari.client.PlayerActivity;
 import com.huari.client.R;
 
 import com.huari.dataentry.HistoryDataDescripe;
+import com.huari.dataentry.MessageEvent;
+import com.huari.dataentry.recentContent;
 
+
+import org.greenrobot.eventbus.EventBus;
 
 import java.io.File;
 import java.text.DecimalFormat;
@@ -138,13 +142,20 @@ public class MusicListAdapter extends RecyclerView.Adapter<MusicListAdapter.view
                 case "PD":
                     intent = new Intent(context, HistoryPinDuanActivity.class);
                     break;
+                case "REC":
+                    intent = new Intent(context, PlayerActivity.class);
+                    break;
                 default:
                     intent = new Intent(context, PlayerActivity.class);
                     break;
             }
 //            Bundle bundle = new Bundle();
-            intent.putExtra("filename", files.get(position).getName());
-            intent.putExtra("from", "history");
+            if (type == "REC") {
+                EventBus.getDefault().postSticky(new MessageEvent(files.get(position).getAbslitPath(),position));
+            }else {
+                intent.putExtra("filename", files.get(position).getName());
+                intent.putExtra("from", "history");
+            }
             context.startActivity(intent);
         });
         holder.linearLayout.setOnLongClickListener(v -> {

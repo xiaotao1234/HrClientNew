@@ -21,7 +21,7 @@ public class HistoryListActivity extends AppCompatActivity {
     public static String DF = "DF";
     public static String AN = "AN";
     public static String PD = "PD";
-    public static String MU = "MU";
+    public static String REC = "REC";
     private String i = "DF";
 
     TextView top;
@@ -52,7 +52,7 @@ public class HistoryListActivity extends AppCompatActivity {
             case "PD":
                 top.setText("频段扫描");
                 break;
-            case "MU":
+            case "REC":
                 top.setText("音频");
                 break;
             default:

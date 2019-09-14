@@ -20,6 +20,7 @@ import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
+import java.io.IOException;
 import java.io.InputStream;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
@@ -30,6 +31,7 @@ import java.util.List;
 import java.util.Stack;
 
 import static android.content.Context.MODE_PRIVATE;
+import static com.huari.Base.AnalysisBase.audioBuffersize;
 
 /**
  *
@@ -52,67 +54,12 @@ public class FileOsImpl {
     public static String forSaveFloder = Environment.getExternalStorageDirectory().getAbsolutePath();
     private Thread thread;
     public int MUSIC = 0, WORD = 1, EXCEL = 2;
+    private static long AUDIO_SAMPLE_RATE = 44100;
+    private static int  AUDIO_CHANNL = 2;
     private static List<recentContent> list;
 
     public FileOsImpl() {
     }
-
-//    public class recentContent implements Serializable {
-//        private String file;
-//        private String filename;
-//        private int type;
-//
-//        public String getFilename() {
-//            return filename;
-//        }
-//
-//        public void setFilename(String filename) {
-//            this.filename = filename;
-//        }
-//
-//        public recentContent(String file, String filename, int type) {
-//            this.file = file;
-//            this.type = type;
-//            this.filename = filename;
-//        }
-//
-//        public void setFile(String file) {
-//            this.file = file;
-//        }
-//
-//        public void setType(int type) {
-//            this.type = type;
-//        }
-//
-//        public String getFile() {
-//
-//            return file;
-//        }
-//
-//        public int getType() {
-//            return type;
-//        }
-//
-//        @Override
-//        public int hashCode() {
-//            return file.hashCode();
-//        }
-//
-//        @Override
-//        public boolean equals(Object obj) {
-//            if (obj instanceof recentContent) {
-//                String a = ((recentContent) obj).getFile();
-//
-//                return file == ((recentContent) obj).getFile();
-//            }
-//            return false;
-//        }
-//
-//        @Override
-//        public String toString() {
-//            return file + filename + type;
-//        }
-//    }
 
     public static List<recentContent> setRecentUseFiles(List<recentContent> recentUseFiles) {
         if (recentUseFiles == null) {
@@ -151,25 +98,85 @@ public class FileOsImpl {
         }
     }
 
-    /**
-     * @param filename
-     * @param type
-     */
-    public void addRecentFile(String filename, String fileOnlyName, int type) {
-//        if (!recentUseFiles.contains(new recentContent(filename, fileOnlyName, type))){
-//            if (recentUseFiles.size() > 100) {
-        recentUseFiles.add(0, new recentContent(filename, fileOnlyName, type));//Retrieves and removes the head (first element) of this list.
-//                recentUseFiles.remove(100);
-//            } else {
-//                recentUseFiles.add(new recentContent(filename, fileOnlyName, type));
-//            }
-//        }else {
-//            int i = recentUseFiles.indexOf(new recentContent(filename,fileOnlyName,type));
-//            recentContent recentContent = recentUseFiles.remove(i);
-//            recentUseFiles.add(0,recentContent);
-//        }
-        recentUseFiles.add(new recentContent(filename, fileOnlyName, type));
-        SaveRecentUseFiles();
+    public static void copyWaveFile(String inFilename, String outFilename) {
+        FileInputStream in = null;
+        FileOutputStream out = null;
+        long totalAudioLen = 0;
+        long totalDataLen = totalAudioLen + 36;
+        long longSampleRate = AUDIO_SAMPLE_RATE;
+        int channels = AUDIO_CHANNL;
+        long byteRate = 16 * AUDIO_SAMPLE_RATE * channels / 8;
+        byte[] data = new byte[audioBuffersize];
+        try {
+            in = new FileInputStream(inFilename);
+            out = new FileOutputStream(outFilename);
+            totalAudioLen = in.getChannel().size();
+            totalDataLen = totalAudioLen + 36;
+            WriteWaveFileHeader(out, totalAudioLen, totalDataLen,
+                    longSampleRate, channels, byteRate);
+            while (in.read(data) != -1) {
+                out.write(data);
+            }
+            in.close();
+            out.close();
+            new File(inFilename).delete();
+            SysApplication.fileOs.save(outFilename,new File(outFilename).getName(),4);
+        } catch (FileNotFoundException e) {
+            e.printStackTrace();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
+    public static void WriteWaveFileHeader(FileOutputStream out, long totalAudioLen,
+                                     long totalDataLen, long longSampleRate, int channels, long byteRate)
+            throws IOException {
+        byte[] header = new byte[44];
+        header[0] = 'R'; // RIFF/WAVE header
+        header[1] = 'I';
+        header[2] = 'F';
+        header[3] = 'F';
+        header[4] = (byte) (totalDataLen & 0xff);
+        header[5] = (byte) ((totalDataLen >> 8) & 0xff);
+        header[6] = (byte) ((totalDataLen >> 16) & 0xff);
+        header[7] = (byte) ((totalDataLen >> 24) & 0xff);
+        header[8] = 'W';
+        header[9] = 'A';
+        header[10] = 'V';
+        header[11] = 'E';
+        header[12] = 'f'; // 'fmt ' chunk
+        header[13] = 'm';
+        header[14] = 't';
+        header[15] = ' ';
+        header[16] = 16; // 4 bytes: size of 'fmt ' chunk
+        header[17] = 0;
+        header[18] = 0;
+        header[19] = 0;
+        header[20] = 1; // format = 1
+        header[21] = 0;
+        header[22] = (byte) channels;
+        header[23] = 0;
+        header[24] = (byte) (longSampleRate & 0xff);
+        header[25] = (byte) ((longSampleRate >> 8) & 0xff);
+        header[26] = (byte) ((longSampleRate >> 16) & 0xff);
+        header[27] = (byte) ((longSampleRate >> 24) & 0xff);
+        header[28] = (byte) (byteRate & 0xff);
+        header[29] = (byte) ((byteRate >> 8) & 0xff);
+        header[30] = (byte) ((byteRate >> 16) & 0xff);
+        header[31] = (byte) ((byteRate >> 24) & 0xff);
+        header[32] = (byte) (2 * 16 / 8); // block align
+        header[33] = 0;
+        header[34] = 16; // bits per sample
+        header[35] = 0;
+        header[36] = 'd';
+        header[37] = 'a';
+        header[38] = 't';
+        header[39] = 'a';
+        header[40] = (byte) (totalAudioLen & 0xff);
+        header[41] = (byte) ((totalAudioLen >> 8) & 0xff);
+        header[42] = (byte) ((totalAudioLen >> 16) & 0xff);
+        header[43] = (byte) ((totalAudioLen >> 24) & 0xff);
+        out.write(header, 0, 44);
     }
 
     public void save(String filename, String fileOnlyName, int type) {
@@ -235,19 +242,6 @@ public class FileOsImpl {
         } catch (Exception e) {
             e.printStackTrace();
         }
-    }
-
-
-    /**
-     * @return这个方法返回的是至头节点到尾节点时间依次由远到近
-     */
-    public static void getRecentUseFiles() {
-        Thread thread = new Thread(() -> {
-            if (recentUseFiles.size() == 0) {
-                FileOsImpl.setRecentUseFiles(null);
-            }
-        });
-        thread.start();
     }
 
     public static FileOsImpl getInstance() { //单例获取实例

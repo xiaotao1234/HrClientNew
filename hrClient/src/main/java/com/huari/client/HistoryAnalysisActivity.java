@@ -95,6 +95,8 @@ public class HistoryAnalysisActivity extends AnalysisBase {
     ItuAdapterOfListView listAdapter;
     PagerAdapterOfSpectrum spectrumAdapter;
     ListView itulistview;
+    TextView alllength;
+    TextView readnow;
     LinearLayout ituLinearLayout;
     ArrayList<View> viewlist;
 
@@ -313,6 +315,8 @@ public class HistoryAnalysisActivity extends AnalysisBase {
         contorl = findViewById(R.id.play_control);
         previousButton = findViewById(R.id.previous_button);
         nextButton = findViewById(R.id.next_button);
+        alllength = findViewById(R.id.music_length);
+        readnow = findViewById(R.id.play_plan);
         previousButton.setOnClickListener(v -> RealTimeSaveAndGetStore.previousFrame(HistoryAnalysisActivity.this));
         nextButton.setOnClickListener(v -> RealTimeSaveAndGetStore.nextFrame(HistoryAnalysisActivity.this));
         contorl.setOnClickListener(v -> RealTimeSaveAndGetStore.pauseOrResume());
@@ -402,6 +406,11 @@ public class HistoryAnalysisActivity extends AnalysisBase {
                     } else if (msg.what == ITUDATA) {
                         listAdapter.notifyDataSetChanged();
                     } else if (msg.what == 121) {
+                        if(first == true){
+                            first = false;
+                            alllength.setText(String.valueOf(RealTimeSaveAndGetStore.allLength));
+                        }
+                        readnow.setText(String.valueOf(RealTimeSaveAndGetStore.allLength-RealTimeSaveAndGetStore.available));
                         customProgress.setProgress((Integer) msg.obj);
                     }else if(msg.what ==34){
                         AfterGetStation((Station) msg.obj);
@@ -415,6 +424,7 @@ public class HistoryAnalysisActivity extends AnalysisBase {
         };
         RealTimeSaveAndGetStore.deserializeFlyPig(filename,handle);
     }
+    boolean first = true;
 
     private void AfterGetStation(Station stationF) {
         ArrayList<MyDevice> am = stationF.devicelist;
@@ -483,6 +493,7 @@ public class HistoryAnalysisActivity extends AnalysisBase {
     protected void onPause() {
         wl.release();
         super.onPause();
+        RealTimeSaveAndGetStore.StopFlag = false;
         ByteFileIoUtils.runFlag = false;
     }
 

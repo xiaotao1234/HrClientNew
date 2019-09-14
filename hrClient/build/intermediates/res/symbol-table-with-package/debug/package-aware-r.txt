@@ -1206,6 +1206,7 @@ drawable ditu
 drawable down
 drawable e
 drawable edit_back
+drawable edit_background_write
 drawable edit_search_bg
 drawable edittextback
 drawable expandableselector
@@ -1292,6 +1293,7 @@ drawable notification_template_icon_bg
 drawable notification_template_icon_low_bg
 drawable notification_tile_bg
 drawable notify_panel_notification_icon_bg
+drawable offline_top
 drawable orientation_cion
 drawable orientation_cion1
 drawable orientation_icon
@@ -1312,6 +1314,7 @@ drawable saomiao
 drawable scan_icon
 drawable search
 drawable search_data
+drawable search_offline
 drawable selector_pickerview_btn
 drawable server_manager_icon
 drawable set_icon
@@ -1466,6 +1469,9 @@ id custompinpuset
 id danp_history
 id danpin
 id danpin_history
+id danpin_mem
+id danpin_new
+id danpin_size
 id data_get_danpin
 id day
 id dayofweek
@@ -1516,6 +1522,7 @@ id expanded_menu
 id extrainfo
 id fd
 id file
+id file11
 id file_b
 id file_box
 id file_diecetory
@@ -1553,6 +1560,7 @@ id headimage
 id headimage1
 id headname
 id hint
+id history
 id history_list
 id home
 id homeAsUp
@@ -1690,6 +1698,7 @@ id notification_main_column
 id notification_main_column_container
 id nsv
 id num
+id offline_scroll
 id options1
 id options2
 id options3
@@ -1712,7 +1721,11 @@ id part1
 id partview
 id percent
 id perlistview
+id pie_show_precent
 id pin
+id pinduan_mem
+id pinduan_new
+id pinduan_size
 id pinduanadvanced
 id pinduangeneralandadvancedset
 id pinduanhead
@@ -1722,6 +1735,9 @@ id pinduannormal
 id pinduanset
 id pinduanstart
 id pinpu_history
+id pinpu_mem
+id pinpu_new
+id pinpu_size
 id pinpufx
 id pl
 id planfirstrb
@@ -1984,6 +2000,9 @@ id wrap_content
 id xh
 id xiang
 id year
+id yinpin_mem
+id yinpin_new
+id yinpin_size
 id zanting1
 id zhengbei
 id zhiliang
@@ -2061,6 +2080,7 @@ layout activity_login2
 layout activity_main02
 layout activity_main2
 layout activity_main3
+layout activity_main31
 layout activity_major
 layout activity_map_showing
 layout activity_music_list
@@ -2378,6 +2398,7 @@ string title_activity_test
 string title_activity_unmaned_stations
 string title_activity_welcome
 string tongjimode
+string unknow
 string zhongxinpinlv
 style AVLoadingIndicatorView
 style AVLoadingIndicatorView_Large

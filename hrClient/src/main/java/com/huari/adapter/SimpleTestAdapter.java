@@ -15,9 +15,13 @@ import android.widget.TextView;
 import com.huari.client.HistoryAnalysisActivity;
 import com.huari.client.HistoryDFActivity;
 import com.huari.client.HistoryPinDuanActivity;
+import com.huari.client.PlayerActivity;
+import com.huari.dataentry.MessageEvent;
 import com.huari.dataentry.recentContent;
 import com.huari.client.R;
 
+
+import org.greenrobot.eventbus.EventBus;
 
 import java.io.File;
 import java.util.List;
@@ -67,13 +71,19 @@ public class SimpleTestAdapter extends RecyclerView.Adapter<SimpleTestAdapter.Te
                 case "频段扫描":
                     intent = new Intent(context, HistoryPinDuanActivity.class);
                     break;
+                case "音频":
+                    intent = new Intent(context, PlayerActivity.class);
+                    break;
                 default:
                     intent = new Intent(context, HistoryDFActivity.class);
                     break;
             }
-//            Bundle bundle = new Bundle();
-            intent.putExtra("filename", new File(recentContent.get(position).getFile()).getName());
-            intent.putExtra("from", "history");
+            if(getTypename(position)=="音频"){
+                EventBus.getDefault().postSticky(new MessageEvent(recentContent.get(position).getFile(),position));
+            }else {
+                intent.putExtra("filename", new File(recentContent.get(position).getFile()).getName());
+                intent.putExtra("from", "history");
+            }
             context.startActivity(intent);
         });
     }
@@ -99,8 +109,11 @@ public class SimpleTestAdapter extends RecyclerView.Adapter<SimpleTestAdapter.Te
             case 3:
                 name = "频段扫描";
                 break;
+            case 4:
+                name = "音频";
+                break;
             default:
-                name = "";
+                name = null;
                 break;
         }
         return name;
