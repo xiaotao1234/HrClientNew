@@ -1,5 +1,7 @@
 package com.huari.dataentry;
 
+import android.graphics.Color;
+
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.LinkedList;
@@ -11,6 +13,7 @@ public class GlobalData {
 	public static Object a = new Object();
 	public static boolean isFirstAudio = true;
 	public static boolean willplay = false;
+	public static boolean show_horiz = false;
 
 	public static class MyUncaughtExceptionHander implements
 			Thread.UncaughtExceptionHandler {
@@ -149,6 +152,29 @@ public class GlobalData {
 		sqBuffer = null;
 		yinzi = null;
 		hin = 0;
+	}
+
+	public static int[] ColorTbl;
+	public static void create_colortbl()
+	{
+		if (ColorTbl == null) {
+			ColorTbl = new int[256];
+			//生成颜色对应表
+			for (int i = 0; i < 256; i++) {
+				if (i < 43)
+					ColorTbl[i] = Color.rgb(0, 0, 255 * (i / 43));
+				if (i >= 43 && i < 87)
+					ColorTbl[i] = Color.rgb(0, 255 * (i - 43) / 43, 255);
+				if (i >= 87 && i < 120)
+					ColorTbl[i] = Color.rgb(0, 255, 255 - (255 * (i - 87) / 32));
+				if (i >= 120 && i < 154)
+					ColorTbl[i] = Color.rgb((255 * (i - 120) / 33), 255, 0);
+				if (i >= 154 && i < 217)
+					ColorTbl[i] = Color.rgb(255, 255 - (255 * (i - 154) / 62), 0);
+				if (i >= 217)
+					ColorTbl[i] = Color.rgb(255, 0, 128 * (i - 217) / 38);
+			}
+		}
 	}
 
 }

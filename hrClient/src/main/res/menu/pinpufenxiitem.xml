@@ -12,7 +12,7 @@
       </item>
       <item android:title="不显示平均值" custompinpu:showAsAction="ifRoom" android:id="@+id/ppfxshowavg" >
       </item>
-      <item android:title="截图" custompinpu:showAsAction="ifRoom" android:id="@+id/capture" >
+      <item android:title="显示瀑布图" custompinpu:showAsAction="ifRoom" android:id="@+id/capture" >
       </item>
       <item android:title="录音" custompinpu:showAsAction="ifRoom" android:id="@+id/recorder" >
       </item>

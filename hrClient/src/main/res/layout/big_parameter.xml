@@ -2,7 +2,7 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:orientation="vertical" >
+    android:orientation="vertical">
 
     <TextView
         android:id="@+id/bigparamtertextview"
@@ -14,7 +14,8 @@
         android:textColor="@color/myblack"
         android:textSize="18sp" />
 
-    <ImageButton android:layout_width="match_parent"
+    <ImageButton
+        android:layout_width="match_parent"
         android:layout_height="1dp"
-        android:background="@android:color/black"/>
+        android:background="@android:color/black" />
 </LinearLayout>

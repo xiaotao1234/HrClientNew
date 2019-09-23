@@ -13,8 +13,8 @@
 
         <ImageView
             android:id="@+id/file_box"
-            android:layout_width="30sp"
-            android:layout_height="30sp"
+            android:layout_width="@dimen/dp_26"
+            android:layout_height="@dimen/dp_26"
             android:layout_gravity="center_vertical"
             android:layout_marginStart="30sp"
             android:src="@drawable/file_icon" />
@@ -32,6 +32,7 @@
                 android:layout_gravity="center"
                 android:textStyle="bold"
                 android:layout_marginStart="10sp"
+                android:textSize="@dimen/dp_11"
                 android:gravity="center_vertical"
                 android:layout_marginTop="10sp"/>
 
@@ -39,6 +40,7 @@
                 android:id="@+id/search_file_directory"
                 android:layout_width="match_parent"
                 android:layout_marginStart="20sp"
+                android:textSize="@dimen/dp_9"
                 android:layout_gravity="center"
                 android:layout_height="wrap_content"
                 android:layout_marginBottom="10sp"/>
@@ -47,10 +49,10 @@
 
         <ImageView
             android:id="@+id/check"
-            android:layout_width="30sp"
-            android:layout_height="30sp"
+            android:layout_width="@dimen/dp_26"
+            android:layout_height="@dimen/dp_26"
             android:layout_gravity="center_vertical"
-            android:layout_marginEnd="40sp"
+            android:layout_marginEnd="@dimen/dp_34"
             android:src="@drawable/not_check_icon"
             android:visibility="invisible" />
     </LinearLayout>

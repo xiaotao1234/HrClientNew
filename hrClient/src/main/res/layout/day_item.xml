@@ -2,7 +2,7 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:id="@+id/recorder_item"
     android:layout_width="match_parent"
-    android:layout_height="60sp"
+    android:layout_height="@dimen/dp_60"
     android:background="@drawable/buttton_change_bg"
     android:orientation="horizontal">
 
@@ -16,14 +16,14 @@
         <!--android:layout_marginStart="29sp"/>-->
         <ImageView
             android:id="@+id/icon"
-            android:layout_width="20sp"
-            android:layout_height="20sp"
+            android:layout_width="@dimen/dp_13"
+            android:layout_height="@dimen/dp_13"
             android:layout_gravity="center"
             android:src="@drawable/circle_bg_month" />
 
         <View
             android:layout_width="match_parent"
-            android:layout_height="1dp"
+            android:layout_height="@dimen/dp_1"
             android:layout_gravity="bottom"
             android:background="#08000000" />
     </FrameLayout>
@@ -38,14 +38,15 @@
             android:layout_width="wrap_content"
             android:layout_height="match_parent"
             android:gravity="center_vertical"
+            android:textColor="#FFFFFF"
             android:text="2019-8-8"
-            android:textSize="14sp"
+            android:textSize="@dimen/dp_11"
             android:transitionName="shareimage" />
 
         <View
             android:layout_width="match_parent"
             android:layout_height="1dp"
             android:layout_alignParentBottom="true"
-            android:background="#11000000" />
+            android:background="#33FFFFFF" />
     </RelativeLayout>
 </LinearLayout>

@@ -11,8 +11,8 @@ import android.os.Build;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
-import android.util.Log;
 import android.view.View;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
@@ -30,14 +30,18 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class Main3Activity extends AppCompatActivity {
-    TagCloudView tagCloudView;
-    RecyclerView rv;
     SimpleTestAdapter simpleTestAdapter;
-    LinearLayout historylayout;
+    NestedScrollView nestedScrollView;
+    LinearLayout pinpulayout;
+    LinearLayout danpinLayout;
+    LinearLayout pinduanLayout;
+    LinearLayout musicLayout;
     LinearLayout fileLayout;
     pieLineView pieLineView;
-    NestedScrollView nestedScrollView;
+    TagCloudView tagCloudView;
+    RecyclerView rv;
 
+    ImageView back;
     TextView danpinSize;
     TextView pinduanSize;
     TextView pinpuSize;
@@ -58,6 +62,11 @@ public class Main3Activity extends AppCompatActivity {
     List<String> pinduanAll;
     List<String> musicAll;
 
+    private String danpinlength;
+    private String pinpulength;
+    private String pinduanlength;
+    private String yinpinlength;
+
     Handler handler = new Handler() {
         @Override
         public void handleMessage(Message msg) {
@@ -69,14 +78,10 @@ public class Main3Activity extends AppCompatActivity {
             }
             final TagCloudAdapter adapter = new TagCloudAdapter(list, rv);
             tagCloudView.setAdapter(adapter);
-            initData(list);
+            tagCloudView.setBackgroundColor(Color.parseColor("#00000000"));
         }
     };
-    private String danpinlength;
-    private String pinpulength;
-    private String pinduanlength;
-    private String yinpinlength;
-
+    private Intent intent;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -90,6 +95,25 @@ public class Main3Activity extends AppCompatActivity {
             getWindow().setStatusBarColor(Color.TRANSPARENT);
         }
         initView();
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        List<recentContent> listFile = new ArrayList<>();
+        File file1 = new File(FileOsImpl.forSaveFloder + File.separator + "data");
+        for (File file : file1.listFiles()) {
+            if (file.getName().contains("DF")) {
+                listFile.add(new recentContent(file.getAbsolutePath(), file.getName(), 1));
+            } else if (file.getName().contains("AN")) {
+                listFile.add(new recentContent(file.getAbsolutePath(), file.getName(), 2));
+            } else if (file.getName().contains("PD")) {
+                listFile.add(new recentContent(file.getAbsolutePath(), file.getName(), 3));
+            } else if (file.getName().contains("REC")) {
+                listFile.add(new recentContent(file.getAbsolutePath(), file.getName(), 4));
+            }
+        }
+        initData(listFile);
     }
 
     private void initData(List<recentContent> list) {
@@ -153,17 +177,40 @@ public class Main3Activity extends AppCompatActivity {
         pinduanMem.setText("共占用" + pinduanlength + "空间");
         yinpinMem.setText("共占用" + yinpinlength + "空间");
 
-        danpinNew.setText("最新：" + (danpinAll.size()!=0?(new File(danpinAll.get(0)).getName()):""));
-        pinpuNew.setText("最新：" + (pinpuAll.size()!=0?(new File(pinpuAll.get(0)).getName()):""));
-        pinduanNew.setText("最新：" + (pinduanAll.size()!=0?(new File(pinduanAll.get(0)).getName()):""));
-        yinpinNew.setText("最新：" + (musicAll.size()!=0?(new File(musicAll.get(0)).getName()):"无"));
+        danpinNew.setText("最新：" + (danpinAll.size() != 0 ? (new File(danpinAll.get(0)).getName()) : ""));
+        pinpuNew.setText("最新：" + (pinpuAll.size() != 0 ? (new File(pinpuAll.get(0)).getName()) : ""));
+        pinduanNew.setText("最新：" + (pinduanAll.size() != 0 ? (new File(pinduanAll.get(0)).getName()) : ""));
+        yinpinNew.setText("最新：" + (musicAll.size() != 0 ? (new File(musicAll.get(0)).getName()) : "无"));
+
+        list = new ArrayList<>();
+        stringList = new ArrayList<>();
+        if (danpinAll.size() != 0) {
+            stringList.add("单频测量");
+            list.add(danpinAll.size());
+        }
+        if (pinpuAll.size() != 0) {
+            stringList.add("频谱分析");
+            list.add(pinpuAll.size());
+        }
+        if (pinduanAll.size() != 0) {
+            stringList.add("频段扫描");
+            list.add(pinduanAll.size());
+        }
+        if (musicAll.size() != 0) {
+            stringList.add("音频回放");
+            list.add(musicAll.size());
+        }
+        pieLineView.setList(list, stringList);
     }
 
     private void initView() {
         nestedScrollView = findViewById(R.id.offline_scroll);
-        historylayout = findViewById(R.id.history);
+        pinpulayout = findViewById(R.id.pinpu_layout);
+        danpinLayout = findViewById(R.id.danpin_layout);
+        pinduanLayout = findViewById(R.id.pinduan_layout);
+        musicLayout = findViewById(R.id.music_layout);
+        fileLayout = findViewById(R.id.file_layout);
         tagCloudView = findViewById(R.id.tag_cloud);
-        fileLayout = findViewById(R.id.file);
         pieLineView = findViewById(R.id.pie_show_precent);
 
         danpinSize = findViewById(R.id.danpin_size);
@@ -181,26 +228,20 @@ public class Main3Activity extends AppCompatActivity {
         pinduanNew = findViewById(R.id.pinduan_new);
         yinpinNew = findViewById(R.id.yinpin_new);
 
-        tagCloudView.setBackgroundColor(Color.parseColor("#00000000"));
+//        back = findViewById(R.id.imageview_back);
+
+        danpinLayout.setOnClickListener(v -> click(HistoryListActivity.DF));
+        pinpulayout.setOnClickListener(v -> click(HistoryListActivity.AN));
+        pinduanLayout.setOnClickListener(v -> click(HistoryListActivity.PD));
+        musicLayout.setOnClickListener(v -> click(HistoryListActivity.REC));
+        fileLayout.setOnClickListener(v -> startActivity(new Intent(Main3Activity.this, FileListActivity.class)));
+//        back.setOnClickListener(v -> finish());
+
         simpleTestAdapter = new SimpleTestAdapter();
         simpleTestAdapter.setContext(this);
         rv = findViewById(R.id.rv);
         rv.setLayoutManager(new LinearLayoutManager(this));
         FileOsImpl.getRecentList(handler); //  请求刷新历史数据
-        historylayout.setOnClickListener(v -> startActivity(new Intent(Main3Activity.this, HistoryDataActivity.class)));
-        fileLayout.setOnClickListener(v -> startActivity(new Intent(Main3Activity.this, FileListActivity.class)));
-
-        list = new ArrayList<>();
-        stringList = new ArrayList<>();
-        stringList.add("单频测量");
-        stringList.add("频段扫描");
-        stringList.add("频谱扫描");
-        stringList.add("音频文件");
-        list.add(20);
-        list.add(60);
-        list.add(40);
-        list.add(70);
-        pieLineView.setList(list, stringList);
     }
 
     public String getSize(long size) {
@@ -247,6 +288,44 @@ public class Main3Activity extends AppCompatActivity {
                 break;
         }
         return String.valueOf(stringBuilder);
+    }
+
+    private void click(String s) {
+        intent = new Intent(Main3Activity.this, HistoryListActivity.class);
+        Bundle bundle = new Bundle();
+        bundle.putString("type", s);
+        intent.putExtras(bundle);
+        startActivity(intent);
+    }
+
+    public static int days(int year, int month) {
+        int days = 0;
+        if (month != 2) {
+            switch (month) {
+                case 1:
+                case 3:
+                case 5:
+                case 7:
+                case 8:
+                case 10:
+                case 12:
+                    days = 31;
+                    break;
+                case 4:
+                case 6:
+                case 9:
+                case 11:
+                    days = 30;
+            }
+        } else {
+            // 闰年
+            if (year % 4 == 0 && year % 100 != 0 || year % 400 == 0)
+                days = 29;
+            else
+                days = 28;
+
+        }
+        return days;
     }
 
 //    private boolean Judgebottom() {

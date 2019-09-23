@@ -1,433 +1,557 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.coordinatorlayout.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    android:id="@+id/coordinatorlayout"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@drawable/bz1">
-
-    <com.google.android.material.appbar.AppBarLayout
-        android:id="@+id/appbarlayout"
+    android:background="@drawable/bz1"
+    android:orientation="vertical">
+    <androidx.coordinatorlayout.widget.CoordinatorLayout
+        android:id="@+id/coordinatorlayout"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:background="#00000000">
+        android:layout_height="match_parent"
+        android:layout_marginBottom="@dimen/dp_42">
 
-        <com.google.android.material.appbar.CollapsingToolbarLayout
-            android:id="@+id/collapsingtoolbar"
+        <com.google.android.material.appbar.AppBarLayout
+            android:id="@+id/appbarlayout"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:background="#00000000"
-            app:contentScrim="#222222"
-            app:layout_scrollFlags="scroll|exitUntilCollapsed|snap">
+            android:background="#00000000">
 
-            <com.huari.ui.TagCloudView
-                android:id="@+id/tag_cloud"
+            <com.google.android.material.appbar.CollapsingToolbarLayout
+                android:id="@+id/collapsingtoolbar"
                 android:layout_width="match_parent"
-                android:layout_height="320sp"
-                android:layout_margin="5sp"
-                app:autoScrollMode="uniform"
-                app:darkColor="#ffffffff"
-                app:lightColor="#FF0000"
-                app:radiusPercent="0.8"
-                app:scrollSpeed="3" />
+                android:layout_height="@dimen/dp_220"
+                android:background="#00000000"
+                app:contentScrim="#222222"
+                app:layout_scrollFlags="scroll|exitUntilCollapsed|snap">
 
-            <androidx.appcompat.widget.Toolbar
-                android:layout_width="match_parent"
-                android:layout_height="?android:attr/actionBarSize"
-                android:contentInsetStart="0dp"
-                app:layout_collapseMode="pin">
+                <com.huari.ui.TagCloudView
+                    android:id="@+id/tag_cloud"
+                    android:layout_width="match_parent"
+                    android:layout_height="@dimen/dp_220"
+                    android:layout_margin="5dp"
+                    app:autoScrollMode="uniform"
+                    app:darkColor="#ffffffff"
+                    app:lightColor="#FF0000"
+                    app:radiusPercent="0.8"
+                    app:scrollSpeed="3" />
 
-                <ImageView
-                    android:id="@+id/imageview_back"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:paddingLeft="5dp"
-                    android:paddingTop="20dp"
-                    android:paddingRight="20dp"
-                    android:paddingBottom="20dp" />
+                <!--<androidx.appcompat.widget.Toolbar-->
+                <!--android:layout_width="match_parent"-->
+                <!--android:layout_height="?android:attr/actionBarSize"-->
+                <!--android:contentInsetStart="0dp"-->
+                <!--app:layout_collapseMode="pin">-->
 
-            </androidx.appcompat.widget.Toolbar>
-        </com.google.android.material.appbar.CollapsingToolbarLayout>
-    </com.google.android.material.appbar.AppBarLayout>
+                <!--<ImageView-->
+                <!--android:id="@+id/imageview_back"-->
+                <!--android:layout_width="wrap_content"-->
+                <!--android:layout_height="wrap_content"-->
+                <!--android:paddingLeft="5dp"-->
+                <!--android:paddingTop="20dp"-->
+                <!--android:paddingRight="20dp"-->
+                <!--android:paddingBottom="20dp"-->
+                <!--android:src="@drawable/back_history" />-->
 
-    <androidx.core.widget.NestedScrollView
-        android:id="@+id/offline_scroll"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:padding="10sp"
-        app:layout_behavior="@string/appbar_scrolling_view_behavior">
+                <!--</androidx.appcompat.widget.Toolbar>-->
+            </com.google.android.material.appbar.CollapsingToolbarLayout>
+        </com.google.android.material.appbar.AppBarLayout>
 
-        <LinearLayout
+        <androidx.core.widget.NestedScrollView
+            android:id="@+id/offline_scroll"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:orientation="vertical">
-
-            <com.huari.ui.pieLineView
-                android:id="@+id/pie_show_precent"
-                android:layout_width="match_parent"
-                android:layout_height="120sp"
-                android:layout_gravity="center_vertical"
-                android:background="@drawable/redius_back" />
-
-            <View
-                android:layout_width="1sp"
-                android:layout_height="0sp"
-                android:layout_weight="1" />
+            android:paddingLeft="10dp"
+            android:paddingTop="10dp"
+            android:paddingRight="10dp"
+            app:layout_behavior="@string/appbar_scrolling_view_behavior">
 
             <LinearLayout
                 android:layout_width="match_parent"
-                android:layout_height="320sp"
-                android:layout_marginTop="10sp"
-                android:orientation="horizontal">
+                android:layout_height="wrap_content"
+                android:orientation="vertical">
 
-                <androidx.recyclerview.widget.RecyclerView
-                    android:id="@+id/rv"
-                    android:layout_width="0dp"
-                    android:layout_height="match_parent"
-                    android:layout_weight="2"
+                <com.huari.ui.pieLineView
+                    android:id="@+id/pie_show_precent"
+                    android:layout_width="match_parent"
+                    android:layout_height="@dimen/dp_80"
+                    android:layout_gravity="center_vertical"
                     android:background="@drawable/redius_back" />
 
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="15dp"
+                    android:layout_marginTop="5dp"
+                    android:layout_marginBottom="5dp"
+                    android:text="数据概况"
+                    android:textColor="#88FFFFFF"
+                    android:textSize="@dimen/dp_9" />
+
                 <LinearLayout
-                    android:layout_width="0dp"
-                    android:layout_height="match_parent"
-                    android:layout_weight="3"
-                    android:orientation="vertical">
+                    android:layout_width="match_parent"
+                    android:layout_height="@dimen/dp_260"
+                    android:orientation="horizontal">
 
-                    <com.huari.ui.statisticalGraph
-                        android:layout_width="match_parent"
-                        android:layout_height="0dp"
-                        android:layout_weight="1"/>
+                    <LinearLayout
+                        android:layout_width="0dp"
+                        android:layout_height="match_parent"
+                        android:layout_weight="2"
+                        android:orientation="vertical">
 
-                    <com.huari.ui.statisticalGraph
-                        android:layout_width="match_parent"
-                        android:layout_height="0dp"
+                        <TextView
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_marginBottom="5dp"
+                            android:gravity="center"
+                            android:text="最近历史数据"
+                            android:textSize="@dimen/dp_9"
+                            android:textColor="#88FFFFFF" />
+
+                        <androidx.recyclerview.widget.RecyclerView
+                            android:id="@+id/rv"
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
+                            android:layout_marginBottom="@dimen/dp_20"
+                            android:background="@drawable/direct_re_back"
+                            android:scrollbars="vertical" />
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:layout_width="0dp"
+                        android:layout_height="match_parent"
+                        android:layout_marginStart="10dp"
+                        android:layout_weight="3"
+                        android:orientation="vertical">
+
+                        <TextView
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_marginBottom="5dp"
+                            android:textSize="@dimen/dp_9"
+                            android:gravity="center"
+                            android:text="最近一周数据统计"
+                            android:textColor="#88FFFFFF" />
+
+                        <com.huari.ui.statisticalGraph
+                            android:id="@+id/week_view"
+                            android:layout_width="match_parent"
+                            android:layout_height="0dp"
+                            android:layout_weight="1" />
+
+                        <TextView
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_marginBottom="5dp"
+                            android:gravity="center"
+                            android:text="月数据统计"
+                            android:textColor="#88FFFFFF"
+                            android:textSize="@dimen/dp_9" />
+
+                        <com.huari.ui.CalendarView
+                            android:id="@+id/month_view"
+                            android:layout_width="match_parent"
+                            android:layout_height="0dp"
+                            android:background="#00FFFFFF"
+                            android:layout_weight="1" />
+
+                    </LinearLayout>
+                </LinearLayout>
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="15dp"
+                    android:layout_marginBottom="5dp"
+                    android:text="数据回放"
+                    android:textColor="#88FFFFFF"
+                    android:textSize="@dimen/dp_9" />
+
+                <LinearLayout
+                    android:id="@+id/danpin_layout"
+                    android:layout_width="match_parent"
+                    android:layout_height="@dimen/dp_55"
+                    android:layout_marginBottom="10dp"
+                    android:background="@drawable/redius_back"
+                    android:orientation="horizontal">
+
+                    <ImageView
+                        android:layout_width="@dimen/dp_40"
+                        android:layout_height="@dimen/dp_40"
+                        android:layout_gravity="center"
+                        android:layout_marginLeft="@dimen/dp_20"
+                        android:src="@drawable/orientation_cion" />
+
+                    <LinearLayout
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center_vertical"
+                        android:orientation="vertical">
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_gravity="center_vertical"
+                            android:padding="5dp"
+                            android:text="单频测向"
+                            android:textColor="#FFFFFF"
+                            android:textSize="@dimen/dp_10" />
+
+                        <TextView
+                            android:id="@+id/danpin_size"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_gravity="center_vertical"
+                            android:padding="5dp"
+                            android:text="@string/unknow"
+                            android:textColor="#AAFFFFFF"
+                            android:textSize="@dimen/dp_8" />
+                    </LinearLayout>
+
+                    <View
+                        android:layout_width="0dp"
+                        android:layout_height="1dp"
+                        android:layout_weight="0.5" />
+
+                    <LinearLayout
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center_vertical"
+                        android:orientation="vertical">
+
+                        <TextView
+                            android:id="@+id/danpin_mem"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_gravity="center_vertical"
+                            android:padding="5dp"
+                            android:text="@string/unknow"
+                            android:textColor="#AAFFFFFF"
+                            android:textSize="@dimen/dp_8" />
+
+                        <TextView
+                            android:id="@+id/danpin_new"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_gravity="center_vertical"
+                            android:padding="5dp"
+                            android:text="@string/unknow"
+                            android:textColor="#AAFFFFFF"
+                            android:textSize="@dimen/dp_8" />
+                    </LinearLayout>
+
+                    <View
+                        android:layout_width="0dp"
+                        android:layout_height="1dp"
                         android:layout_weight="1" />
+                </LinearLayout>
+
+                <LinearLayout
+                    android:id="@+id/pinpu_layout"
+                    android:layout_width="match_parent"
+                    android:layout_height="@dimen/dp_55"
+                    android:layout_marginBottom="10dp"
+                    android:background="@drawable/redius_back"
+                    android:orientation="horizontal">
+
+                    <ImageView
+                        android:layout_width="@dimen/dp_40"
+                        android:layout_height="@dimen/dp_40"
+                        android:layout_gravity="center"
+                        android:layout_marginLeft="@dimen/dp_20"
+                        android:src="@drawable/orientation_cion" />
+
+                    <LinearLayout
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center_vertical"
+                        android:orientation="vertical">
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_gravity="center_vertical"
+                            android:padding="5dp"
+                            android:text="频谱分析"
+                            android:textColor="#FFFFFF"
+                            android:textSize="@dimen/dp_10" />
+
+                        <TextView
+                            android:id="@+id/pinpu_size"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_gravity="center_vertical"
+                            android:padding="5dp"
+                            android:text="@string/unknow"
+                            android:textColor="#AAFFFFFF"
+                            android:textSize="@dimen/dp_8" />
+                    </LinearLayout>
+
+                    <View
+                        android:layout_width="0dp"
+                        android:layout_height="1dp"
+                        android:layout_weight="0.5" />
+
+                    <LinearLayout
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center_vertical"
+                        android:orientation="vertical">
+
+                        <TextView
+                            android:id="@+id/pinpu_mem"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_gravity="center_vertical"
+                            android:padding="5dp"
+                            android:text="@string/unknow"
+                            android:textColor="#AAFFFFFF"
+                            android:textSize="@dimen/dp_8" />
+
+                        <TextView
+                            android:id="@+id/pinpu_new"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_gravity="center_vertical"
+                            android:padding="5dp"
+                            android:text="@string/unknow"
+                            android:textColor="#AAFFFFFF"
+                            android:textSize="@dimen/dp_9" />
+                    </LinearLayout>
+
+                    <View
+                        android:layout_width="0dp"
+                        android:layout_height="1dp"
+                        android:layout_weight="1" />
+                </LinearLayout>
+
+                <LinearLayout
+                    android:id="@+id/pinduan_layout"
+                    android:layout_width="match_parent"
+                    android:layout_height="@dimen/dp_55"
+                    android:layout_marginBottom="10dp"
+                    android:background="@drawable/redius_back"
+                    android:orientation="horizontal">
+
+                    <ImageView
+                        android:layout_width="@dimen/dp_40"
+                        android:layout_height="@dimen/dp_40"
+                        android:layout_gravity="center"
+                        android:layout_marginLeft="@dimen/dp_20"
+                        android:src="@drawable/orientation_cion" />
+
+                    <LinearLayout
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center_vertical"
+                        android:orientation="vertical">
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_gravity="center_vertical"
+                            android:padding="5dp"
+                            android:text="频段扫描"
+                            android:textColor="#FFFFFF"
+                            android:textSize="@dimen/dp_10" />
+
+                        <TextView
+                            android:id="@+id/pinduan_size"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_gravity="center_vertical"
+                            android:padding="5dp"
+                            android:text="@string/unknow"
+                            android:textColor="#AAFFFFFF"
+                            android:textSize="@dimen/dp_8" />
+                    </LinearLayout>
+
+                    <View
+                        android:layout_width="0dp"
+                        android:layout_height="1dp"
+                        android:layout_weight="0.5" />
+
+                    <LinearLayout
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center_vertical"
+                        android:orientation="vertical">
+
+                        <TextView
+                            android:id="@+id/pinduan_mem"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_gravity="center_vertical"
+                            android:padding="5dp"
+                            android:text="@string/unknow"
+                            android:textColor="#AAFFFFFF"
+                            android:textSize="@dimen/dp_8" />
+
+                        <TextView
+                            android:id="@+id/pinduan_new"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_gravity="center_vertical"
+                            android:padding="5dp"
+                            android:text="@string/unknow"
+                            android:textColor="#AAFFFFFF"
+                            android:textSize="@dimen/dp_8" />
+                    </LinearLayout>
+
+                    <View
+                        android:layout_width="0dp"
+                        android:layout_height="1dp"
+                        android:layout_weight="1" />
+                </LinearLayout>
+
+                <LinearLayout
+                    android:id="@+id/music_layout"
+                    android:layout_width="match_parent"
+                    android:layout_height="@dimen/dp_55"
+                    android:layout_marginBottom="10dp"
+                    android:background="@drawable/redius_back"
+                    android:orientation="horizontal">
+
+                    <ImageView
+                        android:layout_width="@dimen/dp_40"
+                        android:layout_height="@dimen/dp_40"
+                        android:layout_gravity="center"
+                        android:layout_marginLeft="@dimen/dp_20"
+                        android:src="@drawable/orientation_cion" />
+
+                    <LinearLayout
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center_vertical"
+                        android:orientation="vertical">
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_gravity="center_vertical"
+                            android:padding="5dp"
+                            android:text="音频数据"
+                            android:textColor="#FFFFFF"
+                            android:textSize="@dimen/dp_10" />
+
+                        <TextView
+                            android:id="@+id/yinpin_size"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_gravity="center_vertical"
+                            android:padding="5dp"
+                            android:text="@string/unknow"
+                            android:textColor="#AAFFFFFF"
+                            android:textSize="@dimen/dp_8" />
+                    </LinearLayout>
+
+                    <View
+                        android:layout_width="0dp"
+                        android:layout_height="1dp"
+                        android:layout_weight="0.5" />
+
+                    <LinearLayout
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center_vertical"
+                        android:orientation="vertical">
+
+                        <TextView
+                            android:id="@+id/yinpin_mem"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_gravity="center_vertical"
+                            android:padding="5dp"
+                            android:text="@string/unknow"
+                            android:textColor="#AAFFFFFF"
+                            android:textSize="@dimen/dp_8" />
+
+                        <TextView
+                            android:id="@+id/yinpin_new"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_gravity="center_vertical"
+                            android:padding="5dp"
+                            android:text="@string/unknow"
+                            android:textColor="#AAFFFFFF"
+                            android:textSize="@dimen/dp_8" />
+                    </LinearLayout>
+
+                    <View
+                        android:layout_width="0dp"
+                        android:layout_height="1dp"
+                        android:layout_weight="1" />
+                </LinearLayout>
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="15dp"
+                    android:layout_marginTop="5dp"
+                    android:layout_marginBottom="5dp"
+                    android:text="工具"
+                    android:textColor="#88FFFFFF"
+                    android:textSize="9dp" />
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="@dimen/dp_70"
+                    android:layout_marginBottom="@dimen/dp_75"
+                    android:background="@drawable/redius_back"
+                    android:orientation="horizontal">
+
+                    <LinearLayout
+                        android:id="@+id/file_layout"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center_vertical"
+                        android:layout_marginStart="@dimen/dp_25"
+                        android:background="@drawable/button_bg_write"
+                        android:orientation="vertical">
+
+                        <ImageView
+                            android:layout_width="@dimen/dp_25"
+                            android:layout_height="@dimen/dp_25"
+                            android:layout_gravity="center_horizontal"
+                            android:src="@drawable/file" />
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="5dp"
+                            android:text="文件管理"
+                            android:textColor="#FFFFFF"
+                            android:textSize="@dimen/dp_8" />
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:id="@+id/downoad_offlinemap"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center_vertical"
+                        android:layout_marginStart="@dimen/dp_30"
+                        android:background="@drawable/button_bg_write"
+                        android:orientation="vertical">
+
+                        <ImageView
+                            android:layout_width="@dimen/dp_25"
+                            android:layout_height="@dimen/dp_25"
+                            android:layout_gravity="center_horizontal"
+                            android:src="@drawable/down_off_map" />
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="5dp"
+                            android:text="地图下载"
+                            android:textColor="#FFFFFF"
+                            android:textSize="@dimen/dp_8" />
+                    </LinearLayout>
 
                 </LinearLayout>
+
             </LinearLayout>
 
-            <LinearLayout
-                android:id="@+id/file"
-                android:layout_width="match_parent"
-                android:layout_height="80sp"
-                android:layout_marginTop="10sp"
-                android:background="@drawable/redius_back"
-                android:orientation="horizontal">
+        </androidx.core.widget.NestedScrollView>
 
-                <ImageView
-                    android:layout_width="50sp"
-                    android:layout_height="50sp"
-                    android:layout_gravity="center"
-                    android:layout_marginLeft="20sp"
-                    android:src="@drawable/orientation_cion" />
-
-                <LinearLayout
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_gravity="center_vertical"
-                    android:orientation="vertical">
-
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_gravity="center_vertical"
-                        android:padding="5sp"
-                        android:text="单频测向"
-                        android:textColor="#FFFFFF"
-                        android:textSize="15sp" />
-
-                    <TextView
-                        android:id="@+id/danpin_size"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_gravity="center_vertical"
-                        android:padding="5sp"
-                        android:text="@string/unknow"
-                        android:textColor="#AAFFFFFF"
-                        android:textSize="12sp" />
-                </LinearLayout>
-
-                <View
-                    android:layout_width="0sp"
-                    android:layout_height="1sp"
-                    android:layout_weight="0.5" />
-
-                <LinearLayout
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_gravity="center_vertical"
-                    android:orientation="vertical">
-
-                    <TextView
-                        android:id="@+id/danpin_mem"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_gravity="center_vertical"
-                        android:padding="5sp"
-                        android:text="@string/unknow"
-                        android:textColor="#AAFFFFFF"
-                        android:textSize="12sp" />
-
-                    <TextView
-                        android:id="@+id/danpin_new"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_gravity="center_vertical"
-                        android:padding="5sp"
-                        android:text="@string/unknow"
-                        android:textColor="#AAFFFFFF"
-                        android:textSize="12sp" />
-                </LinearLayout>
-
-                <View
-                    android:layout_width="0sp"
-                    android:layout_height="1sp"
-                    android:layout_weight="1" />
-            </LinearLayout>
-
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="80sp"
-                android:layout_marginTop="10sp"
-                android:background="@drawable/redius_back"
-                android:orientation="horizontal">
-
-                <ImageView
-                    android:layout_width="50sp"
-                    android:layout_height="50sp"
-                    android:layout_gravity="center"
-                    android:layout_marginLeft="20sp"
-                    android:src="@drawable/orientation_cion" />
-
-                <LinearLayout
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_gravity="center_vertical"
-                    android:orientation="vertical">
-
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_gravity="center_vertical"
-                        android:padding="5sp"
-                        android:text="频谱分析"
-                        android:textColor="#FFFFFF"
-                        android:textSize="15sp" />
-
-                    <TextView
-                        android:id="@+id/pinpu_size"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_gravity="center_vertical"
-                        android:padding="5sp"
-                        android:text="@string/unknow"
-                        android:textColor="#AAFFFFFF"
-                        android:textSize="12sp" />
-                </LinearLayout>
-
-                <View
-                    android:layout_width="0sp"
-                    android:layout_height="1sp"
-                    android:layout_weight="0.5" />
-
-                <LinearLayout
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_gravity="center_vertical"
-                    android:orientation="vertical">
-
-                    <TextView
-                        android:id="@+id/pinpu_mem"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_gravity="center_vertical"
-                        android:padding="5sp"
-                        android:text="@string/unknow"
-                        android:textColor="#AAFFFFFF"
-                        android:textSize="12sp" />
-
-                    <TextView
-                        android:id="@+id/pinpu_new"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_gravity="center_vertical"
-                        android:padding="5sp"
-                        android:text="@string/unknow"
-                        android:textColor="#AAFFFFFF"
-                        android:textSize="12sp" />
-                </LinearLayout>
-
-                <View
-                    android:layout_width="0sp"
-                    android:layout_height="1sp"
-                    android:layout_weight="1" />
-            </LinearLayout>
-
-            <LinearLayout
-                android:id="@+id/history"
-                android:layout_width="match_parent"
-                android:layout_height="80sp"
-                android:layout_marginTop="10sp"
-                android:background="@drawable/redius_back"
-                android:orientation="horizontal">
-
-                <ImageView
-                    android:layout_width="50sp"
-                    android:layout_height="50sp"
-                    android:layout_gravity="center"
-                    android:layout_marginLeft="20sp"
-                    android:src="@drawable/orientation_cion" />
-
-                <LinearLayout
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_gravity="center_vertical"
-                    android:orientation="vertical">
-
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_gravity="center_vertical"
-                        android:padding="5sp"
-                        android:text="频段扫描"
-                        android:textColor="#FFFFFF"
-                        android:textSize="15sp" />
-
-                    <TextView
-                        android:id="@+id/pinduan_size"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_gravity="center_vertical"
-                        android:padding="5sp"
-                        android:text="@string/unknow"
-                        android:textColor="#AAFFFFFF"
-                        android:textSize="12sp" />
-                </LinearLayout>
-
-                <View
-                    android:layout_width="0sp"
-                    android:layout_height="1sp"
-                    android:layout_weight="0.5" />
-
-                <LinearLayout
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_gravity="center_vertical"
-                    android:orientation="vertical">
-
-                    <TextView
-                        android:id="@+id/pinduan_mem"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_gravity="center_vertical"
-                        android:padding="5sp"
-                        android:text="@string/unknow"
-                        android:textColor="#AAFFFFFF"
-                        android:textSize="12sp" />
-
-                    <TextView
-                        android:id="@+id/pinduan_new"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_gravity="center_vertical"
-                        android:padding="5sp"
-                        android:text="@string/unknow"
-                        android:textColor="#AAFFFFFF"
-                        android:textSize="12sp" />
-                </LinearLayout>
-
-                <View
-                    android:layout_width="0sp"
-                    android:layout_height="1sp"
-                    android:layout_weight="1" />
-            </LinearLayout>
-
-            <LinearLayout
-                android:id="@+id/file11"
-                android:layout_width="match_parent"
-                android:layout_height="80sp"
-                android:layout_marginTop="10sp"
-                android:background="@drawable/redius_back"
-                android:orientation="horizontal">
-
-                <ImageView
-                    android:layout_width="50sp"
-                    android:layout_height="50sp"
-                    android:layout_gravity="center"
-                    android:layout_marginLeft="20sp"
-                    android:src="@drawable/orientation_cion" />
-
-                <LinearLayout
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_gravity="center_vertical"
-                    android:orientation="vertical">
-
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_gravity="center_vertical"
-                        android:padding="5sp"
-                        android:text="音频回放"
-                        android:textColor="#FFFFFF"
-                        android:textSize="15sp" />
-
-                    <TextView
-                        android:id="@+id/yinpin_size"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_gravity="center_vertical"
-                        android:padding="5sp"
-                        android:text="@string/unknow"
-                        android:textColor="#AAFFFFFF"
-                        android:textSize="12sp" />
-                </LinearLayout>
-
-                <View
-                    android:layout_width="0sp"
-                    android:layout_height="1sp"
-                    android:layout_weight="0.5" />
-
-                <LinearLayout
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_gravity="center_vertical"
-                    android:orientation="vertical">
-
-                    <TextView
-                        android:id="@+id/yinpin_mem"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_gravity="center_vertical"
-                        android:padding="5sp"
-                        android:text="@string/unknow"
-                        android:textColor="#AAFFFFFF"
-                        android:textSize="12sp" />
-
-                    <TextView
-                        android:id="@+id/yinpin_new"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_gravity="center_vertical"
-                        android:padding="5sp"
-                        android:text="@string/unknow"
-                        android:textColor="#AAFFFFFF"
-                        android:textSize="12sp" />
-                </LinearLayout>
-
-                <View
-                    android:layout_width="0sp"
-                    android:layout_height="1sp"
-                    android:layout_weight="1" />
-            </LinearLayout>
-
-
-            <View
-                android:layout_width="1dp"
-                android:layout_height="20sp" />
-
-        </LinearLayout>
-
-    </androidx.core.widget.NestedScrollView>
-
-</androidx.coordinatorlayout.widget.CoordinatorLayout>
+    </androidx.coordinatorlayout.widget.CoordinatorLayout>
+</LinearLayout>

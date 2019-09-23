@@ -8,14 +8,15 @@ public class Station implements Serializable {
 
 	public byte isCenter;
 	public String centerName;
+
 	public String id;
+
 	public String parentId;
 	public String name;
 	public float lon;
 	public float lan;
 	public ArrayList<MyDevice> devicelist;  //
 	public ArrayList<MyDevice> showdevicelist;  //
-
 	public byte getIsCenter() {
 		return isCenter;
 	}

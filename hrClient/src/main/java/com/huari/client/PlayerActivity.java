@@ -8,8 +8,10 @@ import android.media.MediaPlayer;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
+
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
+
 import android.util.Log;
 import android.view.View;
 import android.widget.ImageView;
@@ -92,7 +94,9 @@ public class PlayerActivity extends AppCompatActivity {
     @Subscribe(threadMode = ThreadMode.MAIN, sticky = true)
     public void onMoonEvent(MessageEvent messageEvent) {
         fileName = messageEvent.getMessageString();
+        Log.d("xiaoxiao", fileName);
 //        SysApplication.fileOs.addRecentFile(fileName,0);
+        Log.d("xiaoxiao", "comecome");
         filePosition = messageEvent.getFilePosition();
     }
 

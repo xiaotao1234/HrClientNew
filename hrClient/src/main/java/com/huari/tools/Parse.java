@@ -1,10 +1,13 @@
 package com.huari.tools;
 
+import java.io.IOException;
 import java.io.UnsupportedEncodingException;
 
 import java.text.DecimalFormat;
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.concurrent.Executors;
+import java.util.concurrent.ThreadPoolExecutor;
 
 import android.media.AudioTrack;
 
@@ -312,6 +315,9 @@ public class Parse {
                 }
             }// 解析设备结束
             station.devicelist = devicelist;
+            if(FileOsImpl.simpleStations.size()!=0){
+                showdevicelist = recoverSetOfDevice(showdevicelist,station.getId(),station.getName());
+            }
             station.showdevicelist = showdevicelist;
             GlobalData.stationHashMap.put(currentStationId, station);
             Message message = Message.obtain();
@@ -354,6 +360,16 @@ public class Parse {
         // }
         // }
 
+    }
+
+    private static ArrayList<MyDevice> recoverSetOfDevice(ArrayList<MyDevice> devices,String stationid,String stationname) {
+        for(MyDevice device:devices){
+            SimpleStation simpleStation = new SimpleStation(stationname,stationid,device);
+            if(FileOsImpl.simpleStations.contains(simpleStation)){
+                devices.set(devices.indexOf(device),FileOsImpl.simpleStations.get(FileOsImpl.simpleStations.indexOf(simpleStation)).getDevice());
+            }//通过比对找出其中已经被保存在本地的设备的设置，然后本地的替换到设备列表中然后再返回。
+        }
+        return devices;
     }
 
     public static void parseUnManedStation(byte[] b)// 解析无人站
@@ -673,88 +689,15 @@ public class Parse {
                                             framelength);
                                     GlobalData.isFirstAudio = false;
                                 }
-                                synchronized (AnalysisBase.synObject) {
-                                    int leftlength = framelength;
-                                    int costlength = 0;
-
-                                    if (AnalysisBase.tempbufferindex > 0)     // 说明缓存里有数据，
-                                    {
-                                        System.arraycopy(
-                                                AnalysisBase.tempAudioBuffer,
-                                                0,
-                                                AnalysisBase.audioBuffer,
-                                                0,
-                                                AnalysisBase.tempbufferindex);
-                                        AnalysisBase.audioindex += AnalysisBase.tempbufferindex;
-                                        AnalysisBase.tempbufferindex = 0;
+                                byte[] finalSrc = src;
+                                int finalIndex = index;
+                                AnalysisBase.executor.execute(() -> {
+                                    try {
+                                        AudioScadule(finalSrc, finalIndex, framelength);
+                                    } catch (IOException e) {
+                                        e.printStackTrace();
                                     }
-
-                                    if (leftlength < AnalysisBase.audioBuffersize) {
-                                        int minLength = Math
-                                                .min(leftlength,
-                                                        AnalysisBase.audioBuffersize
-                                                                - AnalysisBase.audioindex);
-
-                                        System.arraycopy(src, index + 21,
-                                                AnalysisBase.audioBuffer,
-                                                AnalysisBase.audioindex,
-                                                minLength);
-
-                                        AnalysisBase.audioindex += minLength;
-
-                                        if (AnalysisBase.audioindex >= AnalysisBase.audioBuffersize) {
-                                            AnalysisBase.at.write(AnalysisBase.audioBuffer, 0,
-                                                    AnalysisBase.audioBuffersize);
-                                            if (AnalysisBase.isRecording) {
-                                                AnalysisBase.fos.write(AnalysisBase.audioBuffer);
-                                            }
-
-                                            AnalysisBase.audioindex = 0;
-                                        }
-
-                                        leftlength -= minLength;
-                                        costlength += minLength;
-                                    } else {
-                                        int anum = leftlength / AnalysisBase.audioBuffersize;
-                                        while (anum > 0) {
-                                            int minLength = Math.min(leftlength,
-                                                    AnalysisBase.audioBuffersize
-                                                            - AnalysisBase.audioindex);
-
-                                            System.arraycopy(src, index + 21 + costlength,
-                                                    AnalysisBase.audioBuffer,
-                                                    AnalysisBase.audioindex,
-                                                    minLength);
-
-                                            AnalysisBase.audioindex += minLength;
-
-                                            if (AnalysisBase.audioindex >= AnalysisBase.audioBuffersize) {
-                                                AnalysisBase.at.write(AnalysisBase.audioBuffer, 0,
-                                                        AnalysisBase.audioBuffersize);
-                                                if (AnalysisBase.isRecording) {
-                                                    AnalysisBase.fos.write(AnalysisBase.audioBuffer);
-                                                }
-                                                AnalysisBase.audioindex = 0;
-                                            }
-
-                                            leftlength -= minLength;
-                                            costlength += minLength;
-
-                                            anum = leftlength / AnalysisBase.audioBuffersize;
-                                        }
-
-                                    }
-
-                                    if (leftlength > 0)         // 来的数据有剩余，则缓存起来
-                                    {
-                                        System.arraycopy(
-                                                src,
-                                                index + 21 + costlength,
-                                                AnalysisBase.tempAudioBuffer,
-                                                0, leftlength);
-                                        AnalysisBase.tempbufferindex = leftlength;
-                                    }
-                                }
+                                });
                                 break;
                             case 34:// 因子
                                 int l = MyTools.fourBytesToInt(MyTools
@@ -867,6 +810,90 @@ public class Parse {
             System.gc();
         } catch (Exception e) {
 
+        }
+    }
+
+    private static void AudioScadule(byte[] src, int index, int framelength) throws IOException {
+        synchronized (AnalysisBase.synObject) {
+            int leftlength = framelength;
+            int costlength = 0;
+
+            if (AnalysisBase.tempbufferindex > 0)     // 说明缓存里有数据，
+            {
+                System.arraycopy(
+                        AnalysisBase.tempAudioBuffer,
+                        0,
+                        AnalysisBase.audioBuffer,
+                        0,
+                        AnalysisBase.tempbufferindex);
+                AnalysisBase.audioindex += AnalysisBase.tempbufferindex;
+                AnalysisBase.tempbufferindex = 0;
+            }
+
+            if (leftlength < AnalysisBase.audioBuffersize) {
+                int minLength = Math
+                        .min(leftlength,
+                                AnalysisBase.audioBuffersize
+                                        - AnalysisBase.audioindex);
+
+                System.arraycopy(src, index + 21,
+                        AnalysisBase.audioBuffer,
+                        AnalysisBase.audioindex,
+                        minLength);
+
+                AnalysisBase.audioindex += minLength;
+
+                if (AnalysisBase.audioindex >= AnalysisBase.audioBuffersize) {
+                    AnalysisBase.at.write(AnalysisBase.audioBuffer, 0,
+                            AnalysisBase.audioBuffersize);
+                    if (AnalysisBase.isRecording) {
+                        AnalysisBase.fos.write(AnalysisBase.audioBuffer);
+                    }
+
+                    AnalysisBase.audioindex = 0;
+                }
+
+                leftlength -= minLength;
+                costlength += minLength;
+            } else {
+                int anum = leftlength / AnalysisBase.audioBuffersize;
+                while (anum > 0) {
+                    int minLength = Math.min(leftlength,
+                            AnalysisBase.audioBuffersize
+                                    - AnalysisBase.audioindex);
+
+                    System.arraycopy(src, index + 21 + costlength,
+                            AnalysisBase.audioBuffer,
+                            AnalysisBase.audioindex,
+                            minLength);
+
+                    AnalysisBase.audioindex += minLength;
+
+                    if (AnalysisBase.audioindex >= AnalysisBase.audioBuffersize) {
+                        AnalysisBase.at.write(AnalysisBase.audioBuffer, 0,
+                                AnalysisBase.audioBuffersize);
+                        if (AnalysisBase.isRecording) {
+                            AnalysisBase.fos.write(AnalysisBase.audioBuffer);
+                        }
+                        AnalysisBase.audioindex = 0;
+                    }
+
+                    leftlength -= minLength;
+                    costlength += minLength;
+
+                    anum = leftlength / AnalysisBase.audioBuffersize;
+                }
+            }
+
+            if (leftlength > 0)         // 来的数据有剩余，则缓存起来
+            {
+                System.arraycopy(
+                        src,
+                        index + 21 + costlength,
+                        AnalysisBase.tempAudioBuffer,
+                        0, leftlength);
+                AnalysisBase.tempbufferindex = leftlength;
+            }
         }
     }
 

@@ -50,8 +50,6 @@ public class recentContent implements Serializable {
     public int hashCode() {
         Log.d("xiao", String.valueOf(file.hashCode()));
         return file.hashCode();
-//        Log.d("xiao", String.valueOf(result));
-//        return result;
     }
 
     @Override

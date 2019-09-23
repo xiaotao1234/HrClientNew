@@ -22,6 +22,8 @@ import java.util.List;
 public class FileListActivity extends AppCompatActivity {
 
     FileListAdapter fileListAdapter;
+    RecyclerView recyclerView;
+
     List<String> filesname = new ArrayList<>();
     List<File> files = new ArrayList<>();
 
@@ -45,7 +47,7 @@ public class FileListActivity extends AppCompatActivity {
     }
 
     private void init() {
-        RecyclerView recyclerView = findViewById(R.id.list_files);
+        recyclerView = findViewById(R.id.list_files);
         ImageView back = findViewById(R.id.back);
         TextView currentFloderName = findViewById(R.id.file_diecetory);
         ImageView searhFile = findViewById(R.id.searh_file);
@@ -98,7 +100,6 @@ public class FileListActivity extends AppCompatActivity {
             fileListAdapter.filesname = SysApplication.fileOs.getFilesName();
             fileListAdapter.notifyDataSetChanged();
         }
-
     }
 }
 

@@ -3,14 +3,14 @@
     android:orientation="horizontal" android:layout_width="match_parent"
     android:id="@+id/recorder_item"
     android:background="@drawable/buttton_change_bg"
-    android:layout_height="60sp">
+    android:layout_height="@dimen/dp_60">
     <FrameLayout
-        android:layout_width="60sp"
+        android:layout_width="@dimen/dp_60"
         android:layout_height="match_parent">
         <ImageView
             android:id="@+id/icon"
-            android:layout_width="30sp"
-            android:layout_height="30sp"
+            android:layout_width="@dimen/dp_20"
+            android:layout_height="@dimen/dp_20"
             android:layout_gravity="center"
             android:src="@drawable/circle_bg" />
         <!--<View-->
@@ -21,28 +21,28 @@
         <View
             android:layout_gravity="bottom"
             android:layout_width="match_parent"
-            android:layout_height="1dp"
-            android:background="#11000000"/>
+            android:layout_height="@dimen/dp_1"
+            android:background="#22FFFFFF"/>
     </FrameLayout>
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:orientation="vertical">
         <TextView
-            android:textColor="#BB000000"
+            android:textColor="#FFFFFF"
             android:id="@+id/tvInfo"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="2019-8-8"
             android:layout_centerInParent="true"
-            android:textSize="17sp"
+            android:textSize="@dimen/dp_13"
             android:textStyle="bold"
             android:transitionName="shareimage"/>
         <View
             android:layout_gravity="bottom"
             android:layout_width="match_parent"
-            android:layout_height="1dp"
+            android:layout_height="@dimen/dp_1"
             android:layout_alignParentBottom="true"
-            android:background="#22000000"/>
+            android:background="#22FFFFFF"/>
     </RelativeLayout>
 </LinearLayout>

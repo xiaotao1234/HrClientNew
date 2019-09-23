@@ -35,18 +35,18 @@ public final class R {
     public static final class dimen {
         private dimen() {}
 
-        public static final int pickerview_textsize = 0x7f0700d1;
-        public static final int pickerview_topbar_btn_textsize = 0x7f0700d2;
-        public static final int pickerview_topbar_height = 0x7f0700d3;
-        public static final int pickerview_topbar_padding = 0x7f0700d4;
-        public static final int pickerview_topbar_title_textsize = 0x7f0700d5;
+        public static final int pickerview_textsize = 0x7f070254;
+        public static final int pickerview_topbar_btn_textsize = 0x7f070255;
+        public static final int pickerview_topbar_height = 0x7f070256;
+        public static final int pickerview_topbar_padding = 0x7f070257;
+        public static final int pickerview_topbar_title_textsize = 0x7f070258;
     }
     public static final class id {
         private id() {}
 
-        public static final int center = 0x7f090048;
-        public static final int left = 0x7f0900fb;
-        public static final int right = 0x7f0901a8;
+        public static final int center = 0x7f090049;
+        public static final int left = 0x7f090102;
+        public static final int right = 0x7f0901b5;
     }
     public static final class string {
         private string() {}

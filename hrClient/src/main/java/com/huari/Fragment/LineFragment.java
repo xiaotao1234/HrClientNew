@@ -14,6 +14,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.view.animation.AccelerateDecelerateInterpolator;
 import android.view.inputmethod.EditorInfo;
+import android.widget.Button;
 import android.widget.EditText;
 import android.widget.FrameLayout;
 import android.widget.LinearLayout;
@@ -45,6 +46,7 @@ public class LineFragment extends Fragment {
 
     FrameLayout frameLayout;
     LinearLayout linearLayout;
+    Button cancelButton;
     EditText editTextIp;
     EditText editTextPort1;
     EditText editTextPort2;
@@ -112,7 +114,7 @@ public class LineFragment extends Fragment {
                     GlobalData.mainTitle = "已登录";
                     avLoadingIndicatorView.setVisibility(View.GONE);
 //                    startActivity(new Intent(context, AllRecordQueryActivity.class));
-                    MajorActivity majorActivity = (MajorActivity)getActivity();
+                    MajorActivity majorActivity = (MajorActivity) getActivity();
                     majorActivity.setFragment();
                 }
             }
@@ -125,6 +127,7 @@ public class LineFragment extends Fragment {
         View view = inflater.inflate(R.layout.activity_login2, container, false);
         frameLayout = view.findViewById(R.id.contact_edit_frame);
         linearLayout = view.findViewById(R.id.contact_edit_linearlayout);
+        cancelButton = view.findViewById(R.id.main_btn_cancel);
         editTextIp = view.findViewById(R.id.ip_edit);
         editTextPort1 = view.findViewById(R.id.port1_edit);
         editTextPort2 = view.findViewById(R.id.port2_edit);
@@ -141,6 +144,9 @@ public class LineFragment extends Fragment {
         port1EditLayout.setHint("Port1: ");
         port2EditLayout.setHint("Port2: ");
         loginTextButton.setOnClickListener(v -> {
+            GlobalData.mainIP = editTextIp.getText().toString();
+            GlobalData.port1 = Integer.parseInt(editTextPort1.getText().toString());
+            GlobalData.port2 = Integer.parseInt(editTextPort2.getText().toString());
             editTextIp.setVisibility(View.INVISIBLE);
             editTextPort1.setVisibility(View.INVISIBLE);
             editTextPort2.setVisibility(View.INVISIBLE);
@@ -149,9 +155,6 @@ public class LineFragment extends Fragment {
             if (saveStationCount == -1) {
                 seditor.putInt("savecount", 0);
             }
-            GlobalData.mainIP = editTextIp.getText().toString();
-            GlobalData.port1 = Integer.parseInt(editTextPort1.getText().toString());
-            GlobalData.port2 = Integer.parseInt(editTextPort2.getText().toString());
             serviceIntent = new Intent();
             serviceIntent.setAction("com.huari.service.mainservice");
             serviceIntent.setPackage(context.getPackageName());//这里你需要设置你应用的包名
@@ -168,7 +171,6 @@ public class LineFragment extends Fragment {
                 GlobalData.port1 = port1;
                 GlobalData.port2 = port2;
                 seditor.commit();
-
                 if (GlobalData.toCreatService == false) {
                     new Thread() {
                         public void run() {
@@ -183,27 +185,30 @@ public class LineFragment extends Fragment {
                 GlobalData.port1 = port1;
                 GlobalData.port2 = port2;
             }
+            loginTextButton.setVisibility(View.GONE);
+            cancelButton.setVisibility(View.VISIBLE);
+            cancelButton.setOnClickListener(v1 -> {
+                recoverAnimator();
+                loginTextButton.setVisibility(View.VISIBLE);
+                cancelButton.setVisibility(View.GONE);
+            });
         });
         return view;
     }
 
     private void inputAnimator() {
-        AnimatorSet set = new AnimatorSet();
-        ObjectAnimator animator2 = ObjectAnimator.ofFloat(linearLayout,
-                "scaleX", 1f, 0f);
-        set.setDuration(500);
-        set.setInterpolator(new AccelerateDecelerateInterpolator());
-        set.playTogether(animator2);
-        set.start();
-        set.addListener(new Animator.AnimatorListener() {
+        ObjectAnimator animator2 = ObjectAnimator.ofFloat(linearLayout, "scaleX", 1f, 0f);
+        animator2.setDuration(500);
+        animator2.setInterpolator(new AccelerateDecelerateInterpolator());
+        animator2.start();
+        animator2.addListener(new Animator.AnimatorListener() {
+
             @Override
             public void onAnimationStart(Animator animation) {
-
             }
 
             @Override
             public void onAnimationRepeat(Animator animation) {
-
             }
 
             @Override
@@ -217,15 +222,48 @@ public class LineFragment extends Fragment {
 
             }
         });
+    }
 
+    private void recoverAnimator() {
+        ObjectAnimator animator2 = ObjectAnimator.ofFloat(linearLayout, "scaleX", 0f, 1f);
+        animator2.setDuration(200);
+        animator2.setInterpolator(new AccelerateDecelerateInterpolator());
+        animator2.addListener(new Animator.AnimatorListener() {
+
+            @Override
+            public void onAnimationStart(Animator animation) {
+                avLoadingIndicatorView.hide();
+                avLoadingIndicatorView.setVisibility(View.GONE);
+                editTextIp.setVisibility(View.VISIBLE);
+                editTextPort1.setVisibility(View.VISIBLE);
+                editTextPort2.setVisibility(View.VISIBLE);
+                editTextIp.setText(String.valueOf(GlobalData.mainIP));
+                editTextPort1.setText(String.valueOf(GlobalData.port1));
+                editTextPort2.setText(String.valueOf(GlobalData.port2));
+            }
+
+            @Override
+            public void onAnimationRepeat(Animator animation) {
+            }
+
+            @Override
+            public void onAnimationEnd(Animator animation) {
+
+            }
+
+            @Override
+            public void onAnimationCancel(Animator animation) {
+
+            }
+        });
+        animator2.start();
     }
 
     @Override
     public void onPause() {
         super.onPause();
         AnimatorSet set = new AnimatorSet();
-        ObjectAnimator animator2 = ObjectAnimator.ofFloat(linearLayout,
-                "scaleX", 0f, 1f);
+        ObjectAnimator animator2 = ObjectAnimator.ofFloat(linearLayout,"scaleX",0f, 1f);
         set.setDuration(1);
         set.setInterpolator(new AccelerateDecelerateInterpolator());
         set.playTogether(animator2);

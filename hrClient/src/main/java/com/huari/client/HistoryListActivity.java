@@ -6,6 +6,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.view.View;
 import android.widget.TextView;
 
 import com.huari.adapter.MusicListAdapter;
@@ -27,6 +28,11 @@ public class HistoryListActivity extends AppCompatActivity {
     TextView top;
     RecyclerView recyclerView;
     MusicListAdapter musicListAdapter;
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+    }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -68,5 +74,6 @@ public class HistoryListActivity extends AppCompatActivity {
         recyclerView = findViewById(R.id.history_list);
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
         recyclerView.setAdapter(musicListAdapter);
+        recyclerView.setSystemUiVisibility(View.INVISIBLE);
     }
 }

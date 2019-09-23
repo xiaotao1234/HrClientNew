@@ -126,8 +126,6 @@ public class HistoryPinDuanActivity extends PinDuanBase {
                         Parse.newParsePDScan(GlobalData.pCacheQueue.poll());
                     }
                 }
-
-                ;
             };
             Looper.loop();
         }
@@ -268,7 +266,7 @@ public class HistoryPinDuanActivity extends PinDuanBase {
         mm.substring(mm.indexOf("||||") + 4, mm.indexOf("|||||"));
         logicId = mm.substring(mm.indexOf("|||||") + 5, mm.length());
         contorl = findViewById(R.id.play_control);
-        contorl.setOnClickListener(v -> RealTimeSaveAndGetStore.pauseOrResume());
+        contorl.setOnClickListener(v -> RealTimeSaveAndGetStore.pauseOrResume(contorl));
         previousButton = findViewById(R.id.previous_button);
         nextButton = findViewById(R.id.next_button);
         previousButton.setOnClickListener(v -> RealTimeSaveAndGetStore.previousFrame(HistoryPinDuanActivity.this));
@@ -444,18 +442,18 @@ public class HistoryPinDuanActivity extends PinDuanBase {
                         }
                     }
                 } else if (msg.what == 121) {
-                    if(first == true){
+                    if (first == true) {
                         first = false;
                         alllength.setText(String.valueOf(RealTimeSaveAndGetStore.allLength));
                     }
-                    readnow.setText(String.valueOf(RealTimeSaveAndGetStore.allLength-RealTimeSaveAndGetStore.available));
+                    readnow.setText(String.valueOf(RealTimeSaveAndGetStore.allLength - RealTimeSaveAndGetStore.available));
                     customProgress.setProgress((Integer) msg.obj);
                 } else if (msg.what == 34) {
                     afterGetStation((Station) msg.obj);
                 }
             }
         };
-        RealTimeSaveAndGetStore.deserializeFlyPig(filename,handler);//开始反序列化
+        RealTimeSaveAndGetStore.deserializeFlyPig(filename, handler);//开始反序列化
     }
 
     private void afterGetStation(Station stationF) {
@@ -495,7 +493,7 @@ public class HistoryPinDuanActivity extends PinDuanBase {
         // endFreq=(centerFreq*1000f+daikuan/2)/1000;
 
         pinduan.setParameters(startFreq, endFreq, pStepFreq * 1000);
-        Log.d("xiaotaohao","getstation");
+        Log.d("xiaotaohao", "getstation");
         RealTimeSaveAndGetStore.ParseLocalWrap(filename, 3, handler);//Station数据已解析完毕，开始解析数据到视图
     }
 

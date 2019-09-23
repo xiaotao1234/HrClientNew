@@ -26,5 +26,8 @@
     <string name="title_activity_test">TestActivity</string>
     <string name="title_activity_part_wave">PartWaveActivity</string>
     <string name="title_activity_sing">SingActivity</string>
+    <string name="inputfreq">请输入要查找的频率值:</string>
+    <string name="inputvalue">请输入要调整的阈值:</string>
+    <string name="frequnit"> MHz</string>
 
 </resources>

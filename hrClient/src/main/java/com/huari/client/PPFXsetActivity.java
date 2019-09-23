@@ -1,5 +1,8 @@
 package com.huari.client;
 
+import java.io.File;
+import java.io.FileOutputStream;
+import java.io.ObjectOutputStream;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -8,7 +11,9 @@ import com.huari.dataentry.GlobalData;
 import com.huari.dataentry.LogicParameter;
 import com.huari.dataentry.MyDevice;
 import com.huari.dataentry.Parameter;
+import com.huari.dataentry.SimpleStation;
 import com.huari.dataentry.Station;
+import com.huari.tools.FileOsImpl;
 import com.huari.tools.SysApplication;
 
 import android.os.Bundle;
@@ -195,7 +200,7 @@ public class PPFXsetActivity extends AppCompatActivity implements
 		}
 
 		MyDevice iDevice = null;
-		for (MyDevice myd : GlobalData.stationHashMap.get(stationId).devicelist) {
+		for (MyDevice myd : GlobalData.stationHashMap.get(stationId).showdevicelist) {
 			if (myd.name.equals(deviceName)) {
 				iDevice = myd;
 			}
@@ -403,7 +408,7 @@ public class PPFXsetActivity extends AppCompatActivity implements
 	{
 		Station station = GlobalData.stationHashMap.get(stationId);
 		MyDevice md = null;
-		for (MyDevice mydevice : station.devicelist) {
+		for (MyDevice mydevice : station.showdevicelist) {
 			if (mydevice.name.equals(deviceName)) {
 				md = mydevice;
 			}
@@ -435,6 +440,7 @@ public class PPFXsetActivity extends AppCompatActivity implements
 					p.defaultValue = newValues.get(p.name);
 				}
 			}
+			saveSetting(station);
 			loadParameters();
 			if (SpectrumsAnalysisActivity.handle != null)
 				SpectrumsAnalysisActivity.handle
@@ -447,6 +453,32 @@ public class PPFXsetActivity extends AppCompatActivity implements
 			return false;
 		}
 
+	}
+
+	private void saveSetting(Station station) {
+		for (MyDevice mydevice : station.showdevicelist) {
+			if (mydevice.name.equals(deviceName)) {
+				SimpleStation simpleStation = new SimpleStation(station.name, station.id, mydevice);
+				if (FileOsImpl.simpleStations.contains(simpleStation)) {
+					FileOsImpl.simpleStations.set(FileOsImpl.simpleStations.indexOf(simpleStation), simpleStation);
+				} else {
+					FileOsImpl.simpleStations.add(new SimpleStation(station.name, station.id, mydevice));
+				}
+				File filebase = new File(SysApplication.fileOs.forSaveFloder + File.separator + "data" + File.separator + "ForSaveStation");
+				if (!filebase.getParentFile().exists()) {
+					filebase.getParentFile().mkdirs();
+				}
+				try {
+					filebase.delete();
+					FileOutputStream fileOutputStream = new FileOutputStream(filebase);
+					ObjectOutputStream oos = new ObjectOutputStream(fileOutputStream);
+					oos.writeObject(FileOsImpl.simpleStations);
+					oos.close();
+				} catch (Exception e) {
+					e.printStackTrace();
+				}
+			}
+		}
 	}
 
 	class MyPagerAdapter extends PagerAdapter {

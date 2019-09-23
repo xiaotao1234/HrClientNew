@@ -98,6 +98,7 @@ public class HistoryAnalysisActivity extends AnalysisBase {
     TextView alllength;
     TextView readnow;
     LinearLayout ituLinearLayout;
+    float spwide = 0f;// 频谱带宽的一半
     ArrayList<View> viewlist;
 
     public static ArrayList<byte[]> audiolist1, audiolist2;
@@ -153,66 +154,6 @@ public class HistoryAnalysisActivity extends AnalysisBase {
     ImageView previousButton;
     ImageView nextButton;
 
-    //public static PlayAudioThread playAudioThread;
-
-    @SuppressWarnings("deprecation")
-    public static void createAudioPlay(int frequency, byte bitcounts,
-                                       short channelcount, int framelength) {
-
-        AUDIO_SAMPLE_RATE = frequency;
-        AUDIO_CHANNL = channelcount;
-
-        if (bitcounts == 0 && channelcount == 1) {
-            audioBuffersize = AudioTrack
-                    .getMinBufferSize(frequency, AudioFormat.CHANNEL_OUT_MONO,
-                            AudioFormat.ENCODING_PCM_8BIT);
-            audioBuffersize = Math.max(audioBuffersize, framelength);
-
-            at = new AudioTrack(AudioManager.STREAM_MUSIC, frequency,
-                    AudioFormat.CHANNEL_OUT_MONO,
-                    AudioFormat.ENCODING_PCM_8BIT, audioBuffersize * 4,
-                    AudioTrack.MODE_STREAM);
-            audioBuffer = new byte[audioBuffersize];
-            tempAudioBuffer = new byte[tempLength];
-        } else if (bitcounts == 1 && channelcount == 1) {
-            audioBuffersize = AudioTrack.getMinBufferSize(frequency,
-                    AudioFormat.CHANNEL_OUT_MONO,
-                    AudioFormat.ENCODING_PCM_16BIT);
-            audioBuffersize = Math.max(audioBuffersize, framelength);
-
-            at = new AudioTrack(AudioManager.STREAM_MUSIC, frequency,
-                    AudioFormat.CHANNEL_OUT_MONO,
-                    AudioFormat.ENCODING_PCM_16BIT, audioBuffersize,
-                    AudioTrack.MODE_STREAM);
-            audioBuffer = new byte[audioBuffersize];
-            tempAudioBuffer = new byte[tempLength];
-            at.play();
-        } else if (bitcounts == 0 && channelcount == 2) {
-            audioBuffersize = AudioTrack.getMinBufferSize(frequency,
-                    AudioFormat.CHANNEL_OUT_STEREO,
-                    AudioFormat.ENCODING_PCM_8BIT);
-            audioBuffersize = Math.max(audioBuffersize, framelength);
-
-            at = new AudioTrack(AudioManager.STREAM_MUSIC, frequency,
-                    AudioFormat.CHANNEL_OUT_STEREO,
-                    AudioFormat.ENCODING_PCM_8BIT, audioBuffersize,
-                    AudioTrack.MODE_STREAM);
-            audioBuffer = new byte[audioBuffersize];
-            tempAudioBuffer = new byte[tempLength];
-        } else if (bitcounts == 1 && channelcount == 2) {
-            audioBuffersize = AudioTrack.getMinBufferSize(frequency,
-                    AudioFormat.CHANNEL_OUT_STEREO,
-                    AudioFormat.ENCODING_PCM_16BIT);
-            audioBuffersize = Math.max(audioBuffersize, framelength);
-
-            at = new AudioTrack(AudioManager.STREAM_MUSIC, frequency,
-                    AudioFormat.CHANNEL_OUT_STEREO,
-                    AudioFormat.ENCODING_PCM_16BIT, audioBuffersize,
-                    AudioTrack.MODE_STREAM);
-            audioBuffer = new byte[audioBuffersize];
-            tempAudioBuffer = new byte[tempLength];
-        }
-    }
 
     class IniThread extends Thread {
         public void run() {
@@ -319,7 +260,7 @@ public class HistoryAnalysisActivity extends AnalysisBase {
         readnow = findViewById(R.id.play_plan);
         previousButton.setOnClickListener(v -> RealTimeSaveAndGetStore.previousFrame(HistoryAnalysisActivity.this));
         nextButton.setOnClickListener(v -> RealTimeSaveAndGetStore.nextFrame(HistoryAnalysisActivity.this));
-        contorl.setOnClickListener(v -> RealTimeSaveAndGetStore.pauseOrResume());
+        contorl.setOnClickListener(v -> RealTimeSaveAndGetStore.pauseOrResume(contorl));
         stationtextview.setText(stationname);
         devicetextview.setText(devicename);
         showwave = (com.huari.ui.PartWaveShowView) getLayoutInflater().inflate(
@@ -418,8 +359,6 @@ public class HistoryAnalysisActivity extends AnalysisBase {
                 } catch (Exception e) {
 
                 }
-
-
             }
         };
         RealTimeSaveAndGetStore.deserializeFlyPig(filename,handle);
@@ -438,9 +377,10 @@ public class HistoryAnalysisActivity extends AnalysisBase {
         ap = currentLP.parameterlist;
 
         for (Parameter p : ap) {
-            if (p.name.equals("DemodulationSpan")) {
-                daikuan = Float.parseFloat(p.defaultValue);
-            } else if (p.name.equals("StepFreq")) {
+            if (p.name.equals("ifbw")) {
+                spwide = Float.parseFloat(p.defaultValue);
+                halfSpectrumsWide = spwide/2000;
+            } else if (p.name.equals("rbw")||p.name.equals("step")) {
                 pStepFreq = Float.parseFloat(p.defaultValue);
             } else if (p.name.equals("CenterFreq")) {
                 centerFreq = Float.parseFloat(p.defaultValue);

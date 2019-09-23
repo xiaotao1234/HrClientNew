@@ -385,6 +385,9 @@
             android:name="com.huari.client.HistoryPinDuanActivity"
             android:theme="@style/Theme.AppCompat.Light.NoActionBar" />
         <activity
+            android:name="com.huari.client.MonthDataActivity"
+            android:theme="@style/Theme.AppCompat.Light.NoActionBar" />
+        <activity
             android:name="com.huari.diskactivity.DiskActivity"
             android:label="@string/app_name" >
         </activity>

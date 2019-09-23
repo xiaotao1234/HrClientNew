@@ -1,6 +1,7 @@
 package com.huari.ui;
 
 import android.content.Context;
+import android.util.Log;
 import android.view.View;
 import android.view.ViewGroup;
 
@@ -36,6 +37,7 @@ public abstract class TagsAdapter {
     public abstract void onThemeColorChanged(View view, int themeColor);
 
     public final void notifyDataSetChanged() {
+        Log.d("xiaoxiao","notifyDataSetChanged");
         onDataSetChangeListener.onChange();
     }
 

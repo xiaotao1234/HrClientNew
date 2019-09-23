@@ -130,8 +130,11 @@ id clear
 id coor
 id customframe
 id disk
+id editText
 id end
 id end_padder
+id fast_left_find
+id fast_right_find
 id fd
 id forever
 id fudu
@@ -148,6 +151,7 @@ id italic
 id itemspinner
 id itemtextview
 id left
+id left_find
 id leftlinear
 id line1
 id line3
@@ -172,6 +176,7 @@ id pinduanhead
 id pinduanlistview
 id pl
 id right
+id right_find
 id right_icon
 id right_side
 id start
@@ -182,6 +187,7 @@ id t3
 id tag_transition_group
 id text
 id text2
+id textView
 id time
 id title
 id tongjimodename
@@ -189,6 +195,7 @@ id top
 id tuxing
 id tv1
 id tv2
+id unittextView
 id vc
 id xh
 id xiang
@@ -197,7 +204,9 @@ id zhiliang
 integer cancel_button_image_alpha
 integer status_bar_notification_info_maxnum
 layout activity_last
+layout findbuttons
 layout framelayout
+layout freqinput
 layout headlinearlayout
 layout itemlayoutwithspinner
 layout listviews
@@ -233,7 +242,10 @@ menu sanshi
 menu sing
 string action_settings
 string app_name
+string frequnit
 string hello_world
+string inputfreq
+string inputvalue
 string status_bar_notification_info_overflow
 string title_activity_list_views
 string title_activity_part_wave

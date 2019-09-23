@@ -88,6 +88,11 @@ public class ServerListAdapter extends RecyclerView.Adapter<ServerListAdapter.vi
         return serverNames.size();
     }
 
+    @Override
+    public int getItemViewType(int position) {
+        return position;
+    }
+
     class viewholder extends RecyclerView.ViewHolder {
         TextView textView;
         ImageView checkic;
@@ -97,6 +102,11 @@ public class ServerListAdapter extends RecyclerView.Adapter<ServerListAdapter.vi
             checkic = itemView.findViewById(R.id.check_ic);
             textView = itemView.findViewById(R.id.server_text);
         }
+    }
+
+    @Override
+    public long getItemId(int position) {
+        return position;
     }
 
     public void setcheckboxtrue() {

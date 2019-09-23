@@ -2,6 +2,8 @@ package com.huari.adapter;
 
 import android.content.Context;
 import androidx.recyclerview.widget.RecyclerView;
+
+import android.graphics.Color;
 import android.util.SparseBooleanArray;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -25,8 +27,8 @@ public class RecordAllAdapter extends RecordAllBaseAdapter<RecordAllAdapter.Clas
 
     private Context context;
     private List<Station> mContent;
-
     private LayoutInflater mInflater;
+    LinearLayout rememberLayout = null;
 
     //用于记录当前是隐藏还是显示
     private SparseBooleanArray mBooleanMap;
@@ -87,13 +89,10 @@ public class RecordAllAdapter extends RecordAllBaseAdapter<RecordAllAdapter.Clas
     public void onBindHeaderViewHolder(ClassHolder holder, int position) {
         holder.linearLayout.setOnClickListener(null);
         holder.tvClassName.setText(mContent.get(position).getName());
-
         holder.linearLayout.setTag(position);
         holder.linearLayout.setOnClickListener(v -> {
             int position1 = (int) v.getTag();
-
             boolean isOpen = mBooleanMap.get(position1);
-
             mBooleanMap.put(position1, !isOpen);
             notifyDataSetChanged();
         });
@@ -101,9 +100,19 @@ public class RecordAllAdapter extends RecordAllBaseAdapter<RecordAllAdapter.Clas
 
     @Override
     public void onBindContentViewHolder(StudentHolder holder, int HeaderPosition, int ContentPositionForHeader) {
+        if(rememberLayout!=null){
+            rememberLayout.setBackgroundColor(Color.parseColor("#44FFFFFF"));
+        }
         holder.tvName.setText(mContent.get(HeaderPosition).getShowdevicelist().get(ContentPositionForHeader).getName());
-        holder.linearLayout.setOnClickListener(v -> stationFunctionListener.callback(mContent.get(HeaderPosition).getShowdevicelist().get(ContentPositionForHeader),
-                mContent.get(HeaderPosition)));
+        holder.linearLayout.setOnClickListener(v -> {
+            stationFunctionListener.callback(mContent.get(HeaderPosition).getShowdevicelist().get(ContentPositionForHeader), mContent.get(HeaderPosition));
+            if(rememberLayout!=null){
+                rememberLayout.setBackgroundResource(R.drawable.buttton_change_bg);
+            }
+            rememberLayout = holder.linearLayout;
+            holder.linearLayout.invalidate();
+            notifyDataSetChanged();
+        });
     }
 
 

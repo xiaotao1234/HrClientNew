@@ -75,12 +75,14 @@ public class SimpleTestAdapter extends RecyclerView.Adapter<SimpleTestAdapter.Te
                     intent = new Intent(context, PlayerActivity.class);
                     break;
                 default:
-                    intent = new Intent(context, HistoryDFActivity.class);
+                    intent = null;
                     break;
             }
-            if(getTypename(position)=="音频"){
-                EventBus.getDefault().postSticky(new MessageEvent(recentContent.get(position).getFile(),position));
-            }else {
+            if (getTypename(position) == "音频") {
+                EventBus.getDefault().postSticky(new MessageEvent(recentContent.get(position).getFile(), position));
+            } else if (intent == null) {
+                return;
+            } else {
                 intent.putExtra("filename", new File(recentContent.get(position).getFile()).getName());
                 intent.putExtra("from", "history");
             }
@@ -90,10 +92,10 @@ public class SimpleTestAdapter extends RecyclerView.Adapter<SimpleTestAdapter.Te
 
     private String getName(int position) {
         String filename = recentContent.get(position).getFilename();
-        if (filename != null) {
+        if (filename != "") {
             return filename.substring(9, 19);
         } else {
-            return null;
+            return "暂无数据";
         }
     }
 
@@ -111,6 +113,9 @@ public class SimpleTestAdapter extends RecyclerView.Adapter<SimpleTestAdapter.Te
                 break;
             case 4:
                 name = "音频";
+                break;
+            case 5:
+                name = "暂无数据";
                 break;
             default:
                 name = null;

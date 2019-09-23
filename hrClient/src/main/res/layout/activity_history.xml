@@ -91,17 +91,15 @@
         android:layout_height="wrap_content"
         android:orientation="horizontal">
 
-        <TextView
+        <ImageView
+            android:src="@drawable/information_icon"
             android:id="@+id/station_button"
             android:layout_width="0dp"
             android:layout_height="match_parent"
             android:layout_margin="8sp"
             android:layout_marginLeft="10sp"
             android:layout_weight="1"
-            android:background="@drawable/button_bg"
-            android:gravity="center"
-            android:text="Station"
-            android:textColor="#FFFFFF" />
+            android:gravity="center" />
 
         <View
             android:layout_width="0dp"
@@ -127,7 +125,7 @@
             android:layout_width="40sp"
             android:layout_height="40sp"
             android:layout_gravity="center_vertical"
-            android:src="@drawable/play_icon" />
+            android:background="@drawable/play_icon" />
 
         <View
             android:layout_width="0dp"

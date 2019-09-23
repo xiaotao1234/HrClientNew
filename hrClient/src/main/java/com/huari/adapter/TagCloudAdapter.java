@@ -1,20 +1,18 @@
 package com.huari.adapter;
 
 import android.content.Context;
-import androidx.recyclerview.widget.RecyclerView;
-import android.util.Log;
 import android.view.Gravity;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
-import com.huari.client.R;
 import com.huari.dataentry.recentContent;
 import com.huari.ui.TagsAdapter;
 
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.List;
+
+import androidx.recyclerview.widget.RecyclerView;
 
 /**
  * @Version:
@@ -23,19 +21,21 @@ import java.util.List;
  * @Descrpiton:
  */
 public class TagCloudAdapter extends TagsAdapter {
-    private List<String> mList = new ArrayList<String>();
+    private List<String> mList = new ArrayList<>();
     List<recentContent> list;
     RecyclerView recyclerView;
     public TagCloudAdapter(List<recentContent> list, RecyclerView recyclerView) {
         mList.clear();
         this.recyclerView = recyclerView;
         this.list = list;
-        for (recentContent recentContent1:list){
-            String filename = recentContent1.getFilename();
-            if (filename != null) {
-                mList.add(filename.substring(14, 19));
-            } else {
-                mList.add(null);
+        if(list!=null){
+            for (recentContent recentContent1:list){
+                String filename = recentContent1.getFilename();
+                if (filename != "") {
+                    mList.add(filename.substring(14, 17));
+                } else {
+                    mList.add("暂无数据");
+                }
             }
         }
     }

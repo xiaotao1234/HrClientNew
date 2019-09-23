@@ -4,7 +4,9 @@ import java.util.ArrayList;
 
 import com.huari.diskactivity.R;
 
+import android.app.AlertDialog;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.graphics.Color;
 import android.os.Handler;
 import android.os.Message;
@@ -13,13 +15,21 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
+import android.widget.Button;
+import android.widget.EditText;
 import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.TextView;
 
-public class PinDuan extends LinearLayout {
+public class PinDuan extends LinearLayout implements View.OnClickListener
+{
 	com.huari.ui.PinScanningShowWave pss;
+	LinearLayout findlayout,freqinputLayout;
 	LinearLayout linearlayout;
+	EditText inputtext;
+
+
+	private Button markfindButton, leftfindButton, rightfindButton, freqinputButton;
 	ArrayList<Integer> datalist;
 	MyAdapter adapter;
 	ListView listview;
@@ -34,24 +44,29 @@ public class PinDuan extends LinearLayout {
 
 	public PinDuan(Context context, AttributeSet attrs, int defStyle) {
 		super(context, attrs, defStyle);
-		// TODO Auto-generated constructor stub
 		ini();
 	}
 
 	public PinDuan(Context context, AttributeSet attrs) {
 		super(context, attrs);
-		// TODO Auto-generated constructor stub
+
 		ini();
 	}
 
 	public PinDuan(Context context) {
 		super(context);
-		// TODO Auto-generated constructor stub
+
 		ini();
 	}
 
 	public void setTiaoZhi(boolean booleanValue) {
 		pss.setTiaoZhi(booleanValue);
+	}
+
+	public void setYuzhifudu(int value)
+	{
+		pss.yuzhifudu = value;
+		pss.postInvalidate();
 	}
 
 	public void hideTable(boolean hide) {
@@ -70,14 +85,30 @@ public class PinDuan extends LinearLayout {
 				.inflate(R.layout.pinduanlistview, null);
 		daneiNameTextView = (TextView) linearlayout.findViewById(R.id.pl);
 		listview = (ListView) linearlayout.findViewById(R.id.pinduanlistview);
+
 		pss = new PinScanningShowWave(getContext());
 
+		findlayout = (LinearLayout)LayoutInflater.from(getContext())
+				.inflate(R.layout.findbuttons, null);
+
+		markfindButton = (Button) findlayout.findViewById(R.id.fast_left_find);
+		leftfindButton = (Button) findlayout.findViewById(R.id.left_find);
+		rightfindButton = (Button) findlayout.findViewById(R.id.right_find);
+		freqinputButton = (Button) findlayout.findViewById(R.id.fast_right_find);
+
+		//bind sticks' onClick event
+		markfindButton.setOnClickListener(this);
+		leftfindButton.setOnClickListener(this);
+		rightfindButton.setOnClickListener(this);
+		freqinputButton.setOnClickListener(this);
 		datalist = pss.datalist;
 
 		LinearLayout.LayoutParams s1 = new LinearLayout.LayoutParams(
-				LinearLayout.LayoutParams.MATCH_PARENT, 0, 1);
+				LinearLayout.LayoutParams.MATCH_PARENT, 0, 9);
+		LinearLayout.LayoutParams s3 = new LinearLayout.LayoutParams(
+				LinearLayout.LayoutParams.MATCH_PARENT, 35, 1);
 		LinearLayout.LayoutParams s2 = new LinearLayout.LayoutParams(
-				LinearLayout.LayoutParams.MATCH_PARENT, 0, 1);
+				LinearLayout.LayoutParams.MATCH_PARENT, 0, 9);
 
 		try {
 			adapter = new MyAdapter();
@@ -86,8 +117,9 @@ public class PinDuan extends LinearLayout {
 		;
 		listview.setAdapter(adapter);
 
-		addView(pss, s1);
 		addView(linearlayout, s2);
+		addView(pss, s1);
+		addView(findlayout, s3);
 
 		handler = new Handler() {
 			public void handleMessage(android.os.Message msg) {
@@ -121,15 +153,43 @@ public class PinDuan extends LinearLayout {
 		pss.postInvalidate();
 	}
 
+	public void set_ah_al(float ah,float al)
+	{
+		pss.set_ah_al(ah,al);
+	}
+
 	public void refreshWave() {
 		pss.postInvalidate();
-		// pss.notiRefresh();
 	}
 
 	public void refreshTable() {
 		Message msg = new Message();
 		msg.what = 0x1;
 		handler.sendMessage(msg);
+	}
+
+	@Override
+	public void onClick(View v) {
+		int i=v.getId();
+
+		if (i == R.id.fast_left_find)
+		{
+			pss.find_marker(0);
+			pss.postInvalidate();
+		}
+		if (i == R.id.left_find) {
+			pss.find_marker(1);
+			pss.postInvalidate();
+		}
+		if (i == R.id.right_find) {
+			pss.find_marker(2);
+			pss.postInvalidate();
+		}
+		if (i == R.id.fast_right_find) {
+			freq_input();
+		}
+
+
 	}
 
 	class MyAdapter extends BaseAdapter {
@@ -142,7 +202,6 @@ public class PinDuan extends LinearLayout {
 
 		@Override
 		public int getCount() {
-			// TODO Auto-generated method stub
 			max = Math.max(datalist.size(), 30);
 			if (max < DataSave.pinduanshowpointcounts) {
 				return max;
@@ -153,20 +212,16 @@ public class PinDuan extends LinearLayout {
 
 		@Override
 		public Object getItem(int position) {
-			// TODO Auto-generated method stub
 			return position;
 		}
 
 		@Override
 		public long getItemId(int position) {
-			// TODO Auto-generated method stub
 			return position;
 		}
 
 		@Override
 		public View getView(int position, View convertView, ViewGroup parent) {
-			// TODO Auto-generated method stub
-
 			ViewHolder viewholder = null;
 			if (convertView == null) {
 				convertView = LayoutInflater.from(getContext()).inflate(
@@ -195,9 +250,7 @@ public class PinDuan extends LinearLayout {
 					viewholder.tv2.setText("");
 					viewholder.tv3.setText("");
 				}
-
 			}
-
 			else {
 				viewholder.tv2.setText("将导致效率严重降低");
 				viewholder.tv1.setText("限值过低");
@@ -206,9 +259,7 @@ public class PinDuan extends LinearLayout {
 			}
 
 			return convertView;
-
 		}
-
 	}
 
 	public void setDanWei(String name, String danwei) {
@@ -225,4 +276,41 @@ public class PinDuan extends LinearLayout {
 		datalist.clear();
 		refreshTable();
 	}
+
+	private void freq_input()
+	{
+		freqinputLayout =  (LinearLayout)LayoutInflater.from(getContext()). inflate(
+				R.layout.freqinput, null);
+		inputtext = (EditText) freqinputLayout.findViewById(R.id.editText);
+
+		AlertDialog dialog = new AlertDialog.Builder(getContext())
+				.setTitle("频率输入")
+				.setView(freqinputLayout)
+				.setNegativeButton("取消",
+						new DialogInterface.OnClickListener() {
+							@Override
+							public void onClick(DialogInterface arg0, int arg1) {
+
+							}
+						})
+				.setPositiveButton("确定",
+						new DialogInterface.OnClickListener() {
+
+							@Override
+							public void onClick(DialogInterface arg0,int arg1) {
+								try {
+									float inputf = Float.valueOf(inputtext.getText().toString());
+
+									pss.find_input(inputf);
+
+								} catch (Exception e) {
+//                                    Toast.makeText(PinScanningShowWave.this,
+//                                            "参数值输入格式错误或不可为空,请检查后重新输入",
+//                                            Toast.LENGTH_SHORT).show();
+								}
+							}
+						}).create();
+		dialog.show();
+	}
+
 }

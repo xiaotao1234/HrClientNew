@@ -71,6 +71,7 @@ public class PinDuanScanningActivity extends PinDuanBase {
     boolean pause;
     boolean showMax, showMin, showAvg;
 
+
     String logicId;
 
     @Override
@@ -103,16 +104,10 @@ public class PinDuanScanningActivity extends PinDuanBase {
     IniThread inithread;
     ParseDataThread pdthread;
 
-    boolean goRefresh = true;
-
     private static String fd = "fd";    // 是幅度模式还是加上因子的场强模式cq
     private String fileName;
     float lan,lon;
     private Station stationF;
-
-    public static String getDwName() {
-        return fd;
-    }
 
     class IniThread extends Thread {
         public void run() {
@@ -177,7 +172,7 @@ public class PinDuanScanningActivity extends PinDuanBase {
                         Float.parseFloat(stepFreqParameter.defaultValue));
                 try {
                     byte[] bbb = iRequestInfo();
-                    System.out.println("客户端发送的数据长度是" + bbb.length);
+                    //System.out.println("客户端发送的数据长度是" + bbb.length);
                     outs.write(bbb);
                     outs.flush();
                 } catch (IOException e) {
@@ -273,13 +268,8 @@ public class PinDuanScanningActivity extends PinDuanBase {
 
         DisplayMetrics metric = new DisplayMetrics();
         getWindowManager().getDefaultDisplay().getMetrics(metric);
-        int twidth = metric.widthPixels;
-        int theight = metric.heightPixels;
-        float density = metric.density;
-        int densityDpi = metric.densityDpi;
-        double dui = Math.sqrt(twidth * twidth + theight * theight);
-        double x = dui / densityDpi;
-        if (x >= 6.5) {
+
+        if (GlobalData.show_horiz) {
             setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_USER_LANDSCAPE);
         } else {
             setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_USER_PORTRAIT);
@@ -304,7 +294,7 @@ public class PinDuanScanningActivity extends PinDuanBase {
         ArrayList<MyDevice> am = null;
         try {
             stationF = GlobalData.stationHashMap.get(stationKey);
-            am = stationF.devicelist;
+            am = stationF.showdevicelist;
         } catch (Exception e) {
             Toast.makeText(PinDuanScanningActivity.this, "空的",
                     Toast.LENGTH_SHORT).show();
@@ -713,6 +703,16 @@ public class PinDuanScanningActivity extends PinDuanBase {
             } else if (item.getTitle().equals("显示平均值")) {
                 item.setTitle("不显示平均值");
                 showAvg = true;
+            }
+        }else if (id == R.id.caputure) {
+            if (item.getTitle().equals("手机横向")) {
+                item.setTitle("手机纵向");
+                GlobalData.show_horiz = true;
+                setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_USER_LANDSCAPE);
+            } else if (item.getTitle().equals("手机纵向")) {
+                item.setTitle("手机横向");
+                GlobalData.show_horiz = false;
+                setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_USER_PORTRAIT);
             }
         }
         return true;

@@ -10,11 +10,11 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"/>
     <com.google.android.material.tabs.TabLayout
-        android:background="#000000"
+        android:background="#55FFFFFF"
         android:id="@+id/tl_tabs"
         android:layout_width="match_parent"
-        app:tabTextColor="#BBFFFFFF"
-        app:tabIndicatorColor="#99FFFFFF"
-        android:layout_height="55sp"
+        app:tabTextColor="#FFFFFF"
+        app:tabIndicatorColor="#99FF0000"
+        android:layout_height="@dimen/dp_42"
         android:layout_alignParentBottom="true"/>
 </RelativeLayout>

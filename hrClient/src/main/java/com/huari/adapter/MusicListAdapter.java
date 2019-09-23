@@ -144,18 +144,15 @@ public class MusicListAdapter extends RecyclerView.Adapter<MusicListAdapter.view
                     break;
                 case "REC":
                     intent = new Intent(context, PlayerActivity.class);
+                    EventBus.getDefault().postSticky(new MessageEvent(files.get(position).getAbslitPath(), position));
                     break;
                 default:
                     intent = new Intent(context, PlayerActivity.class);
                     break;
             }
 //            Bundle bundle = new Bundle();
-            if (type == "REC") {
-                EventBus.getDefault().postSticky(new MessageEvent(files.get(position).getAbslitPath(),position));
-            }else {
-                intent.putExtra("filename", files.get(position).getName());
-                intent.putExtra("from", "history");
-            }
+            intent.putExtra("filename", files.get(position).getName());
+            intent.putExtra("from", "history");
             context.startActivity(intent);
         });
         holder.linearLayout.setOnLongClickListener(v -> {

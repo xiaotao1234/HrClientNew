@@ -10,14 +10,14 @@
 
     <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="70sp">
+        android:layout_height="@dimen/dp_50">
 
         <ImageView
             android:id="@+id/file_box"
-            android:layout_width="30sp"
-            android:layout_height="30sp"
+            android:layout_width="@dimen/dp_20"
+            android:layout_height="@dimen/dp_20"
             android:layout_gravity="center_vertical"
-            android:layout_marginStart="30sp"
+            android:layout_marginStart="@dimen/dp_26"
             android:src="@drawable/file_icon" />
 
         <LinearLayout
@@ -30,6 +30,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:layout_weight="1"
+                android:textSize="@dimen/dp_11"
                 android:layout_marginStart="20sp"
                 android:gravity="center_vertical"
                 tools:ignore="Suspicious0dp" />
@@ -37,10 +38,10 @@
 
         <ImageView
             android:id="@+id/check"
-            android:layout_width="30sp"
-            android:layout_height="30sp"
+            android:layout_width="@dimen/dp_26"
+            android:layout_height="@dimen/dp_26"
             android:layout_gravity="center_vertical"
-            android:layout_marginEnd="40sp"
+            android:layout_marginEnd="@dimen/dp_35"
             android:src="@drawable/not_check_icon"
             android:visibility="gone" />
     </LinearLayout>

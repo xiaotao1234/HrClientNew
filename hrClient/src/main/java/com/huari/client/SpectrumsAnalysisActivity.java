@@ -6,6 +6,7 @@ import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
+import java.io.ObjectOutputStream;
 import java.io.OutputStream;
 import java.net.Socket;
 import java.text.SimpleDateFormat;
@@ -24,8 +25,6 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.pm.ActivityInfo;
-import android.media.AudioFormat;
-import android.media.AudioManager;
 import android.media.AudioTrack;
 import android.net.Uri;
 import android.os.Build;
@@ -33,7 +32,7 @@ import android.os.Bundle;
 import android.os.Environment;
 import android.os.Handler;
 import android.os.Message;
-import android.os.PowerManager;
+//import android.os.PowerManager;
 import android.os.Process;
 import androidx.viewpager.widget.ViewPager;
 import androidx.appcompat.app.ActionBar;
@@ -74,30 +73,24 @@ import com.huari.ui.ShowWaveView;
 import org.greenrobot.eventbus.EventBus;
 
 public class SpectrumsAnalysisActivity extends AnalysisBase {
-	PowerManager pm;
-	PowerManager.WakeLock wl;
+	//PowerManager pm;
+	//PowerManager.WakeLock wl;
 
 	boolean cq;// 是否显示场强
 
-	public static int IQDATA = 0x4;
 	public static int AUDIODATA = 0x5;
 	public static int PARAMETERREFRESH = 0x6;
-	public static int FIRSTAUDIOCOME = 0x9;
-	public static int tempLength = 409600;
+
 	public static Queue<byte[]> queue;
 	public static boolean saveFlag = false;
 	float lan,lon;
-	
-	private final  static String AUDIO_RAW_FILENAME = "RawAudio.raw";
 
-    private static long AUDIO_SAMPLE_RATE = 44100;
-    private static int  AUDIO_CHANNL = 2;
-    
-    private String AudioName = "";        //原始音频数据文件 ，麦克风    
-    private String NewAudioName = "";     //可播放的音频文件  
+	private String AudioName = "";        //原始音频数据文件 ，麦克风
+	private String NewAudioName = "";     //可播放的音频文件
 	private static File recordFile ;
 
-	ShowWaveView waveview;
+	com.huari.ui.ShowWaveView waveview;
+	com.huari.ui.Waterfall waterfall;
 	com.huari.ui.PartWaveShowView showwave;
 	ViewPager viewpager;
 	ItuAdapterOfListView listAdapter;
@@ -111,32 +104,25 @@ public class SpectrumsAnalysisActivity extends AnalysisBase {
 
 	boolean partispause, fullispause = true;
 	ArrayList<Parameter> ap;
-	float startFreq = 0f, endFreq = 0f, pStepFreq = 0f, centerFreq = 0f,
-			daikuan = 0f;
-	float halfSpectrumsWide;// 频谱带宽的一半
+	float startFreq = 0f, endFreq = 0f, pStepFreq = 0f, centerFreq = 0f;
+
+	float spwide = 0f, halfSpectrumsWide;// 频谱带宽的一半
 	String logicId;
 	String txname;
 	MenuItem mitem;
 
-	static byte[] info;
-
 	View parentview;
-	String[] namesofitems, advanceditems, generalparent, generaletdata;
-	//private int generalindex;
-	String[][] generalchild;
-	TextView normaltextview, advancedtextview, titlebarname, stationtextview,
-			devicetextview;
 
-	int offset, displaywidth, barwidth;
+	TextView stationtextview, devicetextview;
+
 	String stationname = null, devicename = null, stationKey = null;
-	//static String mydevicename;// 仅在播放声音创建声音播放器时使用。
+
 	ActionBar actionbar;
 
 	LinearLayout.LayoutParams params1 = new LinearLayout.LayoutParams(0,
 			LinearLayout.LayoutParams.WRAP_CONTENT, 1);
 	LinearLayout.LayoutParams params2 = new LinearLayout.LayoutParams(0,
 			LinearLayout.LayoutParams.WRAP_CONTENT, 2);
-	String tempstationname, tempdevicename;
 
 	Socket socket;// 用来接收数据
 	OutputStream outs;
@@ -148,73 +134,14 @@ public class SpectrumsAnalysisActivity extends AnalysisBase {
 	static Parameter filterSpanParameter;
 	static Parameter spectrumParameter;
 
-	boolean showMax, showMin, showAvg;
+	boolean showMax, showMin, showAvg,water;
 
 	// 解析声音相关的东西
 	private String fileName;
 	private static String fileBasePath;
 	private Station stationF;
 
-	//public static PlayAudioThread playAudioThread;
-
 	@SuppressWarnings("deprecation")
-	public static void createAudioPlay(int frequency, byte bitcounts,
-			short channelcount, int framelength) {
-
-		AUDIO_SAMPLE_RATE = frequency;
-		AUDIO_CHANNL = channelcount;
-		
-		if (bitcounts == 0 && channelcount == 1) {
-			audioBuffersize = AudioTrack
-					.getMinBufferSize(frequency, AudioFormat.CHANNEL_OUT_MONO,
-							AudioFormat.ENCODING_PCM_8BIT);
-			audioBuffersize = Math.max(audioBuffersize, framelength);
-			
-			at = new AudioTrack(AudioManager.STREAM_MUSIC, frequency,
-					AudioFormat.CHANNEL_OUT_MONO,
-					AudioFormat.ENCODING_PCM_8BIT, audioBuffersize*4 ,
-					AudioTrack.MODE_STREAM);
-			audioBuffer = new byte[audioBuffersize];
-			tempAudioBuffer = new byte[tempLength];
-		} else if (bitcounts == 1 && channelcount == 1) {
-			audioBuffersize = AudioTrack.getMinBufferSize(frequency,
-					AudioFormat.CHANNEL_OUT_MONO,
-					AudioFormat.ENCODING_PCM_16BIT);
-			audioBuffersize = Math.max(audioBuffersize, framelength);
-			
-			at = new AudioTrack(AudioManager.STREAM_MUSIC, frequency,
-					AudioFormat.CHANNEL_OUT_MONO,
-					AudioFormat.ENCODING_PCM_16BIT, audioBuffersize,
-					AudioTrack.MODE_STREAM);
-			audioBuffer = new byte[audioBuffersize];
-			tempAudioBuffer = new byte[tempLength];
-			at.play();
-		} else if (bitcounts == 0 && channelcount == 2) {
-			audioBuffersize = AudioTrack.getMinBufferSize(frequency,
-					AudioFormat.CHANNEL_OUT_STEREO,
-					AudioFormat.ENCODING_PCM_8BIT);
-			audioBuffersize = Math.max(audioBuffersize, framelength);
-
-			at = new AudioTrack(AudioManager.STREAM_MUSIC, frequency,
-					AudioFormat.CHANNEL_OUT_STEREO,
-					AudioFormat.ENCODING_PCM_8BIT, audioBuffersize,
-					AudioTrack.MODE_STREAM);
-			audioBuffer = new byte[audioBuffersize];
-			tempAudioBuffer = new byte[tempLength];
-		} else if (bitcounts == 1 && channelcount == 2) {
-			audioBuffersize = AudioTrack.getMinBufferSize(frequency,
-					AudioFormat.CHANNEL_OUT_STEREO,
-					AudioFormat.ENCODING_PCM_16BIT);
-			audioBuffersize = Math.max(audioBuffersize, framelength);
-			
-			at = new AudioTrack(AudioManager.STREAM_MUSIC, frequency,
-					AudioFormat.CHANNEL_OUT_STEREO,
-					AudioFormat.ENCODING_PCM_16BIT, audioBuffersize,
-					AudioTrack.MODE_STREAM);
-			audioBuffer = new byte[audioBuffersize];
-			tempAudioBuffer = new byte[tempLength];
-		}
-	}
 
 	class IniThread extends Thread {
 		public void run() {
@@ -362,21 +289,19 @@ public class SpectrumsAnalysisActivity extends AnalysisBase {
 		setContentView(R.layout.activity_spectrums_analysis);
 		inithread = new IniThread();
 		inithread.start();
-		// playAudioThread=new PlayAudioThread();
-		// playAudioThread.start();
-		// audioBuffer=playAudioThread.getAudioBuffer();
+
 		SysApplication.getInstance().addActivity(this);
 
 		GlobalData.willplay = false;
 
 		Thread.setDefaultUncaughtExceptionHandler(GlobalData.myExceptionHandler);
 
-		pm = (PowerManager) getSystemService(getApplicationContext().POWER_SERVICE);
-		wl = pm.newWakeLock(PowerManager.SCREEN_DIM_WAKE_LOCK, "MyTag");
+//		pm = (PowerManager) getSystemService(getApplicationContext().POWER_SERVICE);
+//		wl = pm.newWakeLock(PowerManager.SCREEN_DIM_WAKE_LOCK, "MyTag");
 
 		ituLinearLayout = (LinearLayout) getLayoutInflater().inflate(
 				R.layout.listviewwithitu, null);
-		itulistview = (ListView) ituLinearLayout.findViewById(R.id.itulistview);
+		itulistview = ituLinearLayout.findViewById(R.id.itulistview);
 		viewlist = new ArrayList<View>();
 
 		spectrumAdapter = new PagerAdapterOfSpectrum(viewlist);
@@ -407,7 +332,6 @@ public class SpectrumsAnalysisActivity extends AnalysisBase {
 		Bundle bundle = intent.getExtras();
 		stationname = bundle.getString("stationname");
 		devicename = bundle.getString("devicename");
-		//mydevicename = devicename;
 		stationKey = bundle.getString("stationKey");
 		logicId = bundle.getString("lid");
 
@@ -429,17 +353,22 @@ public class SpectrumsAnalysisActivity extends AnalysisBase {
 
 		showwave = (com.huari.ui.PartWaveShowView) getLayoutInflater().inflate(
 				R.layout.a, null);
-		// (com.huari.ui.PartWaveShowView) findViewById(R.id.buildpartwaveshow);
+
 		viewlist.add(showwave);
 		viewlist.add(ituLinearLayout);
 		viewpager.setAdapter(spectrumAdapter);
 		parentview = getLayoutInflater().inflate(
 				R.layout.activity_spectrums_analysis, null);
 
+		waterfall = findViewById(R.id.waterfall);
+
+		GlobalData.create_colortbl();
+		waterfall.set_ColorTbl(GlobalData.ColorTbl);
+
 		// 开始设置waveview的相关参数。参数从GlobalData中读取。
-		waveview = (ShowWaveView) findViewById(R.id.buildshowwaveview);
+		waveview = findViewById(R.id.buildshowwaveview);
 		stationF = GlobalData.stationHashMap.get(stationKey);
-		ArrayList<MyDevice> am = stationF.devicelist;
+		ArrayList<MyDevice> am = stationF.showdevicelist;
 		HashMap<String, LogicParameter> hsl = null;
 		for (MyDevice md : am) {
 			if (md.name.equals(devicename)) {
@@ -450,17 +379,18 @@ public class SpectrumsAnalysisActivity extends AnalysisBase {
 		ap = currentLP.parameterlist;
 
 		for (Parameter p : ap) {
-			if (p.name.equals("DemodulationSpan")) {
-				daikuan = Float.parseFloat(p.defaultValue);
-			} else if (p.name.equals("StepFreq")) {
+			if (p.name.equals("ifbw")) {
+				spwide = Float.parseFloat(p.defaultValue);
+				halfSpectrumsWide = spwide/2000;
+			} else if (p.name.equals("rbw")||p.name.equals("step")) {
 				pStepFreq = Float.parseFloat(p.defaultValue);
 			} else if (p.name.equals("CenterFreq")) {
 				centerFreq = Float.parseFloat(p.defaultValue);
 				centerParameter = p;
 			} else if (p.name.equals("AntennaSelect")) {
 				txname = p.defaultValue;
-			};
-			
+			}
+
 			if (p.name.equals("FilterSpan")) {
 				halfSpectrumsWide = Float.parseFloat(p.defaultValue) / 2000f;
 				filterSpanParameter = p;
@@ -516,6 +446,11 @@ public class SpectrumsAnalysisActivity extends AnalysisBase {
 						GlobalData.ituHashMap.clear();
 						listAdapter.notifyDataSetChanged();
 					} else if (msg.what == 0x10) {
+						if (water) {
+							waterfall.set_newdata(GlobalData.Spectrumpinpu, GlobalData.Spectrumpinpu.length);
+							waterfall.postInvalidate();
+						}
+
 						waveview.setHave(true);
 						waveview.setM(GlobalData.Spectrumpinpu);
 						if (showMax) {
@@ -533,17 +468,15 @@ public class SpectrumsAnalysisActivity extends AnalysisBase {
 						} else {
 							waveview.setAvg(null);
 						}
-						waveview.postInvalidate();
 						waveview.setFandC(startFreq, endFreq,
 								GlobalData.Spectrumpinpu.length);
+						waveview.postInvalidate();
 					}
 
 					else if (msg.what == AUDIODATA)  //=0x5   声音
 					{
 						synchronized (synObject) {
-							// if(GlobalData.willplay)
-							// {
-							//at.flush();
+
 							at.write(audioBuffer, 0, audioBuffer.length);
 							at.flush();
 							at.play();
@@ -552,8 +485,7 @@ public class SpectrumsAnalysisActivity extends AnalysisBase {
 								Thread.sleep(1);
 							}
 							audioindex = 0;
-							// GlobalData.willplay=false;
-							// }
+
 						}
 					}
 
@@ -561,7 +493,7 @@ public class SpectrumsAnalysisActivity extends AnalysisBase {
 						listAdapter.notifyDataSetChanged();
 					}
 				} catch (Exception e) {
-
+					e.printStackTrace();
 				}
 			}
 		};
@@ -594,6 +526,11 @@ public class SpectrumsAnalysisActivity extends AnalysisBase {
 		} else {
 			showAvg = false;
 		}
+		if (menu.findItem(R.id.capture).getTitle().equals("关闭瀑布图")) {
+			water = true;
+		} else {
+			water = false;
+		}
 		return super.onCreateOptionsMenu(menu);
 	}
 
@@ -610,26 +547,26 @@ public class SpectrumsAnalysisActivity extends AnalysisBase {
 				GlobalData.oldcount = 0;
 				GlobalData.haveCount = 0;
 				item.setTitle("开始测量");
-				
+
 				if (isRecording)
 				{
-				  Menu menu = null;
-				  getMenuInflater().inflate(R.menu.pinpufenxiitem, menu);
-				  MenuItem itm;
-				  itm = menu.findItem(R.id.recorder);
-				  itm.setTitle("录音");
-				  isRecording = false;
-			      try {
-			            if(fos != null)
-			                fos.close();// 关闭写入流  
-			      } catch (IOException e) {  
-			            e.printStackTrace();  
-			      } 
-			      
-			      FileOsImpl.copyWaveFile(AudioName, NewAudioName);//给裸数据加上头文件
+					Menu menu = null;
+					getMenuInflater().inflate(R.menu.pinpufenxiitem, menu);
+					MenuItem itm;
+					itm = menu.findItem(R.id.recorder);
+					itm.setTitle("录音");
+					isRecording = false;
+					try {
+						if(fos != null)
+							fos.close();// 关闭写入流
+					} catch (IOException e) {
+						e.printStackTrace();
+					}
+
+					FileOsImpl.copyWaveFile(AudioName, NewAudioName);//给裸数据加上头文件
 
 				}
-				
+
 			} else {
 				partispause = false;
 				fullispause = false;
@@ -662,7 +599,6 @@ public class SpectrumsAnalysisActivity extends AnalysisBase {
 				ab.setMessage("功能运行期间不可更改设置，确定要停止功能进行设置吗？");
 				ab.setPositiveButton("确定",
 						(dialog, which) -> {
-							// TODO Auto-generated method stub
 							partispause = true;
 							fullispause = true;
 							findViewById(R.id.zanting1);
@@ -680,7 +616,7 @@ public class SpectrumsAnalysisActivity extends AnalysisBase {
 							mythread = null;
 							if (inithread != null) {
 								try {
-									inithread.destroy();
+									inithread.join(150);
 								} catch (Exception e) {
 
 								}
@@ -752,43 +688,52 @@ public class SpectrumsAnalysisActivity extends AnalysisBase {
 				showAvg = true;
 			}
 		} else if (item.getItemId() == R.id.capture) {
-			if (item.getTitle().equals("截图")) {
-				
+			if (item.getTitle().equals("显示瀑布图")) {
+				item.setTitle("关闭瀑布图");
+				water = true;
+				waterfall.setVisibility(View.VISIBLE);
 			}
-			
+			else{
+				item.setTitle("显示瀑布图");
+				water = false;
+				waterfall.setVisibility(View.GONE);
+			}
+
 		} else if (item.getItemId() == R.id.recorder) {
 			if (item.getTitle().equals("录音")) {
-			    item.setTitle("停止录音");
+				try {
+					AudioName = FileOsImpl.forSaveFloder + File.separator + "voice" + File.separator + "temp";
+					NewAudioName = getWavFilePath();
 
-		        AudioName = getRawFilePath();
-		        NewAudioName = getWavFilePath(); 
-		        
-		        try {  
-		        	recordFile = new File(AudioName);  
-		            if (recordFile.exists()) {  
-		            	recordFile.delete();  
-		            }  
-		            fos = new FileOutputStream(recordFile);// 建立一个可存取字节的文件  
-		        } catch (Exception e) {  
-		            e.printStackTrace();  
-		        }  
-		        
-			    isRecording = true;
+					recordFile  = new File(AudioName);
+					recordFile.delete();
+					if (!recordFile.getParentFile().exists()) {
+						recordFile.getParentFile().mkdirs();
+					}
+
+					fos = new FileOutputStream(recordFile);// 建立一个可存取字节的文件
+
+					isRecording = true;
+					item.setTitle("停止录音");
+
+				} catch (Exception e) {
+					e.printStackTrace();
+				}
+
 			}
 			else
 			{
 				item.setTitle("录音");
 				if (isRecording)
 				{
-				  isRecording = false;
-			      try {
-			            if(fos != null)
-			                fos.close();   // 关闭写入流  
-			      } catch (IOException e) {  
-			            e.printStackTrace();  
-			      } 
-			      
-			      FileOsImpl.copyWaveFile(AudioName, NewAudioName);   //给裸数据加上头文件
+					try {
+						if(fos != null)
+							fos.close();   // 关闭写入流
+						FileOsImpl.copyWaveFile(AudioName, NewAudioName);   //给裸数据加上头文件
+						isRecording = false;
+					} catch (IOException e) {
+						e.printStackTrace();
+					}
 				}
 			}
 		}
@@ -889,7 +834,6 @@ public class SpectrumsAnalysisActivity extends AnalysisBase {
 				socket.setSoTimeout(5000);
 
 			} catch (IOException e) {
-				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
 		}
@@ -899,13 +843,13 @@ public class SpectrumsAnalysisActivity extends AnalysisBase {
 				mythread.join();
 				mythread = null;
 			} catch (Exception e) {
-
+				e.printStackTrace();
 			}
 		}
 		mythread = null;
 		if (inithread != null) {
 			try {
-				inithread.destroy();
+				inithread.join();
 			} catch (Exception e) {
 				e.printStackTrace();
 			}
@@ -918,7 +862,7 @@ public class SpectrumsAnalysisActivity extends AnalysisBase {
 			releaseAudioResource();
 			System.gc();
 		} catch (Exception e) {
-
+			e.printStackTrace();
 		}
 	}
 
@@ -929,13 +873,13 @@ public class SpectrumsAnalysisActivity extends AnalysisBase {
 	}
 
 	private void releaseAudioResource() {
-		 at.stop();
-		 at.release();
+		at.stop();
+		at.release();
 	}
 
 	@Override
 	protected void onResume() {
-		wl.acquire();
+		//wl.acquire();
 		fullispause = false;
 		partispause = false;
 		startWindow();
@@ -971,51 +915,52 @@ public class SpectrumsAnalysisActivity extends AnalysisBase {
 
 	@Override
 	protected void onPause() {
-		wl.release();
+		//wl.release();
 		super.onPause();
 		ByteFileIoUtils.runFlag = false;
 		WindowHelper.instance.stopWindowService(this);
-		willExit();
 	}
 
-    /**
-     * 判断是否有外部存储设备sdcard
-     * @return true | false
-     */
-    public static boolean isSdcardExit(){       
-        if (Environment.getExternalStorageState().equals(android.os.Environment.MEDIA_MOUNTED))
-            return true;
-        else
-            return false;
-    }
-    
-    /**
-     * 获取麦克风输入的原始音频流文件路径
-     * @return
-     */
-    public static String getRawFilePath(){
-        String mAudioRawPath = "";
-        if(isSdcardExit()){
+	/**
+	 * 判断是否有外部存储设备sdcard
+	 * @return true | false
+	 */
+	public static boolean isSdcardExit(){
+		if (Environment.getExternalStorageState().equals(android.os.Environment.MEDIA_MOUNTED))
+			return true;
+		else
+			return false;
+	}
+
+	/**
+	 * 获取麦克风输入的原始音频流文件路径
+	 * @return
+	 */
+	public static String getRawFilePath(){
+		String mAudioRawPath = "";
+		if(isSdcardExit()){
 			fileBasePath = FileOsImpl.forSaveFloder;
-            mAudioRawPath = fileBasePath + File.separator + "Voice"+File.separator+"transfer";
-        }   
-        if (!(new File(fileBasePath).exists())){
-        	new File(fileBasePath).mkdirs();
+			mAudioRawPath = fileBasePath + File.separator + "Voice"+File.separator+"transfer";
 		}
-        return mAudioRawPath;
-    }
-    
-    public static String getWavFilePath(){
-        String mAudioWavPath = "";
-        if (isSdcardExit()) {
-            String fileBasePath = FileOsImpl.forSaveFloder;
+		if (!(new File(fileBasePath).exists())){
+			new File(fileBasePath).mkdirs();
+		}
+		return mAudioRawPath;
+	}
+
+	public static String getWavFilePath(){
+		String mAudioWavPath = "";
+		if (isSdcardExit()) {
+			String fileBasePath = FileOsImpl.forSaveFloder;
 			SimpleDateFormat df = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
 			String fileName = "REC|"+df.format(new Date()).replaceAll(" ", "|")+".wav";
-            mAudioWavPath = fileBasePath + File.separator + "data" +File.separator+ fileName;
-            if (!((new File(mAudioWavPath)).getParentFile().exists())){
+			fileName = fileName.replaceAll(":","_");
+			mAudioWavPath = fileBasePath + File.separator + "data" +File.separator+ fileName;
+			if (!((new File(mAudioWavPath)).getParentFile().exists())){
 				new File(mAudioWavPath).mkdirs();
 			}
-        }
-        return mAudioWavPath;
-    }
+		}
+		return mAudioWavPath;
+
+	}
 }

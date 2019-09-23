@@ -78,7 +78,7 @@
                 android:id="@+id/play_control"
                 android:layout_width="30dp"
                 android:layout_height="30dp"
-                android:src="@drawable/play_icon" />
+                android:background="@drawable/play_icon" />
             <View
                 android:layout_width="0dp"
                 android:layout_height="1dp"

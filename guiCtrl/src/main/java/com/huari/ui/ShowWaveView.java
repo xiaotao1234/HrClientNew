@@ -14,27 +14,29 @@ import android.graphics.Rect;
 import android.graphics.RectF;
 import android.graphics.Region.Op;
 import android.util.AttributeSet;
+import android.util.Log;
 import android.view.MotionEvent;
 import android.view.View;
 
 /**
  * 频谱分析（单频测量）下方的控件，一次性画出
- * 
+ *
  * f1、fh分别代表频率的最小值和最大值，比如100、200，而headf、tailf则是在横向上扩、缩放用的，比如通过滑动后，只让其展示120--150段
  * ， 则headf=120,tailf=150,headf和tailf也是画图时在X轴两端上标出的值。
  * 该控件中没有中心频率和带宽的变量，如果需要根据这两个值画图，则需要转换为适合该控件的变量，即转换成f1、fh、bujin等变量。
- * 
- * 
+ *
+ *
  * @author jianghu
- * 
+ *
  */
 public class ShowWaveView extends View {
 	private int mywidth, myheight;// 单位: dp
 	Context con;
 	private boolean have;// 该变量用以控制更新时是否画波形
+	private boolean mk;
 	private float al = -20f, ah = 80f;// 分别代表y轴上两端的幅度值，即最小值和最大值。默认为-20和80。
 	public int leftmargin, upmargin;// 坐标横向和纵向上的起点，即纵轴从x坐标为leftmargin处画起，
-									// 左侧有leftmargin宽的空白区，横轴从upmargin处画起，上侧有upmargin高的空白
+	// 左侧有leftmargin宽的空白区，横轴从upmargin处画起，上侧有upmargin高的空白
 	private float fl, fh;// 分别代表x轴上两端的频率值，即最小值和最大值
 	// private float xpoint;// 每个dp代表多少频率差值
 
@@ -45,9 +47,11 @@ public class ShowWaveView extends View {
 	private Paint minpaint;
 	private Paint avgpaint;
 	private Paint mengbanpaint;
+	private Paint markpaint;
 	private Paint marginpaint, textpaint, p2, shutextpaint;// 画示波界面四条边框的画笔
 	private Paint virtualpaint;// 画示波界面内虚线的画笔
 	private PathEffect effects;// 用以制作虚线效果
+	static int marktxt_x = 1200;
 
 	// 分别用来存储实时值、最大值、最小值、平均值
 	private short[] m;
@@ -57,6 +61,7 @@ public class ShowWaveView extends View {
 
 	private float startx = 0, endx = 0, textx;// 分别记录触屏事件的起点、终点的x坐标,纵坐标标值的x起点
 	private float starty = 0, endy = 0;// 分别记录触屏事件的起点、终点的y坐标
+	private float mk_x=0,mk_y=0;  //Marker点的x坐标和y坐标
 	private float headf, tailf, bujin;// 调频率后两端的频率值,bujin单位Hz
 	private int showpointcount;// 实际要展示的点数。因为扩、缩放的问题，实际展示的点数可能并不是接收到的所有点数。
 	float newbujin = bujin / 1000;
@@ -73,7 +78,7 @@ public class ShowWaveView extends View {
 	private Rect r;
 	private float chufazhi;// 滑动的距离达到或超过了该值，才算有滑动发生
 	private int startnum, endnum;// 要展示的一串点的第一个点和最后一个点的索引
-	private int count;
+	private int count,no;
 	private float linex, startlinex;
 
 	public void settailf(float tailf) {
@@ -108,6 +113,7 @@ public class ShowWaveView extends View {
 		textpaint = new Paint();
 		shutextpaint = new Paint();
 		mengbanpaint = new Paint();
+		markpaint = new Paint();
 		mengbanpaint.setColor(Color.YELLOW);
 		mengbanpaint.setAlpha(100);
 		wavepaint.setColor(Color.GREEN);
@@ -117,6 +123,8 @@ public class ShowWaveView extends View {
 
 		minpaint.setColor(Color.BLUE);
 		avgpaint.setColor(Color.YELLOW);
+		markpaint.setColor(Color.RED);
+
 		wavepaint.setStyle(Style.STROKE);
 		maxpaint.setStyle(Style.STROKE);
 		minpaint.setStyle(Style.STROKE);
@@ -126,7 +134,7 @@ public class ShowWaveView extends View {
 		marginpaint.setStrokeWidth(0.4f);
 		textpaint.setColor(Color.parseColor("#70f3ff"));
 		textpaint.setTextAlign(Align.RIGHT);
-		textpaint.setTextSize(16);
+		textpaint.setTextSize(20);
 		shutextpaint.setColor(Color.parseColor("#70f3ff"));
 		shutextpaint.setTextAlign(Align.RIGHT);
 		virtualpaint = new Paint();
@@ -149,7 +157,7 @@ public class ShowWaveView extends View {
 
 	@Override
 	protected void onSizeChanged(int w, int h, int oldw, int oldh) {
-		// TODO Auto-generated method stub
+
 		super.onSizeChanged(w, h, oldw, oldh);
 		chufazhi = getWidth() / 6;
 		mywidth = getWidth();
@@ -163,7 +171,7 @@ public class ShowWaveView extends View {
 	 * public void setWavepaint(Paint wavepaint) <br/>
 	 * <br/>
 	 * 用来设置画波形的Paint。
-	 * 
+	 *
 	 * @param wavepaint
 	 *            画波形的画笔。
 	 */
@@ -175,8 +183,8 @@ public class ShowWaveView extends View {
 	 * public void setMaxpaint(Paint maxpaint) <br/>
 	 * <br/>
 	 * 用来设置画最大值波形的Paint。
-	 * 
-	 * @param wavepaint
+	 *
+	 * param wavepaint
 	 *            画最大值波形的画笔。
 	 */
 	public void setMaxpaint(Paint maxpaint) {
@@ -186,7 +194,7 @@ public class ShowWaveView extends View {
 	/**
 	 * public void setMinpaint(Paint minpaint) <br/>
 	 * 用来设置画最小值波形的Paint。
-	 * 
+	 *
 	 * @param minpaint
 	 *            画最小值波形的画笔。
 	 */
@@ -197,7 +205,7 @@ public class ShowWaveView extends View {
 	/**
 	 * public void setAvgpaint(Paint avgpaint) <br/>
 	 * 用来设置画平均值波形的Paint。
-	 * 
+	 *
 	 * @param avgpaint
 	 *            画平均值波形的画笔。
 	 */
@@ -215,7 +223,7 @@ public class ShowWaveView extends View {
 
 	/**
 	 * 设置起始频率和终止频率，即波形所能展示的最大频率段范围。bujin为步进。
-	 * 
+	 *
 	 * @param fl
 	 * @param fh
 	 * @param bujin
@@ -242,10 +250,10 @@ public class ShowWaveView extends View {
 	/**
 	 * public void setMax(int[] max) <br/>
 	 * 用来设置max[]
-	 * 
+	 *
 	 * @param max
 	 *            一个含有count个元素的整型数组，用以表示count个元素各自对应的最高值
-	 * 
+	 *
 	 */
 	public void setMax(short[] max) {// 为该View设置max[]
 		this.max = max;
@@ -254,7 +262,7 @@ public class ShowWaveView extends View {
 	/**
 	 * public void setMin(int[] min) <br/>
 	 * 用来设置min[]
-	 * 
+	 *
 	 * @param min
 	 *            一个含有count个元素的整型数组，用以表示count个元素各自对应的最小值
 	 */
@@ -265,8 +273,8 @@ public class ShowWaveView extends View {
 	/**
 	 * public void setAvg(int[] avg) <br/>
 	 * 用来设置avg[ ]
-	 * 
-	 * @param avg
+	 *
+	 * param avg
 	 *            一个含有count个元素的整型数组，用以表示count个元素各自对应的平均值
 	 */
 	public void setAvg(short[] av) {
@@ -275,7 +283,7 @@ public class ShowWaveView extends View {
 
 	/**
 	 * 用来设置画示波界面的矩形区域边框的画笔。
-	 * 
+	 *
 	 * @param marginpaint
 	 *            画矩形区域边框的画笔。“频率”、“幅度”和坐标的标值等也是用这个画笔画的。
 	 */
@@ -285,7 +293,7 @@ public class ShowWaveView extends View {
 
 	/**
 	 * 用来设置画坐标网格内虚线的画笔。
-	 * 
+	 *
 	 * @param virtualpaint
 	 *            画虚线的画笔。
 	 */
@@ -295,7 +303,7 @@ public class ShowWaveView extends View {
 
 	/**
 	 * 用来设置表示波形幅度值的整型数组。
-	 * 
+	 *
 	 * @param m
 	 *            一个含有count个元素的整型数组，每个元素表示对应点的实时幅度值。
 	 */
@@ -305,7 +313,7 @@ public class ShowWaveView extends View {
 
 	/**
 	 * 控制控件是否显示波形。当变量have为true时，显示波形。
-	 * 
+	 *
 	 * @param b
 	 */
 	public void setHave(boolean b) {
@@ -316,7 +324,6 @@ public class ShowWaveView extends View {
 		super(context);
 		con = context;
 		initialize();
-		// TODO Auto-generated constructor stub
 	}
 
 	public ShowWaveView(Context context, AttributeSet set) {
@@ -353,11 +360,68 @@ public class ShowWaveView extends View {
 				}
 				if (m != null) {
 					DrawWaves(canvas, wavepaint, arraytoy(m));
+					if (mk)
+					{
+						Path mkpath = new Path();
+						mkpath.moveTo(mk_x, zeroatdp - m[no] / aperdp);
+						mkpath.lineTo(mk_x-20,zeroatdp - m[no] / aperdp-29);
+						mkpath.lineTo(mk_x+20,zeroatdp - m[no] / aperdp-29);
+						Log.d("guidebug",String.format("x=%8.3f",mk_x) + String.format("   y = %8.3f",(float)zeroatdp - m[no] / aperdp));
+						mkpath.close();
+						markpaint.setColor(Color.RED);
+						canvas.drawPath(mkpath,markpaint);
+						markpaint.setColor(Color.WHITE);
+						markpaint.setTextSize(40);
+						canvas.drawText(String.format("Mkr1: %8.3f MHz, ",fl+(fh-fl)/showpointcount*no)+String.format("%6.3f dBuV",mk_y),marktxt_x,80,markpaint); //绘制文字
+						//indextof(xtoindex(mk_x))
+					}
+
 				}
 
 			}
 		} catch (Exception e) {
 
+		}
+	}
+
+	public void setMk(boolean mk) {
+		this.mk = mk;
+	}
+
+	public void find_marker(int flag)
+	{
+		int begin=0,end=0;
+		float tmp= -200f;
+
+		if (m!=null) {
+			if (flag == 0)
+			{
+				begin = 0;
+				end = m.length;
+			}
+			if (flag == 1)
+			{
+				begin = 0;
+				end = no-1;
+			}
+			if (flag == 2)
+			{
+				begin = no+1;
+				end = m.length;
+			}
+
+			for (int i = begin; i < end; i++)
+			{
+				if (m[i]>tmp)
+				{
+					tmp = m[i];
+					no = i;
+				}
+			}
+			mk = true;
+			mk_x = leftmargin + wavexs * no;
+			mk_y = tmp;
+			Log.d("guidebug",String.format("no =%d / %d",no,m.length) + String.format("   x = %8.3f",(float)mk_x));
 		}
 	}
 
@@ -425,6 +489,13 @@ public class ShowWaveView extends View {
 		return n;
 	}
 
+	public void set_ah_al(float ah,float al)
+	{
+		this.ah = ah;
+		this.al = al;
+		postInvalidate();
+	}
+
 	private int xtoindex(float x) {
 		int returnvalue = 0;
 		if (x - leftmargin <= 0) {
@@ -446,7 +517,6 @@ public class ShowWaveView extends View {
 
 	private void DrawWaves(Canvas canvas, Paint p, int[] m)// 画波形
 	{
-
 		Rect r = new Rect(leftmargin, upmargin, (int) (leftmargin + xp * 20),
 				(int) (upmargin + yp * 20));
 		canvas.clipRect(r, Op.INTERSECT);
@@ -469,6 +539,7 @@ public class ShowWaveView extends View {
 			}
 			canvas.drawPath(wavepath, p);
 		} catch (Exception e) {
+			e.printStackTrace();
 
 		}
 
@@ -492,15 +563,15 @@ public class ShowWaveView extends View {
 			biaoxianx = indextof(xtoindex(endx));
 			if (Math.abs(starty - endy) - Math.abs(startx - endx) > 0)// 纵向滑动
 			{
-				if (endy - starty > chufazhi && ah >= 40)// 向下滑动
+				if (endy - starty > chufazhi && ah >= 30)// 向下滑动
 				{
-					ah = ah - 10;
+					//ah = ah - 10;
 					al = al + 10;
 					starty = endy;
 					startx = endx;
 				} else if (starty - endy > chufazhi)// 向上滑动
 				{
-					ah = ah + 10;
+					//ah = ah + 10;
 					al = al - 10;
 					starty = endy;
 					startx = endx;

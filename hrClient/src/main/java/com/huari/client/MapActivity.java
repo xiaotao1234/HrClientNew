@@ -90,11 +90,8 @@ public class MapActivity extends AppCompatActivity {
 
     MKOfflineMap offlinemap;
     ArrayList<MKOLUpdateElement> localMapList;
-    MKOfflineMapListener mkoml = new MKOfflineMapListener() {
-        @Override
-        public void onGetOfflineMapState(int arg0, int arg1) {
+    MKOfflineMapListener mkoml = (arg0, arg1) -> {
 
-        }
     };
     LocationClient lcient;
     MyLocationListener listener = new MyLocationListener();

@@ -135,7 +135,7 @@ public class HistoryDFActivity extends AppCompatActivity {
     MenuItem mitem;
     TextView stationtextview;
     TextView devicetextview;
-    TextView showStation;
+    ImageView showStation;
 
     Parameter centerParameter;
     Parameter filterSpanParameter;// 次选带宽
@@ -273,6 +273,9 @@ public class HistoryDFActivity extends AppCompatActivity {
         showStation.setSystemUiVisibility(View.INVISIBLE);
 //        startWindow();
         pause = false;
+        RealTimeSaveAndGetStore.ParseFlg = false;
+        RealTimeSaveAndGetStore.StopFlag = false;
+        RealTimeSaveAndGetStore.progressFlg = false;
         RealTimeSaveAndGetStore.ParseLocalWrap(filename, 1,handler);
     }
 
@@ -303,7 +306,7 @@ public class HistoryDFActivity extends AppCompatActivity {
         // TODO：更新popupwindow的状态
         window.update();
         // TODO: 2016/5/17 以下拉的方式显示，并且可以设置显示的位置
-        window.showAsDropDown(view,0,-20,Gravity.TOP);
+        window.showAsDropDown(view,0,-200,Gravity.TOP);
     }
 
     @Override
@@ -366,7 +369,7 @@ public class HistoryDFActivity extends AppCompatActivity {
 //                PopupWindow popupWindow = new PopupWindow(view,100,200,true);
 //                popupWindow.showAtLocation(LayoutInflater.from(HistoryDFActivity.this).inflate(R.layout.activity_history,null,false),1,200,200);
             });
-            contorl.setOnClickListener(v -> RealTimeSaveAndGetStore.pauseOrResume());
+            contorl.setOnClickListener(v -> RealTimeSaveAndGetStore.pauseOrResume(contorl));
             customProgress.setProgress(0);
             customProgress.setProgressListener(progress -> {
                 pause = false;

@@ -8,22 +8,22 @@
         android:id="@+id/firstviewpager"
         android:layout_width="match_parent"
         android:layout_height="0dp"
-        android:layout_weight="0.8"
+        android:layout_weight="0.6"
         />
-
-    <!--<com.huari.ui.PartWaveShowView-->
-            <!--android:id="@+id/buildpartwaveshow"-->
-            <!--android:background="@android:color/black"-->
-            <!--android:layout_width="match_parent"-->
-            <!--android:layout_height="0dp"-->
-            <!--android:layout_weight="0.8"/>-->
-
-    
-    <com.huari.ui.ShowWaveView 
+    <com.huari.ui.ShowWaveView
         android:id="@+id/buildshowwaveview"
         android:background="@android:color/black"
         android:layout_width="match_parent"
         android:layout_height="0dp"
         android:layout_weight="1"/>
-    
+
+    <com.huari.ui.Waterfall
+        android:id="@+id/waterfall"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_gravity="left"
+        android:layout_weight="0.8"
+        android:background="@android:color/black"
+        android:visibility="visible" />
+
 </LinearLayout>

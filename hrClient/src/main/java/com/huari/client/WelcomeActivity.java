@@ -60,7 +60,7 @@ public class WelcomeActivity extends Activity {
             // else
             // {
             //startActivity(new Intent(WelcomeActivity.this, MainActivity.class));
-            startActivity(new Intent(WelcomeActivity.this, OfflineDownloadActivity.class));
+            startActivity(new Intent(WelcomeActivity.this, MajorActivity.class));
             finish();
             // }
             // editor.putInt("count", 1);

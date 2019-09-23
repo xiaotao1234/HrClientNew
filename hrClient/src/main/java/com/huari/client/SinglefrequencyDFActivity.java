@@ -147,6 +147,7 @@ public class SinglefrequencyDFActivity extends AppCompatActivity {
      *
      */
     private void startcmd() {
+        Socket socket;
 
         byte[] bbb = iRequestInfo();
         // System.out.println("客户端发送的数据长度是"+bbb.length);
@@ -203,6 +204,7 @@ public class SinglefrequencyDFActivity extends AppCompatActivity {
             ByteFileIoUtils.runFlag = true;
             queue = new LinkedBlockingDeque<>();
             SimpleDateFormat df = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+            df.getNumberFormat();
             fileName = "DF|" + df.format(new Date()).replaceAll(" ", "|");
 //                    + "||" + stationname + "|" + devicename + "|" + stationKey + "|" + lan + "|" + lon;
 //                    +"|"+logicId;    //会导致文件名长度超出限制
@@ -398,7 +400,7 @@ public class SinglefrequencyDFActivity extends AppCompatActivity {
             } else {
             }
 
-            ArrayList<MyDevice> am = stationF.devicelist;
+            ArrayList<MyDevice> am = stationF.showdevicelist;
             HashMap<String, LogicParameter> hsl = null;
             for (MyDevice md : am) {
                 if (md.name.equals(devicename)) {

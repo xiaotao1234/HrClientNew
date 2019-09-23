@@ -236,7 +236,7 @@ public class ByteFileIoUtils {
                         bytes = queue.peek();
                     }
                     if (bytes == null) {
-                        Thread.sleep(20);
+                        Thread.sleep(8);
                         continue;
                     }
                     // 文件长度，字节数

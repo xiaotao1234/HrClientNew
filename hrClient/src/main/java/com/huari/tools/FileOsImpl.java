@@ -10,6 +10,7 @@ import android.util.Log;
 import com.huari.client.Main3Activity;
 import com.huari.dataentry.FileSearchData;
 import com.huari.dataentry.FileSearchMassage;
+import com.huari.dataentry.SimpleStation;
 import com.huari.dataentry.Station;
 import com.huari.dataentry.recentContent;
 
@@ -32,6 +33,8 @@ import java.util.Stack;
 
 import static android.content.Context.MODE_PRIVATE;
 import static com.huari.Base.AnalysisBase.audioBuffersize;
+import static com.huari.Base.AnalysisBase.AUDIO_SAMPLE_RATE;
+import static com.huari.Base.AnalysisBase.AUDIO_CHANNL;
 
 /**
  *
@@ -48,14 +51,15 @@ public class FileOsImpl {
     List<File> willDeleteFiles = new ArrayList<>();//将要删除的文件列表
     List<File> selectedFiles = new ArrayList<>();//被勾选的文件列表
     public static List<recentContent> recentUseFiles = new ArrayList<>();//最近有对其进行操作的文件列表
+    public static List<SimpleStation> simpleStations = new ArrayList<>();//最近有对其进行操作的文件列表
+
     File currentFloder;//当前所在目录
     File currentFile;//当前正在使用的文件
     private static FileOsImpl fileOsImpl;
     public static String forSaveFloder = Environment.getExternalStorageDirectory().getAbsolutePath();
     private Thread thread;
     public int MUSIC = 0, WORD = 1, EXCEL = 2;
-    private static long AUDIO_SAMPLE_RATE = 44100;
-    private static int  AUDIO_CHANNL = 2;
+
     private static List<recentContent> list;
 
     public FileOsImpl() {
@@ -102,7 +106,7 @@ public class FileOsImpl {
         FileInputStream in = null;
         FileOutputStream out = null;
         long totalAudioLen = 0;
-        long totalDataLen = totalAudioLen + 36;
+        long totalDataLen = 0;
         long longSampleRate = AUDIO_SAMPLE_RATE;
         int channels = AUDIO_CHANNL;
         long byteRate = 16 * AUDIO_SAMPLE_RATE * channels / 8;
@@ -111,7 +115,8 @@ public class FileOsImpl {
             in = new FileInputStream(inFilename);
             out = new FileOutputStream(outFilename);
             totalAudioLen = in.getChannel().size();
-            totalDataLen = totalAudioLen + 36;
+            totalDataLen = totalAudioLen + 44;
+
             WriteWaveFileHeader(out, totalAudioLen, totalDataLen,
                     longSampleRate, channels, byteRate);
             while (in.read(data) != -1) {
@@ -129,7 +134,7 @@ public class FileOsImpl {
     }
 
     public static void WriteWaveFileHeader(FileOutputStream out, long totalAudioLen,
-                                     long totalDataLen, long longSampleRate, int channels, long byteRate)
+                                           long totalDataLen, long longSampleRate, int channels, long byteRate)
             throws IOException {
         byte[] header = new byte[44];
         header[0] = 'R'; // RIFF/WAVE header
@@ -232,6 +237,12 @@ public class FileOsImpl {
     public static void getRecentFromFile(Handler handler) {
         try {
             File file1 = new File(forSaveFloder + File.separator + "data" + File.separator + "mimi");
+            if(file1.length()==0){
+                Message message = Message.obtain();
+                message.obj = recentUseFiles;
+                handler.sendMessage(message);
+                return;
+            }
             FileInputStream fileInputStream = new FileInputStream(file1);
             ObjectInputStream objectInputStream = new ObjectInputStream(fileInputStream);
             recentUseFiles.clear();

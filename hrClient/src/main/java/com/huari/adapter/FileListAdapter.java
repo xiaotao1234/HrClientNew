@@ -12,6 +12,9 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.huari.client.HistoryAnalysisActivity;
+import com.huari.client.HistoryDFActivity;
+import com.huari.client.HistoryPinDuanActivity;
 import com.huari.client.PlayerActivity;
 import com.huari.client.R;
 import com.huari.tools.SysApplication;
@@ -73,8 +76,24 @@ public class FileListAdapter extends RecyclerView.Adapter<FileListAdapter.viewho
                 filesname = SysApplication.fileOs.getFilesName();
                 notifyDataSetChanged();
             } else {
-                EventBus.getDefault().postSticky(new MessageEvent(files.get(position).getAbsolutePath(),position));
-                context.startActivity(new Intent(context, PlayerActivity.class));
+                Intent intent = null;
+                if(files.get(position).getName().contains("DF")){
+                    intent = new Intent(context,HistoryDFActivity.class);
+                }else if(files.get(position).getName().contains("AN")){
+                    intent = new Intent(context,HistoryAnalysisActivity.class);
+                }else if(files.get(position).getName().contains("PD")){
+                    intent = new Intent(context,HistoryPinDuanActivity.class);
+                }else if(files.get(position).getName().contains("REC")){
+                    intent = new Intent(context,PlayerActivity.class);
+                    EventBus.getDefault().postSticky(new MessageEvent(files.get(position).getAbsolutePath(),position));
+                }
+                if(intent!=null){
+                    intent.putExtra("filename", files.get(position).getName());
+                    intent.putExtra("from", "history");
+                    context.startActivity(intent);
+                }else {
+                    Toast.makeText(context,"无法打开此文件",Toast.LENGTH_SHORT).show();
+                }
             }
         });
         holder.itemView.setOnLongClickListener(v -> {

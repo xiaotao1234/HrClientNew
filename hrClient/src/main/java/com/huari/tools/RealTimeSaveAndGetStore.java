@@ -4,10 +4,12 @@ import android.content.Context;
 import android.os.Handler;
 import android.os.Message;
 import android.util.Log;
+import android.view.View;
 import android.widget.Toast;
 
 import com.huari.client.HistoryDFActivity;
 import com.huari.client.PinDuanScanningActivity;
+import com.huari.client.R;
 import com.huari.client.SinglefrequencyDFActivity;
 import com.huari.client.SpectrumsAnalysisActivity;
 import com.huari.dataentry.Station;
@@ -28,6 +30,7 @@ public class RealTimeSaveAndGetStore {
     public static int PARSE_N = 3;
     public static volatile boolean ParseFlg = false;
     public static boolean StopFlag = false;
+    public static boolean PreFlag = false;
     public static boolean progressFlg = false; //标志progress的progress的回调被触发
     public static int progress = 0;
     public static Thread thread; //负责数据解析的线程
@@ -54,6 +57,7 @@ public class RealTimeSaveAndGetStore {
     private static boolean presiousThreadStart = false;
     private static boolean nextThreadStart = false;
     private static Thread threadnext;
+    private static int lastLength = 0;
 
     interface Stopin {
         void stopclicklistener();
@@ -95,13 +99,23 @@ public class RealTimeSaveAndGetStore {
                                 person.wait();//暂停数据刷到界面
                             }
                         }
+                        if(PreFlag == true){
+                            inputStream = SysApplication.byteFileIoUtils.readFile(File.separator + "data" + File.separator + fileNameTem);
+                            inputStream.skip(StationMessageLength);//跳过文件中开始序列化Station二进制码长度的数据
+                            allLength = inputStream.available();
+                            inputStream.skip(allLength-available-frameLength-4);
+                            PreFlag = false;
+                        }
                         delayTime = MyTools.bytesToIntLittle(MyTools.nigetPartByteArray(readWithTiem, 4, 7));
+                        Log.d("xiaodelaybefore", String.valueOf(delayTime));
+                        delayTime = (delayTime-1)>0?(delayTime-1):delayTime;
+                        Log.d("xiaodelay", String.valueOf(delayTime));
                         frameLength = MyTools.bytesToIntLittle(MyTools.nigetPartByteArray(readWithTiem, 8, 11));
                         byte[] dateFrame = new byte[frameLength];
                         Log.d("xiaothread", Thread.currentThread().getName());
+                        inputStream.skip(4);
                         inputStream.read(dateFrame, 0, frameLength);
                         available = inputStream.available();
-                        Log.d("xiaoavliab", String.valueOf(available));
                         message = Message.obtain();
                         message.what = 121;
                         message.obj = (allLength - available) / (allLength / 100);
@@ -164,6 +178,47 @@ public class RealTimeSaveAndGetStore {
                     if (inputStream.available() > 8) {
                         System.arraycopy(headBytes, 0, readWithTiem, 0, 4);//重新组装一个完整的帧头
                         inputStream.read(readWithTiem, 4, 8);//读出包头中的剩余数据
+                        frameLength = MyTools.bytesToIntLittle(MyTools.nigetPartByteArray(readWithTiem, 8, 11));
+                    } else {
+                        ParseFlg = false;
+                    }
+                    available = 0;
+                    available = inputStream.available();
+                } catch (Exception e1) {
+                    e1.printStackTrace();
+                }
+            }
+
+            private void headScadule1(String fileName) {//跳过头部和progress进度的长度及处理由于progress改变导致帧不完整这一变化
+                ParseFlg = true;
+                inputStream = null;
+                try {
+                    inputStream = SysApplication.byteFileIoUtils.readFile(File.separator + "data" + File.separator + fileName);
+                    inputStream.skip(StationMessageLength);//跳过文件中开始序列化Station二进制码长度的数据
+                    allLength = inputStream.available();
+                    int nowstart = allLength / 100 * progress;
+                    inputStream.skip(nowstart);//由于skip一段后，后面的数据不一定是一个完整的
+                    // 帧，所以为了保证后面解析不出错，要去依次向后去寻找流剩余数据中的第一个包头。
+                    byte[] b = new byte[1];
+                    inputStream.read(b);
+                    int i = 0;
+                    while (inputStream.available() > 0) {
+                        int m = (b[0] & 0xFF);
+                        if ((b[0] & 0xFF) != 0xAA) {
+                            i = 0;
+                        } else {
+                            i++;
+                            if (i == 4) {
+                                break;
+                            }
+                        }
+                        inputStream.read(b);
+                    }//找包头
+                    readWithTiem = new byte[12];
+                    byte[] headBytes = MyTools.int2ByteArray(0xAAAAAAAA);
+                    if (inputStream.available() > 8) {
+                        System.arraycopy(headBytes, 0, readWithTiem, 0, 4);//重新组装一个完整的帧头
+                        inputStream.read(readWithTiem, 4, 8);//读出包头中的剩余数据
                     } else {
                         ParseFlg = false;
                     }
@@ -182,7 +237,7 @@ public class RealTimeSaveAndGetStore {
             Toast.makeText(context, "请暂停后再进行逐帧数据查看", Toast.LENGTH_SHORT).show();
         } else {
             if (presiousThreadStart == false) {
-                threadone = new Thread(() -> previousFramePrepare());
+                threadone = new Thread(() -> previousFramePrepare1());//第一次先启动线程
                 threadone.start();
             } else {
                 synchronized (person1) {
@@ -210,15 +265,20 @@ public class RealTimeSaveAndGetStore {
     public static void nextOneFrame() {//对每帧数据进行处理
         while (available > 12 && MyTools.fourBytesToInt(MyTools.nigetPartByteArray(readWithTiem, 0, 3)) == 0xAAAAAAAA && ParseFlg == true) {
             try {
-                if(nextThreadStart==true){
+                if (nextThreadStart == true) {
                     synchronized (person2) {
                         person2.wait();//暂停数据刷到界面
                     }
+                }
+                if(PreFlag == true){
+                     inputStream.read(readWithTiem,0,12);
+                     PreFlag = false;
                 }
                 delayTime = MyTools.bytesToIntLittle(MyTools.nigetPartByteArray(readWithTiem, 4, 7));
                 frameLength = MyTools.bytesToIntLittle(MyTools.nigetPartByteArray(readWithTiem, 8, 11));
                 byte[] dateFrame = new byte[frameLength];
                 Log.d("xiaothread", Thread.currentThread().getName());
+                inputStream.skip(4);
                 inputStream.read(dateFrame, 0, frameLength);
                 available = inputStream.available();
                 Log.d("xiaoavliab", String.valueOf(available));
@@ -262,12 +322,12 @@ public class RealTimeSaveAndGetStore {
                 int haveRead = allLength - available - frameLength - 12;
                 //起点位置应该为排除站点序列化信息头后的总长
                 // -上次剩余数据长度
-                // -上一个数据帧长[
+                // -上一个数据帧长
                 // -上一个数据帧的包头长度
-//                Log.d("xiaohave", String.valueOf(haveRead));
-//                Log.d("xiaohave", String.valueOf(allLength));
-//                Log.d("xiaohave", String.valueOf(available));
-//                Log.d("xiaohave", String.valueOf(frameLength));
+                Log.d("xiaohave", String.valueOf(haveRead));
+                Log.d("xiaohave", String.valueOf(allLength));
+                Log.d("xiaohave", String.valueOf(available));
+                Log.d("xiaohave", String.valueOf(frameLength));
                 if (haveRead > (j + 1) * 200) {
                     inputStream.skip(haveRead - (j + 1) * 200);//由于skip一段后，后面的数据不一定是一个完整的
                 }
@@ -316,6 +376,34 @@ public class RealTimeSaveAndGetStore {
         }
     }
 
+    public static void previousFramePrepare1() {
+        try {
+            inputStream = SysApplication.byteFileIoUtils.readFile(File.separator + "data" + File.separator + fileNameTem);
+            inputStream.skip(StationMessageLength);//跳过文件中开始序列化Station二进制码长度的数据
+            allLength = inputStream.available();
+            int haveRead = allLength - available - frameLength - 4;
+            //起点位置应该为排除站点序列化信息头后的总长
+            // -上次剩余数据长度
+            // -上一个数据帧长
+            // -上一个数据帧的包头的上一个包长度的字段长度
+            inputStream.skip(haveRead);
+            byte[] bytes = new byte[4];
+            inputStream.read(bytes);
+            lastLength = MyTools.bytesToIntLittle(MyTools.nigetPartByteArray(bytes, 0, 3));
+            int lastStart = haveRead - 12 - lastLength - 16;
+            inputStream = SysApplication.byteFileIoUtils.readFile(File.separator + "data" + File.separator + fileNameTem);
+            inputStream.skip(StationMessageLength);//跳过文件中开始序列化Station二进制码长度的数据
+            inputStream.skip(lastStart);
+            readWithTiem = new byte[12];
+            inputStream.read(readWithTiem);//现在其为上一帧读走数据帧头的状态
+            available = 0;
+            available = inputStream.available();
+            SchduleOneFrame();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
     public static void SchduleOneFrame() {
         if (available > 12 && MyTools.fourBytesToInt(MyTools.nigetPartByteArray(readWithTiem, 0, 3)) == 0xAAAAAAAA && ParseFlg == true) {
             try {
@@ -323,22 +411,17 @@ public class RealTimeSaveAndGetStore {
                 frameLength = MyTools.bytesToIntLittle(MyTools.nigetPartByteArray(readWithTiem, 8, 11));
                 byte[] dateFrame = new byte[frameLength];
                 Log.d("xiaothread", Thread.currentThread().getName());
+                inputStream.skip(4);
                 inputStream.read(dateFrame, 0, frameLength);
                 available = inputStream.available();
-
                 message = Message.obtain();
                 message.what = 121;
-                Log.d("xiaomessage", String.valueOf(allLength - available - frameLength));
-                Log.d("xiaomessage", String.valueOf(allLength));
-                Log.d("xiaomessage", String.valueOf(available));
-                Log.d("xiaomessage", String.valueOf(frameLength));
                 message.obj = (allLength - available - frameLength) / (allLength / 100);
                 handler1.sendMessage(message);
-
-                Thread.sleep(delayTime);
                 switch (type) {
                     case 1:
-                        Parse.setHandler(HistoryDFActivity.handler);
+                        Parse.setHandler(HistoryDFActivity.handler);  //替换解析数据模块的handler，其他两个则因为没法直
+                        // 接通过设置进行替换，所以抽出父类让其向下转型来让其进行自动转换
                         Parse.parseDDF(dateFrame);
                         break;
                     case 2:
@@ -352,23 +435,26 @@ public class RealTimeSaveAndGetStore {
                 }
                 synchronized (person1) {
                     presiousThreadStart = true; //更新标志位
+                    PreFlag = true;
                     person1.wait();//暂停数据刷到界面
                 }
-                previousFramePrepare();
+                previousFramePrepare1();
             } catch (Exception e1) {
                 e1.printStackTrace();
             }
         }
     }
 
-    public static void pauseOrResume() {//暂停或唤醒数据解析线程
+    public static void pauseOrResume(View view) {//暂停或唤醒数据解析线程
         if (StopFlag == true) {
             synchronized (person) {
                 person.notify();
                 StopFlag = false;
             }
+            view.setBackgroundResource(R.drawable.play_icon);
         } else {
             StopFlag = true;
+            view.setBackgroundResource(R.drawable.stop_icon);
         }
     }
 
@@ -381,12 +467,14 @@ public class RealTimeSaveAndGetStore {
         byte[] headBytes = MyTools.int2ByteArray(0xAAAAAAAA);//帧头
         byte[] timeBytes = MyTools.int2ByteArray(delay);//当前数据帧距下一个数据帧延时的时间
         byte[] lengthBytes = MyTools.int2ByteArray(available);//数据帧长度
-        byte[] bytesForSave = new byte[available + 4 + 4 + 4];
+        byte[] lastLengthBytes = MyTools.int2ByteArray(lastLength);//数据帧长度
+        byte[] bytesForSave = new byte[available + 4 + 4 + 4 + 4];
         Log.d("liyuqian", String.valueOf(MyTools.fourBytesToInt(MyTools.nigetPartByteArray(headBytes, 0, 3))) + 1);
         System.arraycopy(headBytes, 0, bytesForSave, 0, 4);
         System.arraycopy(timeBytes, 0, bytesForSave, 4, 4);
         System.arraycopy(lengthBytes, 0, bytesForSave, 8, 4);
-        System.arraycopy(info, 0, bytesForSave, 12, info.length);
+        System.arraycopy(lastLengthBytes, 0, bytesForSave, 12, 4);
+        System.arraycopy(info, 0, bytesForSave, 16, info.length);
         switch (type) {
             case 1:
                 synchronized (SinglefrequencyDFActivity.queue) {
@@ -407,6 +495,7 @@ public class RealTimeSaveAndGetStore {
             default:
                 break;
         }
+        lastLength = available;
         return time;
     }
 
