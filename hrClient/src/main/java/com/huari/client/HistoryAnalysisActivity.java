@@ -1,6 +1,8 @@
 package com.huari.client;
 
 import androidx.appcompat.app.ActionBar;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 import androidx.viewpager.widget.ViewPager;
 import struct.JavaStruct;
 import struct.StructException;
@@ -11,6 +13,8 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.pm.ActivityInfo;
+import android.graphics.Color;
+import android.graphics.drawable.ColorDrawable;
 import android.media.AudioFormat;
 import android.media.AudioManager;
 import android.media.AudioTrack;
@@ -22,21 +26,25 @@ import android.os.PowerManager;
 import android.os.Process;
 import android.util.DisplayMetrics;
 import android.util.Log;
+import android.view.Gravity;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.ListView;
+import android.widget.PopupWindow;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import com.huari.Base.AnalysisBase;
+import com.huari.adapter.HistoryShowWindowAdapter;
 import com.huari.adapter.ItuAdapterOfListView;
 import com.huari.adapter.PagerAdapterOfSpectrum;
 import com.huari.commandstruct.PPFXRequest;
 import com.huari.commandstruct.PinPuParameter;
 import com.huari.commandstruct.StopTaskFrame;
+import com.huari.dataentry.ForADataInformation;
 import com.huari.dataentry.GlobalData;
 import com.huari.dataentry.LogicParameter;
 import com.huari.dataentry.MyDevice;
@@ -62,6 +70,7 @@ import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Queue;
 import java.util.concurrent.LinkedBlockingDeque;
 
@@ -153,6 +162,11 @@ public class HistoryAnalysisActivity extends AnalysisBase {
     private ImageView contorl;
     ImageView previousButton;
     ImageView nextButton;
+    private List<Parameter> parameterList;
+    private ImageView showStation;
+    private List<String> names;
+    private List<String> defaultValues;
+    private ImageView back;
 
 
     class IniThread extends Thread {
@@ -193,6 +207,8 @@ public class HistoryAnalysisActivity extends AnalysisBase {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_history_analysis);
         customProgress = findViewById(R.id.video_progress);
+        back = findViewById(R.id.back);
+        back.setOnClickListener(v -> finish());
         sharepre = getSharedPreferences("myclient", MODE_PRIVATE);
         shareEditor = sharepre.edit();
         inithread = new HistoryAnalysisActivity.IniThread();
@@ -229,24 +245,28 @@ public class HistoryAnalysisActivity extends AnalysisBase {
         }
         Intent intent = getIntent();
         filename = intent.getStringExtra("filename");
-        String mm = sharepre.getString(filename, null);
-        stationname = mm.substring(0, mm.indexOf("|"));
-        devicename = mm.substring(mm.indexOf("|") + 1, mm.indexOf("||"));
-        stationKey = mm.substring(mm.indexOf("||") + 2, mm.indexOf("|||"));
-        mm.substring(mm.indexOf("|||") + 3, mm.indexOf("||||"));
-        mm.substring(mm.indexOf("||||") + 4, mm.indexOf("|||||"));
-        logicId = mm.substring(mm.indexOf("|||||") + 5, mm.length());
+//        String mm = sharepre.getString(filename, null);
+//        stationname = mm.substring(0, mm.indexOf("|"));
+//        devicename = mm.substring(mm.indexOf("|") + 1, mm.indexOf("||"));
+//        stationKey = mm.substring(mm.indexOf("||") + 2, mm.indexOf("|||"));
+//        mm.substring(mm.indexOf("|||") + 3, mm.indexOf("||||"));
+//        mm.substring(mm.indexOf("||||") + 4, mm.indexOf("|||||"));
+//        logicId = mm.substring(mm.indexOf("|||||") + 5, mm.length());
         LinearLayout titlebar = (LinearLayout) getLayoutInflater().inflate(
                 R.layout.actionbarview, null);
-        stationtextview = (TextView) titlebar.findViewById(R.id.name1);
-        devicetextview = (TextView) titlebar.findViewById(R.id.name2);
+        stationtextview = titlebar.findViewById(R.id.name1);
+        devicetextview = titlebar.findViewById(R.id.name2);
         // Button bn=(Button)titlebar.findViewById(R.id.zhuanxiang);
         customProgress.setProgress(0);
         customProgress.setProgressListener(progress -> {
-            Log.d("xiaotao", String.valueOf(progress));
             if (RealTimeSaveAndGetStore.thread.isAlive()) {
                 RealTimeSaveAndGetStore.progressFlg = true;
                 RealTimeSaveAndGetStore.progress = (int) progress;
+                if (RealTimeSaveAndGetStore.thread.getState() == Thread.State.WAITING) {
+                    synchronized (RealTimeSaveAndGetStore.person) {
+                        RealTimeSaveAndGetStore.person.notify();
+                    }
+                }
             } else {
                 RealTimeSaveAndGetStore.ParseLocalWrap(filename, 2, handle);
                 RealTimeSaveAndGetStore.progressFlg = true;
@@ -258,11 +278,12 @@ public class HistoryAnalysisActivity extends AnalysisBase {
         nextButton = findViewById(R.id.next_button);
         alllength = findViewById(R.id.music_length);
         readnow = findViewById(R.id.play_plan);
+        showStation = findViewById(R.id.station_button);
+        showStation = findViewById(R.id.station_button);
+        showStation.setOnClickListener(v -> popWindow(showStation));
         previousButton.setOnClickListener(v -> RealTimeSaveAndGetStore.previousFrame(HistoryAnalysisActivity.this));
         nextButton.setOnClickListener(v -> RealTimeSaveAndGetStore.nextFrame(HistoryAnalysisActivity.this));
         contorl.setOnClickListener(v -> RealTimeSaveAndGetStore.pauseOrResume(contorl));
-        stationtextview.setText(stationname);
-        devicetextview.setText(devicename);
         showwave = (com.huari.ui.PartWaveShowView) getLayoutInflater().inflate(
                 R.layout.a, null);
         viewlist.add(showwave);
@@ -347,40 +368,85 @@ public class HistoryAnalysisActivity extends AnalysisBase {
                     } else if (msg.what == ITUDATA) {
                         listAdapter.notifyDataSetChanged();
                     } else if (msg.what == 121) {
-                        if(first == true){
+                        if (first == true) {
                             first = false;
                             alllength.setText(String.valueOf(RealTimeSaveAndGetStore.allLength));
                         }
-                        readnow.setText(String.valueOf(RealTimeSaveAndGetStore.allLength-RealTimeSaveAndGetStore.available));
+                        readnow.setText(String.valueOf(RealTimeSaveAndGetStore.allLength - RealTimeSaveAndGetStore.available));
                         customProgress.setProgress((Integer) msg.obj);
-                    }else if(msg.what ==34){
-                        AfterGetStation((Station) msg.obj);
+                        if ((Integer) msg.obj == 100) {
+                            contorl.setBackgroundResource(R.drawable.stop_icon);
+                            RealTimeSaveAndGetStore.StopFlag = true;
+                        }
+                    } else if (msg.what == 34) {
+                        AfterGetStation((ForADataInformation) msg.obj);
                     }
                 } catch (Exception e) {
 
                 }
             }
         };
-        RealTimeSaveAndGetStore.deserializeFlyPig(filename,handle);
+        RealTimeSaveAndGetStore.deserializeFlyPig(filename, handle);
     }
+
     boolean first = true;
 
-    private void AfterGetStation(Station stationF) {
-        ArrayList<MyDevice> am = stationF.devicelist;
-        HashMap<String, LogicParameter> hsl = null;
-        for (MyDevice md : am) {
-            if (md.name.equals(devicename)) {
-                hsl = md.logic;
+    private void popWindow(View view) {
+        // TODO: 2016/5/17 构建一个popupwindow的布局
+        View popupView = HistoryAnalysisActivity.this.getLayoutInflater().inflate(R.layout.popupwindow, null);
+        // TODO: 2016/5/17 为了演示效果，简单的设置了一些数据，实际中大家自己设置数据即可，相信大家都会。
+        RecyclerView lsvMore = popupView.findViewById(R.id.lsvMore);
+        List<String> list = new ArrayList<>();
+        list.add("ddada");
+        list.add("ddada");
+        list.add("ddada");
+        list.add("ddada");
+        list.add("ddada");
+        HistoryShowWindowAdapter historyShowWindowAdapter = new HistoryShowWindowAdapter(names, defaultValues);
+        lsvMore.setLayoutManager(new LinearLayoutManager(this));
+        lsvMore.setAdapter(historyShowWindowAdapter);
+        // TODO: 2016/5/17 创建PopupWindow对象，指定宽度和高度
+        PopupWindow window = new PopupWindow(popupView, 500, 600);
+        // TODO: 2016/5/17 设置动画
+        window.setAnimationStyle(R.style.popup_window_anim);
+        // TODO: 2016/5/17 设置背景颜色
+        window.setBackgroundDrawable(new ColorDrawable(Color.parseColor("#00000000")));
+        // TODO: 2016/5/17 设置可以获取焦点
+        window.setFocusable(true);
+        // TODO: 2016/5/17 设置可以触摸弹出框以外的区域
+        window.setOutsideTouchable(true);
+        // TODO：更新popupwindow的状态
+        window.update();
+        // TODO: 2016/5/17 以下拉的方式显示，并且可以设置显示的位置
+        window.showAsDropDown(view, 0, 0, Gravity.BOTTOM);
+    }
+
+    private void AfterGetStation(ForADataInformation stationF) {
+        if (stationF == null) {
+            return;
+        }
+
+        names = new ArrayList<>();
+        defaultValues = new ArrayList<>();
+        HashMap<String, LogicParameter> list = stationF.getDevice().getLogic();
+        parameterList = list.get(stationF.getLogicId()).getParameterlist();
+        if (parameterList != null) {
+            for (Parameter parameter : parameterList) {
+                names.add(parameter.name);
+                defaultValues.add(parameter.defaultValue);
             }
         }
-        LogicParameter currentLP = hsl.get(logicId);// 获取频谱分析相关的数据，以便画出初始界面
-        ap = currentLP.parameterlist;
 
+        logicId = stationF.getLogicId();
+        LogicParameter currentLP = stationF.getDevice().logic.get(logicId);// 获取频谱分析相关的数据，以便画出初始界面
+        ap = currentLP.parameterlist;
+        stationtextview.setText(stationF.getStationName());
+        devicetextview.setText(stationF.getDeviceName());
         for (Parameter p : ap) {
             if (p.name.equals("ifbw")) {
                 spwide = Float.parseFloat(p.defaultValue);
-                halfSpectrumsWide = spwide/2000;
-            } else if (p.name.equals("rbw")||p.name.equals("step")) {
+                halfSpectrumsWide = spwide / 2000;
+            } else if (p.name.equals("rbw") || p.name.equals("step")) {
                 pStepFreq = Float.parseFloat(p.defaultValue);
             } else if (p.name.equals("CenterFreq")) {
                 centerFreq = Float.parseFloat(p.defaultValue);
@@ -426,6 +492,7 @@ public class HistoryAnalysisActivity extends AnalysisBase {
         fullispause = false;
         partispause = false;
         RealTimeSaveAndGetStore.ParseLocalWrap(filename, 2, handle);
+        customProgress.setSystemUiVisibility(View.INVISIBLE);
         super.onResume();
     }
 
@@ -435,6 +502,7 @@ public class HistoryAnalysisActivity extends AnalysisBase {
         super.onPause();
         RealTimeSaveAndGetStore.StopFlag = false;
         ByteFileIoUtils.runFlag = false;
+        RealTimeSaveAndGetStore.ParseFlg = false;
     }
 
     /**

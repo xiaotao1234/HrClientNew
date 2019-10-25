@@ -8,10 +8,11 @@
 
     <TextView
         android:id="@+id/top"
-        android:layout_width="60dp"
-        android:layout_height="60dp"
+        android:layout_width="@dimen/dp_50"
+        android:layout_height="@dimen/dp_50"
         android:background="@drawable/circle_min_bg"
         android:textColor="#FF0000"
+        android:textSize="@dimen/dp_10"
         android:gravity="center"
         android:text="记录数据" />
 

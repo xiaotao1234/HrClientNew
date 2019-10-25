@@ -47,11 +47,18 @@ public class MajorActivity extends AppCompatActivity {
         } else {
             if (System.currentTimeMillis() - time < 2000) {
                 super.onBackPressed();
+
             }else {
                 time = System.currentTimeMillis();
                 Toast.makeText(this, "再次点击退出应用", Toast.LENGTH_SHORT).show();
             }
         }
+    }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        System.exit(0);
     }
 
     @Override

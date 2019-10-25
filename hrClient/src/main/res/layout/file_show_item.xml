@@ -10,12 +10,12 @@
 
     <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="@dimen/dp_50">
+        android:layout_height="@dimen/dp_40">
 
         <ImageView
             android:id="@+id/file_box"
-            android:layout_width="@dimen/dp_20"
-            android:layout_height="@dimen/dp_20"
+            android:layout_width="@dimen/dp_17"
+            android:layout_height="@dimen/dp_17"
             android:layout_gravity="center_vertical"
             android:layout_marginStart="@dimen/dp_26"
             android:src="@drawable/file_icon" />
@@ -30,7 +30,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:layout_weight="1"
-                android:textSize="@dimen/dp_11"
+                android:textSize="@dimen/dp_9"
                 android:layout_marginStart="20sp"
                 android:gravity="center_vertical"
                 tools:ignore="Suspicious0dp" />

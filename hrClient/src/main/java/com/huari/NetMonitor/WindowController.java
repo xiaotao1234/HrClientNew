@@ -15,12 +15,14 @@ import android.widget.LinearLayout;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.huari.client.PinDuanScanningActivity;
 import com.huari.client.R;
 import com.huari.client.SinglefrequencyDFActivity;
 import com.huari.client.SpectrumsAnalysisActivity;
 import com.huari.dataentry.Type;
+import com.huari.tools.ByteFileIoUtils;
 
 import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;
@@ -47,7 +49,7 @@ public class WindowController {
     private final int CLICK = 0x004;
     private final int TIMER = 5;
 
-    private static WindowController instance;
+    public static WindowController instance;
     private Context context;
     private WindowManager mWindowManager;
     private WindowManager.LayoutParams wParamsTop, wParamsBottom;
@@ -68,6 +70,8 @@ public class WindowController {
     private List<String> pageData;
     //存放视图
     private List<View> viewList;
+
+    private boolean doTimer = false;
 
     private int lastX, lastY;
     private int downX, downY;
@@ -228,8 +232,8 @@ public class WindowController {
                     }
 
                     //保留坐标
-                    WindowHelper.setCoordinateX(context, topX);
-                    WindowHelper.setCoordinateY(context, topY);
+//                    WindowHelper.setCoordinateX(context, topX);
+//                    WindowHelper.setCoordinateY(context, topY);
                     break;
             }
             return true;
@@ -273,30 +277,69 @@ public class WindowController {
     /**
      * 点击
      */
-    private void click() {
+    public void pauseRecord() {
         switch (type) {
             case 0:
-                if (SinglefrequencyDFActivity.saveFlag == false) {
-                    SinglefrequencyDFActivity.saveFlag = true;
+                SinglefrequencyDFActivity.saveFlag = false;
+                ByteFileIoUtils.runFlag = false;
+                break;
+            case 1:
+                SpectrumsAnalysisActivity.saveFlag = false;
+                ByteFileIoUtils.runFlag = false;
+                break;
+            case 2:
+                PinDuanScanningActivity.saveFlag = false;
+                ByteFileIoUtils.runFlag = false;
+        }
+    }
+
+    public void click() {
+        switch (type) {
+            case 0:
+                if (SinglefrequencyDFActivity.isRunning != true) {
+                    Toast.makeText(context, "请在测量开始后再记录数据", Toast.LENGTH_SHORT).show();
                 } else {
-                    SinglefrequencyDFActivity.saveFlag = false;
+                    doTimer = true;
+                    if (SinglefrequencyDFActivity.saveFlag == false) {
+                        SinglefrequencyDFActivity.saveFlag = true;
+                        SinglefrequencyDFActivity.flag = 0;
+                    } else {
+                        SinglefrequencyDFActivity.saveFlag = false;
+                        ByteFileIoUtils.runFlag = false;
+                    }
                 }
                 break;
             case 1:
-                if (SpectrumsAnalysisActivity.saveFlag == false) {
-                    SpectrumsAnalysisActivity.saveFlag = true;
+                if (SpectrumsAnalysisActivity.isRunning != true) {
+                    Toast.makeText(context, "请在测量开始后再记录数据", Toast.LENGTH_SHORT).show();
                 } else {
-                    SpectrumsAnalysisActivity.saveFlag = false;
+                    doTimer = true;
+                    if (SpectrumsAnalysisActivity.saveFlag == false) {
+                        SpectrumsAnalysisActivity.saveFlag = true;
+                        SpectrumsAnalysisActivity.flag = 0;
+                    } else {
+                        SpectrumsAnalysisActivity.saveFlag = false;
+                        ByteFileIoUtils.runFlag = false;
+                    }
                 }
                 break;
             case 2:
-                if (PinDuanScanningActivity.saveFlag == false) {
-                    PinDuanScanningActivity.saveFlag = true;
+                if (PinDuanScanningActivity.isRunning != true) {
+                    Toast.makeText(context, "请在测量开始后再记录数据", Toast.LENGTH_SHORT).show();
                 } else {
-                    PinDuanScanningActivity.saveFlag = false;
+                    doTimer = true;
+                    if (PinDuanScanningActivity.saveFlag == false) {
+                        PinDuanScanningActivity.saveFlag = true;
+                        PinDuanScanningActivity.flag = 0;
+                    } else {
+                        PinDuanScanningActivity.saveFlag = false;
+                        ByteFileIoUtils.runFlag = false;
+                    }
                 }
         }
-        timer();
+        if (doTimer == true) {
+            timer();
+        }
     }
 
     private void timer() {
@@ -321,7 +364,7 @@ public class WindowController {
 
     private boolean isFlag() {
         boolean flag = false;
-        switch (type){
+        switch (type) {
             case 0:
                 flag = SinglefrequencyDFActivity.saveFlag;
                 break;

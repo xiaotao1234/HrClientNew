@@ -27,6 +27,7 @@ import org.greenrobot.eventbus.EventBus;
 import java.io.File;
 import java.text.DecimalFormat;
 import java.text.Format;
+import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.List;
 
@@ -106,7 +107,7 @@ public class MusicListAdapter extends RecyclerView.Adapter<MusicListAdapter.view
 //        holder.relativeLayout.setVisibility(View.GONE);
         holder.musicSize.setText(getSize(files.get(position).getSize()));
         Date date = new Date(files.get(position).getLastModifne());
-        holder.musicTime.setText(date.toString());
+        holder.musicTime.setText(new SimpleDateFormat("yyyy-MM-dd hh:mm:ss").format(date));
 //        holder.linearLayout.setOnClickListener(v -> {
 //            context.startActivity(new Intent(context, PlayerActivity.class));
 //            EventBus.getDefault().postSticky(new MessageEvent(files.
@@ -142,7 +143,7 @@ public class MusicListAdapter extends RecyclerView.Adapter<MusicListAdapter.view
                 case "PD":
                     intent = new Intent(context, HistoryPinDuanActivity.class);
                     break;
-                case "REC":
+                case "RE":
                     intent = new Intent(context, PlayerActivity.class);
                     EventBus.getDefault().postSticky(new MessageEvent(files.get(position).getAbslitPath(), position));
                     break;

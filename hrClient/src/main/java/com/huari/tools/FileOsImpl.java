@@ -8,6 +8,7 @@ import android.os.Message;
 import android.util.Log;
 
 import com.huari.client.Main3Activity;
+import com.huari.client.SpectrumsAnalysisActivity;
 import com.huari.dataentry.FileSearchData;
 import com.huari.dataentry.FileSearchMassage;
 import com.huari.dataentry.SimpleStation;
@@ -27,6 +28,7 @@ import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.io.Serializable;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Stack;
@@ -51,7 +53,7 @@ public class FileOsImpl {
     List<File> willDeleteFiles = new ArrayList<>();//将要删除的文件列表
     List<File> selectedFiles = new ArrayList<>();//被勾选的文件列表
     public static List<recentContent> recentUseFiles = new ArrayList<>();//最近有对其进行操作的文件列表
-    public static List<SimpleStation> simpleStations = new ArrayList<>();//最近有对其进行操作的文件列表
+    public static List<SimpleStation> simpleStations = new ArrayList<>();
 
     File currentFloder;//当前所在目录
     File currentFile;//当前正在使用的文件
@@ -103,14 +105,18 @@ public class FileOsImpl {
     }
 
     public static void copyWaveFile(String inFilename, String outFilename) {
-        FileInputStream in = null;
-        FileOutputStream out = null;
-        long totalAudioLen = 0;
-        long totalDataLen = 0;
+        FileInputStream in;
+        FileOutputStream out;
+        long totalAudioLen;
+        long totalDataLen;
         long longSampleRate = AUDIO_SAMPLE_RATE;
         int channels = AUDIO_CHANNL;
         long byteRate = 16 * AUDIO_SAMPLE_RATE * channels / 8;
         byte[] data = new byte[audioBuffersize];
+        byte[] endStation = new byte[76];
+        byte[] endDevice = new byte[36];
+        Arrays.fill(endStation, (byte) 0);
+        Arrays.fill(endDevice, (byte) 0);
         try {
             in = new FileInputStream(inFilename);
             out = new FileOutputStream(outFilename);
@@ -122,10 +128,20 @@ public class FileOsImpl {
             while (in.read(data) != -1) {
                 out.write(data);
             }
+            byte[] endStation1 = SpectrumsAnalysisActivity.stationname.getBytes("UTF8");
+            byte[] endDevice1 = SpectrumsAnalysisActivity.devicename.getBytes("UTF8");
+            for (int i = 0; i < endStation1.length; i++) {
+                endStation[i] = endStation1[i];
+            }
+            for (int i = 0; i < endDevice1.length; i++) {
+                endDevice[i] = endDevice1[i];
+            }
+            out.write(endStation);
+            out.write(endDevice);
             in.close();
             out.close();
             new File(inFilename).delete();
-            SysApplication.fileOs.save(outFilename,new File(outFilename).getName(),4);
+            SysApplication.fileOs.save(outFilename, new File(outFilename).getName(), 4);
         } catch (FileNotFoundException e) {
             e.printStackTrace();
         } catch (IOException e) {
@@ -185,17 +201,37 @@ public class FileOsImpl {
     }
 
     public void save(String filename, String fileOnlyName, int type) {
+        if (type == 5) {
+            return;
+        }
         GetTheRecentFirst();
-        recentContent recentContent = new recentContent(filename,fileOnlyName,type);
+        recentContent recentContent = new recentContent(filename, fileOnlyName, type);
+        Log.d("xiaofile",filename);
         if (!recentUseFiles.contains(recentContent)) {
             recentUseFiles.add(0, new recentContent(filename, fileOnlyName, type));
-            if (recentUseFiles.size() > 100) {
-                recentUseFiles.remove(100);
+            if (recentUseFiles.size() > 50) {
+                recentUseFiles.remove(50);
             }
         } else {
             int i = recentUseFiles.indexOf(new recentContent(filename, fileOnlyName, type));
             recentUseFiles.add(0, recentUseFiles.remove(i));
         }
+        File file1 = new File(forSaveFloder + File.separator + "data" + File.separator + "mimi");
+        file1.delete();
+        if (!file1.getParentFile().exists()) {
+            file1.getParentFile().mkdirs();
+        }
+        try {
+            FileOutputStream fileOutputStream = new FileOutputStream(file1);
+            ObjectOutputStream objectOutputStream = new ObjectOutputStream(fileOutputStream);
+            objectOutputStream.writeObject(recentUseFiles);
+            objectOutputStream.close();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
+    public static void saveRecentFilesFormMem() {
         File file1 = new File(forSaveFloder + File.separator + "data" + File.separator + "mimi");
         file1.delete();
         if (!file1.getParentFile().exists()) {
@@ -225,8 +261,8 @@ public class FileOsImpl {
         }
     }
 
-    public static void getRecentList(Handler handler){
-        if(recentUseFiles.size()!=0){
+    public static void getRecentList(Handler handler) {
+        if (recentUseFiles.size() != 0) {
             Message message = Message.obtain();
             message.obj = recentUseFiles;
             handler.sendMessage(message);
@@ -237,7 +273,7 @@ public class FileOsImpl {
     public static void getRecentFromFile(Handler handler) {
         try {
             File file1 = new File(forSaveFloder + File.separator + "data" + File.separator + "mimi");
-            if(file1.length()==0){
+            if (file1.length() == 0) {
                 Message message = Message.obtain();
                 message.obj = recentUseFiles;
                 handler.sendMessage(message);

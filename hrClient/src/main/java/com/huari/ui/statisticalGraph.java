@@ -17,6 +17,7 @@ import android.util.AttributeSet;
 import android.util.Log;
 import android.view.MotionEvent;
 
+import com.huari.client.R;
 import com.huari.tools.SysApplication;
 
 import java.io.File;
@@ -136,19 +137,21 @@ public class statisticalGraph extends CustomView {
     }
 
     private void init() {
+        float size_15 = getResources().getDimension(R.dimen.dp_7);
+        float size_30 = getResources().getDimension(R.dimen.dp_8);
         mDeafultPaint = new Paint();
         mDeafultPaint.setAntiAlias(true);
         mDeafultPaint.setColor(Color.parseColor("#FFFFFF"));
         effects = new DashPathEffect(new float[]{10f, 7f,}, 4);
         mDeafultPaint.setPathEffect(effects);
         textvPaint = new Paint();
-        textvPaint.setTextSize(25);
+        textvPaint.setTextSize(size_15);
         textvPaint.setAntiAlias(true);
         textvPaint.setColor(Color.parseColor("#FFFFFF"));
         textvPaint.setTextAlign(Paint.Align.RIGHT);
 
         texthPaint = new Paint();
-        texthPaint.setTextSize(25);
+        texthPaint.setTextSize(size_15);
         texthPaint.setAntiAlias(true);
         texthPaint.setColor(Color.parseColor("#FFFFFF"));
         texthPaint.setTextAlign(Paint.Align.CENTER);
@@ -166,7 +169,7 @@ public class statisticalGraph extends CustomView {
         numTextPaint = new Paint();
         numTextPaint.setAntiAlias(true);
         numTextPaint.setColor(Color.parseColor("#ff2288CC"));
-        numTextPaint.setTextSize(30);
+        numTextPaint.setTextSize(size_30);
         numTextPaint.setTextAlign(Paint.Align.CENTER);
 
         numCirclePaint = new Paint();

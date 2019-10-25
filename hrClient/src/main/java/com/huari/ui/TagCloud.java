@@ -216,7 +216,7 @@ public class TagCloud {
             tagCloud.get(j).setLocZ(rz3);
 
             // add perspective
-            int diameter = 2 * radius;
+            int diameter = 3 * radius; //修改半径处
             float per = diameter / 1.0f / (diameter + rz3);
             // let's set position, scale, alpha for the tag;
             tagCloud.get(j).setLoc2DX((int) (rx3 * per));

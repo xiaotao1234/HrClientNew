@@ -31,7 +31,9 @@
     <uses-permission android:name="android.permission.ACCESS_WIFI_STATE" />
     <uses-permission android:name="android.permission.CHANGE_WIFI_STATE" />
     <!-- SDK离线地图和cache功能需要读写外部存储器 -->
-    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
+    <uses-permission
+        android:name="android.permission.WRITE_EXTERNAL_STORAGE"
+        tools:node="replace" />
     <!-- <uses-permission android:name="android.permission.WRITE_SETTINGS" > -->
     <!-- </uses-permission> -->
     <!-- 获取设置信息和详情页直接拨打电话需要以下权限 -->
@@ -97,10 +99,6 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity
-            android:name=".CircleActivity"
-            android:label="@string/title_activity_guide"
-            android:theme="@style/Theme.AppCompat" />
         <activity
             android:name=".MainActivity"
             android:icon="@drawable/appico"
@@ -365,7 +363,8 @@
             android:theme="@style/Theme.AppCompat.Light.NoActionBar" />
         <activity
             android:name=".MajorActivity"
-            android:theme="@style/Theme.AppCompat.Light.NoActionBar">
+            android:theme="@style/Theme.AppCompat.Light.NoActionBar"
+            android:screenOrientation="portrait">
 
             <!-- <intent-filter> -->
             <!-- <action android:name="android.intent.action.MAIN" /> -->
@@ -374,14 +373,21 @@
         </activity>
         <activity
             android:name=".Main3Activity"
-            android:theme="@style/Theme.AppCompat.Light.NoActionBar"></activity>
+            android:theme="@style/Theme.AppCompat.Light.NoActionBar" />
         <activity
             android:name=".HistoryAnalysisActivity"
             android:theme="@style/Theme.AppCompat.Light.NoActionBar" />
         <activity
             android:name=".HistoryPinDuanActivity"
             android:theme="@style/Theme.AppCompat.Light.NoActionBar" />
-        <activity android:name=".MonthDataActivity"
+        <activity
+            android:name=".MonthDataActivity"
+            android:theme="@style/Theme.AppCompat.Light.NoActionBar"
+            android:screenOrientation="portrait"/>
+        <activity
+            android:name=".FindFileActivity"
+            android:theme="@style/Theme.AppCompat.Light.NoActionBar" />
+        <activity android:name=".SetActivity"
             android:theme="@style/Theme.AppCompat.Light.NoActionBar"/>
     </application>
 

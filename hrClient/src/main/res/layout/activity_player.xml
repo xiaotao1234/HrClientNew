@@ -40,6 +40,30 @@
             android:id="@+id/visualizerView"
             android:layout_width="fill_parent"
             android:layout_height="fill_parent" />
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/dp_40">
+            <ImageView
+                android:id="@+id/back"
+                android:layout_width="@dimen/dp_40"
+                android:layout_height="@dimen/dp_40"
+                android:src="@drawable/back_black"
+                android:layout_marginStart="@dimen/dp_5"
+                android:background="@drawable/buttton_change_bg"
+                android:padding="@dimen/dp_13"/>
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="音频"
+                android:textColor="#000000"
+                android:layout_centerInParent="true"
+                android:textSize="@dimen/dp_13"/>
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:background="#22000000"
+                android:layout_alignParentBottom="true"/>
+        </RelativeLayout>
     </FrameLayout>
 
     <LinearLayout
@@ -92,6 +116,17 @@
                 android:layout_width="0dp"
                 android:layout_height="1dp"
                 android:layout_weight="1"/>
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_vertical"
+                android:textSize="@dimen/dp_8"
+                android:text="上一首"
+                android:gravity="center"/>
+            <View
+                android:layout_width="0dp"
+                android:layout_height="1dp"
+                android:layout_weight="1"/>
             <ImageView
                 android:id="@+id/previous_button"
                 android:layout_width="30dp"
@@ -101,7 +136,7 @@
             <View
                 android:layout_width="0dp"
                 android:layout_height="1dp"
-                android:layout_weight="1"/>
+                android:layout_weight="2"/>
             <ImageView
                 android:id="@+id/play_control"
                 android:layout_width="30dp"
@@ -110,13 +145,25 @@
             <View
                 android:layout_width="0dp"
                 android:layout_height="1dp"
-                android:layout_weight="1"/>
+                android:layout_weight="2"/>
+
             <ImageView
                 android:id="@+id/next_button"
                 android:layout_width="30dp"
-                android:layout_height="20dp"
-                android:src="@drawable/next_icon"
-                android:layout_gravity="center"/>
+                android:layout_height="17dp"
+                android:layout_gravity="center"
+                android:src="@drawable/next_icon" />
+            <View
+                android:layout_width="0dp"
+                android:layout_height="1dp"
+                android:layout_weight="1"/>
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_vertical"
+                android:textSize="@dimen/dp_8"
+                android:text="上一首"
+                android:gravity="center"/>
             <View
                 android:layout_width="0dp"
                 android:layout_height="1dp"

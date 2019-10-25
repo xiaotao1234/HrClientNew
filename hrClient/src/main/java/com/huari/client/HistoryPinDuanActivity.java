@@ -1,6 +1,8 @@
 package com.huari.client;
 
 import androidx.appcompat.app.ActionBar;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 import struct.JavaStruct;
 import struct.StructException;
 
@@ -9,24 +11,30 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.pm.ActivityInfo;
+import android.graphics.Color;
+import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Looper;
 import android.os.Message;
 import android.util.DisplayMetrics;
 import android.util.Log;
+import android.view.Gravity;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.PopupWindow;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import com.huari.Base.PinDuanBase;
+import com.huari.adapter.HistoryShowWindowAdapter;
 import com.huari.commandstruct.PPFXRequest;
 import com.huari.commandstruct.PinPuParameter;
 import com.huari.commandstruct.StopTaskFrame;
+import com.huari.dataentry.ForADataInformation;
 import com.huari.dataentry.GlobalData;
 import com.huari.dataentry.LogicParameter;
 import com.huari.dataentry.MyDevice;
@@ -44,6 +52,7 @@ import java.io.OutputStream;
 import java.net.Socket;
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Queue;
 
 public class HistoryPinDuanActivity extends PinDuanBase {
@@ -59,11 +68,17 @@ public class HistoryPinDuanActivity extends PinDuanBase {
     boolean first = true;
     boolean pause;
     boolean showMax, showMin, showAvg;
+    private List<Parameter> parameterList;
+    private ImageView showStation;
+    private List<String> names;
+    private List<String> defaultValues;
+    private ImageView back;
 
     @Override
     protected void onPause() {
         super.onPause();
         RealTimeSaveAndGetStore.StopFlag = false;
+        RealTimeSaveAndGetStore.ParseFlg = false;
     }
 
     ImageView contorl;
@@ -217,7 +232,6 @@ public class HistoryPinDuanActivity extends PinDuanBase {
             }
         }
     }
-
     @Override
     protected void onResume() {
         super.onResume();
@@ -228,6 +242,8 @@ public class HistoryPinDuanActivity extends PinDuanBase {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_pinduansanmiao_history);
         customProgress = findViewById(R.id.video_progress);
+        back = findViewById(R.id.back);
+        back.setOnClickListener(v -> finish());
         sharepre = getSharedPreferences("myclient", MODE_PRIVATE);
         actionbar = getSupportActionBar();
 
@@ -257,18 +273,12 @@ public class HistoryPinDuanActivity extends PinDuanBase {
 
         Intent intent = getIntent();
         filename = intent.getStringExtra("filename");
-        String mm = sharepre.getString(filename, null);
-
-        stationname = mm.substring(0, mm.indexOf("|"));
-        devicename = mm.substring(mm.indexOf("|") + 1, mm.indexOf("||"));
-        stationKey = mm.substring(mm.indexOf("||") + 2, mm.indexOf("|||"));
-        mm.substring(mm.indexOf("|||") + 3, mm.indexOf("||||"));
-        mm.substring(mm.indexOf("||||") + 4, mm.indexOf("|||||"));
-        logicId = mm.substring(mm.indexOf("|||||") + 5, mm.length());
         contorl = findViewById(R.id.play_control);
         contorl.setOnClickListener(v -> RealTimeSaveAndGetStore.pauseOrResume(contorl));
         previousButton = findViewById(R.id.previous_button);
         nextButton = findViewById(R.id.next_button);
+        showStation = findViewById(R.id.station_button);
+        showStation.setOnClickListener(v -> popWindow(showStation));
         previousButton.setOnClickListener(v -> RealTimeSaveAndGetStore.previousFrame(HistoryPinDuanActivity.this));
         nextButton.setOnClickListener(v -> RealTimeSaveAndGetStore.nextFrame(HistoryPinDuanActivity.this));
         LinearLayout titlebar = (LinearLayout) getLayoutInflater().inflate(
@@ -283,6 +293,11 @@ public class HistoryPinDuanActivity extends PinDuanBase {
             if (RealTimeSaveAndGetStore.thread.isAlive()) {
                 RealTimeSaveAndGetStore.progressFlg = true;
                 RealTimeSaveAndGetStore.progress = (int) progress;
+                if (RealTimeSaveAndGetStore.thread.getState() == Thread.State.WAITING) {
+                    synchronized (RealTimeSaveAndGetStore.person) {
+                        RealTimeSaveAndGetStore.person.notify();
+                    }
+                }
             } else {
                 RealTimeSaveAndGetStore.ParseLocalWrap(filename, 3, handler);
                 RealTimeSaveAndGetStore.progressFlg = true;
@@ -290,8 +305,6 @@ public class HistoryPinDuanActivity extends PinDuanBase {
             }
         });
 
-        stationtextview.setText(stationname);
-        devicetextview.setText(devicename);
 
         handler = new Handler() {
             @Override
@@ -327,11 +340,6 @@ public class HistoryPinDuanActivity extends PinDuanBase {
                                 GlobalData.pinduanQueue.poll();
                             }
                             short[] t = GlobalData.pinduanQueue.poll();
-                            //
-                            // for(int i=0;i<t.length;i++)
-                            // {
-                            // t[i]=(short) (t[i]+GlobalData.PDyinzi[i]);
-                            // }
                             pinduan.setM(t);
                             if (t == null) {
                                 System.out.println("获取到的short【】是空的");
@@ -372,11 +380,6 @@ public class HistoryPinDuanActivity extends PinDuanBase {
                                 }
                                 t = GlobalData.pinduanQueue.poll();
                             }
-
-                            // for(int i=0;i<t.length;i++)
-                            // {
-                            // t[i]=(short) (t[i]+GlobalData.PDyinzi[i]);
-                            // }
                             pinduan.setM(t);
                             if (t == null) {
                                 System.out.println("获取到的short【】是空的");
@@ -395,12 +398,6 @@ public class HistoryPinDuanActivity extends PinDuanBase {
                 } else if (msg.what == SCANNINGDATAFSCAN)// 非PSCAN模式，且点数未超上限（即可以画出Max、Min、Avg)
                 {
                     if (pause == false) {
-                        // for(int i=0;i<GlobalData.pinduanScan.length;i++)
-                        // {
-                        // GlobalData.pinduanScan[i]=(short)
-                        // (GlobalData.pinduanScan[i]+GlobalData.PDyinzi[i]);
-                        // }
-
                         pinduan.setM(GlobalData.pinduanScan);
 
                         if (showMax) {
@@ -426,12 +423,6 @@ public class HistoryPinDuanActivity extends PinDuanBase {
                 {
                     if (pause == false) {
                         synchronized (GlobalData.a) {
-                            // for(int i=0;i<GlobalData.pinduanScan.length;i++)
-                            // {
-                            // GlobalData.pinduanScan[i]=(short)
-                            // (GlobalData.pinduanScan[i]+GlobalData.PDyinzi[i]);
-                            // }
-
                             pinduan.setM(GlobalData.pinduanScan);
                             pinduan.setMax(null);
                             pinduan.setMin(null);
@@ -448,32 +439,69 @@ public class HistoryPinDuanActivity extends PinDuanBase {
                     }
                     readnow.setText(String.valueOf(RealTimeSaveAndGetStore.allLength - RealTimeSaveAndGetStore.available));
                     customProgress.setProgress((Integer) msg.obj);
+                    if ((Integer) msg.obj == 100) {
+                        contorl.setBackgroundResource(R.drawable.stop_icon);
+                        RealTimeSaveAndGetStore.StopFlag = true;
+                    }
                 } else if (msg.what == 34) {
-                    afterGetStation((Station) msg.obj);
+                    afterGetStation((ForADataInformation) msg.obj);
                 }
             }
         };
         RealTimeSaveAndGetStore.deserializeFlyPig(filename, handler);//开始反序列化
     }
 
-    private void afterGetStation(Station stationF) {
-        ArrayList<MyDevice> am = null;
-        try {
-//            Station stationF = GlobalData.stationHashMap.get(stationKey);
-            am = stationF.devicelist;
-        } catch (Exception e) {
-            Toast.makeText(HistoryPinDuanActivity.this, "空的",
-                    Toast.LENGTH_SHORT).show();
+    private void popWindow(View view) {
+        // TODO: 2016/5/17 构建一个popupwindow的布局
+        View popupView = HistoryPinDuanActivity.this.getLayoutInflater().inflate(R.layout.popupwindow, null);
+        // TODO: 2016/5/17 为了演示效果，简单的设置了一些数据，实际中大家自己设置数据即可，相信大家都会。
+        RecyclerView lsvMore = popupView.findViewById(R.id.lsvMore);
+        List<String> list = new ArrayList<>();
+        list.add("ddada");
+        list.add("ddada");
+        list.add("ddada");
+        list.add("ddada");
+        list.add("ddada");
+        HistoryShowWindowAdapter historyShowWindowAdapter = new HistoryShowWindowAdapter(names, defaultValues);
+        lsvMore.setLayoutManager(new LinearLayoutManager(this));
+        lsvMore.setAdapter(historyShowWindowAdapter);
+        // TODO: 2016/5/17 创建PopupWindow对象，指定宽度和高度
+        PopupWindow window = new PopupWindow(popupView, 500, 600);
+        // TODO: 2016/5/17 设置动画
+        window.setAnimationStyle(R.style.popup_window_anim);
+        // TODO: 2016/5/17 设置背景颜色
+        window.setBackgroundDrawable(new ColorDrawable(Color.parseColor("#00000000")));
+        // TODO: 2016/5/17 设置可以获取焦点
+        window.setFocusable(true);
+        // TODO: 2016/5/17 设置可以触摸弹出框以外的区域
+        window.setOutsideTouchable(true);
+        // TODO：更新popupwindow的状态
+        window.update();
+        // TODO: 2016/5/17 以下拉的方式显示，并且可以设置显示的位置
+        window.showAsDropDown(view, 0, 0, Gravity.BOTTOM);
+    }
+
+    private void afterGetStation(ForADataInformation stationF) {
+        if (stationF == null) {
+            return;
         }
 
-        HashMap<String, LogicParameter> hsl = null;
-        for (MyDevice md : am) {
-            if (md.name.equals(devicename)) {
-                hsl = md.logic;
+        names = new ArrayList<>();
+        defaultValues = new ArrayList<>();
+        HashMap<String, LogicParameter> list = stationF.getDevice().getLogic();
+        parameterList = list.get(stationF.getLogicId()).getParameterlist();
+        if (parameterList != null) {
+            for (Parameter parameter : parameterList) {
+                names.add(parameter.name);
+                defaultValues.add(parameter.defaultValue);
             }
         }
-        LogicParameter currentLP = hsl.get(logicId);// 获取频段扫描参数相关的数据，以便画出初始界面
+
+        logicId = stationF.getLogicId();
+        LogicParameter currentLP = stationF.getDevice().logic.get(logicId);// 获取频谱分析相关的数据，以便画出初始界面
         ap = currentLP.parameterlist;
+        stationtextview.setText(stationF.getStationName());
+        devicetextview.setText(stationF.getDeviceName());
         for (Parameter p : ap) {
             if (p.name.trim().equals("StartFreq")) {
                 startFreqParameter = p;
@@ -488,10 +516,6 @@ public class HistoryPinDuanActivity extends PinDuanBase {
                 ScanType = p.defaultValue.trim();
             }
         }
-
-        // startFreq=(centerFreq*1000f-daikuan/2)/1000;
-        // endFreq=(centerFreq*1000f+daikuan/2)/1000;
-
         pinduan.setParameters(startFreq, endFreq, pStepFreq * 1000);
         Log.d("xiaotaohao", "getstation");
         RealTimeSaveAndGetStore.ParseLocalWrap(filename, 3, handler);//Station数据已解析完毕，开始解析数据到视图
@@ -539,22 +563,12 @@ public class HistoryPinDuanActivity extends PinDuanBase {
             startitem = item;
             if (item.getTitle().equals("开始测量")) {
                 item.setTitle("停止测量");
-                // pinduan.setParameters(Float.parseFloat(p.defaultValue.trim()),Float.parseFloat(p.defaultValue.trim()),
-                // Float.parseFloat(p.defaultValue));
                 pause = false;
                 if (mythread == null) {
                     mythread = new HistoryPinDuanActivity.MyThread();
                 }
                 try {
                     mythread.sendStartCmd();
-                    // if(fd.equals("fd"))
-                    // {
-                    // pinduan.setShowInfo("电平(dBuv)");
-                    // }
-                    // else if(fd.equals("cq"))
-                    // {
-                    // pinduan.setShowInfo("场强(dBuV/m)");
-                    // }
 
                 } catch (Exception e) {
 
@@ -612,58 +626,27 @@ public class HistoryPinDuanActivity extends PinDuanBase {
                 ab.setTitle("警告！");
                 ab.setMessage("功能运行期间不可更改设置，确定要停止功能进行设置吗？");
                 ab.setPositiveButton("确定",
-                        new DialogInterface.OnClickListener() {
-                            @Override
-                            public void onClick(DialogInterface dialog,
-                                                int which) {
-                                pause = true;
-                                mythread.sendEndCmd();
-                                GlobalData.clearPinDuan();
-                                startitem.setTitle("开始测量");
-                                Intent intent = new Intent(
-                                        HistoryPinDuanActivity.this,
-                                        PinDuanSetActivity.class);
-                                Bundle bundle = new Bundle();
-                                bundle.putString("sname", stationname);
-                                bundle.putString("dname", devicename);
-                                bundle.putString("stakey", stationKey);
-                                bundle.putString("lids", logicId);
-                                intent.putExtras(bundle);
-                                startActivity(intent);
-                            }
+                        (dialog, which) -> {
+                            pause = true;
+                            mythread.sendEndCmd();
+                            GlobalData.clearPinDuan();
+                            startitem.setTitle("开始测量");
+                            Intent intent = new Intent(
+                                    HistoryPinDuanActivity.this,
+                                    PinDuanSetActivity.class);
+                            Bundle bundle = new Bundle();
+                            bundle.putString("sname", stationname);
+                            bundle.putString("dname", devicename);
+                            bundle.putString("stakey", stationKey);
+                            bundle.putString("lids", logicId);
+                            intent.putExtras(bundle);
+                            startActivity(intent);
                         });
                 ab.setNegativeButton("取消", null);
                 ab.create();
                 ab.show();
             }
-        }
-        // else if(id==R.id.pscq)
-        // {
-        // if(pause==false)
-        // {
-        // Toast.makeText(PinDuanScanningActivity.this, "任务运行期间不可切换",
-        // Toast.LENGTH_SHORT).show();
-        // }
-        // else
-        // {
-        // if(item.getTitle().equals("场强"))
-        // {
-        // item.setTitle("电平");
-        // fd="cq";
-        // GlobalData.clearPinDuan();
-        // pinduan.setDanWei("场强","dBuv/m");
-        //
-        // }
-        // else if(item.getTitle().equals("电平"))
-        // {
-        // item.setTitle("场强");
-        // fd="fd";
-        // GlobalData.clearPinDuan();
-        // pinduan.setDanWei("电平","dBuv");
-        // }
-        // }
-        // }
-        else if (id == R.id.maxshow) {
+        } else if (id == R.id.maxshow) {
             if (item.getTitle().equals("不显示最大值")) {
                 item.setTitle("显示最大值");
                 showMax = false;
@@ -690,33 +673,6 @@ public class HistoryPinDuanActivity extends PinDuanBase {
         }
         return true;
     }
-
-//    @Override
-//    public boolean onKeyDown(int keyCode, KeyEvent event) {
-//        if (keyCode == KeyEvent.KEYCODE_BACK) {
-//            AlertDialog.Builder builder = new AlertDialog.Builder(
-//                    PinDuanScanningActivity.this);
-//            builder.setTitle("警告!");
-//            builder.setMessage("确定要退出该功能吗？");
-//            builder.setPositiveButton("确定",
-//                    new DialogInterface.OnClickListener() {
-//                        @Override
-//                        public void onClick(DialogInterface dialog, int which) {
-//                            willExit();
-//                            Intent intent = new Intent(
-//                                    PinDuanScanningActivity.this,
-//                                    MainActivity.class);//CircleActivity.class);
-//                            startActivity(intent);
-//
-//                            finish();
-//                        }
-//                    });
-//            builder.setNegativeButton("取消", null);
-//            builder.create();
-//            builder.show();
-//        }
-//        return super.onKeyDown(keyCode, event);
-//    }
 
     private byte[] iRequestInfo() {
         byte[] request = null;

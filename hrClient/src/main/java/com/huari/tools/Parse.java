@@ -315,8 +315,8 @@ public class Parse {
                 }
             }// 解析设备结束
             station.devicelist = devicelist;
-            if(FileOsImpl.simpleStations.size()!=0){
-                showdevicelist = recoverSetOfDevice(showdevicelist,station.getId(),station.getName());
+            if (FileOsImpl.simpleStations.size() != 0) {
+                showdevicelist = recoverSetOfDevice(showdevicelist, station.getId(), station.getName());
             }
             station.showdevicelist = showdevicelist;
             GlobalData.stationHashMap.put(currentStationId, station);
@@ -362,11 +362,12 @@ public class Parse {
 
     }
 
-    private static ArrayList<MyDevice> recoverSetOfDevice(ArrayList<MyDevice> devices,String stationid,String stationname) {
-        for(MyDevice device:devices){
-            SimpleStation simpleStation = new SimpleStation(stationname,stationid,device);
-            if(FileOsImpl.simpleStations.contains(simpleStation)){
-                devices.set(devices.indexOf(device),FileOsImpl.simpleStations.get(FileOsImpl.simpleStations.indexOf(simpleStation)).getDevice());
+    private static ArrayList<MyDevice> recoverSetOfDevice(ArrayList<MyDevice> devices, String stationid, String stationname) {
+        for (MyDevice device : devices) {
+            SimpleStation simpleStation = new SimpleStation(stationname, stationid, device);
+            if (FileOsImpl.simpleStations.contains(simpleStation)) {
+                devices.get(devices.indexOf(device)).logic = FileOsImpl.simpleStations.get(FileOsImpl.simpleStations.indexOf(simpleStation)).getDevice().logic;
+//                devices.set(devices.indexOf(device),FileOsImpl.simpleStations.get(FileOsImpl.simpleStations.indexOf(simpleStation)).getDevice());
             }//通过比对找出其中已经被保存在本地的设备的设置，然后本地的替换到设备列表中然后再返回。
         }
         return devices;
@@ -1515,6 +1516,10 @@ public class Parse {
             if (StationListActivity.handler != null)
                 StationListActivity.handler
                         .sendEmptyMessage(StationListActivity.REFRESHSTATE);
+            if (StationShowFragment.handler != null){
+                StationShowFragment.handler
+                        .sendEmptyMessage(0);
+            }
         } catch (Exception e) {
             System.out.println("台站设备刷新消息通知失败！");
         }

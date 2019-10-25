@@ -9,8 +9,8 @@ import android.graphics.Color;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
+import android.util.Log;
 import android.view.LayoutInflater;
-import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.LinearLayout;
@@ -18,11 +18,14 @@ import android.widget.TextView;
 
 import com.huari.adapter.SimpleTestAdapter;
 import com.huari.adapter.TagCloudAdapter;
+import com.huari.client.DzActivity;
 import com.huari.client.FileListActivity;
+import com.huari.client.FindFileActivity;
 import com.huari.client.HistoryListActivity;
 import com.huari.client.MonthDataActivity;
 import com.huari.client.OfflineDownloadActivity;
 import com.huari.client.R;
+import com.huari.client.SetActivity;
 import com.huari.dataentry.recentContent;
 import com.huari.tools.FileOsImpl;
 import com.huari.ui.CalendarView;
@@ -41,6 +44,9 @@ import androidx.core.widget.NestedScrollView;
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
+import cn.bmob.v3.BmobPushManager;
+import cn.bmob.v3.exception.BmobException;
+import cn.bmob.v3.listener.PushListener;
 
 public class OfflineFragment2 extends Fragment {
     TagCloudView tagCloudView;
@@ -52,6 +58,9 @@ public class OfflineFragment2 extends Fragment {
     LinearLayout musicLayout;
     LinearLayout fileLayout;
     LinearLayout downMapLayout;
+    LinearLayout setLayout;
+    LinearLayout bombLayout;
+    LinearLayout dzLayout;
     com.huari.ui.pieLineView pieLineView;
     NestedScrollView nestedScrollView;
 
@@ -87,14 +96,11 @@ public class OfflineFragment2 extends Fragment {
         public void handleMessage(Message msg) {
             super.handleMessage(msg);
             List<recentContent> list = (List<recentContent>) msg.obj;
-            if(list.size()==0){
-                list.add(new recentContent("暂无数据","",5));
-            }
             simpleTestAdapter.setRecentContent(list);
             if (rv != null) {
                 rv.setAdapter(simpleTestAdapter);
             }
-            final TagCloudAdapter adapter = new TagCloudAdapter(list, rv);
+            final TagCloudAdapter adapter = new TagCloudAdapter(list, rv, context);
             tagCloudView.setAdapter(adapter);
             tagCloudView.setBackgroundColor(Color.parseColor("#00000000"));
         }
@@ -102,7 +108,6 @@ public class OfflineFragment2 extends Fragment {
     private Intent intent;
     private Context context;
     private Activity activity;
-    private boolean monFlag = false;
 
     @SuppressLint("ValidFragment")
     public OfflineFragment2(Context context, Activity activity) {
@@ -110,7 +115,8 @@ public class OfflineFragment2 extends Fragment {
         this.activity = activity;
     }
 
-    public OfflineFragment2() {}
+    public OfflineFragment2() {
+    }
 
     @Nullable
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
@@ -119,6 +125,9 @@ public class OfflineFragment2 extends Fragment {
         pinpulayout = view.findViewById(R.id.pinpu_layout);
         danpinLayout = view.findViewById(R.id.danpin_layout);
         downMapLayout = view.findViewById(R.id.downoad_offlinemap);
+        setLayout = view.findViewById(R.id.set);
+        bombLayout = view.findViewById(R.id.bomb_push);
+        dzLayout = view.findViewById(R.id.dz);
         pinduanLayout = view.findViewById(R.id.pinduan_layout);
         musicLayout = view.findViewById(R.id.music_layout);
         fileLayout = view.findViewById(R.id.file_layout);
@@ -141,33 +150,38 @@ public class OfflineFragment2 extends Fragment {
         yinpinNew = view.findViewById(R.id.yinpin_new);
 
         weekLayout = view.findViewById(R.id.week_view);
-        weekLayout.setLayerType(View.LAYER_TYPE_SOFTWARE,null);
+        weekLayout.setLayerType(View.LAYER_TYPE_SOFTWARE, null);
         monthLayout = view.findViewById(R.id.month_view);
-        monthLayout.setOnTouchListener((v, event) -> {
-            if(monFlag==false){
-//                switch (event.getAction()){
-//
-//                }
-                monFlag = true;
+        monthLayout.setTouchDisallowFlag(true);
+        monthLayout.setClickListener(() -> {
+            if (context != null) {
                 Intent intent = new Intent(context, MonthDataActivity.class);
                 Bundle options = ActivityOptions.makeSceneTransitionAnimation(
                         activity, monthLayout, "shareimage").toBundle();
-                startActivity(intent,options);
+                startActivity(intent, options);
             }
-            return true;
         });
-
-//        monthLayout.setLayerType(View.LAYER_TYPE_SOFTWARE,null);
-//        back = findViewById(R.id.imageview_back);
-
+        bombLayout.setOnClickListener(v -> {
+            BmobPushManager bmobPushManager = new BmobPushManager();
+            bmobPushManager.pushMessageAll("消息内容", new PushListener() {
+                @Override
+                public void done(BmobException e) {
+                    if (e == null) {
+                        Log.d("xiao", "推送成功！");
+                    } else {
+                        Log.d("xiao", "异常：");
+                    }
+                }
+            });
+        });
+        dzLayout.setOnClickListener(v -> startActivity(new Intent(context,DzActivity.class)));
         danpinLayout.setOnClickListener(v -> click(HistoryListActivity.DF));
         pinpulayout.setOnClickListener(v -> click(HistoryListActivity.AN));
         pinduanLayout.setOnClickListener(v -> click(HistoryListActivity.PD));
-        musicLayout.setOnClickListener(v -> click(HistoryListActivity.REC));
+        musicLayout.setOnClickListener(v -> click(HistoryListActivity.RE));
         fileLayout.setOnClickListener(v -> startActivity(new Intent(context, FileListActivity.class)));
         downMapLayout.setOnClickListener(v -> startActivity(new Intent(context, OfflineDownloadActivity.class)));
-//        back.setOnClickListener(v -> finish());
-
+        setLayout.setOnClickListener(v -> startActivity(new Intent(context, SetActivity.class)));
         simpleTestAdapter = new SimpleTestAdapter();
         simpleTestAdapter.setContext(context);
         rv = view.findViewById(R.id.rv);
@@ -177,31 +191,38 @@ public class OfflineFragment2 extends Fragment {
     }
 
     private void click(String s) {
-        intent = new Intent(context, HistoryListActivity.class);
-        Bundle bundle = new Bundle();
-        bundle.putString("type", s);
-        intent.putExtras(bundle);
-        startActivity(intent);
+        if (context != null) {
+            intent = new Intent(context, FindFileActivity.class);
+            Bundle bundle = new Bundle();
+            bundle.putString("type", s);
+            intent.putExtras(bundle);
+            startActivity(intent);
+        }
     }
 
     @Override
     public void onResume() {
         super.onResume();
-        monFlag = false;
+        FileOsImpl.getRecentList(handler);
         List<recentContent> listFile = new ArrayList<>();
         File file1 = new File(FileOsImpl.forSaveFloder + File.separator + "data");
-        for (File file : file1.listFiles()) {
-            if (file.getName().contains("DF")) {
-                listFile.add(new recentContent(file.getAbsolutePath(), file.getName(), 1));
-            } else if (file.getName().contains("AN")) {
-                listFile.add(new recentContent(file.getAbsolutePath(), file.getName(), 2));
-            } else if (file.getName().contains("PD")) {
-                listFile.add(new recentContent(file.getAbsolutePath(), file.getName(), 3));
-            } else if (file.getName().contains("REC")) {
-                listFile.add(new recentContent(file.getAbsolutePath(), file.getName(), 4));
-            }
+        if(!file1.exists()){
+            file1.mkdirs();
         }
-        initData(listFile);
+        if(file1.listFiles()!=null){
+            for (File file : file1.listFiles()) {
+                if (file.getName().contains("DF")) {
+                    listFile.add(new recentContent(file.getAbsolutePath(), file.getName(), 1));
+                } else if (file.getName().contains("AN")) {
+                    listFile.add(new recentContent(file.getAbsolutePath(), file.getName(), 2));
+                } else if (file.getName().contains("PD")) {
+                    listFile.add(new recentContent(file.getAbsolutePath(), file.getName(), 3));
+                } else if (file.getName().contains("RE")) {
+                    listFile.add(new recentContent(file.getAbsolutePath(), file.getName(), 4));
+                }
+            }
+            initData(listFile);
+        }
     }
 
     private void initData(List<recentContent> list) {
@@ -250,10 +271,7 @@ public class OfflineFragment2 extends Fragment {
             yinpin = yinpin + (int) (new File(filename).length());
         }
         yinpinlength = getSize(yinpin);
-
-//        int[] floats = new int[]{1, 12, 24, 5, 15, 3, 12};
         weekLayout.startWeek();
-//        monthLayout.startMonth();
         refreshView();
     }
 

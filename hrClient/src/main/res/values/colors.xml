@@ -8,4 +8,5 @@
     <color name="colorAccent">#D81B60</color>
     <color name="bg_orange">#435445</color>
     <color name="bg_f0f0f0">#dad</color>
+    <color name="back">#000000</color>
 </resources>

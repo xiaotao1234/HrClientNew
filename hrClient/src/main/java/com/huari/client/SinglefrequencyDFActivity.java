@@ -75,6 +75,15 @@ public class SinglefrequencyDFActivity extends AppCompatActivity {
     public static final int NETREFRESH = 3;
     public static final int FOURREFRESH = 4;
     public static final int PARTFRESH = 8;
+    public static int flag;
+
+    @Override
+    protected void onStart() {
+        super.onStart();
+        WindowHelper.instance.setForeground(true);
+        WindowHelper.instance.startWindowService(getApplicationContext());
+    }
+
     public static final int PARAMETERSREFRESH = 10;// 有参数更新了
 
     SharedPreferences sharepre;
@@ -128,6 +137,7 @@ public class SinglefrequencyDFActivity extends AppCompatActivity {
     public static Queue<byte[]> queue;
     private String fileName;
     private Station stationF;
+    private MyDevice device;
 
     class IniThread extends Thread {
         public void run() {
@@ -208,13 +218,13 @@ public class SinglefrequencyDFActivity extends AppCompatActivity {
             fileName = "DF|" + df.format(new Date()).replaceAll(" ", "|");
 //                    + "||" + stationname + "|" + devicename + "|" + stationKey + "|" + lan + "|" + lon;
 //                    +"|"+logicId;    //会导致文件名长度超出限制
-            SharedPreferences sharedPreferences = getSharedPreferences("myclient", MODE_PRIVATE);
-            SharedPreferences.Editor shareEditor = sharedPreferences.edit();
-            shareEditor.putString(fileName, stationname + "|" + devicename + "||" + stationKey + "|||" + lan + "||||" + lon + "|||||" + logicId);
-            shareEditor.commit();  //以文件名作为key来将台站信息存入shareReferences
-            Log.d("xiaoxiao", String.valueOf(fileName.length()));
+//            SharedPreferences sharedPreferences = getSharedPreferences("myclient", MODE_PRIVATE);
+//            SharedPreferences.Editor shareEditor = sharedPreferences.edit();
+//            shareEditor.putString(fileName, stationname + "|" + devicename + "||" + stationKey + "|||" + lan + "||||" + lon + "|||||" + logicId);
+//            shareEditor.commit();  //以文件名作为key来将台站信息存入shareReferences
+//            Log.d("xiaoxiao", String.valueOf(fileName.length()));
             SysApplication.byteFileIoUtils.writeBytesToFile(fileName, 1); //开始保存数据前的初始化，开启消费者所在线程
-            RealTimeSaveAndGetStore.serializeFlyPig(stationF,fileName,1);//在消费者线程开启后，开始Statio的序列化并放入队列缓冲区中等待消费者线程遍历之
+            RealTimeSaveAndGetStore.serializeFlyPig(stationF,devicename,device,logicId);//在消费者线程开启后，开始Statio的序列化并放入队列缓冲区中等待消费者线程遍历之
         }
 
         private void sendEndCmd() {
@@ -242,7 +252,7 @@ public class SinglefrequencyDFActivity extends AppCompatActivity {
                 int segment = 0;
                 byte[] info = null;
                 long time = 0;
-                int flag = 0;
+                flag = 0;
 
                 while (available == 0 && runmyThread) {
 //                    SysApplication.byteFileIoUtils.readFile("nba");
@@ -258,6 +268,7 @@ public class SinglefrequencyDFActivity extends AppCompatActivity {
                         }
                         if (saveFlag == true) {
                             if (flag == 0) {
+                                time = 0;
                                 savePrepare();
                                 flag++;
                             }
@@ -275,12 +286,17 @@ public class SinglefrequencyDFActivity extends AppCompatActivity {
     @Override
     protected void onPause() {
         super.onPause();
+        isRunning = false;
+        WindowController.getInstance(this).pauseRecord();
+        WindowHelper.instance.setForeground(false);
         WindowHelper.instance.stopWindowService(this);
     }
 
     @Override
     protected void onResume() {
         super.onResume();
+        WindowHelper.instance.setForeground(true);
+        WindowHelper.instance.startWindowService(getApplicationContext());
         startWindow();
 //        RealTimeSaveAndGetStore.ParseLocalDdfData("nba", 1);
     }
@@ -404,6 +420,7 @@ public class SinglefrequencyDFActivity extends AppCompatActivity {
             HashMap<String, LogicParameter> hsl = null;
             for (MyDevice md : am) {
                 if (md.name.equals(devicename)) {
+                    device = md;
                     hsl = md.logic;
                 }
             }
@@ -480,6 +497,7 @@ public class SinglefrequencyDFActivity extends AppCompatActivity {
     }
 
     private void willExit() {
+        isRunning = false;
         DataSave.datamap.clear();
         fmv.clear();
         try {
@@ -539,6 +557,7 @@ public class SinglefrequencyDFActivity extends AppCompatActivity {
         return super.onCreateOptionsMenu(menu);
     }
 
+    public static boolean isRunning = false;
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
@@ -594,6 +613,7 @@ public class SinglefrequencyDFActivity extends AppCompatActivity {
             case R.id.singlepause:
                 if (item.getTitle().equals("开始测量")) {
                     try {
+                        isRunning = true;
                         item.setTitle("停止测量");
                         pause = false;
                         disks.diskclear();// 以下多行被屏蔽掉的地方5
@@ -635,6 +655,8 @@ public class SinglefrequencyDFActivity extends AppCompatActivity {
                     }
                 } else if (item.getTitle().equals("停止测量")) {
                     item.setTitle("开始测量");
+                    isRunning = false;
+                    WindowController.getInstance(this).pauseRecord();
                     pause = true;
                     Thread thread = new Thread(() -> {
                         try {

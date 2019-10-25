@@ -12,6 +12,8 @@ import com.huari.client.PinDuanScanningActivity;
 import com.huari.client.R;
 import com.huari.client.SinglefrequencyDFActivity;
 import com.huari.client.SpectrumsAnalysisActivity;
+import com.huari.dataentry.ForADataInformation;
+import com.huari.dataentry.MyDevice;
 import com.huari.dataentry.Station;
 
 import java.io.ByteArrayInputStream;
@@ -22,6 +24,7 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
+import java.util.Arrays;
 
 
 public class RealTimeSaveAndGetStore {
@@ -79,7 +82,7 @@ public class RealTimeSaveAndGetStore {
 
     public static void ParseLocalDdfData(String fileName, int type, Handler handler) {
         //使上一个解析线程读取到标志位停止
-//重新组装一个完整的帧头
+        //重新组装一个完整的帧头
         thread = new Thread(new Runnable() {
             @Override
             public void run() {
@@ -94,22 +97,22 @@ public class RealTimeSaveAndGetStore {
             private void SchduleOneFrame() {//对每帧数据进行处理
                 while (available > 12 && MyTools.fourBytesToInt(MyTools.nigetPartByteArray(readWithTiem, 0, 3)) == 0xAAAAAAAA && ParseFlg == true) {
                     try {
-                        synchronized (person) {
-                            if (StopFlag == true) {
+                        if (StopFlag == true) {
+                            synchronized (person) {
                                 person.wait();//暂停数据刷到界面
                             }
                         }
-                        if(PreFlag == true){
+                        if (PreFlag == true) {
                             inputStream = SysApplication.byteFileIoUtils.readFile(File.separator + "data" + File.separator + fileNameTem);
                             inputStream.skip(StationMessageLength);//跳过文件中开始序列化Station二进制码长度的数据
                             allLength = inputStream.available();
-                            inputStream.skip(allLength-available-frameLength-4);
+                            inputStream.skip(allLength - available - frameLength - 4);
                             PreFlag = false;
                         }
                         delayTime = MyTools.bytesToIntLittle(MyTools.nigetPartByteArray(readWithTiem, 4, 7));
-                        Log.d("xiaodelaybefore", String.valueOf(delayTime));
-                        delayTime = (delayTime-1)>0?(delayTime-1):delayTime;
-                        Log.d("xiaodelay", String.valueOf(delayTime));
+//                        Log.d("xiaodelaybefore", String.valueOf(delayTime));
+//                        delayTime = (delayTime - 1) > 0 ? (delayTime - 1) : delayTime;
+//                        Log.d("xiaodelay", String.valueOf(delayTime));
                         frameLength = MyTools.bytesToIntLittle(MyTools.nigetPartByteArray(readWithTiem, 8, 11));
                         byte[] dateFrame = new byte[frameLength];
                         Log.d("xiaothread", Thread.currentThread().getName());
@@ -270,9 +273,9 @@ public class RealTimeSaveAndGetStore {
                         person2.wait();//暂停数据刷到界面
                     }
                 }
-                if(PreFlag == true){
-                     inputStream.read(readWithTiem,0,12);
-                     PreFlag = false;
+                if (PreFlag == true) {
+                    inputStream.read(readWithTiem, 0, 12);
+                    PreFlag = false;
                 }
                 delayTime = MyTools.bytesToIntLittle(MyTools.nigetPartByteArray(readWithTiem, 4, 7));
                 frameLength = MyTools.bytesToIntLittle(MyTools.nigetPartByteArray(readWithTiem, 8, 11));
@@ -331,7 +334,6 @@ public class RealTimeSaveAndGetStore {
                 if (haveRead > (j + 1) * 200) {
                     inputStream.skip(haveRead - (j + 1) * 200);//由于skip一段后，后面的数据不一定是一个完整的
                 }
-                Log.d("xiaolai:haveread", String.valueOf(haveRead - (j + 1) * 200));
                 byte[] b = new byte[1];
                 inputStream.read(b);
                 while (inputStream.available() > 0 && index <= num) {
@@ -463,6 +465,7 @@ public class RealTimeSaveAndGetStore {
         if (time != 0) {
             delay = (int) (System.currentTimeMillis() - time);
         }
+        Log.d("xiaodelayafter", String.valueOf(delay));
         time = System.currentTimeMillis();
         byte[] headBytes = MyTools.int2ByteArray(0xAAAAAAAA);//帧头
         byte[] timeBytes = MyTools.int2ByteArray(delay);//当前数据帧距下一个数据帧延时的时间
@@ -499,7 +502,7 @@ public class RealTimeSaveAndGetStore {
         return time;
     }
 
-    public static void serializeFlyPig(Station station, String fileName, int type) {//序列化保存
+    public static void serializeFlyPig(Station station, String devicename, MyDevice device, String logicId) {//序列化保存
         // ObjectOutputStream 对象输出流，将 flyPig 对象存储到E盘的 flyPig.txt 文件中，完成对 flyPig 对象的序列化操作
 //从序列化文件读出
 //文件长度
@@ -514,7 +517,8 @@ public class RealTimeSaveAndGetStore {
                 }
                 FileOutputStream fileOutputStream = new FileOutputStream(filebase);
                 ObjectOutputStream oos = new ObjectOutputStream(fileOutputStream);
-                oos.writeObject(station);
+                ForADataInformation forADataInformation = new ForADataInformation(station.getName(), devicename, logicId, device);
+                oos.writeObject(forADataInformation);
                 oos.close();
                 FileInputStream fileInputStream = new FileInputStream(filebase);//从序列化文件读出
                 int length = fileInputStream.available();//文件长度
@@ -526,6 +530,7 @@ public class RealTimeSaveAndGetStore {
                 fileInputStream.read(bytesForSave, 8, length);
                 synchronized (ByteFileIoUtils.object) {
                     ByteFileIoUtils.object.notify();
+                    Log.d("filestart", "station序列化完毕");
                 }
                 fileInputStream.close();
                 filebase.delete();
@@ -546,23 +551,59 @@ public class RealTimeSaveAndGetStore {
                     return;
                 }
                 InputStream inputStream = new FileInputStream(file);
+                int len = inputStream.available();
                 inputStream.read(bytes);
-                if (!(MyTools.fourBytesToInt(MyTools.nigetPartByteArray(bytes, 0, 3)) == 0x77777777)) {
+                if ((MyTools.fourBytesToInt(MyTools.nigetPartByteArray(bytes, 0, 3)) != 0x77777777)) {
+                    inputStream.skip(len - 76 - 36 - 8);
+                    byte[] bytes1 = new byte[76];
+                    byte[] bytes2 = new byte[36];
+                    inputStream.read(bytes1);
+                    inputStream.read(bytes2);
+                    byte[] bytes11 = new byte[0];
+                    byte[] bytes22 = new byte[0];
+                    for (int i = 0; i < 76; i++) {
+                        if (bytes1[i] == 0) {
+                            bytes11 = new byte[i];
+                            for (int j = 0; j < i; j++) {
+                                bytes11[j] = bytes1[j];
+                            }
+                            break;
+                        }
+                    }
+                    for (int i = 0; i < 36; i++) {
+                        if (bytes2[i] == 0) {
+                            bytes22 = new byte[i];
+                            for (int j = 0; j < i; j++) {
+                                bytes22[j] = bytes2[j];
+                            }
+                            break;
+                        }
+                    }
+
+                    ForADataInformation forADataInformation = new ForADataInformation(
+                            new String(bytes11, "UTF8")
+                            , new String(bytes22, "UTF8")
+                            , null, null);
+                    forADataInformation.setFile(fileName);
+                    Message message = Message.obtain();
+                    message.obj = forADataInformation;
+                    message.what = 34;
+                    handler.sendMessage(message);
                     return;
+                } else {
+                    length = MyTools.bytesToIntLittle(MyTools.nigetPartByteArray(bytes, 4, 7));
+                    byte[] bytes1 = new byte[length];
+                    StationMessageLength = length + 8;
+                    inputStream.read(bytes1);
+                    InputStream inputStream1 = new ByteArrayInputStream(bytes1);
+                    ObjectInputStream ois = new ObjectInputStream(inputStream1);
+                    ForADataInformation forADataInformation = (ForADataInformation) ois.readObject();
+                    forADataInformation.setFile(fileName);
+                    Message message = Message.obtain();
+                    message.obj = forADataInformation;
+                    message.what = 34;
+                    handler.sendMessage(message);
                 }
-                length = MyTools.bytesToIntLittle(MyTools.nigetPartByteArray(bytes, 4, 7));
-                byte[] bytes1 = new byte[length];
-                StationMessageLength = length + 8;
-                inputStream.read(bytes1);
-                InputStream inputStream1 = new ByteArrayInputStream(bytes1);
-                ObjectInputStream ois = new ObjectInputStream(inputStream1);
-                Station station = (Station) ois.readObject();
-                Message message = Message.obtain();
-                message.obj = station;
-                message.what = 34;
-                handler.sendMessage(message);
-                System.out.println("FlyPig 对象反序列化成功！");
-                Log.d("xiaotaohao", "序列化");
             } catch (Exception e) {
                 e.printStackTrace();
             }

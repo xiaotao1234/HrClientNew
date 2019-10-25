@@ -8,7 +8,7 @@ import java.util.Map;
 
 public class DataSave {
 
-	public static HashMap<Float, MyData> datamap = new HashMap<Float, MyData>();// 以正北角度作为key，其余信息则保存在MyData实例中
+	public static HashMap<Float, MyData> datamap = new HashMap<>();// 以正北角度作为key，其余信息则保存在MyData实例中
 	public static float MaxPlidegree;// 最大幅度的角度
 	public static float MaxProdegree;
 	public static float MaxQuadegree;
@@ -25,7 +25,7 @@ public class DataSave {
 
 	public static ArrayList<Map.Entry<Float, MyData>> sortByPro(
 			HashMap<Float, MyData> map) {// 按概率排序
-		ArrayList<Map.Entry<Float, MyData>> list = new ArrayList<Map.Entry<Float, MyData>>(
+		ArrayList<Map.Entry<Float, MyData>> list = new ArrayList<>(
 				map.entrySet());
 		Collections.sort(list, new Comparator<Map.Entry<Float, MyData>>() {
 			public int compare(Map.Entry<Float, MyData> o1,
@@ -38,7 +38,7 @@ public class DataSave {
 
 	public static ArrayList<Map.Entry<Float, MyData>> sortByPli(
 			HashMap<Float, MyData> map) {// 按幅度排序
-		ArrayList<Map.Entry<Float, MyData>> list = new ArrayList<Map.Entry<Float, MyData>>(
+		ArrayList<Map.Entry<Float, MyData>> list = new ArrayList<>(
 				map.entrySet());
 
 		Collections.sort(list, new Comparator<Map.Entry<Float, MyData>>() {
@@ -53,7 +53,7 @@ public class DataSave {
 
 	public static ArrayList<Map.Entry<Float, MyData>> sortByQua(
 			HashMap<Float, MyData> map) {// 按质量排序
-		ArrayList<Map.Entry<Float, MyData>> list = new ArrayList<Map.Entry<Float, MyData>>(
+		ArrayList<Map.Entry<Float, MyData>> list = new ArrayList<>(
 				map.entrySet());
 		Collections.sort(list, new Comparator<Map.Entry<Float, MyData>>() {
 			public int compare(Map.Entry<Float, MyData> o1,

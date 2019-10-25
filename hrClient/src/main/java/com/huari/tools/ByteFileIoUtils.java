@@ -225,25 +225,32 @@ public class ByteFileIoUtils {
                 byte[] bytes;
                 while (runFlag) {
                     synchronized (object){
-                        if (randomFile.length()==0&&RealTimeSaveAndGetStore.serializeThread.isAlive()){
+                        if (RealTimeSaveAndGetStore.serializeThread!=null&randomFile.length()==0&&RealTimeSaveAndGetStore.serializeThread.isAlive()){
                             object.wait();
                         }
+                    }
+                    Log.d("filestart","开始写入数据");
+                    while (randomFile==null){
+                        randomFile = new RandomAccessFile(file.getAbsolutePath() + File.separator + filename, "rw");
                     }
                     if(randomFile.length()==0){
                         randomFile.write(RealTimeSaveAndGetStore.bytesForSave);
                     }
                     synchronized (queue) {
-                        bytes = queue.peek();
+                        if(queue.size()!=0){
+                        }else {
+                            Thread.sleep(1);
+                            continue;
+                        }
                     }
-                    if (bytes == null) {
-                        Thread.sleep(8);
-                        continue;
-                    }
+//                    if (bytes == null) {
+//                        Thread.sleep(1);
+//                        continue;
+//                    }
                     // 文件长度，字节数
                     long fileLength = randomFile.length();
                     //将写文件指针移到文件尾。
                     randomFile.seek(fileLength);
-                    Log.d("xiao", String.valueOf(queue.peek()));
                     randomFile.write(queue.poll());
                 }
                 SysApplication.fileOs.save(SysApplication.fileOs.forSaveFloder + File.separator + filename,filename, type);
@@ -294,14 +301,16 @@ public class ByteFileIoUtils {
     }
 
     public InputStream readFile(String fileName) {
-        File file = new File(SysApplication.fileOs.forSaveFloder + File.separator + fileName);
+        File file = new File(SysApplication.fileOs.forSaveFloder  + fileName);
         try {
             inputStream = new FileInputStream(file);
         } catch (FileNotFoundException e) {
             e.printStackTrace();
             Log.d("xiao", "file is not find");
         }
-        SysApplication.fileOs.save(SysApplication.fileOs.forSaveFloder + File.separator + fileName,fileName, RealTimeSaveAndGetStore.type);
+        SysApplication.fileOs.save(SysApplication.fileOs.forSaveFloder + fileName,
+                new File(SysApplication.fileOs.forSaveFloder  + fileName).getName(), RealTimeSaveAndGetStore.type);
+        Log.d("xiaofile1",SysApplication.fileOs.forSaveFloder);
         return inputStream;
     }
 

@@ -8,7 +8,7 @@ public class MyDevice   implements Serializable {
 	public String name;
 	public byte logicParametersCount;
 	public byte state;// 设备状态
-	public byte isOccupied;
+	public byte isOccupied; //设备使用情况
 	public HashMap<String, LogicParameter> logic;
 
 	public String getName() {

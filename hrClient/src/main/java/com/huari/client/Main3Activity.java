@@ -76,7 +76,7 @@ public class Main3Activity extends AppCompatActivity {
             if (rv != null) {
                 rv.setAdapter(simpleTestAdapter);
             }
-            final TagCloudAdapter adapter = new TagCloudAdapter(list, rv);
+            final TagCloudAdapter adapter = new TagCloudAdapter(list, rv,getApplicationContext());
             tagCloudView.setAdapter(adapter);
             tagCloudView.setBackgroundColor(Color.parseColor("#00000000"));
         }
@@ -233,7 +233,7 @@ public class Main3Activity extends AppCompatActivity {
         danpinLayout.setOnClickListener(v -> click(HistoryListActivity.DF));
         pinpulayout.setOnClickListener(v -> click(HistoryListActivity.AN));
         pinduanLayout.setOnClickListener(v -> click(HistoryListActivity.PD));
-        musicLayout.setOnClickListener(v -> click(HistoryListActivity.REC));
+        musicLayout.setOnClickListener(v -> click(HistoryListActivity.RE));
         fileLayout.setOnClickListener(v -> startActivity(new Intent(Main3Activity.this, FileListActivity.class)));
 //        back.setOnClickListener(v -> finish());
 

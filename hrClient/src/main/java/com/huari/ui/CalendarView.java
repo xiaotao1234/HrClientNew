@@ -7,17 +7,12 @@ import android.graphics.Paint;
 import android.graphics.Point;
 import android.graphics.Rect;
 import android.util.AttributeSet;
-import android.util.Log;
 import android.view.MotionEvent;
 
-import java.text.SimpleDateFormat;
 import java.util.Calendar;
 
 public class CalendarView extends CustomView {
 
-    private int rectw;
-    private int recth;
-    String monthString = "10";
     private Paint titlePaint;
     private Paint gridPaint;
     int GridWidth;
@@ -33,6 +28,7 @@ public class CalendarView extends CustomView {
     private Paint gridSmallPaint;
     private Point pointTouch2;
     private int oldPosition;
+    private int nowPosition;
     private Calendar calendar;
     private float downX;
     private float downY;
@@ -40,6 +36,22 @@ public class CalendarView extends CustomView {
     private float offsetX;
     private float offsetY;
     private boolean scrollFlag = false;
+    private boolean touchDisallowFlag = true;
+    private int first;
+
+    public void setTouchDisallowFlag(boolean touchDisallowFlag) {
+        this.touchDisallowFlag = touchDisallowFlag;
+    }
+
+    public interface ClickListener {
+        void Listner();
+    }
+
+    ClickListener clickListener;
+
+    public void setClickListener(ClickListener clickListener) {
+        this.clickListener = clickListener;
+    }
 
     public CalendarView(Context context) {
         super(context);
@@ -56,16 +68,53 @@ public class CalendarView extends CustomView {
         init();
     }
 
+    public String getS() {
+        int year = calendar.get(Calendar.YEAR);
+        int month = calendar.get(Calendar.MONTH) + 1;
+        return year + "年" + month + "月";
+    }
+
+    public int getYear() {
+        int year = calendar.get(Calendar.YEAR);
+        return year;
+    }
+
+    public int getMonth() {
+        int month = calendar.get(Calendar.MONTH) + 1;
+        return month;
+    }
+
+    public int[] getCheckPosition() {
+        if (state == STATE_1) {
+            int[] ints = new int[1];
+            ints[0] = -1;
+            return ints;
+        } else if (state == STATE_2) {
+            int[] ints = new int[1];
+            ints[0] = oldPosition + 1;
+            return ints;
+        } else if (state == STATE_3) {
+            int[] ints = new int[2];
+            ints[0] = oldPosition + 1;
+            ints[1] = nowPosition + 1;
+            return ints;
+        }
+        return new int[]{-1};
+    }
+
+    public void deletePosition() {
+        state = STATE_1;
+        invalidate();
+    }
+
     @Override
     protected void onSizeChanged(int w, int h, int oldw, int oldh) {
         super.onSizeChanged(w, h, oldw, oldh);
-        rectw = w / 5 * 4;
-        recth = h / 5 * 4;
         GridWidth = w / 7;
         GridHeight = h / 8;
-        titlePaint.setTextSize(w/20);
-        gridPaint.setTextSize(w/20);
-        gridSmallPaint.setTextSize(w/25);
+        titlePaint.setTextSize(w / 20);
+        gridPaint.setTextSize(w / 20);
+        gridSmallPaint.setTextSize(w / 25);
     }
 
     private void init() {
@@ -76,7 +125,7 @@ public class CalendarView extends CustomView {
         titlePaint.setTextAlign(Paint.Align.CENTER);
         titlePaint.setAntiAlias(true);
         titlePaint.setTextSize(50);
-        titlePaint.setColor(Color.parseColor("#88DE47A6"));
+        titlePaint.setColor(Color.parseColor("#ED9922"));
 
         gridPaint = new Paint();
         gridPaint.setTextAlign(Paint.Align.CENTER);
@@ -103,18 +152,15 @@ public class CalendarView extends CustomView {
 
     @Override
     public boolean onTouchEvent(MotionEvent event) {
-        getParent().requestDisallowInterceptTouchEvent(true);
         switch (event.getAction()) {
             case MotionEvent.ACTION_DOWN:
                 downX = event.getX();
                 downY = event.getY();
                 break;
             case MotionEvent.ACTION_MOVE:
-//                float oldOffsetX;
-//                float oldOffsetY;
-                offsetX = event.getX()-downX;
-                offsetY = event.getY()-downY;
-                if(offsetX>(mViewWidth/35)||offsetX<(-mViewWidth/35)){
+                offsetX = event.getX() - downX;
+                offsetY = event.getY() - downY;
+                if (offsetX > (mViewWidth / 35) || offsetX < (-mViewWidth / 35)) {
                     offsetXCanvas = offsetX;
                     scrollFlag = true;
                     invalidate();
@@ -122,8 +168,13 @@ public class CalendarView extends CustomView {
                 }
                 break;
             case MotionEvent.ACTION_UP:
-                if(scrollFlag == false){
-                    if (state == STATE_1||state == STATE_3) {
+                if (offsetY - downY < 20) {
+                    if (clickListener != null) {
+                        clickListener.Listner();
+                    }
+                }
+                if (scrollFlag == false) {
+                    if (state == STATE_1 || state == STATE_3) {
                         if (event.getY() > GridHeight * 2) {
                             pointTouch.y = (int) (event.getY() / GridHeight);
                             pointTouch.x = (int) (event.getX() / GridWidth);
@@ -142,24 +193,23 @@ public class CalendarView extends CustomView {
                         }
                         invalidate();
                     }
-                }else{
+                } else {
                     scrollFlag = false;
                 }
-                Log.d("xiaoxiao","up");
-                if(offsetX >(mViewWidth/5)){
-                    calendar.add(Calendar.MONTH,-1);
-                }else if(offsetX <(-mViewWidth/5)){
-                    calendar.add(Calendar.MONTH,+1);
+                if (offsetX > (mViewWidth / 5)) {
+                    calendar.add(Calendar.MONTH, -1);
+                } else if (offsetX < (-mViewWidth / 5)) {
+                    calendar.add(Calendar.MONTH, +1);
                 }
                 offsetXCanvas = 0;
                 invalidate();
                 break;
             case MotionEvent.ACTION_CANCEL:
                 scrollFlag = false;
-                if(offsetX >(mViewWidth/5)){
-                    calendar.add(Calendar.MONTH,-1);
-                }else if(offsetX <(-mViewWidth/5)){
-                    calendar.add(Calendar.MONTH,+1);
+                if (offsetX > (mViewWidth / 5)) {
+                    calendar.add(Calendar.MONTH, -1);
+                } else if (offsetX < (-mViewWidth / 5)) {
+                    calendar.add(Calendar.MONTH, +1);
                 }
                 offsetXCanvas = 0;
                 invalidate();
@@ -177,8 +227,8 @@ public class CalendarView extends CustomView {
     }
 
     private void drawTitle(Canvas canvas) {
-        canvas.translate(mViewWidth / 2, mViewHeight / 15);
-        canvas.drawText(calendar.get(Calendar.YEAR)+"年"+(calendar.get(Calendar.MONTH)+1)+"月", 0, 0, titlePaint);
+        canvas.translate(mViewWidth / 2, mViewHeight / 13);
+        canvas.drawText(calendar.get(Calendar.YEAR) + "年" + (calendar.get(Calendar.MONTH) + 1) + "月", 0, 0, titlePaint);
     }
 
     private void drawTop(Canvas canvas) {
@@ -189,38 +239,39 @@ public class CalendarView extends CustomView {
     }
 
     private void drawCanlendar(Canvas canvas) {
-        canvas.translate(0+offsetXCanvas, mViewHeight / 16);
+        canvas.translate(0 + offsetXCanvas, mViewHeight / 16);
         drawOneMonth(canvas, calendar.get(Calendar.DAY_OF_WEEK), calendar.getActualMaximum(Calendar.DAY_OF_MONTH));
-//        calendar.set(Calendar.DAY_OF_MONTH, 1);
-//        Log.d("xiao", "本月第一天是：" + calendar.get(Calendar.DAY_OF_WEEK));
-//        drawOneMonth(canvas,calendar.get(Calendar.DAY_OF_WEEK);
-//        calendar.get(Calendar.DAY_OF_WEEK);
-//        calendar.add(Calendar.DAY_OF_MONTH, +1);
-//        Log.d("xiao","本月第一天是：" + calendar.get(Calendar.DAY_OF_WEEK));
-//        calendar.set(calendar.get(Calendar.YEAR),calendar.get(Calendar.MONTH)-2,1);
-//        Log.d("xiao","本月第一天是：" + calendar.get(Calendar.DAY_OF_WEEK));
     }
 
     private void drawOneMonth(Canvas canvas, int dayOfWeek, int number) {
         for (int i = 0; i < number; i++) {
-            drawTextDay(canvas, dayOfWeek, number, i);
+            drawTextDay(canvas, dayOfWeek, i);
         }
     }
 
-    private void drawTextDay(Canvas canvas, int dayOfWeek, int number, int position) {
+    private void drawTextDay(Canvas canvas, int dayOfWeek, int position) {
         getPoint(dayOfWeek, position);
         int x = (dayOfWeek + position - 1) % 7;
         int y = (dayOfWeek + position - 1) / 7;
-        if(scrollFlag==false){
-            if (state == STATE_2) {
-                if ((pointTouch.x) == x && (pointTouch.y - 2) == y) {
-                    drawPointRect(canvas,dayOfWeek,position);
-                    oldPosition = position;
-                }
-            } else if (state == STATE_3) {
-                if ((pointTouch2.x) == x && (pointTouch2.y - 2) == y) {
-                    for(int i=(oldPosition>position?position:oldPosition);i<=(oldPosition<position?position:oldPosition);i++){
-                        drawPointRect(canvas,dayOfWeek,i);
+        if (touchDisallowFlag == true && first == 0) {
+            first++;
+            Calendar calendar = Calendar.getInstance();
+            int m = calendar.get(Calendar.DAY_OF_MONTH);
+            drawPointRect(canvas, dayOfWeek, m - 1);
+        } else {
+            if (scrollFlag == false) {
+                if (state == STATE_2) {
+                    if ((pointTouch.x) == x && (pointTouch.y - 2) == y) {
+                        drawPointRect(canvas, dayOfWeek, position);
+                        oldPosition = position;
+                        nowPosition = position;
+                    }
+                } else if (state == STATE_3) {
+                    if ((pointTouch2.x) == x && (pointTouch2.y - 2) == y) {
+                        for (int i = (oldPosition > position ? position : oldPosition); i <= (oldPosition < position ? position : oldPosition); i++) {
+                            drawPointRect(canvas, dayOfWeek, i);
+                            nowPosition = position;
+                        }
                     }
                 }
             }
@@ -233,10 +284,10 @@ public class CalendarView extends CustomView {
         canvas.drawText(s, x, y, gridPaint);
     }
 
-    private void drawPointRect(Canvas canvas,int dayOfWeek,int position){
-        getPoint(dayOfWeek,position);
-        Rect rect = new Rect(point.x,point.y,point.x+GridWidth,point.y+GridHeight);
-        canvas.drawRect(rect,dayBgPaint);
+    private void drawPointRect(Canvas canvas, int dayOfWeek, int position) {
+        getPoint(dayOfWeek, position);
+        Rect rect = new Rect(point.x, point.y, point.x + GridWidth, point.y + GridHeight);
+        canvas.drawRect(rect, dayBgPaint);
     }
 
     private Point getPoint(int dayofWeek, int position) {

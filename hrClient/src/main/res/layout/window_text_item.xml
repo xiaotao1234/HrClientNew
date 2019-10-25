@@ -2,15 +2,30 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:orientation="vertical" android:layout_width="match_parent"
     android:layout_height="match_parent">
-    <TextView
+    <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="50sp"
-        android:textColor="#FFFFFF"
-        android:gravity="center"
-        android:background="#22FFFFFF"
-        android:id="@+id/text_item"/>
+        android:layout_height="@dimen/dp_35"
+        android:orientation="horizontal">
+        <TextView
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="3"
+            android:textColor="#FFFFFF"
+            android:textSize="@dimen/dp_9"
+            android:gravity="center"
+            android:id="@+id/text_item_name"/>
+        <TextView
+            android:id="@+id/text_context"
+            android:layout_width="0dp"
+            android:layout_weight="2"
+            android:textColor="#FFFFFF"
+            android:textSize="@dimen/dp_9"
+            android:gravity="center"
+            android:layout_height="match_parent" />
+    </LinearLayout>
+
     <View
         android:layout_width="match_parent"
         android:layout_height="1dp"
-        android:background="#33000000"/>
+        android:background="#44FFFFFF"/>
 </LinearLayout>

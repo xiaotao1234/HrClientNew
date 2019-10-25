@@ -32,7 +32,7 @@ public class StationFunctionListAdapter extends RecyclerView.Adapter<StationFunc
     Context context;
     List<String> list;
 
-    public StationFunctionListAdapter(MyDevice myDevice, Station station, Context context,List<String> list) {
+    public StationFunctionListAdapter(MyDevice myDevice, Station station, Context context, List<String> list) {
         this.myDevice = myDevice;
         this.station = station;
         this.context = context;
@@ -53,19 +53,19 @@ public class StationFunctionListAdapter extends RecyclerView.Adapter<StationFunc
 
     @Override
     public void onBindViewHolder(@NonNull viewholder viewholder, int i) {
-        if(i<myDevice.getLogic().size()){
+        if (i < myDevice.getLogic().size()) {
             viewholder.textView.setText(logicParameters.get(i).getType().startsWith("L") ? "频谱分析" :
                     (logicParameters.get(i).getType().startsWith("S") ? "频段扫描" :
                             (logicParameters.get(i).getType().startsWith("D") ? "单频测向" : "离散扫描")));
-        }else {
-            viewholder.textView.setText(list.get(i-myDevice.getLogic().size()));
+        } else {
+            viewholder.textView.setText(list.get(i - myDevice.getLogic().size()));
         }
         viewholder.linearLayout.setOnClickListener(v -> skipActivity(i));
     }
 
     @Override
     public int getItemCount() {
-        return myDevice.getLogic().size()+list.size();
+        return myDevice.getLogic().size() + list.size();
     }
 
     class viewholder extends RecyclerView.ViewHolder {
@@ -84,7 +84,7 @@ public class StationFunctionListAdapter extends RecyclerView.Adapter<StationFunc
     }
 
     private void skipActivity(int i) {
-        if(i<logicParameters.size()){
+        if (i < logicParameters.size()) {
             if (logicParameters.get(i).getType().startsWith("L")) {
                 Intent intent = new Intent();
                 intent.setAction("function0");
@@ -129,14 +129,16 @@ public class StationFunctionListAdapter extends RecyclerView.Adapter<StationFunc
                 intent.putExtras(bundle);
                 context.startActivity(intent);
             }
-        }else {
+        } else {
             if(i-logicParameters.size()==0){
                 context.startActivity(new Intent(context,MapActivity.class));
-            }else if(i-logicParameters.size()==1){
-                context.startActivity(new Intent(context,IquareActivity.class));
-            }else if(i-logicParameters.size()==2){
-                context.startActivity(new Intent(context,ServerManagerActivity.class));
             }
+//            else
+//            if (i - logicParameters.size() == 0) {
+//                context.startActivity(new Intent(context, IquareActivity.class));
+//            } else if (i - logicParameters.size() == 1) {
+//                context.startActivity(new Intent(context, ServerManagerActivity.class));
+//            }
         }
     }
 }

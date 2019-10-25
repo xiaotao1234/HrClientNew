@@ -66,6 +66,7 @@ public class PinDuanScanningActivity extends PinDuanBase {
 
     public static Queue<byte[]> queue;
     public static boolean saveFlag = false;
+    public static int flag;
 
     com.huari.ui.PinDuan pinduan;
     boolean pause;
@@ -73,10 +74,21 @@ public class PinDuanScanningActivity extends PinDuanBase {
 
 
     String logicId;
+    private MyDevice device;
+
+    @Override
+    protected void onStart() {
+        super.onStart();
+        WindowHelper.instance.setForeground(true);
+        WindowHelper.instance.startWindowService(getApplicationContext());
+    }
 
     @Override
     protected void onPause() {
         super.onPause();
+        isRunning = false;
+        WindowController.getInstance(this).pauseRecord();
+        WindowHelper.instance.setForeground(false);
         WindowHelper.instance.stopWindowService(this);
     }
 
@@ -204,7 +216,7 @@ public class PinDuanScanningActivity extends PinDuanBase {
                 int available = 0;
                 byte[] info = null;
                 long time = 0;
-                int flag = 0;//为0则标志第一次进入
+                flag = 0;//为0则标志第一次进入
                 while (available == 0 && runMythread) {
                     available = ins.available();
                     if (available > 0) {
@@ -215,6 +227,7 @@ public class PinDuanScanningActivity extends PinDuanBase {
                             Parse.newParsePDScan(info);
                             if (saveFlag == true) {
                                 if (flag == 0) {
+                                    time = 0;
                                     savePrepare();
                                     flag++;
                                 }
@@ -249,7 +262,7 @@ public class PinDuanScanningActivity extends PinDuanBase {
         shareEditor.commit();  //以文件名作为key来将台站信息存入shareReferences
         Log.d("xiaoxiao", String.valueOf(fileName.length()));
         SysApplication.byteFileIoUtils.writeBytesToFile(fileName, 3); //开始保存数据前的初始化
-        RealTimeSaveAndGetStore.serializeFlyPig(stationF,fileName,3);//在消费者线程开启后，开始Statio的序列化并放入队列缓冲区中等待消费者线程遍历之
+        RealTimeSaveAndGetStore.serializeFlyPig(stationF,devicename,device,logicId);//在消费者线程开启后，开始Statio的序列化并放入队列缓冲区中等待消费者线程遍历之
     }
 
     @Override
@@ -304,6 +317,7 @@ public class PinDuanScanningActivity extends PinDuanBase {
         for (MyDevice md : am) {
             if (md.name.equals(devicename)) {
                 hsl = md.logic;
+                device = md;
             }
         }
         LogicParameter currentLP = hsl.get(logicId);// 获取频段扫描参数相关的数据，以便画出初始界面
@@ -494,21 +508,29 @@ public class PinDuanScanningActivity extends PinDuanBase {
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         // Inflate the menu; this adds items to the action bar if it is present.
+        Log.d("xiaolaile","menu");
         getMenuInflater().inflate(R.menu.pin_duan_scanning, menu);
-        if (menu.findItem(R.id.maxshow).getTitle().equals("不显示最大值")) {
+        if (SysApplication.settingSave.isShowBig()) {
             showMax = true;
+            menu.findItem(R.id.maxshow).setTitle("不显示最大值");
         } else {
             showMax = false;
         }
-        if (menu.findItem(R.id.minshow).getTitle().equals("不显示最小值")) {
+        if (SysApplication.settingSave.isShowaSmall()) {
             showMin = true;
+            menu.findItem(R.id.minshow).setTitle("不显示最小值");
         } else {
             showMin = false;
         }
-        if (menu.findItem(R.id.avgshow).getTitle().equals("不显示平均值")) {
+        if (SysApplication.settingSave.isShowAverage()) {
             showAvg = true;
+            menu.findItem(R.id.avgshow).setTitle("不显示平均值");
         } else {
             showAvg = false;
+        }
+        if(!SysApplication.settingSave.isOrientation()){
+            menu.findItem(R.id.caputure).setTitle("手机纵向");
+            pinduan.setTopViewLayoutParamsH();
         }
         return true;
     }
@@ -516,6 +538,8 @@ public class PinDuanScanningActivity extends PinDuanBase {
     @Override
     protected void onResume() {
         super.onResume();
+        WindowHelper.instance.setForeground(true);
+        WindowHelper.instance.startWindowService(getApplicationContext());
         startWindow();
     }
 
@@ -545,6 +569,7 @@ public class PinDuanScanningActivity extends PinDuanBase {
         }
     }
 
+    public static boolean isRunning = false;
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         // Handle action bar item clicks here. The action bar will
@@ -555,6 +580,7 @@ public class PinDuanScanningActivity extends PinDuanBase {
         if (id == R.id.pinduanstart) {
             startitem = item;
             if (item.getTitle().equals("开始测量")) {
+                isRunning = true;
                 item.setTitle("停止测量");
                 // pinduan.setParameters(Float.parseFloat(p.defaultValue.trim()),Float.parseFloat(p.defaultValue.trim()),
                 // Float.parseFloat(p.defaultValue));
@@ -590,7 +616,9 @@ public class PinDuanScanningActivity extends PinDuanBase {
 
                 }
             } else if (item.getTitle().equals("停止测量")) {
+                isRunning = false;
                 item.setTitle("开始测量");
+                WindowController.getInstance(this).pauseRecord();
                 pause = true;
                 mythread.sendEndCmd();
                 GlobalData.clearPinDuan();
@@ -683,36 +711,45 @@ public class PinDuanScanningActivity extends PinDuanBase {
         else if (id == R.id.maxshow) {
             if (item.getTitle().equals("不显示最大值")) {
                 item.setTitle("显示最大值");
+                SysApplication.settingSave.setShowBig(false);
                 showMax = false;
             } else if (item.getTitle().equals("显示最大值")) {
                 item.setTitle("不显示最大值");
+                SysApplication.settingSave.setShowBig(true);
                 showMax = true;
             }
         } else if (id == R.id.minshow) {
             if (item.getTitle().equals("不显示最小值")) {
+                SysApplication.settingSave.setShowaSmall(false);
                 item.setTitle("显示最小值");
                 showMin = false;
             } else if (item.getTitle().equals("显示最小值")) {
+                SysApplication.settingSave.setShowaSmall(true);
                 item.setTitle("不显示最小值");
                 showMin = true;
             }
         } else if (id == R.id.avgshow) {
             if (item.getTitle().equals("不显示平均值")) {
+                SysApplication.settingSave.setShowAverage(false);
                 item.setTitle("显示平均值");
                 showAvg = false;
             } else if (item.getTitle().equals("显示平均值")) {
                 item.setTitle("不显示平均值");
+                SysApplication.settingSave.setShowAverage(true);
                 showAvg = true;
             }
         }else if (id == R.id.caputure) {
             if (item.getTitle().equals("手机横向")) {
-                item.setTitle("手机纵向");
+                SysApplication.settingSave.setOrientation(false);
                 GlobalData.show_horiz = true;
                 setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_USER_LANDSCAPE);
+                item.setTitle("手机纵向");
             } else if (item.getTitle().equals("手机纵向")) {
+                SysApplication.settingSave.setOrientation(true);
                 item.setTitle("手机横向");
                 GlobalData.show_horiz = false;
                 setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_USER_PORTRAIT);
+                pinduan.setTopViewLayoutParamsV();
             }
         }
         return true;
@@ -804,6 +841,7 @@ public class PinDuanScanningActivity extends PinDuanBase {
 
     private void willExit() {
         try {
+            isRunning = false;
             sendClose();
             Thread.sleep(50);
             s.close();

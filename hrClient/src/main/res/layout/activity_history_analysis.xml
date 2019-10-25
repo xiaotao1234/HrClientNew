@@ -2,9 +2,40 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="#000000"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:orientation="vertical"
     tools:context=".SpectrumsAnalysisActivity">
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:background="#33FFFFFF"
+        android:layout_height="@dimen/dp_40">
+        <ImageView
+            android:id="@+id/back"
+            android:layout_width="@dimen/dp_40"
+            android:layout_height="@dimen/dp_40"
+            android:src="@drawable/back"
+            android:layout_marginStart="@dimen/dp_5"
+            android:background="@drawable/buttton_change_bg"
+            android:padding="@dimen/dp_10"/>
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="频谱分析"
+            android:textColor="#FFFFFF"
+            android:textSize="@dimen/dp_13"
+            android:layout_centerInParent="true"/>
+        <ImageView
+            android:src="@drawable/information_icon"
+            android:id="@+id/station_button"
+            android:layout_width="@dimen/dp_40"
+            android:layout_height="@dimen/dp_40"
+            android:padding="@dimen/dp_10"
+            android:background="@drawable/buttton_change_bg"
+            android:layout_alignParentEnd="true"
+            android:layout_centerVertical="true"
+            android:layout_marginEnd="@dimen/dp_20"/>
+    </RelativeLayout>
     <androidx.viewpager.widget.ViewPager
         android:id="@+id/firstviewpager"
         android:layout_width="match_parent"
@@ -81,6 +112,18 @@
                 android:layout_width="0dp"
                 android:layout_height="1dp"
                 android:layout_weight="1"/>
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_vertical"
+                android:textSize="@dimen/dp_8"
+                android:textColor="#88FFFFFF"
+                android:text="上一帧"
+                android:gravity="center"/>
+            <View
+                android:layout_width="0dp"
+                android:layout_height="1dp"
+                android:layout_weight="1"/>
             <ImageView
                 android:id="@+id/previous_button"
                 android:layout_width="30dp"
@@ -90,7 +133,7 @@
             <View
                 android:layout_width="0dp"
                 android:layout_height="1dp"
-                android:layout_weight="1"/>
+                android:layout_weight="2"/>
             <ImageView
                 android:id="@+id/play_control"
                 android:layout_width="30dp"
@@ -99,7 +142,7 @@
             <View
                 android:layout_width="0dp"
                 android:layout_height="1dp"
-                android:layout_weight="1"/>
+                android:layout_weight="2"/>
 
             <ImageView
                 android:id="@+id/next_button"
@@ -107,6 +150,18 @@
                 android:layout_height="15dp"
                 android:layout_gravity="center"
                 android:src="@drawable/next_icon" />
+            <View
+                android:layout_width="0dp"
+                android:layout_height="1dp"
+                android:layout_weight="1"/>
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_vertical"
+                android:textColor="#88FFFFFF"
+                android:textSize="@dimen/dp_8"
+                android:text="下一帧"
+                android:gravity="center"/>
             <View
                 android:layout_width="0dp"
                 android:layout_height="1dp"

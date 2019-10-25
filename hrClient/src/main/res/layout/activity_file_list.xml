@@ -1,11 +1,12 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/file_max"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical">
     <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="@dimen/dp_45"
+        android:layout_height="@dimen/dp_35"
         android:orientation="vertical">
         <LinearLayout
             android:layout_width="match_parent"
@@ -34,7 +35,6 @@
                 android:layout_marginEnd="25sp"
                 android:src="@drawable/search"/>
             <ImageView
-                android:visibility="gone"
                 android:id="@+id/add_floder"
                 android:layout_width="25sp"
                 android:layout_height="25sp"

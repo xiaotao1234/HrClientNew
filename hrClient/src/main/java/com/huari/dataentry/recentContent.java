@@ -55,7 +55,7 @@ public class recentContent implements Serializable {
     @Override
     public boolean equals(Object obj) {
         if (obj instanceof recentContent) {
-            return file .equals (((recentContent) obj).getFile());
+            return filename .equals (((recentContent) obj).getFilename());
         }
         return false;
     }

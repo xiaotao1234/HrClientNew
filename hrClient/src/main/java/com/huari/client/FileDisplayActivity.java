@@ -111,11 +111,11 @@ public class FileDisplayActivity extends AppCompatActivity implements TbsReaderV
     }
 
     private void findViewById() {
-        tv_download = (TextView) findViewById(R.id.tv_download);
-        ImageView back_icon = (ImageView) findViewById(R.id.back_icon);
-        tv_title = (TextView) findViewById(R.id.title);
-        progressBar_download = (ProgressBar) findViewById(R.id.progressBar_download);
-        rl_tbsView = (RelativeLayout) findViewById(R.id.rl_tbsView);
+        tv_download = findViewById(R.id.tv_download);
+        ImageView back_icon = findViewById(R.id.back_icon);
+        tv_title = findViewById(R.id.title);
+        progressBar_download = findViewById(R.id.progressBar_download);
+        rl_tbsView = findViewById(R.id.rl_tbsView);
         back_icon.setOnClickListener(this);
         back_icon.setSystemUiVisibility(View.INVISIBLE);
     }

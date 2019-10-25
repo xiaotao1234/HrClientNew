@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="horizontal" android:layout_width="match_parent"
+    android:background="#00000000"
+    android:layout_height="@dimen/dp_20">
+    <TextView
+        android:id="@+id/data_search"
+        android:layout_width="wrap_content"
+        android:layout_height="@dimen/dp_20"
+        android:textColor="#66FFFFFF"
+        android:textSize="@dimen/dp_9"
+        android:text="dadada"
+        android:layout_gravity="center_vertical"
+        android:gravity="center"
+        android:layout_marginStart="@dimen/dp_5"/>
+    <Button
+        android:id="@+id/search_button"
+        android:text="查看详细>>>>"
+        android:textSize="@dimen/dp_9"
+        android:paddingLeft="@dimen/dp_10"
+        android:paddingRight="@dimen/dp_20"
+        android:layout_width="wrap_content"
+        android:background="@null"
+        android:layout_marginStart="@dimen/dp_10"
+        android:layout_height="match_parent"
+        android:textColor="#FF0000"/>
+</LinearLayout>

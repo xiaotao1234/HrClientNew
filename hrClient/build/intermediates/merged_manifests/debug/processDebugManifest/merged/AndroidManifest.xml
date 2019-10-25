@@ -101,10 +101,6 @@
             </intent-filter>
         </activity>
         <activity
-            android:name="com.huari.client.CircleActivity"
-            android:label="@string/title_activity_guide"
-            android:theme="@style/Theme.AppCompat" />
-        <activity
             android:name="com.huari.client.MainActivity"
             android:icon="@drawable/appico"
             android:label="@string/title_activity_main"
@@ -368,6 +364,7 @@
             android:theme="@style/Theme.AppCompat.Light.NoActionBar" />
         <activity
             android:name="com.huari.client.MajorActivity"
+            android:screenOrientation="portrait"
             android:theme="@style/Theme.AppCompat.Light.NoActionBar" >
 
             <!-- <intent-filter> -->
@@ -386,6 +383,13 @@
             android:theme="@style/Theme.AppCompat.Light.NoActionBar" />
         <activity
             android:name="com.huari.client.MonthDataActivity"
+            android:screenOrientation="portrait"
+            android:theme="@style/Theme.AppCompat.Light.NoActionBar" />
+        <activity
+            android:name="com.huari.client.FindFileActivity"
+            android:theme="@style/Theme.AppCompat.Light.NoActionBar" />
+        <activity
+            android:name="com.huari.client.SetActivity"
             android:theme="@style/Theme.AppCompat.Light.NoActionBar" />
         <activity
             android:name="com.huari.diskactivity.DiskActivity"

@@ -4,124 +4,282 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:orientation="horizontal"
+    android:background="@drawable/bz1"
+    android:orientation="vertical"
     tools:context=".DzActivity">
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:background="#22FFFFFF"
+        android:layout_height="@dimen/dp_40">
+        <ImageView
+            android:id="@+id/back"
+            android:layout_width="@dimen/dp_40"
+            android:layout_height="@dimen/dp_40"
+            android:src="@drawable/back"
+            android:layout_marginStart="@dimen/dp_5"
+            android:background="@drawable/buttton_change_bg"
+            android:padding="@dimen/dp_10"/>
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:gravity="center"
+            android:textSize="@dimen/dp_12"
+            android:text="动环模块"
+            android:textColor="#FFFFFF"
+            android:layout_centerInParent="true"/>
+    </RelativeLayout>
     <LinearLayout
-        android:layout_width="0dp"
-        android:layout_height="match_parent"
-        android:orientation="vertical"
-        android:layout_weight="2">
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="2"
+        android:orientation="horizontal">
+
         <com.huari.ui.CirclePainView
             android:id="@+id/ampere"
             android:layout_width="match_parent"
-            android:layout_height="0dp"
+            android:layout_height="match_parent"
             android:layout_weight="1"
             app:all="100"
             app:one_big_step="10"
-            app:one_small_step="1"
+            app:one_small_step="2"
             app:text_bottom="电流"
-            app:unit="℃" />
+            app:unit="℃"
+            app:title_text="电流表"/>
+
+        <View
+            android:layout_width="1dp"
+            android:layout_height="match_parent"
+            android:background="#11FFFFFF" />
 
         <com.huari.ui.CirclePainView
-
             android:id="@+id/voltmeter"
             android:layout_width="match_parent"
-            android:layout_height="0dp"
+            android:layout_height="match_parent"
             android:layout_weight="1"
             app:text_bottom="电压"
-            app:unit="V" />
+            app:pointer="#00FF00"
+            app:unit="V"
+            app:title_text="电压表"/>
     </LinearLayout>
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:background="#11FFFFFF" />
+
     <LinearLayout
-        android:layout_width="0dp"
-        android:orientation="vertical"
-        android:layout_height="match_parent"
-        android:layout_weight="1">
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="3"
+        android:orientation="horizontal">
 
         <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_weight="1"
-            android:layout_height="0dp">
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="3">
+
             <com.huari.ui.LinView
                 android:id="@+id/temperature"
                 android:layout_width="0dp"
                 android:layout_height="match_parent"
                 android:layout_weight="1"
+                app:low="-80"
+                app:heigh="70"
+                app:one_step="10"
                 app:text_bottom_lin="温度"
-                app:unit_lin="℃"/>
+                app:unit_lin="℃"
+                app:titile_text="温度计"/>
+
+            <View
+                android:layout_width="1dp"
+                android:layout_height="match_parent"
+                android:background="#11FFFFFF" />
 
             <com.huari.ui.LinView
                 android:id="@+id/humidity"
                 android:layout_width="0dp"
                 android:layout_height="match_parent"
+                app:fill="#00FF00"
                 android:layout_weight="1"
                 app:text_bottom_lin="湿度"
-                app:unit_lin="%" />
+                app:titile_text="湿度计"
+                app:unit_lin="%"/>
         </LinearLayout>
+
+        <View
+            android:layout_width="1dp"
+            android:layout_height="match_parent"
+            android:background="#11FFFFFF" />
+
         <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="0dp"
-            android:orientation="vertical"
-            android:layout_weight="1">
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="2"
+            android:orientation="vertical">
+
             <View
                 android:layout_width="1dp"
                 android:layout_height="0dp"
-                android:layout_weight="1"/>
-            <com.huari.ui.SwitchButton
-                android:id="@+id/sb_custom0"
-                style="@style/SwitchButtonStyle"
+                android:layout_weight="1" />
+
+            <LinearLayout
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_gravity="center"
-                app:kswBackRadius="2dp"
-                app:kswThumbRadius="2dp"
-                app:kswThumbRangeRatio="2.2"
-                app:kswTintColor="#49416E"/>
+                android:layout_gravity="center">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:gravity="center"
+                    android:textSize="@dimen/dp_10"
+                    android:text="控制"
+                    android:textColor="#FFFFFF" />
+
+                <com.huari.ui.SwitchButton
+                    android:id="@+id/sb_custom0"
+                    android:layout_marginStart="@dimen/dp_10"
+                    style="@style/SwitchButtonStyle"
+                    android:layout_width="@dimen/dp_50"
+                    android:layout_height="@dimen/dp_25"
+                    android:layout_gravity="center"
+                    app:kswBackRadius="2dp"
+                    app:kswThumbColor="#8800FF00"
+                    app:kswThumbRadius="2dp"
+                    app:kswTintColor="#FFFFFF"
+                    app:kswThumbRangeRatio="2.2"/>
+            </LinearLayout>
+
+
             <View
                 android:layout_width="1dp"
                 android:layout_height="0dp"
-                android:layout_weight="1"/>
-            <com.huari.ui.SwitchButton
-                android:id="@+id/sb_custom1"
-                style="@style/SwitchButtonStyle"
+                android:layout_weight="1" />
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:background="#11FFFFFF" />
+
+            <View
+                android:layout_width="1dp"
+                android:layout_height="0dp"
+                android:layout_weight="1" />
+
+            <LinearLayout
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_gravity="center"
-                app:kswBackRadius="2dp"
-                app:kswThumbRadius="2dp"
-                app:kswThumbRangeRatio="2.2"
-                app:kswTintColor="#49416E"/>
+                android:layout_gravity="center">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:gravity="center"
+                    android:textSize="@dimen/dp_10"
+                    android:text="控制"
+                    android:textColor="#FFFFFF" />
+
+                <com.huari.ui.SwitchButton
+                    android:id="@+id/sb_custom1"
+                    android:layout_marginStart="@dimen/dp_10"
+                    style="@style/SwitchButtonStyle"
+                    android:layout_width="@dimen/dp_50"
+                    android:layout_height="@dimen/dp_25"
+                    android:layout_gravity="center"
+                    app:kswBackRadius="2dp"
+                    app:kswThumbColor="#9999FF00"
+                    app:kswThumbRadius="2dp"
+                    app:kswTintColor="#FFFFFF"
+                    app:kswThumbRangeRatio="2.2"/>
+            </LinearLayout>
+
             <View
                 android:layout_width="1dp"
                 android:layout_height="0dp"
-                android:layout_weight="1"/>
-            <com.huari.ui.SwitchButton
-                android:id="@+id/sb_custom2"
-                style="@style/SwitchButtonStyle"
+                android:layout_weight="1" />
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:background="#11FFFFFF" />
+
+            <View
+                android:layout_width="1dp"
+                android:layout_height="0dp"
+                android:layout_weight="1" />
+
+            <LinearLayout
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_gravity="center"
-                app:kswBackRadius="2dp"
-                app:kswThumbRadius="2dp"
-                app:kswThumbRangeRatio="2.2"
-                app:kswTintColor="#49416E"/>
+                android:layout_gravity="center">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:gravity="center"
+                    android:textSize="@dimen/dp_10"
+                    android:text="控制"
+                    android:textColor="#FFFFFF" />
+
+                <com.huari.ui.SwitchButton
+                    android:id="@+id/sb_custom2"
+                    android:layout_marginStart="@dimen/dp_10"
+                    style="@style/SwitchButtonStyle"
+                    android:layout_width="@dimen/dp_50"
+                    android:layout_height="@dimen/dp_25"
+                    android:layout_gravity="center"
+                    app:kswBackRadius="2dp"
+                    app:kswThumbColor="#9933FFBB"
+                    app:kswThumbRadius="2dp"
+                    app:kswTintColor="#FFFFFF"
+                    app:kswThumbRangeRatio="2.2"/>
+            </LinearLayout>
+
             <View
                 android:layout_width="1dp"
                 android:layout_height="0dp"
-                android:layout_weight="1"/>
-            <com.huari.ui.SwitchButton
-                android:id="@+id/sb_custom3"
-                style="@style/SwitchButtonStyle"
+                android:layout_weight="1" />
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:background="#11FFFFFF" />
+
+            <View
+                android:layout_width="1dp"
+                android:layout_height="0dp"
+                android:layout_weight="1" />
+
+            <LinearLayout
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_gravity="center"
-                app:kswBackRadius="2dp"
-                app:kswThumbRadius="2dp"
-                app:kswThumbRangeRatio="2.2"
-                app:kswTintColor="#49416E"/>
+                android:layout_gravity="center">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:gravity="center"
+                    android:textSize="@dimen/dp_10"
+                    android:text="控制"
+                    android:textColor="#FFFFFF" />
+
+                <com.huari.ui.SwitchButton
+                    android:id="@+id/sb_custom3"
+                    android:layout_marginStart="@dimen/dp_10"
+                    style="@style/SwitchButtonStyle"
+                    android:layout_width="@dimen/dp_50"
+                    android:layout_height="@dimen/dp_25"
+                    android:layout_gravity="center"
+                    app:kswBackRadius="2dp"
+                    app:kswThumbColor="#559999"
+                    app:kswThumbRadius="2dp"
+                    app:kswTintColor="#FFFFFF"
+                    app:kswThumbRangeRatio="2.2"/>
+            </LinearLayout>
+
             <View
                 android:layout_width="1dp"
                 android:layout_height="0dp"
-                android:layout_weight="1"/>
+                android:layout_weight="1" />
         </LinearLayout>
     </LinearLayout>
 

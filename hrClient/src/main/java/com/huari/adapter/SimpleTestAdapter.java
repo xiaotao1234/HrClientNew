@@ -55,45 +55,53 @@ public class SimpleTestAdapter extends RecyclerView.Adapter<SimpleTestAdapter.Te
         return new TextViewHolder(view);
     }
 
+
     @Override
     public void onBindViewHolder(final TextViewHolder holder, int position) {
         holder.textView.setText(getName(position));
-        holder.titleTextView.setText(getTypename(position));
-        holder.linearLayout.setOnClickListener(v -> {
-            Intent intent;
-            switch (getTypename(position)) {
-                case "单频测量":
-                    intent = new Intent(context, HistoryDFActivity.class);
-                    break;
-                case "频谱分析":
-                    intent = new Intent(context, HistoryAnalysisActivity.class);
-                    break;
-                case "频段扫描":
-                    intent = new Intent(context, HistoryPinDuanActivity.class);
-                    break;
-                case "音频":
-                    intent = new Intent(context, PlayerActivity.class);
-                    break;
-                default:
-                    intent = null;
-                    break;
-            }
-            if (getTypename(position) == "音频") {
-                EventBus.getDefault().postSticky(new MessageEvent(recentContent.get(position).getFile(), position));
-            } else if (intent == null) {
-                return;
-            } else {
-                intent.putExtra("filename", new File(recentContent.get(position).getFile()).getName());
-                intent.putExtra("from", "history");
-            }
-            context.startActivity(intent);
-        });
+        if(recentContent.size()!=0){
+            holder.titleTextView.setText(getTypename(position));
+            holder.linearLayout.setOnClickListener(v -> {
+                Intent intent;
+                switch (getTypename(position)) {
+                    case "单频测量":
+                        intent = new Intent(context, HistoryDFActivity.class);
+                        break;
+                    case "频谱分析":
+                        intent = new Intent(context, HistoryAnalysisActivity.class);
+                        break;
+                    case "频段扫描":
+                        intent = new Intent(context, HistoryPinDuanActivity.class);
+                        break;
+                    case "音频":
+                        intent = new Intent(context, PlayerActivity.class);
+                        break;
+                    default:
+                        intent = null;
+                        break;
+                }
+                if (getTypename(position) == "音频") {
+                    EventBus.getDefault().postSticky(new MessageEvent(recentContent.get(position).getFile(), position));
+                } else if (intent == null) {
+                    return;
+                } else {
+                    intent.putExtra("filename", new File(recentContent.get(position).getFile()).getName());
+                    intent.putExtra("from", "history");
+                }
+                context.startActivity(intent);
+            });
+        }
+
     }
 
     private String getName(int position) {
-        String filename = recentContent.get(position).getFilename();
-        if (filename != "") {
-            return filename.substring(9, 19);
+        if (recentContent.size() != 0) {
+            String filename = recentContent.get(position).getFilename();
+            String name = filename.substring(8, 19);
+            if(recentContent.get(position).getType()==4){
+                name = name.replaceAll("_",":");
+            }
+            return name;
         } else {
             return "暂无数据";
         }
@@ -127,7 +135,11 @@ public class SimpleTestAdapter extends RecyclerView.Adapter<SimpleTestAdapter.Te
 
     @Override
     public int getItemCount() {
-        return recentContent.size();
+        if(recentContent.size()==0){
+            return 1;
+        }else {
+            return recentContent.size();
+        }
     }
 
     public static class TextViewHolder extends RecyclerView.ViewHolder {

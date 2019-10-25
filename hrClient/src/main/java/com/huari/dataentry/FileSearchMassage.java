@@ -1,6 +1,5 @@
 package com.huari.dataentry;
 
-import java.util.ArrayList;
 import java.util.List;
 
 public class FileSearchMassage {
@@ -17,6 +16,6 @@ public class FileSearchMassage {
         return files;
     }
 
-    private List<FileSearchData> files = new ArrayList<>();
+    private List<FileSearchData> files;
 
 }

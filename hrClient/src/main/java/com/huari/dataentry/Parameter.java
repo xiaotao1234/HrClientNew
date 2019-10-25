@@ -4,10 +4,10 @@ import java.io.Serializable;
 
 public class Parameter implements Serializable {
 
-	public String name;
+	public String name;//=
 	public float maxValue;
 	public float minValue;
-	public String defaultValue;
+	public String defaultValue;//=
 	public String displayType;  // 显示范畴
 	public byte isAdvanced;
 	public byte isEditable;

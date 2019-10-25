@@ -507,7 +507,10 @@ public class PinScanningShowWave extends View {
 	}
 
 	public int getMValue(int i) {
-		return m[i];
+	    if(m!=null&&m.length>i){
+            return m[i];
+        }
+        return 0;
 	}
 
 	public void setDanweiName(String n) {

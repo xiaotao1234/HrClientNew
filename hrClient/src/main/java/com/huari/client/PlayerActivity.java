@@ -19,7 +19,9 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.huari.dataentry.MessageEvent;
+import com.huari.dataentry.MusicFileList;
 import com.huari.renderer.BarGraphRenderer;
+import com.huari.tools.FileOsImpl;
 import com.huari.tools.SysApplication;
 import com.huari.ui.CustomProgress;
 import com.huari.ui.VisualizerView;
@@ -36,7 +38,7 @@ public class PlayerActivity extends AppCompatActivity {
     volatile boolean playOrNotTab = true;
     MediaPlayer mediaPlayer;
     String fileName;
-    int filePosition;
+    int filePosition = -1;
     Thread thread;
     private CustomProgress customProgress;
     private VisualizerView visualizerView;
@@ -47,6 +49,8 @@ public class PlayerActivity extends AppCompatActivity {
     private ImageView playControl;
     private ImageView mainBack;
     private ImageView nextButton;
+    private ImageView back;
+    private List<File> file;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -74,8 +78,8 @@ public class PlayerActivity extends AppCompatActivity {
     @Override
     protected void onStart() {
         Log.d("xiaoxiao", "onstart invoke");
-        super.onStart();
         EventBus.getDefault().register(this);
+        super.onStart();
     }
 
     @Override
@@ -89,6 +93,7 @@ public class PlayerActivity extends AppCompatActivity {
         Log.d("xiaoxiao", "onresume invoke");
         super.onResume();
         init(fileName);
+        SysApplication.fileOs.save(fileName,new File(fileName).getName(),4);
     }
 
     @Subscribe(threadMode = ThreadMode.MAIN, sticky = true)
@@ -98,6 +103,11 @@ public class PlayerActivity extends AppCompatActivity {
 //        SysApplication.fileOs.addRecentFile(fileName,0);
         Log.d("xiaoxiao", "comecome");
         filePosition = messageEvent.getFilePosition();
+    }
+
+    @Subscribe(threadMode = ThreadMode.MAIN, sticky = true)
+    public void FileListCome(MusicFileList musicFileList) {
+        file = musicFileList.getStringList();
     }
 
     public void releaseResource() {
@@ -111,19 +121,51 @@ public class PlayerActivity extends AppCompatActivity {
 
     public void previousMusic() {
         releaseResource();
-        List<File> currentFiles = SysApplication.fileOs.getFiles();
-        filePosition = filePosition - 1 < 0 ? currentFiles.size() - 1 : filePosition - 1;
-        SysApplication.fileOs.setCurrentFile(currentFiles.get(filePosition));
-        init(SysApplication.fileOs.getCurrentFile().getAbsolutePath());
+        if (file != null && filePosition != -1) {
+            int i = 0;
+            do{
+                filePosition = (filePosition - 1 < 0 ? file.size() - 1 : filePosition - 1);
+                i--;
+            }while (!file.get(filePosition).getName().contains("RE")&&i<file.size());
+            if(i<file.size()){
+                videoName.setText(file.get(filePosition).getAbsolutePath());
+                SysApplication.fileOs.setCurrentFile(file.get(filePosition));
+                init(SysApplication.fileOs.getCurrentFile().getAbsolutePath());
+            }else {
+                Toast.makeText(this,"未找到上一首",Toast.LENGTH_SHORT).show();
+            }
+        }else {
+            Toast.makeText(this,"未找到上一首",Toast.LENGTH_SHORT).show();
+        }
+//        List<File> currentFiles = SysApplication.fileOs.getFiles();
+//        filePosition = filePosition - 1 < 0 ? currentFiles.size() - 1 : filePosition - 1;
+//        SysApplication.fileOs.setCurrentFile(currentFiles.get(filePosition));
+//        init(SysApplication.fileOs.getCurrentFile().getAbsolutePath());
     }
 
     public void nextMusic() {
         thread.interrupt();
         visualizerView.release();
-        List<File> currentFiles = SysApplication.fileOs.getFiles();
-        filePosition = filePosition + 1 >= currentFiles.size() ? 0 : filePosition + 1;
-        SysApplication.fileOs.setCurrentFile(currentFiles.get(filePosition));
-        init(SysApplication.fileOs.getCurrentFile().getAbsolutePath());
+        if (file != null && filePosition != -1) {
+            int i = 0;
+            do{
+                filePosition = (filePosition + 1 > (file.size()-1) ? 0 : filePosition + 1);
+                i++;
+            }while (!file.get(filePosition).getName().contains("RE")&&i<file.size());
+            if(i<file.size()){
+                videoName.setText(file.get(filePosition).getAbsolutePath());
+                SysApplication.fileOs.setCurrentFile(file.get(filePosition));
+                init(SysApplication.fileOs.getCurrentFile().getAbsolutePath());
+            }else {
+                Toast.makeText(this,"未找到下一首",Toast.LENGTH_SHORT).show();
+            }
+        }else {
+            Toast.makeText(this,"未找到下一首",Toast.LENGTH_SHORT).show();
+        }
+//        List<File> currentFiles = SysApplication.fileOs.getFiles();
+//        filePosition = filePosition + 1 >= currentFiles.size() ? 0 : filePosition + 1;
+//        SysApplication.fileOs.setCurrentFile(currentFiles.get(filePosition));
+//        init(SysApplication.fileOs.getCurrentFile().getAbsolutePath());
     }
 
     public void playControl() {
@@ -143,6 +185,7 @@ public class PlayerActivity extends AppCompatActivity {
         previousButton = findViewById(R.id.previous_button);
         playControl = findViewById(R.id.play_control);
         nextButton = findViewById(R.id.next_button);
+        back = findViewById(R.id.back);
         videoName = findViewById(R.id.video_name);
         playPlan = findViewById(R.id.play_plan);
         musicLength = findViewById(R.id.music_length);
@@ -150,6 +193,7 @@ public class PlayerActivity extends AppCompatActivity {
         customProgress = findViewById(R.id.video_progress);
         videoName.setSystemUiVisibility(View.INVISIBLE);
         customProgress.setProgress(0);
+        back.setOnClickListener(v -> finish());
         customProgress.setProgressListener(progress -> mediaPlayer.seekTo((int) (progress * mediaPlayer.getDuration() / 100)));
         previousButton.setOnClickListener(v -> previousMusic());
         nextButton.setOnClickListener(v -> nextMusic());

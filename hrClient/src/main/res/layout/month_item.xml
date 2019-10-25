@@ -3,7 +3,7 @@
     android:orientation="horizontal" android:layout_width="match_parent"
     android:id="@+id/recorder_item"
     android:background="@drawable/buttton_change_bg"
-    android:layout_height="@dimen/dp_60">
+    android:layout_height="@dimen/dp_50">
     <FrameLayout
         android:layout_width="@dimen/dp_60"
         android:layout_height="match_parent">
@@ -28,6 +28,12 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:orientation="vertical">
+        <View
+            android:layout_gravity="bottom"
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/dp_1"
+            android:layout_alignParentTop="true"
+            android:background="#22FFFFFF"/>
         <TextView
             android:textColor="#FFFFFF"
             android:id="@+id/tvInfo"

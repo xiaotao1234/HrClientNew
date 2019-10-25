@@ -25,7 +25,7 @@ public class HistoryDataActivity extends AppCompatActivity {
         danpin.setOnClickListener(v -> click(HistoryListActivity.DF));
         pinpu.setOnClickListener(v -> click(HistoryListActivity.AN));
         pp.setOnClickListener(v -> click(HistoryListActivity.PD));
-        music.setOnClickListener(v -> click(HistoryListActivity.REC));
+        music.setOnClickListener(v -> click(HistoryListActivity.RE));
     }
 
     private void click(String s) {

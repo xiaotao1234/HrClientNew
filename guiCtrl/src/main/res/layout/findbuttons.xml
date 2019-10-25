@@ -1,33 +1,37 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
-    android:layout_height="35dp">
+    android:layout_height="40dp">
     android:orientation="horizontal" >
     <Button
         android:id="@+id/fast_left_find"
         android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:layout_height="40dp"
         android:layout_weight="1"
+        android:textSize="13sp"
         android:text="Marker" />
 
     <Button
         android:id="@+id/left_find"
         android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:layout_height="40dp"
+        android:textSize="13sp"
         android:layout_weight="1"
         android:text="左找" />
 
     <Button
         android:id="@+id/right_find"
         android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:textSize="13sp"
+        android:layout_height="40dp"
         android:layout_weight="1"
         android:text="右找" />
 
     <Button
         android:id="@+id/fast_right_find"
         android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:textSize="13sp"
+        android:layout_height="40dp"
         android:layout_weight="1"
         android:text="频率输入" />
 </LinearLayout>

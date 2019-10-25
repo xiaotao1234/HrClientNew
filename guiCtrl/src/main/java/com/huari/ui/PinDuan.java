@@ -11,6 +11,7 @@ import android.graphics.Color;
 import android.os.Handler;
 import android.os.Message;
 import android.util.AttributeSet;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -21,296 +22,317 @@ import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.TextView;
 
-public class PinDuan extends LinearLayout implements View.OnClickListener
-{
-	com.huari.ui.PinScanningShowWave pss;
-	LinearLayout findlayout,freqinputLayout;
-	LinearLayout linearlayout;
-	EditText inputtext;
+public class PinDuan extends LinearLayout implements View.OnClickListener {
+    com.huari.ui.PinScanningShowWave pss;
+    LinearLayout findlayout, freqinputLayout;
+    LinearLayout linearlayout;
+    EditText inputtext;
 
 
-	private Button markfindButton, leftfindButton, rightfindButton, freqinputButton;
-	ArrayList<Integer> datalist;
-	MyAdapter adapter;
-	ListView listview;
-	Handler handler;
+    private Button markfindButton, leftfindButton, rightfindButton, freqinputButton;
+    ArrayList<Integer> datalist;
+    MyAdapter adapter;
+    ListView listview;
+    Handler handler;
 
-	TextView daneiNameTextView;
-	String showinfo = "幅度（dBuV）";
+    TextView daneiNameTextView;
+    String showinfo = "幅度（dBuV）";
+    Context context;
 
-	public void setShowInfo(String s) {
-		showinfo = s;
-	}
+    public void setShowInfo(String s) {
+        showinfo = s;
+    }
 
-	public PinDuan(Context context, AttributeSet attrs, int defStyle) {
-		super(context, attrs, defStyle);
-		ini();
-	}
+    public PinDuan(Context context, AttributeSet attrs, int defStyle) {
+        super(context, attrs, defStyle);
+        this.context = context;
+        ini();
+    }
 
-	public PinDuan(Context context, AttributeSet attrs) {
-		super(context, attrs);
+    public PinDuan(Context context, AttributeSet attrs) {
+        super(context, attrs);
+        this.context = context;
+        ini();
+    }
 
-		ini();
-	}
+    public PinDuan(Context context) {
+        super(context);
+        this.context = context;
+        ini();
+    }
 
-	public PinDuan(Context context) {
-		super(context);
+    public void setTiaoZhi(boolean booleanValue) {
+        pss.setTiaoZhi(booleanValue);
+    }
 
-		ini();
-	}
+    public void setYuzhifudu(int value) {
+        pss.yuzhifudu = value;
+        pss.postInvalidate();
+    }
 
-	public void setTiaoZhi(boolean booleanValue) {
-		pss.setTiaoZhi(booleanValue);
-	}
+    public void hideTable(boolean hide) {
+        if (hide) {
+            linearlayout.setVisibility(View.GONE);
+        } else {
+            linearlayout.setVisibility(View.VISIBLE);
+        }
+    }
 
-	public void setYuzhifudu(int value)
-	{
-		pss.yuzhifudu = value;
-		pss.postInvalidate();
-	}
+    private void ini() {
+        setOrientation(LinearLayout.VERTICAL);
+        setBackgroundColor(Color.BLACK);
 
-	public void hideTable(boolean hide) {
-		if (hide) {
-			linearlayout.setVisibility(View.GONE);
-		} else {
-			linearlayout.setVisibility(View.VISIBLE);
-		}
-	}
+        linearlayout = (LinearLayout) LayoutInflater.from(getContext())
+                .inflate(R.layout.pinduanlistview, null);
+        daneiNameTextView = linearlayout.findViewById(R.id.pl);
+        listview = linearlayout.findViewById(R.id.pinduanlistview);
 
-	private void ini() {
-		setOrientation(LinearLayout.VERTICAL);
-		setBackgroundColor(Color.BLACK);
+        pss = new PinScanningShowWave(getContext());
 
-		linearlayout = (LinearLayout) LayoutInflater.from(getContext())
-				.inflate(R.layout.pinduanlistview, null);
-		daneiNameTextView = (TextView) linearlayout.findViewById(R.id.pl);
-		listview = (ListView) linearlayout.findViewById(R.id.pinduanlistview);
+        findlayout = (LinearLayout) LayoutInflater.from(getContext())
+                .inflate(R.layout.findbuttons, null);
 
-		pss = new PinScanningShowWave(getContext());
+        markfindButton = findlayout.findViewById(R.id.fast_left_find);
+        leftfindButton = findlayout.findViewById(R.id.left_find);
+        rightfindButton = findlayout.findViewById(R.id.right_find);
+        freqinputButton = findlayout.findViewById(R.id.fast_right_find);
 
-		findlayout = (LinearLayout)LayoutInflater.from(getContext())
-				.inflate(R.layout.findbuttons, null);
+        //bind sticks' onClick event
+        markfindButton.setOnClickListener(this);
+        leftfindButton.setOnClickListener(this);
+        rightfindButton.setOnClickListener(this);
+        freqinputButton.setOnClickListener(this);
+        datalist = pss.datalist;
 
-		markfindButton = (Button) findlayout.findViewById(R.id.fast_left_find);
-		leftfindButton = (Button) findlayout.findViewById(R.id.left_find);
-		rightfindButton = (Button) findlayout.findViewById(R.id.right_find);
-		freqinputButton = (Button) findlayout.findViewById(R.id.fast_right_find);
+        LinearLayout.LayoutParams s1 = new LinearLayout.LayoutParams(
+                LinearLayout.LayoutParams.MATCH_PARENT, 0, 9);
+        LinearLayout.LayoutParams s3 = new LinearLayout.LayoutParams(
+                LinearLayout.LayoutParams.MATCH_PARENT, Dp2Px(context,40));
+        LinearLayout.LayoutParams s2 = new LinearLayout.LayoutParams(
+                LinearLayout.LayoutParams.MATCH_PARENT, 0, 9);
 
-		//bind sticks' onClick event
-		markfindButton.setOnClickListener(this);
-		leftfindButton.setOnClickListener(this);
-		rightfindButton.setOnClickListener(this);
-		freqinputButton.setOnClickListener(this);
-		datalist = pss.datalist;
+        try {
+            adapter = new MyAdapter();
+        } catch (Exception e) {
+        }
+        ;
+        listview.setAdapter(adapter);
 
-		LinearLayout.LayoutParams s1 = new LinearLayout.LayoutParams(
-				LinearLayout.LayoutParams.MATCH_PARENT, 0, 9);
-		LinearLayout.LayoutParams s3 = new LinearLayout.LayoutParams(
-				LinearLayout.LayoutParams.MATCH_PARENT, 35, 1);
-		LinearLayout.LayoutParams s2 = new LinearLayout.LayoutParams(
-				LinearLayout.LayoutParams.MATCH_PARENT, 0, 9);
+        addView(linearlayout, s2);
+        addView(pss, s1);
+        addView(findlayout, s3);
 
-		try {
-			adapter = new MyAdapter();
-		} catch (Exception e) {
-		}
-		;
-		listview.setAdapter(adapter);
+        handler = new Handler() {
+            public void handleMessage(android.os.Message msg) {
+                if (msg.what == 0x1)
+                    pss.refreshListData();
+                // daneiNameTextView.setText(showinfo);
+                adapter.notifyDataSetChanged();
+            }
+        };
 
-		addView(linearlayout, s2);
-		addView(pss, s1);
-		addView(findlayout, s3);
+    }
 
-		handler = new Handler() {
-			public void handleMessage(android.os.Message msg) {
-				if (msg.what == 0x1)
-					pss.refreshListData();
-				// daneiNameTextView.setText(showinfo);
-				adapter.notifyDataSetChanged();
-			};
-		};
+    public int Dp2Px(Context context, float dp) {
+        final float scale = context.getResources().getDisplayMetrics().density; //当前屏幕密度因子
+        Log.d("xiaodp", String.valueOf(dp * scale + 0.5f));
+        return (int) (dp * scale + 0.5f);
+    }
 
-	}
+    public void setTopViewLayoutParamsH() {
+        Log.d("xiaopara","h");
+        int dp_40 = Dp2Px(context,40);
+        LinearLayout.LayoutParams s2 = new LinearLayout.LayoutParams(
+                LinearLayout.LayoutParams.MATCH_PARENT, dp_40);
+        linearlayout.setLayoutParams(s2);
+        linearlayout.invalidate();
+        this.requestLayout();
+    }
 
-	public void setM(short[] m) {
-		pss.setM(m);
-	}
+    public void setTopViewLayoutParamsV() {
+        Log.d("xiaopara","v");
+        LinearLayout.LayoutParams s2 = new LinearLayout.LayoutParams(
+                LinearLayout.LayoutParams.MATCH_PARENT, 0, 9);
+        linearlayout.setLayoutParams(s2);
+        linearlayout.invalidate();
+        this.requestLayout();
+    }
 
-	public void setMax(short[] max) {
-		pss.setMax(max);
-	}
+    public void setM(short[] m) {
+        pss.setM(m);
+    }
 
-	public void setMin(short[] min) {
-		pss.setMin(min);
-	}
+    public void setMax(short[] max) {
+        pss.setMax(max);
+    }
 
-	public void setAvg(short[] avg) {
-		pss.setAvg(avg);
-	}
+    public void setMin(short[] min) {
+        pss.setMin(min);
+    }
 
-	public void setParameters(float fl, float fh, float bujin) {
-		pss.setF(fl, fh, bujin);
-		pss.postInvalidate();
-	}
+    public void setAvg(short[] avg) {
+        pss.setAvg(avg);
+    }
 
-	public void set_ah_al(float ah,float al)
-	{
-		pss.set_ah_al(ah,al);
-	}
+    public void setParameters(float fl, float fh, float bujin) {
+        pss.setF(fl, fh, bujin);
+        pss.postInvalidate();
+    }
 
-	public void refreshWave() {
-		pss.postInvalidate();
-	}
+    public void set_ah_al(float ah, float al) {
+        pss.set_ah_al(ah, al);
+    }
 
-	public void refreshTable() {
-		Message msg = new Message();
-		msg.what = 0x1;
-		handler.sendMessage(msg);
-	}
+    public void refreshWave() {
+        pss.postInvalidate();
+    }
 
-	@Override
-	public void onClick(View v) {
-		int i=v.getId();
+    public void refreshTable() {
+        Message msg = new Message();
+        msg.what = 0x1;
+        handler.sendMessage(msg);
+    }
 
-		if (i == R.id.fast_left_find)
-		{
-			pss.find_marker(0);
-			pss.postInvalidate();
-		}
-		if (i == R.id.left_find) {
-			pss.find_marker(1);
-			pss.postInvalidate();
-		}
-		if (i == R.id.right_find) {
-			pss.find_marker(2);
-			pss.postInvalidate();
-		}
-		if (i == R.id.fast_right_find) {
-			freq_input();
-		}
+    @Override
+    public void onClick(View v) {
+        int i = v.getId();
+
+        if (i == R.id.fast_left_find) {
+            pss.find_marker(0);
+            pss.postInvalidate();
+        }
+        if (i == R.id.left_find) {
+            pss.find_marker(1);
+            pss.postInvalidate();
+        }
+        if (i == R.id.right_find) {
+            pss.find_marker(2);
+            pss.postInvalidate();
+        }
+        if (i == R.id.fast_right_find) {
+            freq_input();
+        }
 
 
-	}
+    }
 
-	class MyAdapter extends BaseAdapter {
+    class MyAdapter extends BaseAdapter {
 
-		int max;
+        int max;
 
-		class ViewHolder {
-			TextView tv1, tv2, tv3;
-		}
+        class ViewHolder {
+            TextView tv1, tv2, tv3;
+        }
 
-		@Override
-		public int getCount() {
-			max = Math.max(datalist.size(), 30);
-			if (max < DataSave.pinduanshowpointcounts) {
-				return max;
-			} else {
-				return 1;
-			}
-		}
+        @Override
+        public int getCount() {
+            max = Math.max(datalist.size(), 30);
+            if (max < DataSave.pinduanshowpointcounts) {
+                return max;
+            } else {
+                return 1;
+            }
+        }
 
-		@Override
-		public Object getItem(int position) {
-			return position;
-		}
+        @Override
+        public Object getItem(int position) {
+            return position;
+        }
 
-		@Override
-		public long getItemId(int position) {
-			return position;
-		}
+        @Override
+        public long getItemId(int position) {
+            return position;
+        }
 
-		@Override
-		public View getView(int position, View convertView, ViewGroup parent) {
-			ViewHolder viewholder = null;
-			if (convertView == null) {
-				convertView = LayoutInflater.from(getContext()).inflate(
-						R.layout.pinduanlistviewdata, null);
-				viewholder = new ViewHolder();
-				viewholder.tv1 = (TextView) convertView
-						.findViewById(R.id.listxuhao);
-				viewholder.tv2 = (TextView) convertView
-						.findViewById(R.id.listpinlv);
-				viewholder.tv3 = (TextView) convertView
-						.findViewById(R.id.listfudu);
-				convertView.setTag(viewholder);
-			} else {
-				viewholder = (ViewHolder) convertView.getTag();
-			}
-			// viewholder.tv1.setText((Integer)datalist.get(position)+"");
-			if (max < 500) {
-				if (position < datalist.size()) {
-					viewholder.tv1.setText(position + 1 + "");
-					viewholder.tv3.setText(pss.getMValue((Integer) datalist
-							.get(position)) + "");
-					viewholder.tv2.setText(pss.indextof((Integer) datalist
-							.get(position)) + "");
-				} else {
-					viewholder.tv1.setText("");
-					viewholder.tv2.setText("");
-					viewholder.tv3.setText("");
-				}
-			}
-			else {
-				viewholder.tv2.setText("将导致效率严重降低");
-				viewholder.tv1.setText("限值过低");
+        @Override
+        public View getView(int position, View convertView, ViewGroup parent) {
+            ViewHolder viewholder = null;
+            if (convertView == null) {
+                convertView = LayoutInflater.from(getContext()).inflate(
+                        R.layout.pinduanlistviewdata, null);
+                viewholder = new ViewHolder();
+                viewholder.tv1 = convertView
+                        .findViewById(R.id.listxuhao);
+                viewholder.tv2 = convertView
+                        .findViewById(R.id.listpinlv);
+                viewholder.tv3 = convertView
+                        .findViewById(R.id.listfudu);
+                convertView.setTag(viewholder);
+            } else {
+                viewholder = (ViewHolder) convertView.getTag();
+            }
+            // viewholder.tv1.setText((Integer)datalist.get(position)+"");
+            if (max < 500) {
+                if (position < datalist.size()) {
+                    viewholder.tv1.setText(position + 1 + "");
+                    viewholder.tv3.setText(pss.getMValue((Integer) datalist
+                            .get(position)) + "");
+                    viewholder.tv2.setText(pss.indextof((Integer) datalist
+                            .get(position)) + "");
+                } else {
+                    viewholder.tv1.setText("");
+                    viewholder.tv2.setText("");
+                    viewholder.tv3.setText("");
+                }
+            } else {
+                viewholder.tv2.setText("将导致效率严重降低");
+                viewholder.tv1.setText("限值过低");
 
-				viewholder.tv3.setText("请重调限值");
-			}
+                viewholder.tv3.setText("请重调限值");
+            }
 
-			return convertView;
-		}
-	}
+            return convertView;
+        }
+    }
 
-	public void setDanWei(String name, String danwei) {
-		pss.setDanwei(name, danwei);
-		showinfo = name + "(" + danwei + ")";
-		clear();
-	}
+    public void setDanWei(String name, String danwei) {
+        pss.setDanwei(name, danwei);
+        showinfo = name + "(" + danwei + ")";
+        clear();
+    }
 
-	public void clear() {
-		setM(null);
-		setMax(null);
-		setMin(null);
-		setAvg(null);
-		datalist.clear();
-		refreshTable();
-	}
+    public void clear() {
+        setM(null);
+        setMax(null);
+        setMin(null);
+        setAvg(null);
+        datalist.clear();
+        refreshTable();
+    }
 
-	private void freq_input()
-	{
-		freqinputLayout =  (LinearLayout)LayoutInflater.from(getContext()). inflate(
-				R.layout.freqinput, null);
-		inputtext = (EditText) freqinputLayout.findViewById(R.id.editText);
+    private void freq_input() {
+        freqinputLayout = (LinearLayout) LayoutInflater.from(getContext()).inflate(
+                R.layout.freqinput, null);
+        inputtext = (EditText) freqinputLayout.findViewById(R.id.editText);
 
-		AlertDialog dialog = new AlertDialog.Builder(getContext())
-				.setTitle("频率输入")
-				.setView(freqinputLayout)
-				.setNegativeButton("取消",
-						new DialogInterface.OnClickListener() {
-							@Override
-							public void onClick(DialogInterface arg0, int arg1) {
+        AlertDialog dialog = new AlertDialog.Builder(getContext())
+                .setTitle("频率输入")
+                .setView(freqinputLayout)
+                .setNegativeButton("取消",
+                        new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface arg0, int arg1) {
 
-							}
-						})
-				.setPositiveButton("确定",
-						new DialogInterface.OnClickListener() {
+                            }
+                        })
+                .setPositiveButton("确定",
+                        new DialogInterface.OnClickListener() {
 
-							@Override
-							public void onClick(DialogInterface arg0,int arg1) {
-								try {
-									float inputf = Float.valueOf(inputtext.getText().toString());
+                            @Override
+                            public void onClick(DialogInterface arg0, int arg1) {
+                                try {
+                                    float inputf = Float.valueOf(inputtext.getText().toString());
 
-									pss.find_input(inputf);
+                                    pss.find_input(inputf);
 
-								} catch (Exception e) {
+                                } catch (Exception e) {
 //                                    Toast.makeText(PinScanningShowWave.this,
 //                                            "参数值输入格式错误或不可为空,请检查后重新输入",
 //                                            Toast.LENGTH_SHORT).show();
-								}
-							}
-						}).create();
-		dialog.show();
-	}
+                                }
+                            }
+                        }).create();
+        dialog.show();
+    }
 
 }

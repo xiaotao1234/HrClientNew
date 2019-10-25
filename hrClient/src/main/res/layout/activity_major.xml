@@ -5,16 +5,19 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context=".MajorActivity">
+
     <androidx.viewpager.widget.ViewPager
         android:id="@+id/major_viewpager"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"/>
+        android:layout_height="match_parent"
+        android:layout_alignParentStart="true"
+        android:layout_alignParentTop="true" />
     <com.google.android.material.tabs.TabLayout
         android:background="#55FFFFFF"
         android:id="@+id/tl_tabs"
         android:layout_width="match_parent"
         app:tabTextColor="#FFFFFF"
         app:tabIndicatorColor="#99FF0000"
-        android:layout_height="@dimen/dp_42"
+        android:layout_height="@dimen/dp_35"
         android:layout_alignParentBottom="true"/>
 </RelativeLayout>

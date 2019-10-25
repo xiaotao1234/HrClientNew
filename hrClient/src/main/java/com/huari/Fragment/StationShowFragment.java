@@ -38,15 +38,21 @@ public class StationShowFragment extends Fragment {
         @Override
         public void handleMessage(Message msg) {
             super.handleMessage(msg);
-            stations = new ArrayList<>();
-            for (String key : GlobalData.stationHashMap.keySet()) {
-                stations.add(GlobalData.stationHashMap.get(key));
-                Log.d("xiaoname", String.valueOf(GlobalData.stationHashMap.get(key)));
+            switch (msg.what) {
+                case 0:
+                    stations = new ArrayList<>();
+                    for (String key : GlobalData.stationHashMap.keySet()) {
+                        stations.add(GlobalData.stationHashMap.get(key));
+                        Log.d("xiaoname", String.valueOf(GlobalData.stationHashMap.get(key)));
+                    }
+                    Log.d("xiaoname", String.valueOf(stations.size()));
+                    leftListRecycle();
+                    break;
             }
-            Log.d("xiaoname", String.valueOf(stations.size()));
-            leftListRecycle();
+
         }
     };
+    private static RecordAllAdapter mWrapper;
 
     public StationShowFragment() {
     }
@@ -63,16 +69,21 @@ public class StationShowFragment extends Fragment {
         this.rvShow = view.findViewById(R.id.rvShow);
         stationFunction = view.findViewById(R.id.station_function_list);
         list.add("地图");
-        list.add("查询");
-        list.add("管理");
         return view;
     }
 
     public static void leftListRecycle() {
 //        rvShow.setLayoutManager(new GridLayoutManager(this, 3));
-        rvShow.setLayoutManager(new LinearLayoutManager(context));
-        RecordAllAdapter mWrapper = new RecordAllAdapter(context, stations, (device, station) -> reightListRecycle(device, station));
-        rvShow.setAdapter(mWrapper);
+        if(mWrapper!=null){
+            mWrapper.setmContent(stations);
+            mWrapper.setDataChange(true);
+            mWrapper.notifyDataSetChanged();
+            mWrapper.setDataChange(false);
+        }else {
+            rvShow.setLayoutManager(new LinearLayoutManager(context));
+            mWrapper = new RecordAllAdapter(context, stations, (device, station) -> reightListRecycle(device, station));
+            rvShow.setAdapter(mWrapper);
+        }
     }
 
     public static void reightListRecycle(MyDevice myDevice, Station station) {

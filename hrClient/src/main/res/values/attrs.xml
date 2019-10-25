@@ -45,9 +45,16 @@
         <attr name="all" format="integer" />
         <attr name="one_big_step" format="integer" />
         <attr name="one_small_step" format="integer" />
+        <attr name="pointer" format="color"/>
+        <attr name="title_text" format="string"/>
     </declare-styleable>
     <declare-styleable name="LinView">
         <attr name="text_bottom_lin" format="string" />
         <attr name="unit_lin" format="string" />
+        <attr name="fill" format="color"/>
+        <attr name="titile_text" format="string"/>
+        <attr name="low" format="integer"/>
+        <attr name="heigh" format="integer"/>
+        <attr name="one_step" format="integer"/>
     </declare-styleable>
 </resources>

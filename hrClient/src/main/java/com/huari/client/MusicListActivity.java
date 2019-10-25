@@ -25,5 +25,6 @@ public class MusicListActivity extends AppCompatActivity {
         musicList.setSystemUiVisibility(View.INVISIBLE);
         musicList.setLayoutManager(new LinearLayoutManager(this));
         musicList.setAdapter(musicListAdapter);
+        musicList.setSystemUiVisibility(View.INVISIBLE);
     }
 }

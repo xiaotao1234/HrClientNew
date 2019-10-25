@@ -20,7 +20,7 @@
             <com.google.android.material.appbar.CollapsingToolbarLayout
                 android:id="@+id/collapsingtoolbar"
                 android:layout_width="match_parent"
-                android:layout_height="@dimen/dp_220"
+                android:layout_height="@dimen/dp_260"
                 android:background="#00000000"
                 app:contentScrim="#222222"
                 app:layout_scrollFlags="scroll|exitUntilCollapsed|snap">
@@ -28,7 +28,7 @@
                 <com.huari.ui.TagCloudView
                     android:id="@+id/tag_cloud"
                     android:layout_width="match_parent"
-                    android:layout_height="@dimen/dp_220"
+                    android:layout_height="@dimen/dp_260"
                     android:layout_margin="5dp"
                     app:autoScrollMode="uniform"
                     app:darkColor="#ffffffff"
@@ -36,23 +36,6 @@
                     app:radiusPercent="0.8"
                     app:scrollSpeed="3" />
 
-                <!--<androidx.appcompat.widget.Toolbar-->
-                <!--android:layout_width="match_parent"-->
-                <!--android:layout_height="?android:attr/actionBarSize"-->
-                <!--android:contentInsetStart="0dp"-->
-                <!--app:layout_collapseMode="pin">-->
-
-                <!--<ImageView-->
-                <!--android:id="@+id/imageview_back"-->
-                <!--android:layout_width="wrap_content"-->
-                <!--android:layout_height="wrap_content"-->
-                <!--android:paddingLeft="5dp"-->
-                <!--android:paddingTop="20dp"-->
-                <!--android:paddingRight="20dp"-->
-                <!--android:paddingBottom="20dp"-->
-                <!--android:src="@drawable/back_history" />-->
-
-                <!--</androidx.appcompat.widget.Toolbar>-->
             </com.google.android.material.appbar.CollapsingToolbarLayout>
         </com.google.android.material.appbar.AppBarLayout>
 
@@ -61,7 +44,6 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:paddingLeft="10dp"
-            android:paddingTop="10dp"
             android:paddingRight="10dp"
             app:layout_behavior="@string/appbar_scrolling_view_behavior">
 
@@ -70,22 +52,21 @@
                 android:layout_height="wrap_content"
                 android:orientation="vertical">
 
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="15dp"
+                    android:layout_marginBottom="@dimen/dp_2"
+                    android:text="数据概况"
+                    android:textColor="#88FFFFFF"
+                    android:textSize="@dimen/dp_9" />
+
                 <com.huari.ui.pieLineView
                     android:id="@+id/pie_show_precent"
                     android:layout_width="match_parent"
                     android:layout_height="@dimen/dp_80"
                     android:layout_gravity="center_vertical"
                     android:background="@drawable/redius_back" />
-
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginStart="15dp"
-                    android:layout_marginTop="5dp"
-                    android:layout_marginBottom="5dp"
-                    android:text="数据概况"
-                    android:textColor="#88FFFFFF"
-                    android:textSize="@dimen/dp_9" />
 
                 <LinearLayout
                     android:layout_width="match_parent"
@@ -101,7 +82,7 @@
                         <TextView
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
-                            android:layout_marginBottom="5dp"
+                            android:layout_marginBottom="@dimen/dp_2"
                             android:gravity="center"
                             android:text="最近历史数据"
                             android:textSize="@dimen/dp_9"
@@ -111,8 +92,7 @@
                             android:id="@+id/rv"
                             android:layout_width="match_parent"
                             android:layout_height="match_parent"
-                            android:layout_marginBottom="@dimen/dp_20"
-                            android:background="@drawable/direct_re_back"
+                            android:layout_marginBottom="@dimen/dp_8"
                             android:scrollbars="vertical" />
                     </LinearLayout>
 
@@ -126,7 +106,7 @@
                         <TextView
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
-                            android:layout_marginBottom="5dp"
+                            android:layout_marginBottom="@dimen/dp_2"
                             android:textSize="@dimen/dp_9"
                             android:gravity="center"
                             android:text="最近一周数据统计"
@@ -143,7 +123,7 @@
                             android:layout_height="wrap_content"
                             android:layout_marginBottom="5dp"
                             android:gravity="center"
-                            android:text="月数据统计"
+                            android:text="数据查询"
                             android:textColor="#88FFFFFF"
                             android:textSize="@dimen/dp_9" />
 
@@ -495,7 +475,7 @@
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="@dimen/dp_70"
-                    android:layout_marginBottom="@dimen/dp_75"
+                    android:layout_marginBottom="@dimen/dp_35"
                     android:background="@drawable/redius_back"
                     android:orientation="horizontal">
 
@@ -543,6 +523,80 @@
                             android:layout_height="wrap_content"
                             android:layout_marginTop="5dp"
                             android:text="地图下载"
+                            android:textColor="#FFFFFF"
+                            android:textSize="@dimen/dp_8" />
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:id="@+id/set"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center_vertical"
+                        android:layout_marginStart="@dimen/dp_30"
+                        android:background="@drawable/button_bg_write"
+                        android:orientation="vertical">
+
+                        <ImageView
+                            android:layout_width="@dimen/dp_25"
+                            android:layout_height="@dimen/dp_25"
+                            android:layout_gravity="center_horizontal"
+                            android:src="@drawable/setting_icon" />
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="5dp"
+                            android:text="设置管理"
+                            android:textColor="#FFFFFF"
+                            android:textSize="@dimen/dp_8" />
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:id="@+id/bomb_push"
+                        android:visibility="gone"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center_vertical"
+                        android:layout_marginStart="@dimen/dp_30"
+                        android:background="@drawable/button_bg_write"
+                        android:orientation="vertical">
+
+                        <ImageView
+                            android:layout_width="@dimen/dp_25"
+                            android:layout_height="@dimen/dp_25"
+                            android:layout_gravity="center_horizontal"
+                            android:src="@drawable/setting_icon" />
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="5dp"
+                            android:text="设置管理"
+                            android:textColor="#FFFFFF"
+                            android:textSize="@dimen/dp_8" />
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:id="@+id/dz"
+                        android:visibility="gone"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center_vertical"
+                        android:layout_marginStart="@dimen/dp_30"
+                        android:background="@drawable/button_bg_write"
+                        android:orientation="vertical">
+
+                        <ImageView
+                            android:layout_width="@dimen/dp_25"
+                            android:layout_height="@dimen/dp_25"
+                            android:layout_gravity="center_horizontal"
+                            android:src="@drawable/setting_icon" />
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="5dp"
+                            android:text="设置管理"
                             android:textColor="#FFFFFF"
                             android:textSize="@dimen/dp_8" />
                     </LinearLayout>

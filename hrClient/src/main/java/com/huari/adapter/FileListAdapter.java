@@ -29,11 +29,13 @@ public class FileListAdapter extends RecyclerView.Adapter<FileListAdapter.viewho
     Context context;
     public List<File> files;
     SharedPreferences sharedPreferences;
+    TextView textView;
 
-    public FileListAdapter(List<String> filesname, Context context, List<File> files) {
+    public FileListAdapter(List<String> filesname, Context context, List<File> files,TextView textView) {
         this.filesname = filesname;
         this.files = files;
         this.context = context;
+        this.textView = textView;
     }
 
     @NonNull
@@ -71,10 +73,8 @@ public class FileListAdapter extends RecyclerView.Adapter<FileListAdapter.viewho
             if (files.get(position).isDirectory() == true) {
                 SysApplication.fileOs.pushStack(currentFile);
                 currentFile = files.get(position);
-                SysApplication.fileOs.setCurrentFloder(currentFile);
-                files = SysApplication.fileOs.getFiles();
-                filesname = SysApplication.fileOs.getFilesName();
-                notifyDataSetChanged();
+                textView.setText(currentFile.getAbsolutePath());
+                refreshList();
             } else {
                 Intent intent = null;
                 if(files.get(position).getName().contains("DF")){
@@ -113,5 +113,12 @@ public class FileListAdapter extends RecyclerView.Adapter<FileListAdapter.viewho
             }
             return true;
         });
+    }
+
+    public void refreshList() {
+        SysApplication.fileOs.setCurrentFloder(currentFile);
+        files = SysApplication.fileOs.getFiles();
+        filesname = SysApplication.fileOs.getFilesName();
+        notifyDataSetChanged();
     }
 }

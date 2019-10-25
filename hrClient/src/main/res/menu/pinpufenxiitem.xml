@@ -6,13 +6,13 @@
       <item android:title="场强" custompinpu:showAsAction="ifRoom" android:id="@+id/changqiang"/>
       <item android:title="设置" custompinpu:showAsAction="ifRoom" android:id="@+id/custompinpuset" >
       </item>
-      <item android:title="不显示最大值" custompinpu:showAsAction="ifRoom" android:id="@+id/ppfxshowmax" >
+      <item android:title="显示最大值" custompinpu:showAsAction="ifRoom" android:id="@+id/ppfxshowmax" >
       </item>
-      <item android:title="不显示最小值" custompinpu:showAsAction="ifRoom" android:id="@+id/ppfxshowmin" >
+      <item android:title="显示最小值" custompinpu:showAsAction="ifRoom" android:id="@+id/ppfxshowmin" >
       </item>
-      <item android:title="不显示平均值" custompinpu:showAsAction="ifRoom" android:id="@+id/ppfxshowavg" >
+      <item android:title="显示平均值" custompinpu:showAsAction="ifRoom" android:id="@+id/ppfxshowavg" >
       </item>
-      <item android:title="显示瀑布图" custompinpu:showAsAction="ifRoom" android:id="@+id/capture" >
+      <item android:title="关闭瀑布图" custompinpu:showAsAction="ifRoom" android:id="@+id/capture" >
       </item>
       <item android:title="录音" custompinpu:showAsAction="ifRoom" android:id="@+id/recorder" >
       </item>

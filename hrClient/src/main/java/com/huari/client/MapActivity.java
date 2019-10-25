@@ -8,6 +8,9 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 
+import androidx.annotation.NonNull;
+import androidx.core.app.ActivityCompat;
+import androidx.core.content.ContextCompat;
 import struct.JavaStruct;
 import struct.StructException;
 
@@ -51,11 +54,13 @@ import com.huari.tools.SysApplication;
 
 import androidx.appcompat.app.ActionBar;
 
+import android.Manifest;
 import android.app.AlertDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.pm.ActivityInfo;
+import android.content.pm.PackageManager;
 import android.graphics.Point;
 import android.os.Bundle;
 import android.os.Handler;
@@ -390,12 +395,6 @@ public class MapActivity extends AppCompatActivity {
                 }
             }
         }
-
-        @Override
-        public void onConnectHotSpotMessage(String var1, int var2) {
-
-        }
-
     }
 
     private void iniStationInfo()// 重新加载一遍Station，也适用于台站的增减更新
@@ -633,10 +632,31 @@ public class MapActivity extends AppCompatActivity {
     }
 
     @Override
+    public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
+        super.onRequestPermissionsResult(requestCode, permissions, grantResults);
+        switch (requestCode) {
+            case 1:
+                if (grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
+                    start();
+                } else {
+                    Toast.makeText(this,"未授予相应权限，不能使用地图功能",Toast.LENGTH_SHORT).show();
+                }
+        }
+    }
+
+    @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_baidumap);
+        if (ContextCompat.checkSelfPermission(MapActivity.this, Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
+            ActivityCompat.requestPermissions(MapActivity.this, new String[]{Manifest.permission.ACCESS_COARSE_LOCATION}, 1);
+        } else {
+            start();
+        }
+        start();
+    }
 
+    private void start() {
         offlinemap = new MKOfflineMap();
         offlinemap.init(mkoml);
         ArrayList<MKOLSearchRecord> records = offlinemap.searchCity("北京");

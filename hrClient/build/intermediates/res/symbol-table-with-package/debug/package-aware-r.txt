@@ -258,6 +258,7 @@ attr fastScrollHorizontalThumbDrawable
 attr fastScrollHorizontalTrackDrawable
 attr fastScrollVerticalThumbDrawable
 attr fastScrollVerticalTrackDrawable
+attr fill
 attr firstBaselineToTopHeight
 attr floatingActionButtonStyle
 attr font
@@ -275,6 +276,7 @@ attr foregroundInsidePadding
 attr gapBetweenBars
 attr goIcon
 attr headerLayout
+attr heigh
 attr height
 attr helperText
 attr helperTextEnabled
@@ -422,6 +424,7 @@ attr listPreferredItemPaddingLeft
 attr listPreferredItemPaddingRight
 attr logo
 attr logoDescription
+attr low
 attr materialButtonStyle
 attr materialCardViewStyle
 attr maxActionInlineWidth
@@ -441,6 +444,7 @@ attr navigationViewStyle
 attr numericModifiers
 attr one_big_step
 attr one_small_step
+attr one_step
 attr overlapAnchor
 attr paddingBottomNoButtons
 attr paddingEnd
@@ -454,6 +458,7 @@ attr passwordToggleDrawable
 attr passwordToggleEnabled
 attr passwordToggleTint
 attr passwordToggleTintMode
+attr pointer
 attr popupMenuStyle
 attr popupTheme
 attr popupWindowStyle
@@ -588,6 +593,7 @@ attr tickMarkTint
 attr tickMarkTintMode
 attr tint
 attr tintMode
+attr titile_text
 attr title
 attr titleEnabled
 attr titleMargin
@@ -600,6 +606,7 @@ attr titleTextAppearance
 attr titleTextColor
 attr titleTextStyle
 attr title_color
+attr title_text
 attr toolbarId
 attr toolbarNavigationButtonStyle
 attr toolbarStyle
@@ -662,6 +669,7 @@ color abc_tint_spinner
 color abc_tint_switch_track
 color accent_material_dark
 color accent_material_light
+color back
 color background_floating_material_dark
 color background_floating_material_light
 color background_material_dark
@@ -1536,6 +1544,7 @@ drawable abc_textfield_search_default_mtrl_alpha
 drawable abc_textfield_search_material
 drawable abc_vector_test
 drawable add
+drawable add_data
 drawable analyze1_cion
 drawable analyze_icon
 drawable appico
@@ -1589,6 +1598,9 @@ drawable boxing
 drawable btn_search_bg_nor
 drawable btn_selector
 drawable button_bg
+drawable button_bg_black
+drawable button_bg_unsliod
+drawable button_bg_window
 drawable button_bg_write
 drawable button_line_bg
 drawable buttton_change_bg
@@ -1629,12 +1641,14 @@ drawable edit_back
 drawable edit_background_write
 drawable edit_search_bg
 drawable edittextback
+drawable expand_icon
 drawable expandableselector
 drawable f
 drawable fenxi
 drawable file
 drawable file_icon
 drawable file_manager_icon
+drawable find_file_icon
 drawable floder_icon
 drawable fselector1
 drawable fu1
@@ -1684,6 +1698,7 @@ drawable lv
 drawable lvn
 drawable lvnew
 drawable main_top
+drawable main_top_item_bg
 drawable manager_icon
 drawable map_icon
 drawable more
@@ -1719,6 +1734,7 @@ drawable offline_top
 drawable orientation_cion
 drawable orientation_cion1
 drawable orientation_icon
+drawable pack_up
 drawable parametersset
 drawable pingpu_icon
 drawable play_icon
@@ -1732,6 +1748,7 @@ drawable qc4
 drawable quxiao
 drawable recent_data
 drawable redius_back
+drawable redius_back_black
 drawable saomiao
 drawable scan_icon
 drawable search
@@ -1742,6 +1759,7 @@ drawable server_manager_icon
 drawable set_icon
 drawable setback
 drawable setting
+drawable setting_icon
 drawable setting_offline
 drawable sg1
 drawable sg2
@@ -1761,6 +1779,7 @@ drawable tongyongbcg1
 drawable tongyongbcg2
 drawable tooltip_frame_dark
 drawable tooltip_frame_light
+drawable turn_right
 drawable turnplate_inner_icon
 drawable turnplate_mask_unlogin_normal
 drawable uncheck_icon
@@ -1770,6 +1789,7 @@ drawable wav_icon
 drawable welcome
 drawable welcomebg
 drawable widget_head_bg
+drawable window_bg
 drawable wurenzhan
 drawable xl1
 drawable xl2
@@ -1810,11 +1830,14 @@ id action_text
 id actions
 id activity_chooser_view_content
 id add
+id add_button
+id add_date
 id add_floder
 id advanced
 id advancedsetmenu
 id alertTitle
 id all
+id all_check
 id allcitylist
 id always
 id ampere
@@ -1827,6 +1850,7 @@ id back_icon
 id barrier
 id beginning
 id biaoge
+id big_layout
 id bigparamtertextview
 id blocking
 id bmapsView
@@ -1839,6 +1863,7 @@ id bmob_update_id_ignore
 id bmob_update_id_ok
 id bmob_update_wifi_indicator
 id bomb
+id bomb_push
 id bottom
 id btnCancel
 id btnPopup
@@ -1850,6 +1875,7 @@ id buildvcs
 id buttonPanel
 id calendar
 id cancel_action
+id cancel_button
 id canclepachange
 id canclepdsmpachange
 id capture
@@ -1872,6 +1898,8 @@ id cityid
 id citylist_layout
 id clButton
 id clear
+id clear_data
+id clear_record_data
 id clip_horizontal
 id clip_vertical
 id collapseActionView
@@ -1886,6 +1914,7 @@ id content_container
 id coor
 id coordinator
 id coordinatorlayout
+id cover_layer
 id custom
 id customPanel
 id customframe
@@ -1898,6 +1927,7 @@ id danpin_mem
 id danpin_new
 id danpin_size
 id data_get_danpin
+id data_search
 id day
 id dayofweek
 id dayset
@@ -1907,6 +1937,7 @@ id decor_content_parent
 id default_activity_button
 id del
 id delete
+id delete_top_layout
 id deletebu
 id design_bottom_sheet
 id design_menu_item_action_area
@@ -1918,6 +1949,9 @@ id detailet
 id detailspinner
 id device
 id device1
+id device_spain
+id device_state
+id device_text
 id deviceitembutton
 id deviceitemimage
 id deviceitemtextview
@@ -1932,6 +1966,7 @@ id disk
 id ditushebei
 id door
 id downoad_offlinemap
+id dz
 id editText
 id edit_query
 id end
@@ -1955,6 +1990,7 @@ id file_b
 id file_box
 id file_diecetory
 id file_layout
+id file_max
 id file_name
 id fill
 id fill_horizontal
@@ -2010,6 +2046,7 @@ id imageview_back
 id imageview_set
 id info
 id infotext
+id initial_layout
 id innerlinear
 id innertv1
 id innertv2
@@ -2027,6 +2064,7 @@ id ipstring
 id italic
 id item_layout
 id item_name
+id item_text
 id item_touch_helper_previous_elevation
 id itemspinner
 id itemtextview
@@ -2042,6 +2080,7 @@ id layout
 id left
 id left_find
 id leftlinear
+id lin1
 id line1
 id line3
 id listMode
@@ -2088,6 +2127,8 @@ id min
 id mini
 id minshow
 id minuteset
+id mm_spain
+id mm_text
 id modethree
 id month
 id month_view
@@ -2126,6 +2167,7 @@ id nomaninfo
 id nomanstationname
 id none
 id normal
+id normal_change
 id nostable
 id notification_background
 id notification_main_column
@@ -2133,6 +2175,7 @@ id notification_main_column_container
 id nsv
 id num
 id offline_scroll
+id ok_button
 id options1
 id options2
 id options3
@@ -2266,9 +2309,11 @@ id second2
 id secondguidebn
 id secondguidepicture
 id select_dialog_listview
+id select_item
 id selected
 id selectstation
 id selectstationofwillbeshow
+id serach_recycle
 id server_item
 id server_manager
 id server_manager_list
@@ -2279,6 +2324,7 @@ id server_text
 id serverip
 id servername
 id set
+id set_b
 id setting
 id seven2
 id shebeidianping
@@ -2310,6 +2356,7 @@ id snap
 id snapMargins
 id spacer
 id spectrumsanalysis
+id spin_list
 id split_action_bar
 id spread
 id spread_inside
@@ -2327,6 +2374,8 @@ id station_fuction_view
 id station_function_list
 id station_function_picture
 id station_function_text
+id station_spain
+id station_text
 id stationcheckbox
 id stationimageview
 id stationname
@@ -2337,6 +2386,7 @@ id stop
 id stretch
 id submenuarrow
 id submit_area
+id super_change
 id t1
 id t2
 id t3
@@ -2361,8 +2411,10 @@ id textSpacerNoButtons
 id textSpacerNoTitle
 id textStart
 id textView
+id text_context
 id text_input_password_toggle
-id text_item
+id text_item_name
+id text_show
 id textinput_counter
 id textinput_error
 id textinput_helper_text
@@ -2374,6 +2426,7 @@ id time
 id timepicker
 id title
 id titleDividerNoCustom
+id title_item
 id title_template
 id titlebarlinearlayout
 id titlename
@@ -2418,6 +2471,8 @@ id unmansupport
 id up
 id update
 id useLogo
+id user_edit
+id user_edit_layout
 id v
 id vc
 id video_name
@@ -2505,6 +2560,7 @@ layout activity_file_about
 layout activity_file_about2
 layout activity_file_display
 layout activity_file_list
+layout activity_find_file
 layout activity_four_test
 layout activity_frequencyscanning
 layout activity_graph
@@ -2540,6 +2596,7 @@ layout activity_scheduled_task
 layout activity_searchinterference
 layout activity_searh_file
 layout activity_server_manager
+layout activity_set
 layout activity_setting
 layout activity_spectrums_analysis
 layout activity_station_list
@@ -2552,7 +2609,9 @@ layout bmob_update_dialog
 layout changguimenu
 layout circle_menu_item
 layout customspinnertextview
+layout data_search_textbottom
 layout day_item
+layout delete_warn
 layout design_bottom_navigation_item
 layout design_bottom_sheet_dialog
 layout design_layout_snackbar
@@ -2642,6 +2701,7 @@ layout pinpumenutitlebar
 layout plan
 layout pop_window_view
 layout popupwindow
+layout popwindow_add_floder
 layout popwindow_item
 layout popwindow_list_item
 layout ppfxchildwithet
@@ -2661,6 +2721,7 @@ layout support_simple_spinner_dropdown_item
 layout table
 layout task
 layout test
+layout text_item
 layout title
 layout titlebar
 layout two
@@ -3389,7 +3450,7 @@ styleable ButtonBarLayout allowStacking
 styleable CardView android_minWidth android_minHeight cardBackgroundColor cardCornerRadius cardElevation cardMaxElevation cardPreventCornerOverlap cardUseCompatPadding contentPadding contentPaddingBottom contentPaddingLeft contentPaddingRight contentPaddingTop
 styleable Chip android_textAppearance android_ellipsize android_maxWidth android_text android_checkable checkedIcon checkedIconEnabled checkedIconVisible chipBackgroundColor chipCornerRadius chipEndPadding chipIcon chipIconEnabled chipIconSize chipIconTint chipIconVisible chipMinHeight chipStartPadding chipStrokeColor chipStrokeWidth closeIcon closeIconEnabled closeIconEndPadding closeIconSize closeIconStartPadding closeIconTint closeIconVisible hideMotionSpec iconEndPadding iconStartPadding rippleColor showMotionSpec textEndPadding textStartPadding
 styleable ChipGroup checkedChip chipSpacing chipSpacingHorizontal chipSpacingVertical singleLine singleSelection
-styleable CirclePainView all one_big_step one_small_step text_bottom unit
+styleable CirclePainView all one_big_step one_small_step pointer text_bottom title_text unit
 styleable CirclePieView center_circle_color line_color line_stroke_width small_circle_color text_color text_out_color text_size
 styleable Classification content_title content_title_color icon title title_color
 styleable CollapsingToolbarLayout collapsedTitleGravity collapsedTitleTextAppearance contentScrim expandedTitleGravity expandedTitleMargin expandedTitleMarginBottom expandedTitleMarginEnd expandedTitleMarginStart expandedTitleMarginTop expandedTitleTextAppearance scrimAnimationDuration scrimVisibleHeightTrigger statusBarScrim title titleEnabled toolbarId
@@ -3412,7 +3473,7 @@ styleable FontFamilyFont android_font android_fontWeight android_fontStyle andro
 styleable ForegroundLinearLayout android_foreground android_foregroundGravity foregroundInsidePadding
 styleable GradientColor android_startColor android_endColor android_type android_centerX android_centerY android_gradientRadius android_tileMode android_centerColor android_startX android_startY android_endX android_endY
 styleable GradientColorItem android_color android_offset
-styleable LinView text_bottom_lin unit_lin
+styleable LinView fill heigh low one_step text_bottom_lin titile_text unit_lin
 styleable LinearConstraintLayout android_orientation
 styleable LinearLayoutCompat android_gravity android_orientation android_baselineAligned android_baselineAlignedChildIndex android_weightSum divider dividerPadding measureWithLargestChild showDividers
 styleable LinearLayoutCompat_Layout android_layout_gravity android_layout_width android_layout_height android_layout_weight

@@ -3,6 +3,8 @@ package com.huari.NetMonitor;
 import android.content.Context;
 import android.content.SharedPreferences;
 
+import com.huari.client.R;
+
 public enum WindowHelper {
     instance;
 
@@ -68,7 +70,8 @@ public enum WindowHelper {
     }
 
     public static int getCoordinateX(Context context){
-        return context.getSharedPreferences("window_sp",Context.MODE_PRIVATE).getInt("windowX",100);
+        int dp = (int)context.getResources().getDimension(R.dimen.dp_110);
+        return context.getSharedPreferences("window_sp",Context.MODE_PRIVATE).getInt("windowX",dp);
     }
 
     public static void setCoordinateY(Context context,int y){
@@ -78,6 +81,6 @@ public enum WindowHelper {
     }
 
     public static int getCoordinateY(Context context){
-        return context.getSharedPreferences("window_sp",Context.MODE_PRIVATE).getInt("windowY",100);
+        return context.getSharedPreferences("window_sp",Context.MODE_PRIVATE).getInt("windowY",0);
     }
 }

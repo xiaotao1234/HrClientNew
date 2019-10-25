@@ -18,18 +18,15 @@ public class BrowerActivity extends AppCompatActivity {
 	{
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.webview);
-		m_imgbutton = (Button)findViewById(R.id.search_btn1);
-		m_edittext = (EditText)findViewById(R.id.search_editer);
-		m_webview = (WebView)findViewById(R.id.webView1);
+		m_imgbutton = findViewById(R.id.search_btn1);
+		m_edittext = findViewById(R.id.search_editer);
+		m_webview = findViewById(R.id.webView1);
 		m_edittext.setText("www.huari.com.cn");
 		
-		m_imgbutton.setOnClickListener(new ImageButton.OnClickListener(){
-			public void onClick(View arg0)
-			{
-				String strURI = m_edittext.getText().toString();
-				m_webview.loadUrl(strURI);
-			}
-		  }
+		m_imgbutton.setOnClickListener(arg0 -> {
+			String strURI = m_edittext.getText().toString();
+			m_webview.loadUrl(strURI);
+		}
 		);
 	}
 

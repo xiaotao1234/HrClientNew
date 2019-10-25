@@ -129,7 +129,6 @@ public class TagCloudView extends ViewGroup implements Runnable, TagsAdapter.OnD
     public final void setAdapter(TagsAdapter adapter) {
         tagsAdapter = adapter;
         tagsAdapter.setOnDataSetChangeListener(this);
-        Log.d("xiaoxiao","setadapter");
         onChange();
     }
 
@@ -139,9 +138,7 @@ public class TagCloudView extends ViewGroup implements Runnable, TagsAdapter.OnD
         argb[0] = Color.red(color) / 1.0f / 0xff;
         argb[1] = Color.green(color) / 1.0f / 0xff;
         argb[2] = Color.blue(color) / 1.0f / 0xff;
-
         lightColor = argb.clone();
-        Log.d("xiaoxiao","setLightcolor");
         onChange();
     }
 
@@ -151,9 +148,7 @@ public class TagCloudView extends ViewGroup implements Runnable, TagsAdapter.OnD
         argb[0] = Color.red(color) / 1.0f / 0xff;
         argb[1] = Color.green(color) / 1.0f / 0xff;
         argb[2] = Color.blue(color) / 1.0f / 0xff;
-
         darkColor = argb.clone();
-        Log.d("xiaoxiao","setdarkcolor");
         onChange();
     }
 
@@ -162,7 +157,7 @@ public class TagCloudView extends ViewGroup implements Runnable, TagsAdapter.OnD
             throw new IllegalArgumentException("percent value not in range 0 to 1");
         } else {
             radiusPercent = percent;
-            Log.d("xiaoxiao","setRadiusPercent");
+            Log.d("xiaoxiao", "setRadiusPercent");
             onChange();
         }
     }
@@ -340,12 +335,12 @@ public class TagCloudView extends ViewGroup implements Runnable, TagsAdapter.OnD
             mTagCloud.setAngleY(mAngleY);
             mTagCloud.update();
         }
+        ddmamd();
         updateChild();
     }
 
     @Override
     public void onChange() {
-        Log.d("xiaoxiao","onchange");
         initFromAdapter();
     }
 
@@ -367,8 +362,12 @@ public class TagCloudView extends ViewGroup implements Runnable, TagsAdapter.OnD
                 }
             }
             processTouch();
+            ddmamd();
         }
 
         handler.postDelayed(this, 0);
+    }
+    public void ddmamd(){
+
     }
 }

@@ -19,17 +19,18 @@
         android:title="场强"
         app:showAsAction="ifRoom"/>
         -->
-    <item android:id="@+id/pinduanset" android:orderInCategory="100" android:title="设置" app:showAsAction="never" /><item android:id="@+id/maxshow"
+    <item android:id="@+id/pinduanset" android:orderInCategory="100" android:title="设置" app:showAsAction="never" />
+    <item android:id="@+id/maxshow"
         android:orderInCategory="100"
-        android:title="不显示最大值"
+        android:title="显示最大值"
         app:showAsAction="never"/>"
     <item android:id="@+id/minshow"
         android:orderInCategory="100"
-        android:title="不显示最小值"
+        android:title="显示最小值"
         app:showAsAction="never"/>"
     <item android:id="@+id/avgshow"
         android:orderInCategory="100"
-        android:title="不显示平均值"
+        android:title="显示平均值"
         app:showAsAction="never"/>"
     <item
         android:id="@+id/showtable"
@@ -40,8 +41,7 @@
     <item 
         android:id="@+id/caputure"
         android:orderInCategory="100" 
-        android:title="截图"
+        android:title="手机横向"
         app:showAsAction="never"/>
-    
 
 </menu>

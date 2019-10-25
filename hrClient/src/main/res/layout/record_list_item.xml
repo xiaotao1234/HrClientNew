@@ -17,7 +17,6 @@
             android:layout_alignParentRight="true"
             android:layout_centerVertical="true"
             android:layout_gravity="center"
-            android:text="2019-8-8"
             android:textSize="@dimen/dp_9"
             android:textColor="#99FFFFFF"
             android:transitionName="shareimage" />
@@ -31,7 +30,7 @@
             android:id="@+id/icon"
             android:layout_width="@dimen/dp_12"
             android:layout_height="@dimen/dp_12"
-            android:layout_gravity="center|bottom"
+            android:layout_gravity="center|center_vertical"
             android:src="@drawable/circle_bg_month" />
 
         <View

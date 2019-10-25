@@ -24,7 +24,7 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
-public class StationListActivity extends Activity {
+public class StationListActivity extends Activity{
 
 	public static int REFRESHSTATE = 0x1;
 

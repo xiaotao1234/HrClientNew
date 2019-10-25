@@ -8,7 +8,7 @@ import android.os.IBinder;
 public class WindowService extends Service {
 
     private Context context;
-    private WindowController controller;
+    public WindowController controller;
 
     public static void startService(Context context){
         context.startService(new Intent(context,WindowService.class));

@@ -26,19 +26,30 @@ import java.util.List;
 public class RecordAllAdapter extends RecordAllBaseAdapter<RecordAllAdapter.ClassHolder, RecordAllAdapter.StudentHolder> {
 
     private Context context;
+
     private List<Station> mContent;
+
     private LayoutInflater mInflater;
     LinearLayout rememberLayout = null;
 
-    //用于记录当前是隐藏还是显示
-    private SparseBooleanArray mBooleanMap;
+    public void setDataChange(boolean dataChange) {
+        this.dataChange = dataChange;
+    }
 
-    public RecordAllAdapter(Context context, List mContent,StationFunctionListener stationFunctionListener) {
+    boolean dataChange = false;
+    //用于记录当前是隐藏还是显示
+
+    private SparseBooleanArray mBooleanMap;
+    public RecordAllAdapter(Context context, List<Station> mContent,StationFunctionListener stationFunctionListener) {
         this.context = context;
         this.mContent = mContent;
         this.stationFunctionListener = stationFunctionListener;
         mInflater = LayoutInflater.from(context);
         mBooleanMap = new SparseBooleanArray();
+    }
+
+    public void setmContent(List<Station> mContent) {
+        this.mContent = mContent;
     }
 
     public interface StationFunctionListener{
@@ -92,8 +103,10 @@ public class RecordAllAdapter extends RecordAllBaseAdapter<RecordAllAdapter.Clas
         holder.linearLayout.setTag(position);
         holder.linearLayout.setOnClickListener(v -> {
             int position1 = (int) v.getTag();
-            boolean isOpen = mBooleanMap.get(position1);
-            mBooleanMap.put(position1, !isOpen);
+            if(dataChange==false){
+                boolean isOpen = mBooleanMap.get(position1);
+                mBooleanMap.put(position1, !isOpen);
+            }
             notifyDataSetChanged();
         });
     }
@@ -104,6 +117,11 @@ public class RecordAllAdapter extends RecordAllBaseAdapter<RecordAllAdapter.Clas
             rememberLayout.setBackgroundColor(Color.parseColor("#44FFFFFF"));
         }
         holder.tvName.setText(mContent.get(HeaderPosition).getShowdevicelist().get(ContentPositionForHeader).getName());
+        if(mContent.get(HeaderPosition).getShowdevicelist().get(ContentPositionForHeader).getState()==1){
+            holder.deviceState.setText("故障");
+        }else {
+            holder.deviceState.setText(mContent.get(HeaderPosition).getShowdevicelist().get(ContentPositionForHeader).getIsOccupied()==0?"空闲":"使用中");
+        }
         holder.linearLayout.setOnClickListener(v -> {
             stationFunctionListener.callback(mContent.get(HeaderPosition).getShowdevicelist().get(ContentPositionForHeader), mContent.get(HeaderPosition));
             if(rememberLayout!=null){
@@ -133,9 +151,11 @@ public class RecordAllAdapter extends RecordAllBaseAdapter<RecordAllAdapter.Clas
 
         public TextView tvName;
         LinearLayout linearLayout;
+        TextView deviceState;
 
         public StudentHolder(View itemView) {
             super(itemView);
+            deviceState = itemView.findViewById(R.id.device_state);
             tvName = itemView.findViewById(R.id.tvInfo_day);
             linearLayout = itemView.findViewById(R.id.recorder_item);
         }

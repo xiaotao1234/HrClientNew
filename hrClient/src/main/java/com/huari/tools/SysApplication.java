@@ -23,6 +23,7 @@ import com.baidu.mapapi.SDKInitializer;
 import com.baidu.mapapi.utils.CoordinateConverter;
 import com.huari.NetMonitor.WindowHelper;
 import com.huari.client.R;
+import com.huari.dataentry.PinDuanSettingSave;
 
 import cn.bmob.push.BmobPush;
 import cn.bmob.v3.Bmob;
@@ -44,6 +45,7 @@ public class SysApplication extends Application {
     public static PermissionManager permissionManager;
     public static ByteFileIoUtils byteFileIoUtils;
     private int activityCount;
+    public static PinDuanSettingSave settingSave;
 
     @Override
     public void onCreate() {
@@ -53,7 +55,7 @@ public class SysApplication extends Application {
         timeTools = TimeTools.getInstance();
         permissionManager = PermissionManager.getInastance();
         byteFileIoUtils = ByteFileIoUtils.getInstance();
-
+        settingSave = new PinDuanSettingSave();
         Bmob.initialize(getApplicationContext(), "5352155de67348c988d054ca0fe25d95");
 // 使用推送服务时的初始化操作
         BmobInstallationManager.getInstance().initialize(new InstallationListener<BmobInstallation>() {
@@ -67,60 +69,12 @@ public class SysApplication extends Application {
                 }
             }
         });
-//        BmobPush.startWork(getApplicationContext());
+        BmobPush.startWork(getApplicationContext());
 
         createNotificationChannel();
 
         SDKInitializer.initialize(this);
 
-        window();
-    }
-
-    private void window() {
-        registerActivityLifecycleCallbacks(new ActivityLifecycleCallbacks() {
-            @Override
-            public void onActivityCreated(Activity activity, Bundle savedInstanceState) {
-
-            }
-
-            @Override
-            public void onActivityStarted(Activity activity) {
-                activityCount++;
-                if (activityCount == 1) {
-                    WindowHelper.instance.setForeground(true);
-                    WindowHelper.instance.startWindowService(getApplicationContext());
-                }
-            }
-
-            @Override
-            public void onActivityResumed(Activity activity) {
-
-            }
-
-            @Override
-            public void onActivityPaused(Activity activity) {
-
-            }
-
-            @Override
-            public void onActivityStopped(Activity activity) {
-                activityCount--;
-                if (activityCount == 0) {
-                    WindowHelper.instance.setForeground(false);
-                    WindowHelper.instance.stopWindowService(getApplicationContext());
-                }
-            }
-
-            @Override
-            public void onActivitySaveInstanceState(Activity activity, Bundle outState) {
-
-            }
-
-            @Override
-            public void onActivityDestroyed(Activity activity) {
-
-            }
-        });
     }
 
     @TargetApi(28)

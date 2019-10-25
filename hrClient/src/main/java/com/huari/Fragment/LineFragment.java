@@ -4,6 +4,8 @@ import android.animation.Animator;
 import android.animation.AnimatorSet;
 import android.animation.ObjectAnimator;
 import android.annotation.SuppressLint;
+
+
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
@@ -94,31 +96,37 @@ public class LineFragment extends Fragment {
     @Override
     public void onResume() {
         super.onResume();
-        preferences = context.getSharedPreferences("myclient", Context.MODE_PRIVATE);
-        seditor = preferences.edit();
-        ip = preferences.getString("ip", "192.168.1.249");
-        port1 = preferences.getInt("port1", 5000);
-        port2 = preferences.getInt("port2", 5012);
-        editTextIp.setText(ip);
-        editTextPort1.setText(port1 + "");
-        editTextPort2.setText(port2 + "");
-        handler = new Handler() {
-            public void handleMessage(android.os.Message msg) {
-                if (msg.what == LINKFAILED) {
-                    Toast.makeText(context, "连接服务器失败",
-                            Toast.LENGTH_SHORT).show();
-                    GlobalData.mainTitle = "未登录";
-                } else if (msg.what == LINKSUCCESS) {
-                    Toast.makeText(context, "连接服务器成功",
-                            Toast.LENGTH_SHORT).show();
-                    GlobalData.mainTitle = "已登录";
-                    avLoadingIndicatorView.setVisibility(View.GONE);
+        try {
+            preferences = context.getSharedPreferences("myclient", Context.MODE_PRIVATE);
+            seditor = preferences.edit();
+            ip = preferences.getString("ip", "192.168.0.249");
+            port1 = preferences.getInt("port1", 5000);
+            port2 = preferences.getInt("port2", 5012);
+            editTextIp.setText(ip);
+            editTextPort1.setText(port1 + "");
+            editTextPort2.setText(port2 + "");
+            handler = new Handler() {
+                public void handleMessage(android.os.Message msg) {
+                    if (msg.what == LINKFAILED) {
+                        Toast.makeText(context, "连接服务器失败",
+                                Toast.LENGTH_SHORT).show();
+                        GlobalData.mainTitle = "未登录";
+                    } else if (msg.what == LINKSUCCESS) {
+                        Toast.makeText(context, "连接服务器成功",
+                                Toast.LENGTH_SHORT).show();
+                        GlobalData.mainTitle = "已登录";
+                        avLoadingIndicatorView.setVisibility(View.GONE);
 //                    startActivity(new Intent(context, AllRecordQueryActivity.class));
-                    MajorActivity majorActivity = (MajorActivity) getActivity();
-                    majorActivity.setFragment();
+                        MajorActivity majorActivity = (MajorActivity) getActivity();
+                        if (majorActivity != null) {
+                            majorActivity.setFragment();
+                        }
+                    }
                 }
-            }
-        };
+            };
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
     }
 
     @Nullable
@@ -263,7 +271,7 @@ public class LineFragment extends Fragment {
     public void onPause() {
         super.onPause();
         AnimatorSet set = new AnimatorSet();
-        ObjectAnimator animator2 = ObjectAnimator.ofFloat(linearLayout,"scaleX",0f, 1f);
+        ObjectAnimator animator2 = ObjectAnimator.ofFloat(linearLayout, "scaleX", 0f, 1f);
         set.setDuration(1);
         set.setInterpolator(new AccelerateDecelerateInterpolator());
         set.playTogether(animator2);

@@ -12,25 +12,25 @@ public final class R {
     public static final class attr {
         private attr() {}
 
-        public static final int wheelview_dividerColor = 0x7f040243;
-        public static final int wheelview_gravity = 0x7f040244;
-        public static final int wheelview_lineSpacingMultiplier = 0x7f040245;
-        public static final int wheelview_textColorCenter = 0x7f040246;
-        public static final int wheelview_textColorOut = 0x7f040247;
-        public static final int wheelview_textSize = 0x7f040248;
+        public static final int wheelview_dividerColor = 0x7f04024a;
+        public static final int wheelview_gravity = 0x7f04024b;
+        public static final int wheelview_lineSpacingMultiplier = 0x7f04024c;
+        public static final int wheelview_textColorCenter = 0x7f04024d;
+        public static final int wheelview_textColorOut = 0x7f04024e;
+        public static final int wheelview_textSize = 0x7f04024f;
     }
     public static final class color {
         private color() {}
 
-        public static final int pickerview_bgColor_default = 0x7f06007d;
-        public static final int pickerview_bgColor_overlay = 0x7f06007e;
-        public static final int pickerview_bg_topbar = 0x7f06007f;
-        public static final int pickerview_timebtn_nor = 0x7f060080;
-        public static final int pickerview_timebtn_pre = 0x7f060081;
-        public static final int pickerview_topbar_title = 0x7f060082;
-        public static final int pickerview_wheelview_textcolor_center = 0x7f060083;
-        public static final int pickerview_wheelview_textcolor_divider = 0x7f060084;
-        public static final int pickerview_wheelview_textcolor_out = 0x7f060085;
+        public static final int pickerview_bgColor_default = 0x7f06007e;
+        public static final int pickerview_bgColor_overlay = 0x7f06007f;
+        public static final int pickerview_bg_topbar = 0x7f060080;
+        public static final int pickerview_timebtn_nor = 0x7f060081;
+        public static final int pickerview_timebtn_pre = 0x7f060082;
+        public static final int pickerview_topbar_title = 0x7f060083;
+        public static final int pickerview_wheelview_textcolor_center = 0x7f060084;
+        public static final int pickerview_wheelview_textcolor_divider = 0x7f060085;
+        public static final int pickerview_wheelview_textcolor_out = 0x7f060086;
     }
     public static final class dimen {
         private dimen() {}
@@ -44,9 +44,9 @@ public final class R {
     public static final class id {
         private id() {}
 
-        public static final int center = 0x7f090049;
-        public static final int left = 0x7f090102;
-        public static final int right = 0x7f0901b5;
+        public static final int center = 0x7f09004f;
+        public static final int left = 0x7f090114;
+        public static final int right = 0x7f0901cc;
     }
     public static final class string {
         private string() {}
@@ -56,7 +56,7 @@ public final class R {
     public static final class styleable {
         private styleable() {}
 
-        public static final int[] pickerview = { 0x7f040243, 0x7f040244, 0x7f040245, 0x7f040246, 0x7f040247, 0x7f040248 };
+        public static final int[] pickerview = { 0x7f04024a, 0x7f04024b, 0x7f04024c, 0x7f04024d, 0x7f04024e, 0x7f04024f };
         public static final int pickerview_wheelview_dividerColor = 0;
         public static final int pickerview_wheelview_gravity = 1;
         public static final int pickerview_wheelview_lineSpacingMultiplier = 2;
