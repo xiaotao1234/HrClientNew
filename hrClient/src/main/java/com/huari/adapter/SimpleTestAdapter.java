@@ -95,7 +95,7 @@ public class SimpleTestAdapter extends RecyclerView.Adapter<SimpleTestAdapter.Te
     }
 
     private String getName(int position) {
-        if (recentContent.size() != 0) {
+        if (recentContent.size() != 0&&recentContent.get(position).getFilename().length()>19) {
             String filename = recentContent.get(position).getFilename();
             String name = filename.substring(8, 19);
             if(recentContent.get(position).getType()==4){

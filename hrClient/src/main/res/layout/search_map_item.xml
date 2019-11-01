@@ -1,0 +1,62 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/lin"
+    android:layout_width="match_parent"
+    android:layout_height="@dimen/dp_32"
+    android:orientation="vertical">
+
+    <TextView
+        android:id="@+id/city_name"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerVertical="true"
+        android:layout_marginStart="@dimen/dp_30"
+        android:hint="111"
+        android:textColor="@color/black"
+        android:textSize="@dimen/dp_9" />
+
+    <ImageView
+        android:id="@+id/download_status"
+        android:layout_width="@dimen/dp_32"
+        android:padding="@dimen/dp_7"
+        android:layout_height="match_parent"
+        android:layout_alignParentEnd="true"
+        android:layout_centerVertical="true"
+        android:layout_marginEnd="@dimen/dp_30"
+        android:gravity="center_vertical"
+        android:src="@drawable/download_map"/>
+
+    <TextView
+        android:id="@+id/all_size"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerVertical="true"
+        android:gravity="center_vertical"
+        android:hint="333"
+        android:layout_toLeftOf="@id/download_status"
+        android:layout_marginEnd="@dimen/dp_20"
+        android:textColor="@color/black"
+        android:textSize="@dimen/dp_9" />
+
+    <ImageView
+        android:id="@+id/expand"
+        android:visibility="gone"
+        android:layout_width="@dimen/dp_20"
+        android:layout_height="@dimen/dp_20"
+        android:layout_alignParentEnd="true"
+        android:layout_centerVertical="true"
+        android:layout_marginEnd="@dimen/dp_10"
+        android:src="@color/black" />
+
+    <androidx.core.widget.ContentLoadingProgressBar
+        android:id="@+id/probar"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/dp_3"
+        android:layout_alignParentBottom="true" />
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:layout_alignParentBottom="true"
+        android:background="#33000000" />
+</RelativeLayout>

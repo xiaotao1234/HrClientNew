@@ -39,7 +39,7 @@ public class WelcomeActivity extends Activity {
 
     private void start() {
         Handler handler = new Handler();
-        handler.postDelayed(new Loading(), 2000);
+        handler.postDelayed(new Loading(), 500);
     }
 
     class Loading extends Thread {

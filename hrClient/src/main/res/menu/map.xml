@@ -6,7 +6,7 @@
     <item
         android:id="@+id/shishishixiang"
         android:orderInCategory="100"
-        android:title="实时示向"
+        android:title="开始示向"
         app:showAsAction="always"/>
     <item
         android:id="@+id/willfollow"

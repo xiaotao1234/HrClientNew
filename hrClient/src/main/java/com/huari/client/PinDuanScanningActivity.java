@@ -118,7 +118,7 @@ public class PinDuanScanningActivity extends PinDuanBase {
 
     private static String fd = "fd";    // 是幅度模式还是加上因子的场强模式cq
     private String fileName;
-    float lan,lon;
+    float lan, lon;
     private Station stationF;
 
     class IniThread extends Thread {
@@ -127,7 +127,6 @@ public class PinDuanScanningActivity extends PinDuanBase {
                 s = new Socket(GlobalData.mainIP, GlobalData.port2);
                 ins = s.getInputStream();
                 outs = s.getOutputStream();
-
             } catch (IOException e) {
                 e.printStackTrace();
             }
@@ -218,37 +217,48 @@ public class PinDuanScanningActivity extends PinDuanBase {
                 long time = 0;
                 flag = 0;//为0则标志第一次进入
                 while (available == 0 && runMythread) {
-                    available = ins.available();
-                    if (available > 0) {
-                        info = new byte[available];
-                        ins.read(info);
-                        Log.d("xiaoxiao", String.valueOf(info.length));
-                        try {
-                            Parse.newParsePDScan(info);
-                            if (saveFlag == true) {
-                                if (flag == 0) {
-                                    time = 0;
-                                    savePrepare();
-                                    flag++;
+                    if(ins!=null){
+                        available = ins.available();
+                        if (available > 0) {
+                            info = new byte[available];
+                            ins.read(info);
+                            Log.d("xiaoxiao", String.valueOf(info.length));
+                            try {
+                                Parse.newParsePDScan(info);
+                                if (saveFlag == true) {
+                                    if (flag == 0) {
+                                        time = 0;
+                                        savePrepare();
+                                        flag++;
+                                    }
+                                    time = RealTimeSaveAndGetStore.SaveAtTime(available, info, time, 3);//给数据加一个时间的包头后递交到缓存队列中
                                 }
-                                time = RealTimeSaveAndGetStore.SaveAtTime(available, info, time, 3);//给数据加一个时间的包头后递交到缓存队列中
+                            } catch (Exception e) {
+                                Log.d("xiao", "解析频段扫描数据发生异常");
                             }
-                        } catch (Exception e) {
-                            Log.d("xiao", "解析频段扫描数据发生异常");
-                        }
-                        available = 0;
-                        try {
-                            sleep(10);
-                        } catch (InterruptedException e) {
-                            e.printStackTrace();
+                            available = 0;
+                            try {
+                                sleep(10);
+                            } catch (InterruptedException e) {
+                                e.printStackTrace();
+                            }
                         }
                     }
+//                    else {
+//                        inithread.start();
+//                        try {
+//                            inithread.join();
+//                        } catch (InterruptedException e) {
+//                            e.printStackTrace();
+//                        }
+//                    }
                 }
             } catch (IOException e) {
                 e.printStackTrace();
             }
         }
     }
+
     public void savePrepare() {
         ByteFileIoUtils.runFlag = true;
         queue = new LinkedBlockingDeque<>();
@@ -262,7 +272,7 @@ public class PinDuanScanningActivity extends PinDuanBase {
         shareEditor.commit();  //以文件名作为key来将台站信息存入shareReferences
         Log.d("xiaoxiao", String.valueOf(fileName.length()));
         SysApplication.byteFileIoUtils.writeBytesToFile(fileName, 3); //开始保存数据前的初始化
-        RealTimeSaveAndGetStore.serializeFlyPig(stationF,devicename,device,logicId);//在消费者线程开启后，开始Statio的序列化并放入队列缓冲区中等待消费者线程遍历之
+        RealTimeSaveAndGetStore.serializeFlyPig(stationF, devicename, device, logicId);//在消费者线程开启后，开始Statio的序列化并放入队列缓冲区中等待消费者线程遍历之
     }
 
     @Override
@@ -508,7 +518,7 @@ public class PinDuanScanningActivity extends PinDuanBase {
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         // Inflate the menu; this adds items to the action bar if it is present.
-        Log.d("xiaolaile","menu");
+        Log.d("xiaolaile", "menu");
         getMenuInflater().inflate(R.menu.pin_duan_scanning, menu);
         if (SysApplication.settingSave.isShowBig()) {
             showMax = true;
@@ -528,7 +538,7 @@ public class PinDuanScanningActivity extends PinDuanBase {
         } else {
             showAvg = false;
         }
-        if(!SysApplication.settingSave.isOrientation()){
+        if (!SysApplication.settingSave.isOrientation()) {
             menu.findItem(R.id.caputure).setTitle("手机纵向");
             pinduan.setTopViewLayoutParamsH();
         }
@@ -570,6 +580,7 @@ public class PinDuanScanningActivity extends PinDuanBase {
     }
 
     public static boolean isRunning = false;
+
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         // Handle action bar item clicks here. The action bar will
@@ -636,9 +647,11 @@ public class PinDuanScanningActivity extends PinDuanBase {
             if (item.getTitle().equals("隐藏表格")) {
                 pinduan.hideTable(true);
                 item.setTitle("展示表格");
+                SysApplication.settingSave.setFormVisible(false);
             } else if (item.getTitle().equals("展示表格")) {
                 pinduan.hideTable(false);
                 item.setTitle("隐藏表格");
+                SysApplication.settingSave.setFormVisible(true);
             }
         } else if (id == R.id.pinduanset) {
             if (pause) {
@@ -738,7 +751,7 @@ public class PinDuanScanningActivity extends PinDuanBase {
                 SysApplication.settingSave.setShowAverage(true);
                 showAvg = true;
             }
-        }else if (id == R.id.caputure) {
+        } else if (id == R.id.caputure) {
             if (item.getTitle().equals("手机横向")) {
                 SysApplication.settingSave.setOrientation(false);
                 GlobalData.show_horiz = true;

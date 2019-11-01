@@ -66,10 +66,9 @@
 
         <TextView
             android:id="@+id/play_plan"
-            android:layout_width="0dp"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginEnd="10dp"
-            android:layout_weight="1"
             android:textSize="13sp"
             android:textColor="#FFFFFF"
             android:gravity="center_vertical|end"
@@ -87,11 +86,10 @@
 
         <TextView
             android:id="@+id/music_length"
-            android:layout_width="0dp"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginStart="10dp"
             android:textColor="#FFFFFF"
-            android:layout_weight="1"
             android:textSize="13sp"
             android:gravity="center_vertical"
             android:hint="大小：" />

@@ -62,8 +62,13 @@ public class CirclePainView extends CustomView {
         init();
     }
 
+    public int getShowValue(){
+        return showValue;
+    }
+
     public void setShowValue(int showValue) {
         this.showValue = showValue;
+        invalidate();
     }
 
     private void init() {

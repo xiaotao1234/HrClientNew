@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:gravity="left"
+    android:layoutDirection="ltr"
+    android:layout_height="@dimen/dp_33">
+    <TextView xmlns:android="http://schemas.android.com/apk/res/android"
+        android:id="@+id/group_text"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/dp_32"
+        android:layout_gravity="start"
+        android:text="下载管理"
+        android:textColor="#449999"
+        android:textStyle="bold"
+        android:textSize="@dimen/dp_10"
+        android:gravity="center_vertical"
+        android:paddingLeft="@dimen/dp_40"
+        android:orientation="vertical" />
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:background="#09000000"
+        android:layout_alignParentBottom="true"/>
+</RelativeLayout>
+

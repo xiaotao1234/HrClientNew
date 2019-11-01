@@ -23,7 +23,7 @@ import com.huari.client.FileListActivity;
 import com.huari.client.FindFileActivity;
 import com.huari.client.HistoryListActivity;
 import com.huari.client.MonthDataActivity;
-import com.huari.client.OfflineDownloadActivity;
+import com.huari.client.OfflineActivity;
 import com.huari.client.R;
 import com.huari.client.SetActivity;
 import com.huari.dataentry.recentContent;
@@ -108,6 +108,14 @@ public class OfflineFragment2 extends Fragment {
     private Intent intent;
     private Context context;
     private Activity activity;
+    private long danpinTime = 0;
+    private String danpinnewFile = "";
+    private long pinpiTime = 0;
+    private String pinpunewFile = "";
+    private long pinduanTime = 0;
+    private String pinduannewFile = "";
+    private long musicTime = 0;
+    private String musicnewFile = "";
 
     @SuppressLint("ValidFragment")
     public OfflineFragment2(Context context, Activity activity) {
@@ -174,14 +182,14 @@ public class OfflineFragment2 extends Fragment {
                 }
             });
         });
-        dzLayout.setOnClickListener(v -> startActivity(new Intent(context,DzActivity.class)));
+        dzLayout.setOnClickListener(v -> startActivity(new Intent(context, DzActivity.class)));
         danpinLayout.setOnClickListener(v -> click(HistoryListActivity.DF));
         pinpulayout.setOnClickListener(v -> click(HistoryListActivity.AN));
         pinduanLayout.setOnClickListener(v -> click(HistoryListActivity.PD));
         musicLayout.setOnClickListener(v -> click(HistoryListActivity.RE));
         fileLayout.setOnClickListener(v -> startActivity(new Intent(context, FileListActivity.class)));
-        downMapLayout.setOnClickListener(v -> startActivity(new Intent(context, OfflineDownloadActivity.class)));
-        setLayout.setOnClickListener(v -> startActivity(new Intent(context, SetActivity.class)));
+        downMapLayout.setOnClickListener(v -> startActivity(new Intent(context, OfflineActivity.class)));
+        setLayout.setOnClickListener(v -> startActivity(new Intent(context, DzActivity.class)));
         simpleTestAdapter = new SimpleTestAdapter();
         simpleTestAdapter.setContext(context);
         rv = view.findViewById(R.id.rv);
@@ -206,10 +214,10 @@ public class OfflineFragment2 extends Fragment {
         FileOsImpl.getRecentList(handler);
         List<recentContent> listFile = new ArrayList<>();
         File file1 = new File(FileOsImpl.forSaveFloder + File.separator + "data");
-        if(!file1.exists()){
+        if (!file1.exists()) {
             file1.mkdirs();
         }
-        if(file1.listFiles()!=null){
+        if (file1.listFiles() != null) {
             for (File file : file1.listFiles()) {
                 if (file.getName().contains("DF")) {
                     listFile.add(new recentContent(file.getAbsolutePath(), file.getName(), 1));
@@ -250,24 +258,40 @@ public class OfflineFragment2 extends Fragment {
         }
         int danpin = 0;
         for (String filename : danpinAll) {
+            if (danpinTime < new File(filename).lastModified()) {
+                danpinTime = new File(filename).lastModified();
+                danpinnewFile = filename;
+            }
             danpin = danpin + (int) (new File(filename).length());
         }
         danpinlength = getSize(danpin);
 
         int pinpu = 0;
         for (String filename : pinpuAll) {
+            if (pinpiTime < new File(filename).lastModified()) {
+                pinpiTime = new File(filename).lastModified();
+                pinpunewFile = filename;
+            }
             pinpu = pinpu + (int) (new File(filename).length());
         }
         pinpulength = getSize(pinpu);
 
         int pinduan = 0;
         for (String filename : pinduanAll) {
+            if (pinduanTime < new File(filename).lastModified()) {
+                pinduanTime = new File(filename).lastModified();
+                pinduannewFile = filename;
+            }
             pinduan = pinduan + (int) (new File(filename).length());
         }
         pinduanlength = getSize(pinduan);
 
         int yinpin = 0;
         for (String filename : musicAll) {
+            if (musicTime < new File(filename).lastModified()) {
+                musicTime = new File(filename).lastModified();
+                musicnewFile = filename;
+            }
             yinpin = yinpin + (int) (new File(filename).length());
         }
         yinpinlength = getSize(yinpin);
@@ -286,10 +310,10 @@ public class OfflineFragment2 extends Fragment {
         pinduanMem.setText("共占用" + pinduanlength + "空间");
         yinpinMem.setText("共占用" + yinpinlength + "空间");
 
-        danpinNew.setText("最新：" + (danpinAll.size() != 0 ? (new File(danpinAll.get(0)).getName()) : ""));
-        pinpuNew.setText("最新：" + (pinpuAll.size() != 0 ? (new File(pinpuAll.get(0)).getName()) : ""));
-        pinduanNew.setText("最新：" + (pinduanAll.size() != 0 ? (new File(pinduanAll.get(0)).getName()) : ""));
-        yinpinNew.setText("最新：" + (musicAll.size() != 0 ? (new File(musicAll.get(0)).getName()) : "无"));
+        danpinNew.setText("最新：" + new File(danpinnewFile).getName());
+        pinpuNew.setText("最新：" + new File(pinpunewFile).getName());
+        pinduanNew.setText("最新：" + new File(pinduannewFile).getName());
+        yinpinNew.setText("最新：" + new File(musicnewFile).getName());
 
         list = new ArrayList<>();
         stringList = new ArrayList<>();

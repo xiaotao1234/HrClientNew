@@ -109,7 +109,7 @@ public class SearchFileResultAdapter extends RecyclerView.Adapter<SearchFileResu
             });
         }
         holder.name.setText(fileList.get(position).getName());
-        holder.time.setText(new SimpleDateFormat("yyyy-MM-dd hh:mm:ss").format(new Date(fileList.get(position).lastModified())));
+        holder.time.setText(new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").format(new Date(fileList.get(position).lastModified())));
         holder.number.setText(getSize(fileList.get(position).length()));
         holder.linearLayout.setOnLongClickListener(v -> {
             if(longClickFlag==false){

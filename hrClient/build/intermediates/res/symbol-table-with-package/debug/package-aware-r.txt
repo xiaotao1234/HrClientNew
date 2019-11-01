@@ -1635,6 +1635,7 @@ drawable diskstate
 drawable ditu
 drawable down
 drawable down_off_map
+drawable download_map
 drawable downoad_icon
 drawable e
 drawable edit_back
@@ -1752,6 +1753,7 @@ drawable redius_back_black
 drawable saomiao
 drawable scan_icon
 drawable search
+drawable search_black
 drawable search_data
 drawable search_offline
 drawable selector_pickerview_btn
@@ -1838,6 +1840,7 @@ id advancedsetmenu
 id alertTitle
 id all
 id all_check
+id all_size
 id allcitylist
 id always
 id ampere
@@ -1894,6 +1897,7 @@ id chronometer
 id circle_pie
 id city
 id city_list
+id city_name
 id cityid
 id citylist_layout
 id clButton
@@ -1965,6 +1969,7 @@ id disableHome
 id disk
 id ditushebei
 id door
+id download_status
 id downoad_offlinemap
 id dz
 id editText
@@ -1979,8 +1984,10 @@ id exchilditemttv
 id exchilditemtv
 id exchildsp
 id exitUntilCollapsed
+id expand
 id expand_activities_button
 id expanded_menu
+id expend_list
 id extrainfo
 id fast_left_find
 id fast_right_find
@@ -2016,6 +2023,7 @@ id ghost_view
 id gone
 id graph_view
 id group_divider
+id group_text
 id groupname
 id groupname1
 id groupnum
@@ -2065,6 +2073,7 @@ id italic
 id item_layout
 id item_name
 id item_text
+id item_textview
 id item_touch_helper_previous_elevation
 id itemspinner
 id itemtextview
@@ -2080,6 +2089,7 @@ id layout
 id left
 id left_find
 id leftlinear
+id lin
 id lin1
 id line1
 id line3
@@ -2102,6 +2112,7 @@ id lsvMore
 id main_back
 id main_btn_cancel
 id main_btn_login
+id main_edit
 id main_group
 id main_scroll
 id major_viewpager
@@ -2193,6 +2204,7 @@ id packed
 id parallax
 id parent
 id parentPanel
+id parent_layout
 id parent_matrix
 id part1
 id partview
@@ -2244,9 +2256,12 @@ id ppfxttb
 id ppu
 id previous_button
 id previous_button_bn
+id probar
 id progressBar_download
 id progress_circular
 id progress_horizontal
+id progress_number
+id progressbar
 id ptitlebar
 id pullipset
 id qinglinggenzong
@@ -2298,6 +2313,7 @@ id search_edit_frame
 id search_editer
 id search_file_directory
 id search_go_btn
+id search_lay
 id search_listview
 id search_mag_icon
 id search_plate
@@ -2335,6 +2351,7 @@ id show
 id showCustom
 id showHome
 id showTitle
+id show_result_list
 id showtable
 id single11
 id single12
@@ -2583,6 +2600,8 @@ layout activity_map_showing
 layout activity_month_data
 layout activity_music_list
 layout activity_offline
+layout activity_offline2
+layout activity_offlines
 layout activity_ok
 layout activity_pinduansanmiao
 layout activity_pinduansanmiao_history
@@ -2606,6 +2625,7 @@ layout advancedset
 layout analysistitlebar
 layout big_parameter
 layout bmob_update_dialog
+layout botton_list_item
 layout changguimenu
 layout circle_menu_item
 layout customspinnertextview
@@ -2628,6 +2648,8 @@ layout design_navigation_menu_item
 layout design_text_input_password_icon
 layout detailstationinfo
 layout deviceitem
+layout download
+layout download_manager
 layout file_show_item
 layout file_show_search_item
 layout findbuttons
@@ -2657,6 +2679,7 @@ layout listviewwithitu
 layout main
 layout main2
 layout main22
+layout map_popwindow
 layout maphead
 layout mappopuviewcontent
 layout mapselectlistview
@@ -2708,6 +2731,8 @@ layout ppfxchildwithet
 layout ppfxgrouplinear
 layout ppfxwithspinner
 layout record_list_item
+layout recycle_item
+layout search_map_item
 layout select_dialog_item_material
 layout select_dialog_multichoice_material
 layout select_dialog_singlechoice_material

@@ -110,7 +110,7 @@ public class RealTimeSaveAndGetStore {
                             PreFlag = false;
                         }
                         delayTime = MyTools.bytesToIntLittle(MyTools.nigetPartByteArray(readWithTiem, 4, 7));
-//                        Log.d("xiaodelaybefore", String.valueOf(delayTime));
+                        Log.d("delaytimexiaola", String.valueOf(delayTime));
 //                        delayTime = (delayTime - 1) > 0 ? (delayTime - 1) : delayTime;
 //                        Log.d("xiaodelay", String.valueOf(delayTime));
                         frameLength = MyTools.bytesToIntLittle(MyTools.nigetPartByteArray(readWithTiem, 8, 11));
@@ -536,6 +536,7 @@ public class RealTimeSaveAndGetStore {
                 filebase.delete();
             } catch (Exception e) {
                 e.printStackTrace();
+                Log.d("xiaoxiaoquestion","包头出问题了");
             }
         });
         serializeThread.start();

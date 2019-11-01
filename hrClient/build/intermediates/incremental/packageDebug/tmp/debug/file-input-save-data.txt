@@ -1,5 +1,5 @@
 #Internal package file, do not edit.
-#Thu Oct 24 20:51:34 CST 2019
+#Wed Oct 30 10:31:39 CST 2019
 4.path=lib/mips/libbmob.so
 8.set=NATIVE_RESOURCE
 6.path=classes.dex

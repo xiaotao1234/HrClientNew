@@ -115,7 +115,6 @@ public class PinDuan extends LinearLayout implements View.OnClickListener {
             adapter = new MyAdapter();
         } catch (Exception e) {
         }
-        ;
         listview.setAdapter(adapter);
 
         addView(linearlayout, s2);

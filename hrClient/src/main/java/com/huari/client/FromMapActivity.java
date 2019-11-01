@@ -72,6 +72,7 @@ public class FromMapActivity extends AppCompatActivity implements
 	HashMap<String, String> newValues;
 	View titlebar;
 	ActionBar actionbar;
+	private Station station;
 
 	class MyTextWatcher implements TextWatcher {
 		String key;
@@ -165,6 +166,10 @@ public class FromMapActivity extends AppCompatActivity implements
 					refreshParameters();
 					Intent ine = new Intent(FromMapActivity.this,
 							MapActivity.class);
+					Bundle bundle1 = new Bundle();
+					bundle1.putFloat("lon",station.lon);
+					bundle1.putFloat("lan",station.lan);
+					ine.putExtra("bundle",bundle1);
 					GlobalData.stationKey = stationId;
 					GlobalData.deviceName = deviceName;
 					GlobalData.logicId = logicId;
@@ -363,7 +368,7 @@ public class FromMapActivity extends AppCompatActivity implements
 
 	private void refreshParameters()// 更新该设备的参数
 	{
-		Station station = GlobalData.stationHashMap.get(stationId);
+		station = GlobalData.stationHashMap.get(stationId);
 		MyDevice md = null;
 		for (MyDevice mydevice : station.devicelist) {
 			if (mydevice.name.equals(deviceName)) {

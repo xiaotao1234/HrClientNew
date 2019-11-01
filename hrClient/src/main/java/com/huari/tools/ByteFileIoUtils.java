@@ -25,7 +25,9 @@ import java.io.RandomAccessFile;
 import java.nio.ByteBuffer;
 import java.nio.MappedByteBuffer;
 import java.nio.channels.FileChannel;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Queue;
@@ -216,29 +218,30 @@ public class ByteFileIoUtils {
                         queue = PinDuanScanningActivity.queue;
                         break;
                 }
-                File file = new File(SysApplication.fileOs.forSaveFloder+File.separator+"data");
-                if(!file.exists()){
+                File file = new File(SysApplication.fileOs.forSaveFloder + File.separator + "data");
+                if (!file.exists()) {
                     file.mkdirs();
                 }
                 Log.d("xiao", String.valueOf(filename.length()));
                 randomFile = new RandomAccessFile(file.getAbsolutePath() + File.separator + filename, "rw");
                 byte[] bytes;
                 while (runFlag) {
-                    synchronized (object){
-                        if (RealTimeSaveAndGetStore.serializeThread!=null&randomFile.length()==0&&RealTimeSaveAndGetStore.serializeThread.isAlive()){
+                    synchronized (object) {
+                        if (RealTimeSaveAndGetStore.serializeThread != null & randomFile.length() == 0 && RealTimeSaveAndGetStore.serializeThread.isAlive()) {
+//                        if (randomFile.length() == 0) {
                             object.wait();
                         }
                     }
-                    Log.d("filestart","开始写入数据");
-                    while (randomFile==null){
+                    Log.d("filestart", "开始写入数据");
+                    while (randomFile == null) {
                         randomFile = new RandomAccessFile(file.getAbsolutePath() + File.separator + filename, "rw");
                     }
-                    if(randomFile.length()==0){
+                    if (randomFile.length() == 0) {
                         randomFile.write(RealTimeSaveAndGetStore.bytesForSave);
                     }
                     synchronized (queue) {
-                        if(queue.size()!=0){
-                        }else {
+                        if (queue.size() != 0) {
+                        } else {
                             Thread.sleep(1);
                             continue;
                         }
@@ -253,11 +256,17 @@ public class ByteFileIoUtils {
                     randomFile.seek(fileLength);
                     randomFile.write(queue.poll());
                 }
-                SysApplication.fileOs.save(SysApplication.fileOs.forSaveFloder + File.separator + filename,filename, type);
                 randomFile.close();
+                File file1 = new File(file.getAbsolutePath() + File.separator + filename);
+                File file2 = new File(file.getAbsolutePath()
+                        + File.separator
+                        + file1.getName().substring(0, 3)
+                        + new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").format(new Date(file1.lastModified())));
+                file1.renameTo(file2);
+                SysApplication.fileOs.save(file1.getAbsolutePath(), file1.getName(), type);
             } catch (Exception e) {
                 e.printStackTrace();
-                Log.d("xiao","有问题");
+                Log.d("xiaoxiaoquestion", "写入有问题");
             }
             Log.d("xiaofile", "线程停止了");
         };
@@ -269,27 +278,28 @@ public class ByteFileIoUtils {
         Thread thread = new Thread(() -> {
             // ObjectOutputStream 对象输出流，将 flyPig 对象存储到E盘的 flyPig.txt 文件中，完成对 flyPig 对象的序列化操作
             try {
-                File file = new File(SysApplication.fileOs.forSaveFloder+File.separator+"data"+File.separator+name+"station");
-                if (!file.getParentFile().exists()){
+                File file = new File(SysApplication.fileOs.forSaveFloder + File.separator + "data" + File.separator + name + "station");
+                if (!file.getParentFile().exists()) {
                     file.getParentFile().mkdirs();
                 }
                 FileOutputStream fileOutputStream = new FileOutputStream(file);
                 ObjectOutputStream oos = new ObjectOutputStream(fileOutputStream);
                 oos.writeObject(GlobalData.stationHashMap);
                 oos.close();
-            }catch (Exception e){
+            } catch (Exception e) {
                 e.printStackTrace();
             }
         });
         thread.start();
     }
-    public static void deserializeFlyPig(String filename,Handler handler) {
+
+    public static void deserializeFlyPig(String filename, Handler handler) {
         Thread thread = new Thread(() -> {
             try {
                 HashMap<String, Station> stationHashMap;
                 ObjectInputStream ois = new ObjectInputStream(new FileInputStream(new File(SysApplication.fileOs.
-                        forSaveFloder+File.separator+"data"+File.separator+filename+"station")));
-                stationHashMap =  (HashMap<String, Station>)ois.readObject();
+                        forSaveFloder + File.separator + "data" + File.separator + filename + "station")));
+                stationHashMap = (HashMap<String, Station>) ois.readObject();
                 Message message = Message.obtain();
                 message.obj = stationHashMap;
                 handler.sendMessage(message);
@@ -301,7 +311,7 @@ public class ByteFileIoUtils {
     }
 
     public InputStream readFile(String fileName) {
-        File file = new File(SysApplication.fileOs.forSaveFloder  + fileName);
+        File file = new File(SysApplication.fileOs.forSaveFloder + fileName);
         try {
             inputStream = new FileInputStream(file);
         } catch (FileNotFoundException e) {
@@ -309,8 +319,8 @@ public class ByteFileIoUtils {
             Log.d("xiao", "file is not find");
         }
         SysApplication.fileOs.save(SysApplication.fileOs.forSaveFloder + fileName,
-                new File(SysApplication.fileOs.forSaveFloder  + fileName).getName(), RealTimeSaveAndGetStore.type);
-        Log.d("xiaofile1",SysApplication.fileOs.forSaveFloder);
+                new File(SysApplication.fileOs.forSaveFloder + fileName).getName(), RealTimeSaveAndGetStore.type);
+        Log.d("xiaofile1", SysApplication.fileOs.forSaveFloder);
         return inputStream;
     }
 

@@ -85,10 +85,9 @@
 
         <TextView
             android:id="@+id/play_plan"
-            android:layout_width="0dp"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginEnd="10dp"
-            android:layout_weight="1"
             android:gravity="center_vertical|end"
             android:hint="进度："
             android:textColor="#FFFFFF"
@@ -98,7 +97,7 @@
             android:id="@+id/video_progress"
             android:layout_width="0dp"
             android:layout_height="20dp"
-            android:layout_weight="6"
+            android:layout_weight="1"
             app:backgroud_color="#55FFFFFF"
             app:current_color="#EE5500"
             app:progress_color="#99FFFFFF" />
@@ -106,10 +105,9 @@
 
         <TextView
             android:id="@+id/music_length"
-            android:layout_width="0dp"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginStart="10dp"
-            android:layout_weight="1"
             android:gravity="center_vertical"
             android:hint="大小："
             android:textColor="#FFFFFF"

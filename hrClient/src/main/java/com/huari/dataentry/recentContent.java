@@ -38,7 +38,6 @@ public class recentContent implements Serializable {
     }
 
     public String getFile() {
-
         return file;
     }
 

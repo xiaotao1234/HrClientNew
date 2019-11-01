@@ -156,6 +156,7 @@ public class SetActivity extends AppCompatActivity {
             if (id == 1) {
                 cancel();
                 deleteRecord();
+                deleteBrowse();
             } else {
                 cancel();
                 deleteBrowse();

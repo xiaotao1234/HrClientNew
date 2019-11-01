@@ -11,6 +11,7 @@ import java.util.List;
 import androidx.annotation.NonNull;
 import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
+import androidx.core.widget.ContentLoadingProgressBar;
 import struct.JavaStruct;
 import struct.StructException;
 
@@ -39,6 +40,12 @@ import com.baidu.mapapi.map.offline.MKOLUpdateElement;
 import com.baidu.mapapi.map.offline.MKOfflineMapListener;
 import com.baidu.mapapi.map.OverlayOptions;
 import com.baidu.mapapi.model.LatLng;
+import com.baidu.mapapi.search.core.SearchResult;
+import com.baidu.mapapi.search.geocode.GeoCodeResult;
+import com.baidu.mapapi.search.geocode.GeoCoder;
+import com.baidu.mapapi.search.geocode.OnGetGeoCoderResultListener;
+import com.baidu.mapapi.search.geocode.ReverseGeoCodeOption;
+import com.baidu.mapapi.search.geocode.ReverseGeoCodeResult;
 import com.baidu.mapapi.utils.CoordinateConverter;
 import com.huari.commandstruct.PPFXRequest;
 import com.huari.commandstruct.PinPuParameter;
@@ -61,7 +68,9 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.pm.ActivityInfo;
 import android.content.pm.PackageManager;
+import android.graphics.Color;
 import android.graphics.Point;
+import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
@@ -91,7 +100,9 @@ import android.widget.TextView;
 import android.widget.Toast;
 import android.widget.CompoundButton.OnCheckedChangeListener;
 
-public class MapActivity extends AppCompatActivity {
+import static android.view.ViewGroup.LayoutParams.WRAP_CONTENT;
+
+public class MapActivity extends AppCompatActivity implements MKOfflineMapListener{
 
     MKOfflineMap offlinemap;
     ArrayList<MKOLUpdateElement> localMapList;
@@ -168,6 +179,15 @@ public class MapActivity extends AppCompatActivity {
     private int cityId;
     private MapStatusUpdate u;
     private boolean flag = false;
+    private float lan;
+    private float lon;
+    private GeoCoder geoCoder;
+    private String cityNameFromLatLng;
+    private LinearLayout parent;
+    private int cityIdFromLatlng = 0;
+    private ContentLoadingProgressBar contentLoadingProgressBar;
+    private TextView progressText;
+    private PopupWindow window;
 
     class IniThread extends Thread {
         public void run() {
@@ -276,15 +296,14 @@ public class MapActivity extends AppCompatActivity {
         return converter.convert();
     }
 
-    public static LatLng GetLatLon(LatLng a, double distance, double angle)
-    {
+    public static LatLng GetLatLon(LatLng a, double distance, double angle) {
         double dx = distance * 10 * Math.sin(angle * Math.PI / 180);
         double dy = distance * 10 * Math.cos(angle * Math.PI / 180);
 
         double lon = (dx / Ed(a.latitude) + RadLon(a.longitude)) * 180 / Math.PI;
         double lat = (dy / Ec(a.latitude) + RadLat(a.latitude)) * 180 / Math.PI;
 
-        LatLng b = new LatLng(lat,lon);
+        LatLng b = new LatLng(lat, lon);
         return b;
     }
 
@@ -299,7 +318,7 @@ public class MapActivity extends AppCompatActivity {
     /// <summary>
     /// 赤道半径 earth radius
     /// </summary>
-    public  static double EARTH_RADIUS = 6378137;
+    public static double EARTH_RADIUS = 6378137;
     /// <summary>
     /// 极半径 polar radius
     /// </summary>
@@ -309,38 +328,45 @@ public class MapActivity extends AppCompatActivity {
         return POLAR_RADIUS + (EARTH_RADIUS - POLAR_RADIUS) * (90 - lat) / 90;
     }
 
+    boolean firstIn = true;
+
     public static double Ed(double lat) {
         return Ec(lat) * Math.cos(RadLat(lat));
     }
+
     Overlay mPolyline = null;
-    Handler handlersx = new Handler(){
-        @Override
-        public void handleMessage(Message msg) {
-            super.handleMessage(msg);
-            if(mPolyline!=null){
-                mPolyline.remove();
-            }
-            LatLng ll = new LatLng(30.6342387, 103.9749870);
-            ll = GPStoBD09LL(ll);
-            u = MapStatusUpdateFactory.newLatLng(ll);
-            MapStatus.Builder builder = new MapStatus.Builder();
-            builder.zoom(18.0f);
-            mBaiduMap.setMapStatus(MapStatusUpdateFactory.newMapStatus(builder.build()));
-            mBaiduMap.animateMapStatus(u);
-            LatLng l2 =  GetLatLon(ll,100,GlobalData.xiangdui);
-            Log.d("xiaomap", String.valueOf(GlobalData.xiangdui));
-            List<LatLng> points = new ArrayList<>();
-            points.add(ll);
-            points.add(l2);
-            OverlayOptions mOverlayOptions = new PolylineOptions()
-                    .width(10)
-                    .color(0xAAFF0000)
-                    .points(points);
-//在地图上绘制折线
-//mPloyline 折线对象
-            mPolyline = mBaiduMap.addOverlay(mOverlayOptions);
-        }
-    };
+
+    //    Handler handlersx = new Handler(){
+//        @Override
+//        public void handleMessage(Message msg) {
+//            super.handleMessage(msg);
+////            if(mPolyline!=null){
+////                mPolyline.remove();
+////            }
+//            LatLng ll = new LatLng(lan, lon);
+//            ll = GPStoBD09LL(ll);
+//            if(firstIn==true){
+//                u = MapStatusUpdateFactory.newLatLng(ll);
+//                MapStatus.Builder builder = new MapStatus.Builder();
+//                builder.zoom(18.0f);
+//                mBaiduMap.setMapStatus(MapStatusUpdateFactory.newMapStatus(builder.build()));
+//                mBaiduMap.animateMapStatus(u);
+//                firstIn = false;
+//            }
+////            LatLng l2 =  GetLatLon(ll,100,GlobalData.xiangdui);
+////            Log.d("xiaomap", String.valueOf(GlobalData.xiangdui));
+////            List<LatLng> points = new ArrayList<>();
+////            points.add(ll);
+////            points.add(l2);
+////            OverlayOptions mOverlayOptions = new PolylineOptions()
+////                    .width(10)
+////                    .color(0xAAFF0000)
+////                    .points(points);
+//////在地图上绘制折线
+//////mPloyline 折线对象
+////            mPolyline = mBaiduMap.addOverlay(mOverlayOptions);
+//        }
+//    };
     class MyLocationListener implements BDLocationListener {  //定位成功的数据回调
 
         @Override
@@ -608,23 +634,19 @@ public class MapActivity extends AppCompatActivity {
                 int available = 0;
                 int segment = 0;
                 byte[] info = null;
-
                 while (available == 0 && runmyThread) {
                     available = ins.available();
                     if (available > 0) {
                         try {
                             info = new byte[available];
                             ins.read(info);
-
                             Parse.parseDDF(info);
-
                         } catch (Exception e) {
                             // System.out.println("开始接收DDF数据，解析发生了异常，定位到DDF的Activity的225行");
                         }
                         available = 0;
                     }
                 }
-
             } catch (IOException e) {
                 e.printStackTrace();
             }
@@ -639,7 +661,7 @@ public class MapActivity extends AppCompatActivity {
                 if (grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
                     start();
                 } else {
-                    Toast.makeText(this,"未授予相应权限，不能使用地图功能",Toast.LENGTH_SHORT).show();
+                    Toast.makeText(this, "未授予相应权限，不能使用地图功能", Toast.LENGTH_SHORT).show();
                 }
         }
     }
@@ -648,6 +670,12 @@ public class MapActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_baidumap);
+        Intent intent = getIntent();
+        Bundle bundle = intent.getBundleExtra("bundle");
+        lan = bundle.getFloat("lan");
+        lon = bundle.getFloat("lon");
+        Log.d("xiaolan", String.valueOf(lan));
+        Log.d("xiaolan", String.valueOf(lon));
         if (ContextCompat.checkSelfPermission(MapActivity.this, Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
             ActivityCompat.requestPermissions(MapActivity.this, new String[]{Manifest.permission.ACCESS_COARSE_LOCATION}, 1);
         } else {
@@ -682,6 +710,7 @@ public class MapActivity extends AppCompatActivity {
 
         maplistview = (ListView) getLayoutInflater().inflate(
                 R.layout.mapselectlistview, null);
+        parent = findViewById(R.id.parent_layout);
         shixiangList = new ArrayList<String[]>();
         shixiangMarkerMap = new HashMap<String, Marker>();
         share = getSharedPreferences("myclient", MODE_PRIVATE);
@@ -800,10 +829,8 @@ public class MapActivity extends AppCompatActivity {
                     mBaiduMap.hideInfoWindow();
                     markerIsShow.put(t[5], "false");
                 }
-            }
-            // }
-            catch (Exception e) {
-
+            } catch (Exception e) {
+                e.printStackTrace();
             }
             return true;
         });
@@ -847,26 +874,143 @@ public class MapActivity extends AppCompatActivity {
                             + GlobalData.xiangdui
                             + "   台站:"
                             + GlobalData.stationHashMap
-                            .get(GlobalData.stationKey).name + " 设备:"
+                            .get(GlobalData.stationKey).name
+                            + " 设备:"
                             + GlobalData.deviceName);
                 }
             }
         };
         flag = true;
-        Thread thread = new Thread(() -> {
-            while (flag){
-//                Message message = Message.obtain();
-//                int m = (int) (Math.random()*360);
-//                message.obj = m;
-                handlersx.sendEmptyMessage(1);
-                try {
-                    Thread.sleep(1000);
-                } catch (InterruptedException e) {
-                    e.printStackTrace();
+        LatLng ll = new LatLng(lan, lon);
+//        ll = new LatLng()
+        ll = GPStoBD09LL(ll);
+        geoCoder = GeoCoder.newInstance();
+//        latlngToAddress(ll);
+        if (firstIn == true) {
+            u = MapStatusUpdateFactory.newLatLng(ll);
+            MapStatus.Builder builder = new MapStatus.Builder();
+            builder.zoom(18.0f);
+            mBaiduMap.setMapStatus(MapStatusUpdateFactory.newMapStatus(builder.build()));
+            mBaiduMap.animateMapStatus(u);
+            firstIn = false;
+        }
+//        Thread thread = new Thread(() -> {
+//            while (flag){
+////                Message message = Message.obtain();
+////                int m = (int) (Math.random()*360);
+////                message.obj = m;
+//                handlersx.sendEmptyMessage(1);
+//                try {
+//                    Thread.sleep(1000);
+//                } catch (InterruptedException e) {
+//                    e.printStackTrace();
+//                }
+//            }
+//        });
+//        thread.start();
+    }
+
+    private void latlngToAddress(LatLng latlng) {
+        // 设置反地理经纬度坐标,请求位置时,需要一个经纬度
+        //设置地址或经纬度反编译后的监听,这里有两个回调方法,
+        geoCoder.setOnGetGeoCodeResultListener(new OnGetGeoCoderResultListener() {
+            //经纬度转换成地址
+            @Override
+            public void onGetReverseGeoCodeResult(ReverseGeoCodeResult result) {
+                if (result == null || result.error != SearchResult.ERRORNO.NO_ERROR) {
+                    Toast.makeText(MapActivity.this, "找不到该地的离线地图!", Toast.LENGTH_SHORT).show();
+                }
+                boolean find = false;
+                cityNameFromLatLng = result.getAddress();
+                cityIdFromLatlng = result.getCityCode();
+                if (localMapList != null && localMapList.size() > 0) {
+                    for (MKOLUpdateElement mkolUpdateElement : localMapList) {
+                        if (mkolUpdateElement.cityName.equals(cityNameFromLatLng)) {
+                            find = true;
+                            break;
+                        }
+                    }
+                }
+                if (find == false) {
+                    if (cityIdFromLatlng != 0)
+                        popWindowDia();
                 }
             }
+
+            //把地址转换成经纬度
+            @Override
+            public void onGetGeoCodeResult(GeoCodeResult result) {
+                // 详细地址转换为经纬度
+                String address = result.getAddress();
+            }
         });
-        thread.start();
+        geoCoder.reverseGeoCode(new ReverseGeoCodeOption().location(latlng));
+    }
+
+    private void popWindowDia() {
+        View popupView = MapActivity.this.getLayoutInflater().inflate(R.layout.map_popwindow, null);
+        popupView.setPadding(50, 0, 50, 0);
+        contentLoadingProgressBar = popupView.findViewById(R.id.progressbar);
+        progressText = popupView.findViewById(R.id.progress_number);
+        contentLoadingProgressBar.setVisibility(View.INVISIBLE);
+        progressText.setVisibility(View.INVISIBLE);
+        TextView oktext = popupView.findViewById(R.id.ok_button);
+        TextView canceltext = popupView.findViewById(R.id.cancel_button);
+        TextView textviewShow = popupView.findViewById(R.id.text_show);
+        popupView.setPadding(50, 0, 50, 0);
+        window = new PopupWindow(popupView, LinearLayout.LayoutParams.MATCH_PARENT, WRAP_CONTENT, true);
+        window.setWidth((int) getResources().getDimension(R.dimen.dp_280));
+        window.showAtLocation(parent, Gravity.CLIP_VERTICAL, 0, 0);
+        window.setAnimationStyle(R.style.popup_window_anim);
+        window.setBackgroundDrawable(new ColorDrawable(Color.parseColor("#00000000")));
+        window.setFocusable(true);
+        window.setOutsideTouchable(true);
+        window.update();
+        canceltext.setText("取消");
+        oktext.setText("下载");
+        textviewShow.setText("你还没有下载当前城市的离线地图包，当前功能将受到严重影响，是否一键下载。（下载前请断开当前局域网，并连接可正常访问的网络）");
+        canceltext.setOnClickListener(v -> window.dismiss());
+        oktext.setOnClickListener(v -> {
+            offlinemap.start(cityIdFromLatlng);
+            progressText.setVisibility(View.VISIBLE);
+            contentLoadingProgressBar.setProgress(View.VISIBLE);
+        });
+    }
+
+    @Override
+    public void onGetOfflineMapState(int type, int state) {
+        switch (type) {
+            case MKOfflineMap.TYPE_DOWNLOAD_UPDATE: {
+                MKOLUpdateElement update = offlinemap.getUpdateInfo(state);
+                // 处理下载进度更新提示
+                if (update != null) {
+//                    stateView.setText(String.format("%s : %d%%", update.cityName, update.ratio));
+                    updateView();
+                }
+            }
+            break;
+
+            case MKOfflineMap.TYPE_NEW_OFFLINE:
+                // 有新离线地图安装
+                Log.d("OfflineDownloadActivity", String.format("add offlinemap num:%d", state));
+                break;
+
+            case MKOfflineMap.TYPE_VER_UPDATE:
+                // 版本更新提示
+                // MKOLUpdateElement e = mOffline.getUpdateInfo(state);
+                break;
+
+            default:
+                break;
+        }
+    }
+
+    private void updateView(){
+        if (window.isShowing()){
+            MKOLUpdateElement mkolUpdateElement = offlinemap.getUpdateInfo(cityIdFromLatlng);
+            contentLoadingProgressBar.setProgress(mkolUpdateElement.ratio);
+            progressText.setText(mkolUpdateElement.ratio+" "+"%");
+        }
     }
 
     @Override
@@ -926,7 +1070,9 @@ public class MapActivity extends AppCompatActivity {
                 item.setTitle("停止示向");
                 GlobalData.itemTitle = "停止示向";
             } else if (item.getTitle().equals("停止示向")) {
-                my.sendEndCmd();
+                if (my != null) {
+                    my.sendEndCmd();
+                }
                 if (shishixianMarker != null) {
                     shishixianMarker.remove();
                 }

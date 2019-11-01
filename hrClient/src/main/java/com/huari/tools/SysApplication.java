@@ -24,6 +24,7 @@ import com.baidu.mapapi.utils.CoordinateConverter;
 import com.huari.NetMonitor.WindowHelper;
 import com.huari.client.R;
 import com.huari.dataentry.PinDuanSettingSave;
+import com.huari.dataentry.Station;
 
 import cn.bmob.push.BmobPush;
 import cn.bmob.v3.Bmob;
@@ -46,6 +47,7 @@ public class SysApplication extends Application {
     public static ByteFileIoUtils byteFileIoUtils;
     private int activityCount;
     public static PinDuanSettingSave settingSave;
+    public static boolean SocketFlag = false;
 
     @Override
     public void onCreate() {

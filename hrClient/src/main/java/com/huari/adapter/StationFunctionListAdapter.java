@@ -18,9 +18,11 @@ import com.huari.client.IquareActivity;
 import com.huari.client.MapActivity;
 import com.huari.client.R;
 import com.huari.client.ServerManagerActivity;
+import com.huari.client.SinglefrequencyDFActivity;
 import com.huari.dataentry.LogicParameter;
 import com.huari.dataentry.MyDevice;
 import com.huari.dataentry.Station;
+import com.huari.tools.SysApplication;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -131,7 +133,12 @@ public class StationFunctionListAdapter extends RecyclerView.Adapter<StationFunc
             }
         } else {
             if(i-logicParameters.size()==0){
-                context.startActivity(new Intent(context,MapActivity.class));
+                Intent toMap = new Intent(context,MapActivity.class);
+                Bundle bundle1 = new Bundle();
+                bundle1.putFloat("lon",station.lon);
+                bundle1.putFloat("lan",station.lan);
+                toMap.putExtra("bundle",bundle1);
+                context.startActivity(toMap);
             }
 //            else
 //            if (i - logicParameters.size() == 0) {

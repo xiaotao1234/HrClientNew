@@ -8,8 +8,10 @@ import android.graphics.Paint;
 import android.graphics.Path;
 import android.graphics.RectF;
 import android.util.AttributeSet;
+import android.util.Log;
 
 import com.huari.client.R;
+
 //建议总刻度数不超过20，即:
 // (keheight-low)/oneStep<=20
 // 否者会影响下方球体的刻度显示，当然也还可以继续优化来改善，但是这里只需要-60----80,暂时就这样吧，
@@ -20,7 +22,7 @@ public class LinView extends CustomView {
 
     int width;
     int height;
-    int value = 10;
+    int value = -30;
 
     Path path;
     Path fillPath;
@@ -61,6 +63,11 @@ public class LinView extends CustomView {
 
     public void setValue(int value) {
         this.value = value;
+        invalidate();
+    }
+
+    public int getValue() {
+        return value;
     }
 
     private void init() {
@@ -100,15 +107,18 @@ public class LinView extends CustomView {
     protected void onDraw(Canvas canvas) {
         super.onDraw(canvas);
         drawTitle(canvas);
+        Log.d("xiaolaile", String.valueOf(value));
         canvas.translate(width / 2, height / 6 * 5);
         RectF oval = new RectF(-width / 20, -width / 20, width / 20, width / 20);
+        path.reset();
+        fillPath.reset();
         path.addArc(oval, -45, 270);
 
         path.lineTo((float) -(width / 20 / Math.sqrt(2)), -width * 2);
         path.lineTo((float) (width / 20 / Math.sqrt(2)), -width * 2);
         path.close();
 
-        if (value < (keHeight - low) / 20) {
+        if (value < keHeight - ((keHeight - low) * 19 / 20)) {
             fillPath.addArc(oval, 90 - (float) (1.8 * value * 20), (float) (3.6 * value * 20));
             fillPath.close();
         } else {

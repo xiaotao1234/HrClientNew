@@ -7,8 +7,8 @@
     android:layout_height="wrap_content">
     <ImageView
         android:id="@+id/station_function_picture"
-        android:layout_width="@dimen/dp_50"
-        android:layout_height="@dimen/dp_50"
+        android:layout_width="@dimen/dp_40"
+        android:layout_height="@dimen/dp_40"
         android:layout_gravity="center_horizontal"
         android:src="@drawable/analyze1_cion"/>
     <TextView

@@ -68,7 +68,7 @@ public class StationShowFragment extends Fragment {
         View view = inflater.inflate(R.layout.activity_all_record_query, container, false);
         this.rvShow = view.findViewById(R.id.rvShow);
         stationFunction = view.findViewById(R.id.station_function_list);
-        list.add("地图");
+//        list.add("地图");
         return view;
     }
 

@@ -118,7 +118,7 @@ public class GlobalData {
 	public static int framelength;
 
 	// 地图实时画线所用
-	public static String itemTitle = "实时示向";
+	public static String itemTitle = "开始示向";
 	public static String stationKey, deviceName, logicId;
 
 	public static void clearDDF() {

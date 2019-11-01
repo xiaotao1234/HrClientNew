@@ -19,6 +19,12 @@ import com.huari.Fragment.OfflineFragment;
 import com.huari.Fragment.OfflineFragment2;
 import com.huari.Fragment.StationShowFragment;
 import com.huari.adapter.DzPagerAdapter;
+import com.huari.dataentry.MusicFileList;
+import com.huari.dataentry.SocketStopEvent;
+
+import org.greenrobot.eventbus.EventBus;
+import org.greenrobot.eventbus.Subscribe;
+import org.greenrobot.eventbus.ThreadMode;
 
 import java.util.ArrayList;
 
@@ -35,8 +41,15 @@ public class MajorActivity extends AppCompatActivity {
     long time;
 
     @Override
+    protected void onStart() {
+        super.onStart();
+        EventBus.getDefault().register(this);
+    }
+
+    @Override
     protected void onPause() {
         super.onPause();
+        EventBus.getDefault().unregister(this);
     }
 
     @Override
@@ -93,10 +106,30 @@ public class MajorActivity extends AppCompatActivity {
         Log.d("xiao", String.valueOf(viewPager.getCurrentItem()));
     }
 
+    @Subscribe(threadMode = ThreadMode.MAIN, sticky = true)
+    public void FileListCome(SocketStopEvent socketStopEvent) {
+        setFragmentLine();
+    }
+
     public void setFragment() {
         fragments.clear();
         fragments.add(new OfflineFragment2(this,MajorActivity.this));
         fragments.add(new StationShowFragment(this));
+        DzPagerAdapter dzPagerAdapter = new DzPagerAdapter(getSupportFragmentManager(), fragments);
+        viewPager.removeAllViews();
+        viewPager.removeAllViewsInLayout();
+        viewPager.setAdapter(dzPagerAdapter);
+        viewPager.setCurrentItem(1);
+        tabLayout.clearOnTabSelectedListeners();
+        tabLayout.setupWithViewPager(viewPager);
+        tabLayout.getTabAt(0).setText("本地");
+        tabLayout.getTabAt(1).setText("登陆");
+    }
+
+    public void setFragmentLine() {
+        fragments.clear();
+        fragments.add(new OfflineFragment2(this,MajorActivity.this));
+        fragments.add(new LineFragment(this));
         DzPagerAdapter dzPagerAdapter = new DzPagerAdapter(getSupportFragmentManager(), fragments);
         viewPager.removeAllViews();
         viewPager.removeAllViewsInLayout();

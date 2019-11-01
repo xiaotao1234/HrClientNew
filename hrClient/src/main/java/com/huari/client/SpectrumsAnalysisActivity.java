@@ -57,6 +57,7 @@ import com.huari.adapter.PagerAdapterOfSpectrum;
 import com.huari.commandstruct.PPFXRequest;
 import com.huari.commandstruct.PinPuParameter;
 import com.huari.commandstruct.StopTaskFrame;
+import com.huari.dataentry.DateString;
 import com.huari.dataentry.GlobalData;
 import com.huari.dataentry.LogicParameter;
 import com.huari.dataentry.MyDevice;
@@ -251,23 +252,34 @@ public class SpectrumsAnalysisActivity extends AnalysisBase {
                 flag = 0;
 
                 while (available == 0 && end == false) {
-                    available = ins.available();
-                    if (available > 0) {
-                        info = new byte[available];
-                        ins.read(info);
-                        Parse.newParseSpectrumsAnalysis(info);
-                        if (saveFlag == true) {
-                            if (flag == 0) {
-                                time = 0;
-                                savePrepare();
-                                flag++;
+                    Log.d("xiaoxiaoll", "循环");
+                    if(ins!=null) {
+                        available = ins.available();
+                        if (available > 0) {
+                            info = new byte[available];
+                            ins.read(info);
+                            Parse.newParseSpectrumsAnalysis(info);
+                            if (saveFlag == true) {
+                                if (flag == 0) {
+                                    Log.d("xiaoxiaoll1", "存储准备");
+                                    time = 0;
+                                    savePrepare();
+                                    flag++;
+                                }
+                                time = RealTimeSaveAndGetStore.SaveAtTime(available, info, time, 2);//给数据加一个时间的包头后递交到缓存队列中
                             }
-                            time = RealTimeSaveAndGetStore.SaveAtTime(available, info, time, 2);//给数据加一个时间的包头后递交到缓存队列中
+                            available = 0;
                         }
-                        available = 0;
                     }
+//                    }else {
+//                        inithread.start();
+//                        try {
+//                            inithread.join();
+//                        } catch (InterruptedException e) {
+//                            e.printStackTrace();
+//                        }
+//                    }
                 }
-
             } catch (Exception e) {
                 e.printStackTrace();
             }
@@ -410,7 +422,7 @@ public class SpectrumsAnalysisActivity extends AnalysisBase {
             @Override
             public void handleMessage(Message msg) {
                 fullispause = false;
-                partispause = false;
+//                partispause = false;
 //				try {
                 if (msg.what == DIANPINGDATA && fullispause == false
                         && partispause == false) {
@@ -543,6 +555,7 @@ public class SpectrumsAnalysisActivity extends AnalysisBase {
     }
 
     public static boolean isRunning = false;
+
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         final MenuItem i = item;
@@ -570,7 +583,7 @@ public class SpectrumsAnalysisActivity extends AnalysisBase {
                 }
             }
         } else if (item.getItemId() == R.id.custompinpuset) {
-            if (fullispause == true) {
+            if (!isRunning == true) {
                 Intent intent = new Intent(SpectrumsAnalysisActivity.this,
                         PPFXsetActivity.class);
                 Bundle bundle = new Bundle();
@@ -707,7 +720,7 @@ public class SpectrumsAnalysisActivity extends AnalysisBase {
                         e.printStackTrace();
                     }
                 } else {
-                    Toast.makeText(this,"请在测量开始后再记录声音",Toast.LENGTH_SHORT).show();
+                    Toast.makeText(this, "请在测量开始后再记录声音", Toast.LENGTH_SHORT).show();
                 }
             } else {
                 item.setTitle("录音");
@@ -726,7 +739,6 @@ public class SpectrumsAnalysisActivity extends AnalysisBase {
 
         return true;
     }
-
 
 
     private void endDo() {
@@ -978,7 +990,7 @@ public class SpectrumsAnalysisActivity extends AnalysisBase {
             SimpleDateFormat df = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
             String fileName = "RE|" + df.format(new Date()).replaceAll(" ", "|") + ".wav";
             fileName = fileName.replaceAll(":", "_");
-            mAudioWavPath = fileBasePath + File.separator + fileName;
+            mAudioWavPath = fileBasePath + File.separator +"data"+File.separator+ fileName;
             if (!((new File(mAudioWavPath)).getParentFile().exists())) {
                 new File(mAudioWavPath).mkdirs();
             }

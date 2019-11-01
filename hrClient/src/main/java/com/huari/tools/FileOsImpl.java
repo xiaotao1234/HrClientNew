@@ -27,8 +27,10 @@ import java.io.InputStream;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.io.Serializable;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Date;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Stack;
@@ -122,7 +124,6 @@ public class FileOsImpl {
             out = new FileOutputStream(outFilename);
             totalAudioLen = in.getChannel().size();
             totalDataLen = totalAudioLen + 44;
-
             WriteWaveFileHeader(out, totalAudioLen, totalDataLen,
                     longSampleRate, channels, byteRate);
             while (in.read(data) != -1) {
@@ -141,7 +142,12 @@ public class FileOsImpl {
             in.close();
             out.close();
             new File(inFilename).delete();
-            SysApplication.fileOs.save(outFilename, new File(outFilename).getName(), 4);
+            File file1 = new File(outFilename);
+            File file2 = new File(FileOsImpl.forSaveFloder+File.separator+"data"+File.separator
+                    + file1.getName().substring(0, 3)
+                    + new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").format(new Date(file1.lastModified())));
+            file1.renameTo(file2);
+            SysApplication.fileOs.save(file1.getAbsolutePath(),file1.getName(), 4);
         } catch (FileNotFoundException e) {
             e.printStackTrace();
         } catch (IOException e) {

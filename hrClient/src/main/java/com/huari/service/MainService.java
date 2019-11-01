@@ -12,11 +12,15 @@ import com.huari.client.Login2Activity;
 import com.huari.client.LoginActivity;
 import com.huari.commandstruct.FunctionFrame;
 import com.huari.dataentry.GlobalData;
+import com.huari.dataentry.SocketStopEvent;
 import com.huari.thread.ReceiveData;
+import com.huari.tools.SysApplication;
 
 import android.app.Service;
 import android.content.Intent;
 import android.os.IBinder;
+
+import org.greenrobot.eventbus.EventBus;
 
 public class MainService extends Service {
 
@@ -132,10 +136,12 @@ public class MainService extends Service {
 
             }
         }
+        SysApplication.SocketFlag = true;
     }
 
     @Override
     public void onCreate() {
+
     }
 
     @Override

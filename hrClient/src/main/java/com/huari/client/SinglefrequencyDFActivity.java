@@ -16,6 +16,7 @@ import java.util.concurrent.LinkedBlockingDeque;
 import struct.JavaStruct;
 import struct.StructException;
 
+import com.baidu.mapapi.model.LatLng;
 import com.huari.NetMonitor.WindowController;
 import com.huari.NetMonitor.WindowHelper;
 import com.huari.commandstruct.PPFXRequest;
@@ -256,26 +257,36 @@ public class SinglefrequencyDFActivity extends AppCompatActivity {
 
                 while (available == 0 && runmyThread) {
 //                    SysApplication.byteFileIoUtils.readFile("nba");
-                    available = ins.available();
-                    if (available > 0) {
-                        try {
-                            info = new byte[available];
+                    if(ins!=null){
+                        available = ins.available();
+                        if (available > 0) {
+                            try {
+                                info = new byte[available];
 //                            ParseLocalDdfData("nba");
-                            ins.read(info);
-                            Parse.parseDDF(info);
-                        } catch (Exception e) {
-                            // System.out.println("开始接收DDF数据，解析发生了异常，定位到DDF的Activity的225行");
-                        }
-                        if (saveFlag == true) {
-                            if (flag == 0) {
-                                time = 0;
-                                savePrepare();
-                                flag++;
+                                ins.read(info);
+                                Parse.parseDDF(info);
+                            } catch (Exception e) {
+                                // System.out.println("开始接收DDF数据，解析发生了异常，定位到DDF的Activity的225行");
                             }
-                            time = RealTimeSaveAndGetStore.SaveAtTime(available, info, time, 1);//给数据加一个时间的包头后递交到缓存队列中
+                            if (saveFlag == true) {
+                                if (flag == 0) {
+                                    time = 0;
+                                    savePrepare();
+                                    flag++;
+                                }
+                                time = RealTimeSaveAndGetStore.SaveAtTime(available, info, time, 1);//给数据加一个时间的包头后递交到缓存队列中
+                            }
+                            available = 0;
                         }
-                        available = 0;
                     }
+//                    else {
+//                        inithread.start();
+//                        try {
+//                            inithread.join();
+//                        } catch (InterruptedException e) {
+//                            e.printStackTrace();
+//                        }
+//                    }
                 }
             } catch (IOException e) {
                 e.printStackTrace();
@@ -675,6 +686,12 @@ public class SinglefrequencyDFActivity extends AppCompatActivity {
                 // Bundle b=new Bundle();
                 // b.putString("from", "Single");
                 // toMap.putExtras(b);
+                Bundle bundle1 = new Bundle();
+                bundle1.putFloat("lon",stationF.lon);
+                bundle1.putFloat("lan",stationF.lan);
+                Log.d("xiaolan", String.valueOf(stationF.lon));
+                Log.d("xiaolan", String.valueOf(stationF.lan));
+                toMap.putExtra("bundle",bundle1);
                 startActivity(toMap);
                 break;
             case R.id.menusavedata:
